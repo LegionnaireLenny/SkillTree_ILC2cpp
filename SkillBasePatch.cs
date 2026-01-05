@@ -16,7 +16,7 @@ namespace SkillTree
     /// <summary>
     /// ADD POINTS AT LEVEL UP
     /// </summary>
-    [HarmonyPatch(typeof(LevelManager), "IncreaseTier")]
+    /*[HarmonyPatch(typeof(LevelManager), "IncreaseTier")]
     public static class LevelUp_Patch
     {
         [HarmonyPostfix]
@@ -25,7 +25,7 @@ namespace SkillTree
             if (Core.Instance != null)
                 Core.Instance.AttPoints(true); 
         }
-    }
+    }*/
 
     /// <summary>
     /// CHANGE THE RANK NECESSARY TO UNLOCK
