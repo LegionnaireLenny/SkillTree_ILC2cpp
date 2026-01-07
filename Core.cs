@@ -139,7 +139,6 @@ namespace SkillTree
                 skillData = SkillTreeSaveManager.LoadOrCreate();
                 skillConfig = SkillTreeSaveManager.LoadConfig();
                 skillTreeUI = new SkillTreeUI(skillData, skillConfig);
-                SkillSystem.ApplyAll(skillData);
             }
 
             firstTime = true;
@@ -148,6 +147,7 @@ namespace SkillTree
             if (timer <= 0f)
             {
                 ItemUnlocker.UnlockSpecificItems();
+                SkillSystem.ApplyAll(skillData);
                 AttPoints();
                 waiting = true;
                 return true;
