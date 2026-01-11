@@ -95,6 +95,8 @@ namespace SkillTree.UI
                 GUILayout.Label($"Operations: {editData.OperationsPoints}");
                 GUILayout.Space(10);
                 GUILayout.Label($"Social: {editData.SocialPoints}");
+                GUILayout.Space(10);
+                GUILayout.Label($"Special: {editData.SpecialPoints}");
 
                 GUILayout.EndHorizontal();
 
@@ -168,6 +170,9 @@ namespace SkillTree.UI
 
             if (GUILayout.Button("Social"))
                 selectedCategory = SkillCategory.Social;
+
+            if (GUILayout.Button("Special"))
+                selectedCategory = SkillCategory.Special;
         }
 
         private void DrawCategoryHeader()
@@ -204,61 +209,6 @@ namespace SkillTree.UI
             return parentSkill != null ? parentSkill.MaxLevel : 1;
         }
 
-        /*private void DrawSkillNode(SkillField skill, int depth)
-        {
-            int value = (int)skill.Field.GetValue(editData); 
-            int maxLevel = skill.MaxLevel;
-
-            bool parentUnlocked = true;
-            if (skill.Parent != null)
-            {
-                int parentCurrentValue = GetSkillValue(skill.Parent);
-                int parentMaxLevel = GetMaxLevelOfSkill(skill.Parent);
-
-                parentUnlocked = parentCurrentValue >= parentMaxLevel;
-            }
-
-            bool canBuy = parentUnlocked && value < maxLevel && GetPoints(skill.Category) > 0;
-
-            GUILayout.BeginHorizontal();
-
-            GUILayout.Space(depth * 20);
-
-            GUILayout.Label($"{skill.Name} ({value}/{maxLevel})", GUILayout.Width(180));
-
-            if (value < maxLevel)
-            {
-                GUI.enabled = canBuy;
-                if (GUILayout.Button("+", GUILayout.Width(24), GUILayout.Height(20)))
-                {
-                    int newValue = value + 1;
-                    skill.Field.SetValue(editData, newValue);
-
-                    ConsumePoint(skill.Category);
-                    SkillSystem.ApplySkill(skill.Id, editData);
-                    SkillTreeSaveManager.Save(editData);
-                }
-                GUI.enabled = true;
-            } else
-                GUILayout.Label("✔", GUILayout.Width(24));
-
-
-            GUILayout.EndHorizontal();
-
-            Rect r = new Rect(20 + depth * 20, currentY, 180, 20);
-
-            DrawTooltip(skill.Description, r);
-
-            if (value > 0)
-            {
-                foreach (var child in skillFields)
-                {
-                    if (child.Parent == skill.Id)
-                        DrawSkillNode(child, depth + 1);
-                }
-            }
-        }*/
-
         private void DrawSkillNode(SkillField skill, int depth)
         {
             float startX = 20f + depth * 20f;
@@ -277,10 +227,10 @@ namespace SkillTree.UI
 
             bool canBuy = parentUnlocked && value < maxLevel && GetPoints(skill.Category) > 0;
 
-            Rect labelRect = new Rect(startX, currentY, 250f, 20f);
+            Rect labelRect = new Rect(startX, currentY, 380f, 20f);
             GUI.Label(labelRect, $"{skill.Name} ({value}/{maxLevel})");
 
-            Rect buttonRect = new Rect(startX + 270f, currentY, 24f, 20f);
+            Rect buttonRect = new Rect(startX + 470f, currentY, 24f, 20f);
 
             if (value < maxLevel)
             {
@@ -334,6 +284,8 @@ namespace SkillTree.UI
                     return editData.OperationsPoints;
                 case SkillCategory.Social:
                     return editData.SocialPoints;
+                case SkillCategory.Special:
+                    return editData.SpecialPoints;
                 default:
                     return 0;
             }
@@ -352,6 +304,9 @@ namespace SkillTree.UI
                 case SkillCategory.Social:
                     editData.SocialPoints--;
                     break;
+                case SkillCategory.Special:
+                    editData.SpecialPoints--;
+                    break;
             }
 
             editData.UsedSkillPoints++;
@@ -369,45 +324,6 @@ namespace SkillTree.UI
             }
         }
 
-        /*private void DrawSkill(SkillField skill, int depth)
-        {
-            if (skill.Parent != null && GetSkillValue(skill.Parent) == 0)
-                return;
-
-            int value = (int)skill.Field.GetValue(editData);
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(depth * 30);
-
-            GUILayout.Label($"{skill.Name}: {value}/1", GUILayout.Width(250));
-
-            bool parentUnlocked =
-                skill.Parent == null ||
-                GetSkillValue(skill.Parent) == 1;
-
-            bool canBuy =
-                value == 0 &&
-                GetPoints(skill.Category) > 0 &&
-                parentUnlocked;
-
-            GUI.enabled = canBuy;
-            if (GUILayout.Button("+", GUILayout.Width(30)))
-            {
-                skill.Field.SetValue(editData, 1);
-                ConsumePoint(skill.Category);
-                SkillTreeSaveManager.Save(editData);
-            }
-            GUI.enabled = true;
-
-            GUILayout.EndHorizontal();
-
-            Rect lineRect = GUILayoutUtility.GetLastRect();
-
-            DrawTooltip(skill.Description, lineRect);
-
-            DrawTree(skill.Id, depth);
-        }*/
-
         private void DrawSkill(SkillField skill, int depth)
         {
             if (skill.Parent != null && GetSkillValue(skill.Parent) == 0)
@@ -418,7 +334,7 @@ namespace SkillTree.UI
             float startX = 20 + depth * 30;
             float lineHeight = 22f;
 
-            Rect labelRect = new Rect(startX, currentY, 250, 20);
+            Rect labelRect = new Rect(startX, currentY, 270, 20);
             GUI.Label(labelRect, $"{skill.Name}: {value}/1");
 
             bool parentUnlocked =
@@ -612,15 +528,17 @@ namespace SkillTree.UI
             return tex;
         }
 
-        public void AddPoints(int stats, int ops, int social)
+        public void AddPoints(int stats, int ops, int social, int special)
         {
             this.editData.StatsPoints += stats;
             this.editData.OperationsPoints += ops;
             this.editData.SocialPoints += social;
+            this.editData.SpecialPoints += special;
 
             this.originalData.StatsPoints += stats;
             this.originalData.OperationsPoints += ops;
             this.originalData.SocialPoints += social;
+            this.originalData.SpecialPoints += special;
 
             SkillTreeSaveManager.Save(this.editData);
 

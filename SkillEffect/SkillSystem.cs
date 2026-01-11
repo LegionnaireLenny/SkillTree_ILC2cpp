@@ -1,17 +1,21 @@
-﻿using MelonLoader;
-using Il2CppScheduleOne;
+﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.Economy;
+using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.Management;
+using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Property;
-using SkillTree.Json;
-using SkillTree.SkillPatchSocial;
-using System.Reflection;
-using UnityEngine;
-using Il2CppScheduleOne.Money;
-using Il2CppScheduleOne.UI.ATM;
 using Il2CppScheduleOne.Tools;
 using Il2CppScheduleOne.UI;
+using Il2CppScheduleOne.UI.ATM;
+using MelonLoader;
+using SkillTree.Json;
+using SkillTree.SkillPatchSocial;
+using SkillTree.SkillSpecial.SkillEmployee;
+using System.Reflection;
+using UnityEngine;
+using static SkillTree.SkillActive.SkillActive;
 
 namespace SkillTree.SkillEffect
 {
@@ -23,6 +27,12 @@ namespace SkillTree.SkillEffect
         private static Business[] businessList;
         private static Dealer[] dealerList;
         private static Registry registry;
+
+        private static Packager[] packagerList;
+        private static Chemist[] chemistList;
+        private static Botanist[] botanistList;
+        private static Cleaner[] cleanerList;
+
         public static void ApplySkill(string skillId, SkillTreeData data)
         {
             localPlayer = Player.Local;
@@ -223,7 +233,7 @@ namespace SkillTree.SkillEffect
                     break;
                 case "MoreATMLimit":
                     {
-                        SkillPatchSocial.ATMConfig.MaxWeeklyLimit = 10000f + (data.MoreATMLimit * 2500);
+                        SkillPatchSocial.ATMConfig.MaxWeeklyLimit = 10000f + (data.MoreATMLimit * 2000);
                         MelonLogger.Msg($"ATM Deposit Weekly Limit: ${SkillPatchSocial.ATMConfig.MaxWeeklyLimit}");
                         break;
                     }
@@ -263,6 +273,45 @@ namespace SkillTree.SkillEffect
                         SkillPatchSocial.SupplierUp.SupplierLimit = (int)(10 + (10 * (data.BetterSupplier * 0.5f)));
                         break;
                     }
+
+                //SPECIAL
+                case "Special":
+                    {
+                        SkillEnabled.enabledTrash = (data.Special == 1);
+                        break;
+                    }
+                case "Heal":
+                    {
+                        SkillEnabled.enabledHeal = (data.Heal == 1);
+                        break;
+                    }
+                case "GetCashDealer":
+                    {
+                        SkillEnabled.enabledGetCash = (data.GetCashDealer == 1);
+                        break;
+                    }
+                case "BetterBotanists":
+                    {
+                        BetterBotanist.Add = (data.BetterBotanists == 1);
+                        break;
+                    }
+                case "Employees24h":
+                    {
+                        CanWork.Add = (data.Employees24h == 1);
+                        break;
+                    }
+                case "EmployeeMovespeed":
+                    {
+                        EmployeeMovespeed.Add = (data.EmployeeMovespeed == 1);
+                        ValidEmployees();
+                        break;
+                    }
+                case "EmployeeMaxStation":
+                    {
+                        EmployeeMoreStation.Add = (data.EmployeeMaxStation * 2);
+                        ValidEmployees();
+                        break;
+                    }
             }
         }
 
@@ -279,6 +328,50 @@ namespace SkillTree.SkillEffect
             if (dealer.name.ToLower().Contains("carteldealer"))
                 return false;
             return true;
+        }
+
+        private static void ValidEmployees()
+        {
+
+            if (!BetterBotanist.Add) return;
+
+            packagerList = UnityEngine.Object.FindObjectsOfType<Packager>();
+            chemistList = UnityEngine.Object.FindObjectsOfType<Chemist>();
+            botanistList = UnityEngine.Object.FindObjectsOfType<Botanist>();
+            cleanerList = UnityEngine.Object.FindObjectsOfType<Cleaner>();
+
+            foreach (Packager packager in packagerList)
+            {
+                if (EmployeeMovespeed.Add)
+                    packager.Movement.MovementSpeedScale = 0.33f;
+            }
+
+            foreach (Chemist chemist in chemistList)
+            {
+                if (EmployeeMovespeed.Add)
+                    chemist.Movement.MovementSpeedScale = 0.33f;
+
+                if (EmployeeMoreStation.Add > 0)
+                {
+                    chemist.configuration.Stations.MaxItems = 4 + EmployeeMoreStation.Add;
+                }
+            }
+
+            foreach (Botanist botanist in botanistList)
+            {
+                if (EmployeeMovespeed.Add)
+                    botanist.Movement.MovementSpeedScale = 0.33f;
+
+                if (EmployeeMoreStation.Add > 0)
+                {
+                    botanist.configuration.Assigns.MaxItems = 8 + (EmployeeMoreStation.Add);
+                }
+            }
+            foreach (Cleaner cleaner in cleanerList)
+            {
+                if (!EmployeeMovespeed.Add) continue;
+                cleaner.Movement.MovementSpeedScale = 0.33f;
+            }
         }
     }
 }

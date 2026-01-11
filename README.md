@@ -1,8 +1,10 @@
 # **Skill Tree Mod**
 
-**Source Code Mono**: [https://github.com/AugustoCesarAC/SkillTree](https://github.com/AugustoCesarAC/SkillTree_Mono)
+**Source Code**: [https://github.com/AugustoCesarAC/SkillTree](https://github.com/AugustoCesarAC/SkillTree)
 
-**Source Code ILC2cpp**: [https://github.com/AugustoCesarAC/SkillTree](https://github.com/AugustoCesarAC/SkillTree_ILC2cpp)
+**Main and Mono Branch**
+
+**Now with Special Category**
 
 ## **Functions**
 
@@ -13,13 +15,16 @@ When a player levels up (increases Tier or Rank), they earn Skill Points:
 * 1 Point for every Tier increase.
 * 2 Points for every Rank increase.
 
+* 1 Special Point for every Rank increase.
+
 *Example: If you are Tier V and advance to Tier I, you will receive 2 points.*
 
-Skill Points are divided into three categories: **Stats, Operations, and Social.**
+Skill Points are divided into four categories: **Stats, Operations, Social, Special.**
 
 * **Stats**: Modify the player's base attributes, such as Max Health, XP gain, and Movement Speed.
 * **Operations**: Relates to plant cultivation and Chemistry Stations.
 * **Social**: Affects NPC interactions and player status.
+* **Special**: These skills cover unique player abilities and employee automation
 
 ---
 
@@ -71,6 +76,20 @@ Skill Points are divided into three categories: **Stats, Operations, and Social.
         [*] [Dealer Speed Up]: Increase Movespeed (2x) (Parent: Dealer)
 
 ```
+
+### **Special Skills**
+
+```text
+[*] **Destroy Trash (F1)** | Gain ability to destroy trash. 
+[*] **Heal Yourself (F2)** | Gain ability to heal your life. 
+[*] **Get Dealers Cash (F3)** | Gain ability to get dealers cash.
+[*] **Employees Work 24h** | Employees don't stop at 4 AM.
+[*] **Better Botanists** | All botanist actions are 2x faster. 
+[*] ↳ *Move Speed* | Employees move 3x faster. 
+[*] ↳ *Max Station* | Increase +2 MaxStation for Botanists/Chemists. 
+
+```
+---
 
 ---
 
@@ -152,10 +171,7 @@ This isn't my first mod, but it is the first one I've made for myself that I fel
 
 ## **F.A.Q.**
 
-**1. Q: Why only the Mono/Alternative Branch?**
-A: Built to ensure compatibility with other popular mods like Cartel Enforcer.
-
-**2. Q: My points disappeared or my skills reset. Why?**
+**1. Q: My points disappeared or my skills reset. Why?**
 A: This happens if the JSON file and your save go out of sync (e.g., closing without saving). The mod safely resets skills and returns your points.
 
 ---
