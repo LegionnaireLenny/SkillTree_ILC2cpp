@@ -263,7 +263,7 @@ namespace SkillTree.SkillEffect
                     }
                 case "DealerMoreCustomer":
                     {
-                        SkillPatchSocial.DealerUpCustomer.MaxCustomer = 8 + (data.DealerMoreCustomer * 2);
+                        SkillPatchSocial.DealerUpCustomer.MaxCustomer += (data.DealerMoreCustomer * 2);
                         MelonLogger.Msg($"Dealer MaxCustomer: {SkillPatchSocial.DealerUpCustomer.MaxCustomer}");
                         break;
                     }

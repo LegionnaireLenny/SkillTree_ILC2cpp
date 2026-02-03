@@ -205,14 +205,12 @@ namespace SkillTree.SkillPatchSocial
     /// </summary>
     public static class DealerUpCustomer
     {
-        public static int MaxCustomer = 8;
+        public static int MaxCustomer = Dealer.MAX_CUSTOMERS;
     }
 
     [HarmonyPatch(typeof(DealerManagementApp))]
     public class DealerManagementPatch
     {
-        private static int GetDynamicLimit() => DealerUpCustomer.MaxCustomer;
-
         [HarmonyPatch("Awake")]
         [HarmonyPostfix]
         public static void Awake_Postfix(DealerManagementApp __instance)
@@ -238,16 +236,14 @@ namespace SkillTree.SkillPatchSocial
         {
             CheckAndExpandUI(__instance);
 
-            int currentLimit = GetDynamicLimit();
-
             if (__instance.CustomerTitleLabel != null)
             {
-                __instance.CustomerTitleLabel.text = $"Assigned Customers ({dealer.AssignedCustomers.Count}/{currentLimit})";
+                __instance.CustomerTitleLabel.text = $"Assigned Customers ({dealer.AssignedCustomers.Count}/{DealerUpCustomer.MaxCustomer})";
             }
 
             if (__instance.AssignCustomerButton != null)
             {
-                __instance.AssignCustomerButton.gameObject.SetActive(dealer.AssignedCustomers.Count < currentLimit);
+                __instance.AssignCustomerButton.gameObject.SetActive(dealer.AssignedCustomers.Count < DealerUpCustomer.MaxCustomer);
                 __instance.AssignCustomerButton.transform.SetSiblingIndex(1);
             }
 
@@ -279,15 +275,13 @@ namespace SkillTree.SkillPatchSocial
 
         private static void CheckAndExpandUI(DealerManagementApp __instance)
         {
-            int targetLimit = GetDynamicLimit();
-
-            if (__instance.CustomerEntries.Length < targetLimit)
+            if (__instance.CustomerEntries.Length < DealerUpCustomer.MaxCustomer)
             {
                 List<RectTransform> entriesList = __instance.CustomerEntries.ToList();
                 RectTransform template = entriesList[0];
                 Transform listParent = template.parent;
 
-                while (entriesList.Count < targetLimit)
+                while (entriesList.Count < DealerUpCustomer.MaxCustomer)
                 {
                     RectTransform newSlot = GameObject.Instantiate(template, listParent);
                     newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
