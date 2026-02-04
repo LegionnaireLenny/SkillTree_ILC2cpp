@@ -247,11 +247,12 @@ namespace SkillTree.SkillPatchOperations
         public static void UpdateAllRacks()
         {
             DryingRack[] racks = GameObject.FindObjectsOfType<DryingRack>();
+            MelonLogger.Msg($"[DryingRack] Updating capacity for {racks.Length} active racks.");
             foreach (var rack in racks)
             {
                 DryingRack_Patch.ApplyCapacityUpdate(rack);
             }
-            MelonLogger.Msg($"[DryingRack] Capacity updated for all active {racks.Length} racks.");
+            MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
         }
     }
 
@@ -261,6 +262,7 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(DryingRack __instance)
         {
+            MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
             ApplyCapacityUpdate(__instance);
         }
 
@@ -270,42 +272,42 @@ namespace SkillTree.SkillPatchOperations
 
             __instance.ItemCapacity = targetCapacity;
 
-            if (__instance.HangAlignments != null && __instance.HangAlignments.Length != targetCapacity)
-            {
+            //if (__instance.HangAlignments != null && __instance.HangAlignments.Length != targetCapacity)
+            //{
 
-                Transform[] originalTransforms = __instance.GetComponentsInChildren<Transform>();
+            //    Transform[] originalTransforms = __instance.GetComponentsInChildren<Transform>();
 
-                Transform[] newAlignments = new Transform[targetCapacity];
+            //    Transform[] newAlignments = new Transform[targetCapacity];
 
-                for (int i = 0; i < targetCapacity; i++)
-                {
-                    newAlignments[i] = __instance.HangAlignments[i % __instance.HangAlignments.Length];
-                }
-                __instance.HangAlignments = newAlignments;
-            }
+            //    for (int i = 0; i < targetCapacity; i++)
+            //    {
+            //        newAlignments[i] = __instance.HangAlignments[i % __instance.HangAlignments.Length];
+            //    }
+            //    __instance.HangAlignments = newAlignments;
+            //}
 
-            //FieldInfo hangSlotsField = AccessTools.Field(typeof(DryingRack), "hangSlots");
-            Array currentHangSlots = (Array)__instance.hangSlots;
+            ////FieldInfo hangSlotsField = AccessTools.Field(typeof(DryingRack), "hangSlots");
+            //Array currentHangSlots = (Array)__instance.hangSlots;
 
-            if (currentHangSlots != null && currentHangSlots.Length != targetCapacity)
-            {
-                Type elementType = currentHangSlots.GetType().GetElementType();
-                Array newHangSlots = Array.CreateInstance(elementType, targetCapacity);
+            //if (currentHangSlots != null && currentHangSlots.Length != targetCapacity)
+            //{
+            //    Type elementType = currentHangSlots.GetType().GetElementType();
+            //    Array newHangSlots = Array.CreateInstance(elementType, targetCapacity);
 
-                int itemsToCopy = Math.Min(currentHangSlots.Length, targetCapacity);
-                Array.Copy(currentHangSlots, newHangSlots, itemsToCopy);
+            //    int itemsToCopy = Math.Min(currentHangSlots.Length, targetCapacity);
+            //    Array.Copy(currentHangSlots, newHangSlots, itemsToCopy);
 
-                if (targetCapacity > currentHangSlots.Length)
-                {
-                    for (int i = currentHangSlots.Length; i < targetCapacity; i++)
-                    {
-                        object newSlot = Activator.CreateInstance(elementType);
-                        newHangSlots.SetValue(newSlot, i);
-                    }
-                }
-                __instance.hangSlots = (Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<ItemSlot>)newHangSlots;
-                //hangSlotsField.SetValue(__instance, newHangSlots);
-            }
+            //    if (targetCapacity > currentHangSlots.Length)
+            //    {
+            //        for (int i = currentHangSlots.Length; i < targetCapacity; i++)
+            //        {
+            //            object newSlot = Activator.CreateInstance(elementType);
+            //            newHangSlots.SetValue(newSlot, i);
+            //        }
+            //    }
+            //    __instance.hangSlots = (Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<ItemSlot>)newHangSlots;
+            //    //hangSlotsField.SetValue(__instance, newHangSlots);
+            //}
 
             __instance.RefreshHangingVisuals();
         }
