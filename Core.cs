@@ -22,19 +22,7 @@ namespace SkillTree
 {
     public class Core : MelonMod
     {
-
         public static Core Instance;
-
-        private TimeManager timeManager;
-        private LevelManager levelManager;
-        private PlayerMovement playerMovement;
-        private Player localPlayer;
-        private PlayerCamera playerCamera;
-        private PlayerInventory playerInventory;
-        private PlayerManager playerManager;
-        private Customer[] customerList;
-
-        private float timer = 2f;
 
         private SkillTreeData skillData;
         private SkillConfig skillConfig;
@@ -42,11 +30,12 @@ namespace SkillTree
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
 
-        private bool waiting = false;
-        private bool firstTime = false;
-
         private int lastProcessedTier = -1;
         private ERank lastProcessedRank = (ERank)(-1);
+
+        private float timer = 2f;
+        private bool waiting = true;
+        private bool treeUiChange = false;
 
         public override void OnInitializeMelon()
         {
@@ -54,58 +43,60 @@ namespace SkillTree
             Instance = this;
 
             var harmony = new HarmonyLib.Harmony("com.reizor.skilltree");
-
             harmony.PatchAll();
 
             LoggerInstance.Msg("Harmony patches applied.");
         }
 
-        public void Init()
+        public void Reset()
         {
-            LoggerInstance.Msg("Init()");
-            if (timeManager == null)
-                timeManager = TimeManager.Instance;
+            skillPointValid = 0;
+            specialSkillPointValid = 0;
 
-            if (levelManager == null)
-                levelManager = LevelManager.Instance;
+            lastProcessedTier = -1;
+            lastProcessedRank = (ERank)(-1);
 
-            if (playerMovement == null)
-                playerMovement = PlayerMovement.Instance;
-
-            if (playerCamera == null)
-                playerCamera = PlayerCamera.Instance;
-
-            if (playerInventory == null)
-                playerInventory = PlayerInventory.Instance;
-
-            if (playerManager == null)
-                playerManager = PlayerManager.Instance;
-
-            if (localPlayer == null)
-                localPlayer = Player.Local;
-
-            if (customerList == null)
-                customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
+            timer = 2f;
+            waiting = true;
+            treeUiChange = false;
         }
 
         public override void OnUpdate()
         {
-            if (TimeManager.Instance == null || PlayerMovement.Instance == null || PlayerCamera.Instance == null)
+            if (TimeManager.Instance == null ||
+                LevelManager.Instance == null ||
+                PlayerMovement.Instance == null || 
+                PlayerCamera.Instance == null ||
+                PlayerInventory.Instance == null ||
+                PlayerManager.Instance == null ||
+                Player.Local == null)
                 return;
 
-            if (!waiting)
-                if (!WaitTime())
+            if (waiting)
+            {
+                timer -= Time.deltaTime;
+                if (timer <= 0f)
+                {
+                    skillData = SkillTreeSaveManager.LoadOrCreate();
+                    skillConfig = SkillTreeSaveManager.LoadConfig();
+                    skillTreeUI = new SkillTreeUI(skillData, skillConfig);
+
+                    ItemUnlocker.UnlockSpecificItems();
+                    ValidSave();
+                    AttPoints();
+                    waiting = false;
+                }
+
+                if (waiting)
+                {
                     return;
+                }
+            }
 
-            if (timeManager == null || playerCamera == null || playerMovement == null)
-                Init();
-
-            if (lastProcessedTier != levelManager.Tier)
+            if (lastProcessedTier != LevelManager.Instance.Tier)
                 AttPoints(true);
 
-            bool treeUiChange = false;
-
-            if (Input.GetKeyDown(skillConfig.MenuHotkey) && waiting)
+            if (Input.GetKeyDown(skillConfig.MenuHotkey))
             {
                 skillTreeUI.Visible = !skillTreeUI.Visible;
                 treeUiChange = true;
@@ -114,10 +105,10 @@ namespace SkillTree
             ActiveSkills();
 
             if (skillTreeUI.Visible)
-                playerCamera.SetDoFActive(true, 0.06f);
+                PlayerCamera.Instance.SetDoFActive(true, 0.06f);
 
             if (!skillTreeUI.Visible)
-                playerCamera.SetDoFActive(false, 0f);
+                PlayerCamera.Instance.SetDoFActive(false, 0f);
 
             if (skillTreeUI.Visible && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab) || Input.GetMouseButtonDown(1)))
             {
@@ -130,63 +121,44 @@ namespace SkillTree
                 treeUiChange = false;
                 Cursor.lockState = skillTreeUI.Visible ? CursorLockMode.None : CursorLockMode.Locked;
                 Cursor.visible = skillTreeUI.Visible ? true : false;
-                playerMovement.CanMove = !skillTreeUI.Visible;
-                playerCamera.canLook = !skillTreeUI.Visible;
-                playerManager.enabled = !skillTreeUI.Visible;
-                playerInventory.SetInventoryEnabled(!skillTreeUI.Visible);
+                PlayerMovement.Instance.CanMove = !skillTreeUI.Visible;
+                PlayerCamera.Instance.canLook = !skillTreeUI.Visible;
+                PlayerManager.Instance.enabled = !skillTreeUI.Visible;
+                PlayerInventory.Instance.SetInventoryEnabled(!skillTreeUI.Visible);
             }
+        }
 
+        public override void OnSceneWasLoaded(int buildIndex, string sceneName)
+        {
+            base.OnSceneWasLoaded(buildIndex, sceneName);
+            if (sceneName != "Main")
+            {
+                Reset();
+            }
         }
 
         public void ActiveSkills()
         {
             ValidSkill();
-            if (Input.GetKeyDown(KeyCode.F1) && waiting && SkillEnabled.enabledTrash)
+            if (Input.GetKeyDown(KeyCode.F1) && SkillEnabled.enabledTrash)
                 ClearTrash();
 
-            if (Input.GetKeyDown(KeyCode.F2) && waiting && SkillEnabled.enabledHeal)
+            if (Input.GetKeyDown(KeyCode.F2) && SkillEnabled.enabledHeal)
                 Heal();
 
-            if (Input.GetKeyDown(KeyCode.F3) && waiting && SkillEnabled.enabledGetCash)
+            if (Input.GetKeyDown(KeyCode.F3) && SkillEnabled.enabledGetCash)
                 GetCashDealer();
-        }
-        private bool WaitTime()
-        {   
-            if (!firstTime)
-            {
-                if (timeManager == null || levelManager == null || playerMovement == null)
-                    Init();
-                skillData = SkillTreeSaveManager.LoadOrCreate();
-                skillConfig = SkillTreeSaveManager.LoadConfig();
-                skillTreeUI = new SkillTreeUI(skillData, skillConfig);
-            }
-
-            firstTime = true;
-            timer -= Time.deltaTime;
-
-            if (timer <= 0f)
-            {
-                ItemUnlocker.UnlockSpecificItems();
-                ValidSave();
-                AttPoints();
-                waiting = true;
-                return true;
-            }
-            return false;
         }
 
         public void AttPoints(bool levelUp = false)
         {
-            if (timeManager == null || levelManager == null || playerMovement == null)
-                Init();
-
-            int currentRank = (int)levelManager.Rank;
-            int currentTier = levelManager.Tier - 1;
+            int currentRank = (int)LevelManager.Instance.Rank;
+            int currentTier = LevelManager.Instance.Tier - 1;
 
             if (currentRank == 0 && currentTier == 0)
                 return;
 
-            if (levelUp && currentTier == (lastProcessedTier - 1) && (int)levelManager.Rank == (int)lastProcessedRank)
+            if (levelUp && currentTier == (lastProcessedTier - 1) && (int)LevelManager.Instance.Rank == (int)lastProcessedRank)
                 return;
 
             else if (levelUp)
@@ -211,8 +183,8 @@ namespace SkillTree
                                     $"<color=#16F01C>+ {specialSkillPointValid} Special Points</color>", NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             }
 
-            lastProcessedTier = levelManager.Tier;
-            lastProcessedRank = levelManager.Rank;
+            lastProcessedTier = LevelManager.Instance.Tier;
+            lastProcessedRank = LevelManager.Instance.Rank;
 
             //MelonLogger.Msg("skillPointValid " + skillPointValid);
 
@@ -255,26 +227,24 @@ namespace SkillTree
                 if (skillTreeUI != null)
                     skillTreeUI.AddPoints(statsGained, opsGained, socialGained, specialGained);
 
-                MelonLogger.Msg($"[SkillTree] Processed: Rank {levelManager.Rank} Tier {levelManager.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
+                MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
             }
         }
 
         private void ValidSave()
         {
-            if (timeManager == null || levelManager == null || playerMovement == null)
-                Init();
-
-            int currentRank = (int)levelManager.Rank;
-            int currentTier = levelManager.Tier - 1;
+            int currentRank = (int)LevelManager.Instance.Rank;
+            int currentTier = LevelManager.Instance.Tier - 1;
 
             int maxPointsPossible = (currentRank * 7) + currentTier;
-            //MelonLogger.Msg("maxPointsPossible " + maxPointsPossible);
             int maxPointsJson = skillData.StatsPoints + skillData.OperationsPoints + skillData.SocialPoints + skillData.SpecialPoints + skillData.UsedSkillPoints;
-            int maxSpecialPossible = currentRank;
-            //MelonLogger.Msg("maxPointsJson " + maxPointsJson);
 
             if (maxPointsPossible != maxPointsJson)
             {
+                MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {(currentRank * 7) + currentTier}");
+                MelonLogger.Msg($"Max Points JSON: {skillData.StatsPoints} + {skillData.OperationsPoints} + " +
+                    $"{skillData.SocialPoints} + {skillData.SpecialPoints} + {skillData.UsedSkillPoints} = " +
+                    $"{skillData.StatsPoints + skillData.OperationsPoints + skillData.SocialPoints + skillData.SpecialPoints + skillData.UsedSkillPoints}");
                 MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
                 string path = SkillTreeSaveManager.GetDynamicPath();
                 if (File.Exists(path))
@@ -287,7 +257,6 @@ namespace SkillTree
             }
             SkillSystem.ApplyAll(skillData);
         }
-
 
         public override void OnGUI()
         {

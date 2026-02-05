@@ -11,7 +11,6 @@ using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.ATM;
 using MelonLoader;
 using SkillTree.Json;
-using SkillTree.SkillPatchSocial;
 using SkillTree.SkillSpecial.SkillEmployee;
 using System.Reflection;
 using UnityEngine;
@@ -47,27 +46,23 @@ namespace SkillTree.SkillEffect
             {
                 // Stats
                 case "Stats":
-                    { 
-                        MelonLogger.Msg("Player Health Before: " + localPlayer.Health.CurrentHealth);
-                        SkillPatchStats.PlayerHealthConfig.MaxHealth = 100 + (data.Stats * 20f);
-                        localPlayer.Health.SetHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
-                        localPlayer.Health.RecoverHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
-                        MelonLogger.Msg("Player Health Now: " + localPlayer.Health.CurrentHealth);
-                        break;
-                    }
+                    MelonLogger.Msg("Player Health Before: " + localPlayer.Health.CurrentHealth);
+                    SkillPatchStats.PlayerHealthConfig.MaxHealth = 100 + (data.Stats * 20f);
+                    localPlayer.Health.SetHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
+                    localPlayer.Health.RecoverHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
+                    MelonLogger.Msg("Player Health Now: " + localPlayer.Health.CurrentHealth);
+                    break;
                 case "MoreMovespeed":
-                    {
-                        MelonLogger.Msg("MoveSpeed Before: " + playerMovement.MoveSpeedMultiplier);
-                        SkillPatchStats.PlayerMovespeed.MovespeedBase = 1f + (data.MoreMovespeed * 0.10f);
-                        playerMovement.MoveSpeedMultiplier = SkillPatchStats.PlayerMovespeed.MovespeedBase;
-                        MelonLogger.Msg("MoveSpeed Now: " + playerMovement.MoveSpeedMultiplier);
-                        break;
-                    }
-
+                    MelonLogger.Msg("MoveSpeed Before: " + playerMovement.MoveSpeedMultiplier);
+                    SkillPatchStats.PlayerMovespeed.MovespeedBase = 1f + (data.MoreMovespeed * 0.10f);
+                    playerMovement.MoveSpeedMultiplier = SkillPatchStats.PlayerMovespeed.MovespeedBase;
+                    MelonLogger.Msg("MoveSpeed Now: " + playerMovement.MoveSpeedMultiplier);
+                    break;
                 case "MoreStackItem":
                     {
                         QuickPackagers.Add = (data.MoreStackItem == 1);
-                        if (registry == null) return;
+                        if (registry == null)
+                            return;
 
                         if (!(data.MoreStackItem == 1))
                             return;
@@ -91,86 +86,64 @@ namespace SkillTree.SkillEffect
                             }
                             MelonLogger.Msg($"Skill Item Stack x2 Active");
                         }
-                        break;
                     }
+                    break;
                 case "MoreXP":
-                    {
-                        SkillPatchStats.PlayerXPConfig.XpBase = 100f + (data.MoreXP * 5f);
-                        MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
-                        break;
-                    }
+                    SkillPatchStats.PlayerXPConfig.XpBase = 100f + (data.MoreXP * 5f);
+                    MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
+                    break;
                 case "MoreXP2":
-                    {
-                        SkillPatchStats.PlayerXPConfig.XpBase = 100f + ((data.MoreXP + data.MoreXP2) * 5f);
-                        MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
-                        break;
-                    }
+                    SkillPatchStats.PlayerXPConfig.XpBase = 100f + ((data.MoreXP + data.MoreXP2) * 5f);
+                    MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
+                    break;
                 case "BetterDelivery":
-                    {
-                        SkillPatchStats.BetterDelivery.Add = (data.BetterDelivery == 1);
-                        break;
-                    }
+                    SkillPatchStats.BetterDelivery.Add = (data.BetterDelivery == 1);
+                    break;
                 case "AllowSleepAthEne":
-                    {
-                        SkillPatchStats.AllowSleepAthEne.Add = (data.AllowSleepAthEne == 1);
-                        break;
-                    }
+                    SkillPatchStats.AllowSleepAthEne.Add = (data.AllowSleepAthEne == 1);
+                    break;
                 case "AllowSeeCounteroffChance":
-                    {
-                        SkillPatchStats.CounterofferHelper.Counteroffer = (data.AllowSeeCounteroffChance == 1);
-                        break;
-                    }
+                    SkillPatchStats.CounterofferHelper.Counteroffer = (data.AllowSeeCounteroffChance == 1);
+                    break;
                 case "SkipSchedule":
-                    {
-                        SkillPatchStats.SkipSchedule.Add = (data.SkipSchedule == 1);
-                        break;
-                    }
+                    SkillPatchStats.SkipSchedule.Add = (data.SkipSchedule == 1);
+                    break;
                 case "MoreXPWhenEarnMoney":
-                    {
-                        SkillPatchStats.PlayerXpMoney.XpMoney = (data.MoreXPWhenEarnMoney == 1);
-                        MelonLogger.Msg($"More XP When Earn Money {SkillPatchStats.PlayerXpMoney.XpMoney}");
-                        break;
-                    }
+                    SkillPatchStats.PlayerXpMoney.XpMoney = (data.MoreXPWhenEarnMoney == 1);
+                    MelonLogger.Msg($"More XP When Earn Money {SkillPatchStats.PlayerXpMoney.XpMoney}");
+                    break;
+
                 // OPERATIONS
                 case "Operations":
                     SkillPatchOperations.BetterGrowTent.Add = (data.Operations * 0.16f);
                     break;
-
                 case "GrowthSpeed":
                     SkillPatchOperations.GrowthSpeedUp.Add = (data.GrowthSpeed * 0.025f);
                     break;
-
                 case "GrowthSpeed2":
                     SkillPatchOperations.GrowthSpeedUp.Add = ((data.GrowthSpeed + data.GrowthSpeed2) * 0.025f);
                     break;
-
                 case "MoreYield":
                     SkillPatchOperations.YieldAdd.Add = (data.MoreYield);
                     break;
-
                 case "MoreQuality":
                     SkillPatchOperations.QualityUP.Add = (data.MoreQuality * 0.15f);
                     SkillPatchOperations.QualityMushroomUP.Add = (data.MoreQuality == 2 ? 0.3f : 0f);
                     break;
-
                 case "MoreQualityMethCoca":
                     SkillPatchOperations.MethQualityAdd.Add = (data.MoreQualityMethCoca == 1);
                     break;
-
                 case "AbsorbentSoil":
                     SkillPatchOperations.AbsorbentSoil.Add = (data.AbsorbentSoil == 1);
                     break;
-
                 case "MoreMixAndDryingRackOutput":
                     SkillPatchOperations.StackItem2xFix.Add = (data.MoreMixAndDryingRackOutput == 1);
                     SkillPatchOperations.MixOutputAdd.Add = (data.MoreMixAndDryingRackOutput * 2) == 0 ? 1 : (data.MoreMixAndDryingRackOutput * 2);
                     break;
-
                 case "ChemistStationQuick":
                     SkillPatchOperations.StationTimeLess.TimeAjust = (data.ChemistStationQuick * 1.5f) == 0 ? 1 : (data.ChemistStationQuick * 2);
                     SkillPatchOperations.MixOutputAdd.TimeAjust = (data.ChemistStationQuick * 2) == 0 ? 1 : (data.ChemistStationQuick * 2);
                     break;
-
                 case "MoreCauldronOutput":
                     {
                         int valueBase = SkillPatchOperations.CauldronOutputAdd.Add;
@@ -183,10 +156,9 @@ namespace SkillTree.SkillEffect
                 case "Social":
                     SkillPatchSocial.CustomerSample.AddSampleChance = (data.Social * 0.05f);
                     break;
-
                 case "CityEvolving":
                     {
-                        CustomerCache.FillCache(customerList.ToList());
+                        SkillPatchSocial.CustomerCache.FillCache(customerList.ToList());
                         float multiplier = 1.0f + (data.CityEvolving * 0.10f);
 
                         if (multiplier > 1.0f)
@@ -195,8 +167,8 @@ namespace SkillTree.SkillEffect
                             {
                                 string key = customer.CustomerData.name;
 
-                                if (CustomerCache.OriginalMinSpend.TryGetValue(key, out float baseMin) &&
-                                    CustomerCache.OriginalMaxSpend.TryGetValue(key, out float baseMax))
+                                if (SkillPatchSocial.CustomerCache.OriginalMinSpend.TryGetValue(key, out float baseMin) &&
+                                    SkillPatchSocial.CustomerCache.OriginalMaxSpend.TryGetValue(key, out float baseMax))
                                 {
                                     customer.CustomerData.MinWeeklySpend = baseMin * multiplier;
                                     customer.CustomerData.MaxWeeklySpend = baseMax * multiplier;
@@ -204,14 +176,13 @@ namespace SkillTree.SkillEffect
                                     //MelonLogger.Msg($"[CityEvolving] {key}: {baseMin} -> {customer.CustomerData.MinWeeklySpend}");
                                 }
                             }
-                            MelonLogger.Msg($"Weekly spend incresed by {1.0f + (data.CityEvolving * 0.15f)}%");
+                            MelonLogger.Msg($"Weekly spend increased by {1.0f + (data.CityEvolving * 0.15f)}%");
                         }
                     }
                     break;
-
                 case "BusinessEvolving":
                     {
-                        BusinessCache.FillCache(businessList.ToList());
+                        SkillPatchSocial.BusinessCache.FillCache(businessList.ToList());
                         float multiplier = 1.0f + (data.BusinessEvolving * 0.20f);
 
                         if (multiplier > 1.0f)
@@ -220,7 +191,7 @@ namespace SkillTree.SkillEffect
                             {
                                 string key = business.PropertyName;
 
-                                if (BusinessCache.LaunderCapacity.TryGetValue(key, out float baseMin))
+                                if (SkillPatchSocial.BusinessCache.LaunderCapacity.TryGetValue(key, out float baseMin))
                                 {
                                     business.LaunderCapacity = baseMin * multiplier;
                                     MelonLogger.Msg($"[BusinessEvolving] {key}: {baseMin} -> {business.LaunderCapacity}");
@@ -231,11 +202,9 @@ namespace SkillTree.SkillEffect
                     }
                     break;
                 case "MoreATMLimit":
-                    {
-                        SkillPatchSocial.ATMConfig.MaxWeeklyLimit = 10000f + (data.MoreATMLimit * 2000);
-                        MelonLogger.Msg($"ATM Deposit Weekly Limit: ${SkillPatchSocial.ATMConfig.MaxWeeklyLimit}");
-                        break;
-                    }
+                    SkillPatchSocial.ATMConfig.MaxWeeklyLimit += (data.MoreATMLimit * 2000);
+                    MelonLogger.Msg($"ATM Deposit Weekly Limit: ${SkillPatchSocial.ATMConfig.MaxWeeklyLimit}");
+                    break;
                 case "DealerCutLess":
                     {
                         foreach (Dealer dealer in dealerList)
@@ -244,10 +213,10 @@ namespace SkillTree.SkillEffect
                                 continue;
                             float origin = dealer.Cut;
                             dealer.Cut -= (data.DealerCutLess * 0.05f);
-                            MelonLogger.Msg($"Dealer: {dealer.name} decrease cut from {origin * 100}% to {dealer.Cut * 100}%");
+                            MelonLogger.Msg($"Dealer: {dealer.name} decreased cut from {origin * 100}% to {dealer.Cut * 100}%");
                         }
-                        break;
                     }
+                    break;
                 case "DealerSpeedUp":
                     {
                         foreach (Dealer dealer in dealerList)
@@ -255,70 +224,51 @@ namespace SkillTree.SkillEffect
                             if (!ValidDealer(dealer))
                                 continue;
                             float origin = dealer.Movement.MoveSpeedMultiplier;
-                            dealer.Movement.MoveSpeedMultiplier = 1f + (data.DealerSpeedUp);
-                            MelonLogger.Msg($"Dealer: {dealer.name} movespeed increase from {origin * 100}% to {dealer.Movement.MoveSpeedMultiplier * 100}%");
+                            dealer.Movement.MoveSpeedMultiplier += (data.DealerSpeedUp);
+                            MelonLogger.Msg($"Dealer: {dealer.name} movespeed increased from {origin * 100}% to {dealer.Movement.MoveSpeedMultiplier * 100}%");
                         }
-                        break;
                     }
+                    break;
                 case "DealerMoreCustomer":
-                    {
-                        SkillPatchSocial.DealerUpCustomer.MaxCustomer += (data.DealerMoreCustomer * 2);
-                        MelonLogger.Msg($"Dealer MaxCustomer: {SkillPatchSocial.DealerUpCustomer.MaxCustomer}");
-                        break;
-                    }
+                    SkillPatchSocial.DealerUpCustomer.MaxCustomer += (data.DealerMoreCustomer * 2);
+                    MelonLogger.Msg($"Dealer MaxCustomer: {SkillPatchSocial.DealerUpCustomer.MaxCustomer}");
+                    break;
                 case "BetterSupplier":
-                    {
-                        SkillPatchSocial.SupplierUp.SupplierInc = 1f + (1f * (data.BetterSupplier * 0.675f));
-                        SkillPatchSocial.SupplierUp.SupplierLimit = (int)(10 + (10 * (data.BetterSupplier * 0.5f)));
-                        break;
-                    }
+                    SkillPatchSocial.SupplierUp.SupplierInc = 1f + (1f * (data.BetterSupplier * 0.675f));
+                    SkillPatchSocial.SupplierUp.SupplierLimit = (int)(SkillPatchSocial.SupplierUp.SupplierLimit * (data.BetterSupplier * 1.5f));
+                    break;
 
                 //SPECIAL
                 case "Special":
-                    {
-                        SkillEnabled.enabledTrash = (data.Special == 1);
-                        break;
-                    }
+                    SkillEnabled.enabledTrash = (data.Special == 1);
+                    break;
                 case "Heal":
-                    {
-                        SkillEnabled.enabledHeal = (data.Heal == 1);
-                        break;
-                    }
+                    SkillEnabled.enabledHeal = (data.Heal == 1);
+                    break;
                 case "GetCashDealer":
-                    {
-                        SkillEnabled.enabledGetCash = (data.GetCashDealer == 1);
-                        break;
-                    }
+                    SkillEnabled.enabledGetCash = (data.GetCashDealer == 1);
+                    break;
                 case "BetterBotanists":
-                    {
-                        BetterBotanist.Add = (data.BetterBotanists == 1);
-                        break;
-                    }
+                    BetterBotanist.Add = (data.BetterBotanists == 1);
+                    break;
                 case "Employees24h":
-                    {
-                        CanWork.Add = (data.Employees24h == 1);
-                        break;
-                    }
+                    CanWork.Add = (data.Employees24h == 1);
+                    break;
                 case "EmployeeMovespeed":
-                    {
-                        EmployeeMovespeed.Add = (data.EmployeeMovespeed == 1);
-                        ValidEmployees();
-                        break;
-                    }
+                    EmployeeMovespeed.Add = (data.EmployeeMovespeed == 1);
+                    ValidEmployees();
+                    break;
                 case "EmployeeMaxStation":
-                    {
-                        EmployeeMoreStation.Add = (data.EmployeeMaxStation * 2);
-                        ValidEmployees();
-                        break;
-                    }
+                    EmployeeMoreStation.Add = (data.EmployeeMaxStation * 2);
+                    ValidEmployees();
+                    break;
             }
         }
-
         public static void ApplyAll(SkillTreeData data)
         {
             foreach (var field in typeof(SkillTreeData).GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
-                SkillSystem.ApplySkill(field.Name, data);
+                ApplySkill(field.Name, data);
             }
         }
 
@@ -331,7 +281,6 @@ namespace SkillTree.SkillEffect
 
         private static void ValidEmployees()
         {
-
             if (!BetterBotanist.Add) return;
 
             packagerList = UnityEngine.Object.FindObjectsOfType<Packager>();
@@ -349,27 +298,20 @@ namespace SkillTree.SkillEffect
             {
                 if (EmployeeMovespeed.Add)
                     chemist.Movement.MovementSpeedScale = 0.33f;
-
-                if (EmployeeMoreStation.Add > 0)
-                {
-                    chemist.configuration.Stations.MaxItems = 4 + EmployeeMoreStation.Add;
-                }
+                chemist.configuration.Stations.MaxItems += EmployeeMoreStation.Add;
             }
 
             foreach (Botanist botanist in botanistList)
             {
                 if (EmployeeMovespeed.Add)
                     botanist.Movement.MovementSpeedScale = 0.33f;
-
-                if (EmployeeMoreStation.Add > 0)
-                {
-                    botanist.configuration.Assigns.MaxItems = 8 + (EmployeeMoreStation.Add);
-                }
+                botanist.configuration.Assigns.MaxItems += EmployeeMoreStation.Add;
             }
+
             foreach (Cleaner cleaner in cleanerList)
             {
-                if (!EmployeeMovespeed.Add) continue;
-                cleaner.Movement.MovementSpeedScale = 0.33f;
+                if (EmployeeMovespeed.Add)
+                    cleaner.Movement.MovementSpeedScale = 0.33f;
             }
         }
     }

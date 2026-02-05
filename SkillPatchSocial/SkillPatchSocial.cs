@@ -13,7 +13,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static Il2CppScheduleOne.PlayerScripts.PlayerInventory;
 
 namespace SkillTree.SkillPatchSocial
 {
@@ -64,7 +63,7 @@ namespace SkillTree.SkillPatchSocial
 
     public static class ATMConfig
     {
-        public static float MaxWeeklyLimit = 10000f;
+        public static float MaxWeeklyLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
     }
 
     [HarmonyPatch(typeof(ATMInterface))]
@@ -347,7 +346,8 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool Prefix(Supplier __instance, ref float __result)
         {
-            if (SupplierUp.SupplierLimit == 10) return true; 
+            if (SupplierUp.SupplierLimit == 10)
+                return true; 
 
             __result = __instance.MaxOrderLimit * SupplierUp.SupplierInc;
 
@@ -419,5 +419,4 @@ namespace SkillTree.SkillPatchSocial
             return false;
         }
     }
-
 }

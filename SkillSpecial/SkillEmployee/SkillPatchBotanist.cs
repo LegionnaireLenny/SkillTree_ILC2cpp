@@ -21,15 +21,15 @@ namespace SkillTree.SkillSpecial.SkillEmployee
         static IEnumerable<MethodBase> TargetMethods()
         {
             return new List<MethodBase>
-        {
-            AccessTools.Method(typeof(SowSeedInPotBehaviour), nameof(SowSeedInPotBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(WaterPotBehaviour), nameof(WaterPotBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(HarvestPotBehaviour), nameof(HarvestPotBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(AddSoilToGrowContainerBehaviour), nameof(AddSoilToGrowContainerBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(ApplyAdditiveToGrowContainerBehaviour), nameof(ApplyAdditiveToGrowContainerBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(HarvestMushroomBedBehaviour), nameof(HarvestMushroomBedBehaviour.GetActionDuration)),
-            AccessTools.Method(typeof(ApplySpawnToMushroomBedBehaviour), nameof(ApplySpawnToMushroomBedBehaviour.GetActionDuration))
-        };
+            {
+                AccessTools.Method(typeof(SowSeedInPotBehaviour), nameof(SowSeedInPotBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(WaterPotBehaviour), nameof(WaterPotBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(HarvestPotBehaviour), nameof(HarvestPotBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(AddSoilToGrowContainerBehaviour), nameof(AddSoilToGrowContainerBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(ApplyAdditiveToGrowContainerBehaviour), nameof(ApplyAdditiveToGrowContainerBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(HarvestMushroomBedBehaviour), nameof(HarvestMushroomBedBehaviour.GetActionDuration)),
+                AccessTools.Method(typeof(ApplySpawnToMushroomBedBehaviour), nameof(ApplySpawnToMushroomBedBehaviour.GetActionDuration))
+            };
         }
 
         [HarmonyPrefix]

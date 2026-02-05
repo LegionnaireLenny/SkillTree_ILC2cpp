@@ -13,7 +13,6 @@ using MelonLoader;
 using System.Reflection;
 using UnityEngine;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
-using static MelonLoader.MelonLogger;
 
 namespace SkillTree.SkillPatchOperations
 {
@@ -110,14 +109,14 @@ namespace SkillTree.SkillPatchOperations
         public static int Add = 10;
     }
 
-    [HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
-    public static class Cauldron_Finish_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(Cauldron __instance)
-        {
-        }
-    }
+    //[HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
+    //public static class Cauldron_Finish_Patch
+    //{
+    //    [HarmonyPrefix]
+    //    public static void Prefix(Cauldron __instance)
+    //    {
+    //    }
+    //}
 
     [HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
     public static class Cauldron_Double_Output_Patch
@@ -198,9 +197,11 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
         {
-            if (__result <= 0) return;
+            if (__result <= 0)
+                return;
 
-            if (__instance.ProductSlot == null || __instance.MixerSlot == null) return;
+            if (__instance.ProductSlot == null || __instance.MixerSlot == null)
+                return;
 
             int qtyProduct = __instance.ProductSlot.Quantity;
             int qtyMixer = __instance.MixerSlot.Quantity;
@@ -216,7 +217,8 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance)
         {
-            if (__instance == null) return;
+            if (__instance == null)
+                return;
 
             if (__instance.CurrentMixTime < __instance.GetMixTimeForCurrentOperation() / 2)
             {
@@ -236,11 +238,8 @@ namespace SkillTree.SkillPatchOperations
             get => _add;
             set
             {
-                if (_add != value)
-                {
-                    _add = value;
-                    UpdateAllRacks();
-                }
+                _add = value;
+                UpdateAllRacks();
             }
         }
 
@@ -559,18 +558,21 @@ namespace SkillTree.SkillPatchOperations
     [HarmonyPatch(typeof(LabOven), "Shatter")]
     public static class LabOven_QualityPatch
     {
-        private static readonly HashSet<object> processedOperations = new HashSet<object>();
+        private static HashSet<object> processedOperations = new HashSet<object>();
 
         [HarmonyPrefix]
         public static void Prefix(LabOven __instance)
         {
-            if (__instance.CurrentOperation == null) return;
+            if (__instance.CurrentOperation == null)
+                return;
 
-            if (!MethQualityAdd.Add) return;
+            if (!MethQualityAdd.Add)
+                return;
 
             var op = __instance.CurrentOperation;
 
-            if (processedOperations.Contains(op)) return;
+            if (processedOperations.Contains(op))
+                return;
 
             if (op.IngredientQuality < EQuality.Heavenly)
             {

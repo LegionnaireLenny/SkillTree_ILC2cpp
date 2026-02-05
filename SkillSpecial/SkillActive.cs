@@ -26,9 +26,6 @@ namespace SkillTree.SkillActive
 {
     public static class SkillActive
     {
-        private static Player localPlayer;
-        private static TrashManager trashManager;
-        private static TimeManager timeManager;
         private static Dealer[] dealerList;
 
         private static int currentDay = -1;
@@ -39,15 +36,12 @@ namespace SkillTree.SkillActive
 
         public static void ValidSkill()
         {
-            if (timeManager == null) 
-                timeManager = TimeManager.Instance;
-
-            if (currentDay != (int)timeManager.CurrentDay)
+            if (currentDay != (int)TimeManager.Instance.CurrentDay)
             {
                 clearTrashUsed = false;
                 healUsed = false;
                 getCashUsed = false;
-                currentDay = (int)timeManager.CurrentDay;
+                currentDay = (int)TimeManager.Instance.CurrentDay;
             }
         }
 
@@ -67,8 +61,7 @@ namespace SkillTree.SkillActive
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             else
             {
-                trashManager = TrashManager.Instance;
-                trashManager.DestroyAllTrash();
+                TrashManager.Instance.DestroyAllTrash();
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "ClearTrash",
                                 $"All trash clear",
@@ -87,12 +80,11 @@ namespace SkillTree.SkillActive
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             else
             {
-                localPlayer = Player.Local;
-                float oldHp = localPlayer.Health.CurrentHealth;
-                localPlayer.Health.RecoverHealth(150);
+                float oldHp = Player.Local.Health.CurrentHealth;
+                Player.Local.Health.RecoverHealth(150);
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Heal",
-                                $"{oldHp} to {localPlayer.Health.CurrentHealth}",
+                                $"{oldHp} to {Player.Local.Health.CurrentHealth}",
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
                 healUsed = true;
             }

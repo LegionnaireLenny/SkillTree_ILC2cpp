@@ -22,8 +22,6 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
-using static MelonLoader.MelonLogger;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 namespace SkillTree.SkillPatchStats
 {
@@ -523,7 +521,8 @@ namespace SkillTree.SkillPatchStats
             if (!BetterDelivery.Add)
                 return;
 
-            if (delivery == null) return;
+            if (delivery == null)
+                return;
 
             if (delivery.TimeUntilArrival <= 120)
                 return;
