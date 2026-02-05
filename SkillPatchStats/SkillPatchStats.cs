@@ -312,7 +312,7 @@ namespace SkillTree.SkillPatchStats
 
                     NetworkSingleton<TimeManager>.Instance.SetTime(nextTarget);
 
-                    MelonLogger.Msg($"[BedSkill] Interação detectada. Próximo schedule definido para: {nextTarget}");
+                    MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
                     return false;
                 }
                 return true;

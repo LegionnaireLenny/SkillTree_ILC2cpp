@@ -193,7 +193,7 @@ namespace SkillTree.SkillPatchSocial
                 float origin = __result;
 
                 __result = Mathf.Clamp(__result + CustomerSample.AddSampleChance, 0f, 1f);
-                MelonLogger.Msg($"[Skill] Chance de Sample alterada de: {origin:P0} para {__result:P0}");
+                MelonLogger.Msg($"[Skill] Changed sample chance from {origin:P0} to {__result:P0}");
             }
             _depth--;
         }

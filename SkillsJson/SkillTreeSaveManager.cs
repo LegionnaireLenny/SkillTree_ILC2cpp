@@ -26,7 +26,7 @@ namespace SkillTree.Json
 
             if (!File.Exists(path))
             {
-                MelonLogger.Msg($"[SkillTree] Novo save detectado ou arquivo ausente: {path}");
+                MelonLogger.Msg($"[SkillTree] New save detected or file is missing: {path}");
 
                 CustomerCache.IsLoaded = false;
                 CustomerCache.OriginalMinSpend.Clear();
