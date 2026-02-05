@@ -222,12 +222,11 @@ namespace SkillTree.SkillEffect
 
                                 if (BusinessCache.LaunderCapacity.TryGetValue(key, out float baseMin))
                                 {
-                                    float oldCapacity = business.LaunderCapacity;
                                     business.LaunderCapacity = baseMin * multiplier;
                                     MelonLogger.Msg($"[BusinessEvolving] {key}: {baseMin} -> {business.LaunderCapacity}");
                                 }
                             }
-                            MelonLogger.Msg($"LaunderCapacity incresed by {1.0f + (data.BusinessEvolving * 0.20f)}%");
+                            MelonLogger.Msg($"[BusinessEvolving] LaunderCapacity increased by {(data.BusinessEvolving * 0.20f) * 100}%");
                         }
                     }
                     break;
@@ -244,8 +243,8 @@ namespace SkillTree.SkillEffect
                             if (!ValidDealer(dealer))
                                 continue;
                             float origin = dealer.Cut;
-                            dealer.Cut = 0.2f - (data.DealerCutLess * 0.05f);
-                            MelonLogger.Msg($"Dealer: {dealer.name} decrease cut from {origin}% to {dealer.Cut}");
+                            dealer.Cut -= (data.DealerCutLess * 0.05f);
+                            MelonLogger.Msg($"Dealer: {dealer.name} decrease cut from {origin * 100}% to {dealer.Cut * 100}%");
                         }
                         break;
                     }
@@ -257,7 +256,7 @@ namespace SkillTree.SkillEffect
                                 continue;
                             float origin = dealer.Movement.MoveSpeedMultiplier;
                             dealer.Movement.MoveSpeedMultiplier = 1f + (data.DealerSpeedUp);
-                            MelonLogger.Msg($"Dealer: {dealer.name} movespeed increase from {origin}% to {dealer.Movement.MoveSpeedMultiplier}");
+                            MelonLogger.Msg($"Dealer: {dealer.name} movespeed increase from {origin * 100}% to {dealer.Movement.MoveSpeedMultiplier * 100}%");
                         }
                         break;
                     }
