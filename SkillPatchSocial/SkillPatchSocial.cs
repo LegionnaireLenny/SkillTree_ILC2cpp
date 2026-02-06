@@ -298,8 +298,8 @@ namespace SkillTree.SkillPatchSocial
     /// </summary>
     public static class SupplierUp
     {
-        public static float SupplierInc = 1;
-        public static int SupplierLimit = 10;
+        public static float SupplierCashLimitMultiplier = 1;
+        public static float SupplierItemLimitMultiplier = 1;
     }
 
     [HarmonyPatch(typeof(PhoneShopInterface))]
@@ -313,27 +313,28 @@ namespace SkillTree.SkillPatchSocial
             
             __instance.ConfirmButton.interactable = false;
 
-            float num = 0f;
-            int itemCount = 0;
+            float orderTotal = 0f;
+            int orderQuantity = 0;
+            int maxQuantity = (int)(Supplier.DEADDROP_ITEM_LIMIT * SupplierUp.SupplierItemLimitMultiplier);
 
             foreach (var item in __instance._cart)
             {
-                num += item.Listing.Price * (float)item.Quantity;
-                itemCount += item.Quantity;
+                orderTotal += item.Listing.Price * item.Quantity;
+                orderQuantity += item.Quantity;
             }
 
-            float orderTotal = num;
+            MelonLogger.Msg($"Order Limit: {__instance.orderLimit}");
 
             __instance.OrderTotalLabel.text = MoneyManager.FormatAmount(orderTotal);
-            __instance.OrderTotalLabel.color = ((orderTotal <= __instance.orderLimit) ? __instance.ValidAmountColor : __instance.InvalidAmountColor);
-            __instance.ItemLimitLabel.text = itemCount + "/" + SupplierUp.SupplierLimit;
-            __instance.ItemLimitLabel.color = ((itemCount <= SupplierUp.SupplierLimit) ? Color.black : __instance.InvalidAmountColor);
+            __instance.OrderTotalLabel.color = (orderTotal <= __instance.orderLimit) ? __instance.ValidAmountColor : __instance.InvalidAmountColor;
+            __instance.ItemLimitLabel.text = orderQuantity + "/" + maxQuantity;
+            __instance.ItemLimitLabel.color = ((orderQuantity <= maxQuantity) ? Color.black : __instance.InvalidAmountColor);
 
             //MelonLogger.Msg($"Order Total: {orderTotal} | Items: {itemCount}");
 
             if (orderTotal > 0f && orderTotal <= __instance.orderLimit)
             {
-                __instance.ConfirmButton.interactable = itemCount <= (SupplierUp.SupplierLimit);
+                __instance.ConfirmButton.interactable = orderQuantity <= (maxQuantity);
                 //MelonLogger.Msg($"Can Confirm: {__instance.ConfirmButton.interactable} (Limit: {SupplierUp.SupplierLimit})");
             }
             return false;
@@ -346,11 +347,11 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool Prefix(Supplier __instance, ref float __result)
         {
-            if (SupplierUp.SupplierLimit == 10)
+            if (SupplierUp.SupplierCashLimitMultiplier == 1)
                 return true; 
 
-            __result = __instance.MaxOrderLimit * SupplierUp.SupplierInc;
-
+            __result = __instance.MaxOrderLimit * SupplierUp.SupplierCashLimitMultiplier;
+            MelonLogger.Msg($"Supplier: {__instance.fullName}'s order limit increased from ${__instance.MaxOrderLimit} to ${__result}");
             return false; 
         }
     }

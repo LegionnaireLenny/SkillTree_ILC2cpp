@@ -234,8 +234,10 @@ namespace SkillTree.SkillEffect
                     MelonLogger.Msg($"Dealer MaxCustomer: {SkillPatchSocial.DealerUpCustomer.MaxCustomer}");
                     break;
                 case "BetterSupplier":
-                    SkillPatchSocial.SupplierUp.SupplierInc = 1f + (1f * (data.BetterSupplier * 0.675f));
-                    SkillPatchSocial.SupplierUp.SupplierLimit = (int)(SkillPatchSocial.SupplierUp.SupplierLimit * (data.BetterSupplier * 1.5f));
+                    SkillPatchSocial.SupplierUp.SupplierCashLimitMultiplier = 1f + (data.BetterSupplier * 0.675f);
+                    SkillPatchSocial.SupplierUp.SupplierItemLimitMultiplier = 1f + (data.BetterSupplier * 0.5f);
+                    MelonLogger.Msg($"Supplier cash limit multiplier is x{SkillPatchSocial.SupplierUp.SupplierCashLimitMultiplier}");
+                    MelonLogger.Msg($"Supplier item limit multiplier is x{SkillPatchSocial.SupplierUp.SupplierItemLimitMultiplier}");
                     break;
 
                 //SPECIAL
