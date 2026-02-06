@@ -1,4 +1,5 @@
-﻿using Il2CppScheduleOne.DevUtilities;
+﻿using Il2CppScheduleOne;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
@@ -96,13 +97,13 @@ namespace SkillTree
             if (lastProcessedTier != LevelManager.Instance.Tier)
                 AttPoints(true);
 
+            ActiveSkills();
+
             if (Input.GetKeyDown(skillConfig.MenuHotkey))
             {
                 skillTreeUI.Visible = !skillTreeUI.Visible;
                 treeUiChange = true;
             }
-
-            ActiveSkills();
 
             if (skillTreeUI.Visible)
                 PlayerCamera.Instance.SetDoFActive(true, 0.06f);
@@ -120,10 +121,8 @@ namespace SkillTree
             {
                 treeUiChange = false;
                 Cursor.lockState = skillTreeUI.Visible ? CursorLockMode.None : CursorLockMode.Locked;
-                Cursor.visible = skillTreeUI.Visible ? true : false;
-                PlayerMovement.Instance.CanMove = !skillTreeUI.Visible;
-                PlayerCamera.Instance.canLook = !skillTreeUI.Visible;
-                PlayerManager.Instance.enabled = !skillTreeUI.Visible;
+                Cursor.visible = skillTreeUI.Visible;
+                GameInput.Instance.PlayerInput.enabled = !skillTreeUI.Visible;
                 PlayerInventory.Instance.SetInventoryEnabled(!skillTreeUI.Visible);
             }
         }
