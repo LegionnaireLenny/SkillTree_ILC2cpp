@@ -12,8 +12,6 @@ namespace SkillTree.UI
     {
         private Rect windowRect = new Rect(300, 150, 600, 450);
 
-        private SkillTreeData originalData;
-        private SkillTreeData editData;
         private SkillCategory? selectedCategory = null;
 
         private SkillConfig settings;
@@ -47,9 +45,7 @@ namespace SkillTree.UI
         // =========================
         public SkillTreeUI(SkillTreeData data, SkillConfig sharedConfig)
         {
-            originalData = data;
-            editData = Clone(data);
-            this.settings = sharedConfig;
+            settings = sharedConfig;
             BuildSkillMap();
         }
 
@@ -90,13 +86,13 @@ namespace SkillTree.UI
 
                 GUILayout.FlexibleSpace();
 
-                GUILayout.Label($"Stats: {editData.StatsPoints}");
+                GUILayout.Label($"Stats: {Core.SkillData.StatsPoints}");
                 GUILayout.Space(10);
-                GUILayout.Label($"Operations: {editData.OperationsPoints}");
+                GUILayout.Label($"Operations: {Core.SkillData.OperationsPoints}");
                 GUILayout.Space(10);
-                GUILayout.Label($"Social: {editData.SocialPoints}");
+                GUILayout.Label($"Social: {Core.SkillData.SocialPoints}");
                 GUILayout.Space(10);
-                GUILayout.Label($"Special: {editData.SpecialPoints}");
+                GUILayout.Label($"Special: {Core.SkillData.SpecialPoints}");
 
                 GUILayout.EndHorizontal();
 
@@ -214,7 +210,7 @@ namespace SkillTree.UI
             float startX = 20f + depth * 20f;
             float lineHeight = 25f;
 
-            int value = (int)skill.Field.GetValue(editData);
+            int value = (int)skill.Field.GetValue(Core.SkillData);
             int maxLevel = skill.MaxLevel;
 
             bool parentUnlocked = true;
@@ -238,10 +234,10 @@ namespace SkillTree.UI
                 if (GUI.Button(buttonRect, "+"))
                 {
                     int newValue = value + 1;
-                    skill.Field.SetValue(editData, newValue);
+                    skill.Field.SetValue(Core.SkillData, newValue);
                     ConsumePoint(skill.Category);
-                    SkillSystem.ApplySkill(skill.Id, editData);
-                    SkillTreeSaveManager.Save(editData);
+                    SkillSystem.ApplySkill(skill.Id, Core.SkillData);
+                    SkillTreeSaveManager.Save(Core.SkillData);
                 }
                 GUI.enabled = true;
             }
@@ -279,13 +275,13 @@ namespace SkillTree.UI
             switch (category)
             {
                 case SkillCategory.Stats:
-                    return editData.StatsPoints;
+                    return Core.SkillData.StatsPoints;
                 case SkillCategory.Operations:
-                    return editData.OperationsPoints;
+                    return Core.SkillData.OperationsPoints;
                 case SkillCategory.Social:
-                    return editData.SocialPoints;
+                    return Core.SkillData.SocialPoints;
                 case SkillCategory.Special:
-                    return editData.SpecialPoints;
+                    return Core.SkillData.SpecialPoints;
                 default:
                     return 0;
             }
@@ -296,20 +292,20 @@ namespace SkillTree.UI
             switch (category)
             {
                 case SkillCategory.Stats:
-                    editData.StatsPoints--;
+                    Core.SkillData.StatsPoints--;
                     break;
                 case SkillCategory.Operations:
-                    editData.OperationsPoints--;
+                    Core.SkillData.OperationsPoints--;
                     break;
                 case SkillCategory.Social:
-                    editData.SocialPoints--;
+                    Core.SkillData.SocialPoints--;
                     break;
                 case SkillCategory.Special:
-                    editData.SpecialPoints--;
+                    Core.SkillData.SpecialPoints--;
                     break;
             }
 
-            editData.UsedSkillPoints++;
+            Core.SkillData.UsedSkillPoints++;
         }
 
         // =========================
@@ -329,7 +325,7 @@ namespace SkillTree.UI
             if (skill.Parent != null && GetSkillValue(skill.Parent) == 0)
                 return;
 
-            int value = (int)skill.Field.GetValue(editData);
+            int value = (int)skill.Field.GetValue(Core.SkillData);
 
             float startX = 20 + depth * 30;
             float lineHeight = 22f;
@@ -351,9 +347,9 @@ namespace SkillTree.UI
             GUI.enabled = canBuy;
             if (GUI.Button(btnRect, "+"))
             {
-                skill.Field.SetValue(editData, 1);
+                skill.Field.SetValue(Core.SkillData, 1);
                 ConsumePoint(skill.Category);
-                SkillTreeSaveManager.Save(editData);
+                SkillTreeSaveManager.Save(Core.SkillData);
             }
             GUI.enabled = true;
 
@@ -419,7 +415,7 @@ namespace SkillTree.UI
         private int GetSkillValue(string fieldName)
         {
             FieldInfo field = typeof(SkillTreeData).GetField(fieldName);
-            return (int)field.GetValue(editData);
+            return (int)field.GetValue(Core.SkillData);
         }
 
         private SkillTreeData Clone(SkillTreeData source)
@@ -530,17 +526,12 @@ namespace SkillTree.UI
 
         public void AddPoints(int stats, int ops, int social, int special)
         {
-            this.editData.StatsPoints += stats;
-            this.editData.OperationsPoints += ops;
-            this.editData.SocialPoints += social;
-            this.editData.SpecialPoints += special;
+            Core.SkillData.StatsPoints += stats;
+            Core.SkillData.OperationsPoints += ops;
+            Core.SkillData.SocialPoints += social;
+            Core.SkillData.SpecialPoints += special;
 
-            this.originalData.StatsPoints += stats;
-            this.originalData.OperationsPoints += ops;
-            this.originalData.SocialPoints += social;
-            this.originalData.SpecialPoints += special;
-
-            SkillTreeSaveManager.Save(this.editData);
+            SkillTreeSaveManager.Save(Core.SkillData);
 
             //MelonLogger.Msg($"[SkillTreeUI] HUD Updated: +{stats}/+{ops}/+{social}");
         }

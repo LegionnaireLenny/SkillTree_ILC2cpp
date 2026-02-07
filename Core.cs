@@ -24,7 +24,14 @@ namespace SkillTree
     public static class SkillModifiers
     {
         // Stats
-
+        public static readonly float PlayerBaseHealth = 100f;
+        public static readonly float HealthBonus = 20f;
+        public static readonly float PlayerBaseMoveSpeed = 1f;
+        public static readonly float MoveSpeedBonus = 0.10f;
+        public static readonly float BaseXPGainRate = 100f;
+        public static readonly float XPGainBonus = 5f;
+        public static readonly int InventoryStackSizeMultiplier = 2;
+        public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
         // Operations
         public static readonly int CauldronBaseOutput = 10;
@@ -47,7 +54,7 @@ namespace SkillTree
     {
         public static Core Instance;
 
-        private static SkillTreeData skillData;
+        public static SkillTreeData SkillData;
         private SkillConfig skillConfig;
         private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
@@ -60,7 +67,6 @@ namespace SkillTree
         private bool waiting = true;
         private bool treeUiChange = false;
 
-        public static SkillTreeData SkillData { get; set; }
 
         public override void OnInitializeMelon()
         {

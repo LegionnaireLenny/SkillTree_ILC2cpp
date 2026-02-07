@@ -49,70 +49,61 @@ namespace SkillTree.SkillEffect
                 // Stats
                 case "Stats":
                     MelonLogger.Msg("Player Health Before: " + localPlayer.Health.CurrentHealth);
-                    SkillPatchStats.PlayerHealthConfig.MaxHealth = 100 + (data.Stats * 20f);
-                    localPlayer.Health.SetHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
-                    localPlayer.Health.RecoverHealth(SkillPatchStats.PlayerHealthConfig.MaxHealth);
+                    MelonLogger.Msg($"Base health: {SkillModifiers.PlayerBaseHealth} Health Bonus: {SkillModifiers.HealthBonus} Stats Skill {Core.SkillData.Stats}:");
+                    localPlayer.Health.SetHealth(SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+                    localPlayer.Health.RecoverHealth(SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
                     MelonLogger.Msg("Player Health Now: " + localPlayer.Health.CurrentHealth);
                     break;
                 case "MoreMovespeed":
                     MelonLogger.Msg("MoveSpeed Before: " + playerMovement.MoveSpeedMultiplier);
-                    SkillPatchStats.PlayerMovespeed.MovespeedBase = 1f + (data.MoreMovespeed * 0.10f);
-                    playerMovement.MoveSpeedMultiplier = SkillPatchStats.PlayerMovespeed.MovespeedBase;
+                    playerMovement.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus);
                     MelonLogger.Msg("MoveSpeed Now: " + playerMovement.MoveSpeedMultiplier);
                     break;
                 case "MoreStackItem":
                     {
-                        QuickPackagers.Add = (data.MoreStackItem == 1);
+                        if (Core.SkillData.MoreStackItem == 0)
+                            return;
+
                         if (registry == null)
                             return;
 
-                        if (!(data.MoreStackItem == 1))
-                            return;
-
                         StackCache.FillCache(allItems);
-
-                        int multiplier = 1 + (data.MoreStackItem);
-
-                        if (multiplier > 1)
+                        foreach (ItemDefinition item in allItems)
                         {
-                            foreach (ItemDefinition item in allItems)
-                            {
-                                string key = item.name;
+                            string key = item.name;
 
-                                if (StackCache.ItemStack.TryGetValue(key, out int baseMin))
-                                {
-                                    int stackLimit = item.StackLimit;
-                                    item.StackLimit = baseMin * multiplier;
-                                    MelonLogger.Msg($"[MoreStackItem] {key}: {baseMin} -> {item.StackLimit}");
-                                }
+                            if (StackCache.ItemStack.TryGetValue(key, out int baseMin))
+                            {
+                                item.StackLimit = baseMin * SkillModifiers.InventoryStackSizeMultiplier;
+                                MelonLogger.Msg($"[MoreStackItem] {key}: {baseMin} -> {item.StackLimit}");
                             }
-                            MelonLogger.Msg($"Skill Item Stack x2 Active");
                         }
+                        MelonLogger.Msg($"Skill Item Stack x2 Active");
                     }
                     break;
                 case "MoreXP":
-                    SkillPatchStats.PlayerXPConfig.XpBase = 100f + (data.MoreXP * 5f);
-                    MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
+                    //SkillPatchStats.PlayerXPConfig.XpBase = 100f + (Core.SkillData.MoreXP * 5f);
+                    //MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
                     break;
                 case "MoreXP2":
-                    SkillPatchStats.PlayerXPConfig.XpBase = 100f + ((data.MoreXP + data.MoreXP2) * 5f);
-                    MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
+                    //SkillPatchStats.PlayerXPConfig.XpBase = 100f + ((Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * 5f);
+                    //MelonLogger.Msg($"XP Base updated for: {SkillPatchStats.PlayerXPConfig.XpBase}%");
                     break;
                 case "BetterDelivery":
-                    SkillPatchStats.BetterDelivery.Add = (data.BetterDelivery == 1);
+                    //SkillPatchStats.BetterDelivery.Add = (data.BetterDelivery == 1);
                     break;
                 case "AllowSleepAthEne":
-                    SkillPatchStats.AllowSleepAthEne.Add = (data.AllowSleepAthEne == 1);
+                    //SkillPatchStats.AllowSleepAthEne.Add = (data.AllowSleepAthEne == 1);
                     break;
                 case "AllowSeeCounteroffChance":
-                    SkillPatchStats.CounterofferHelper.Counteroffer = (data.AllowSeeCounteroffChance == 1);
+                    //SkillPatchStats.CounterofferHelper.Counteroffer = (Core.SkillData.AllowSeeCounteroffChance == 1);
                     break;
                 case "SkipSchedule":
-                    SkillPatchStats.SkipSchedule.Add = (data.SkipSchedule == 1);
+                    //SkillPatchStats.SkipSchedule.Add = (Core.SkillData.SkipSchedule == 1);
                     break;
                 case "MoreXPWhenEarnMoney":
-                    SkillPatchStats.PlayerXpMoney.XpMoney = (data.MoreXPWhenEarnMoney == 1);
-                    MelonLogger.Msg($"More XP When Earn Money {SkillPatchStats.PlayerXpMoney.XpMoney}");
+                    //SkillPatchStats.PlayerXpMoney.XpMoney = (Core.SkillData.MoreXPWhenEarnMoney == 1);
+                    MelonLogger.Msg($"More XP When Earn Money {Core.SkillData.MoreXPWhenEarnMoney == 1}");
                     break;
 
                 // OPERATIONS

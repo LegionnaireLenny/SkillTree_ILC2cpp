@@ -25,24 +25,9 @@ using UnityEngine.UI;
 
 namespace SkillTree.SkillPatchStats
 {
-    // BASE VALUES
-    public static class PlayerMovespeed
-    {
-        public static float MovespeedBase = 1f;
-    }
-    public static class PlayerXpMoney
-    {
-        public static bool XpMoney = false;
-    }
-    // BASE VALUES
-
     /// <summary>
     /// CHANGE HEALTH BASE
     /// </summary>
-    public static class PlayerHealthConfig
-    {
-        public static float MaxHealth = 100f;
-    }
 
     [HarmonyPatch(typeof(PlayerHealth))]
     public class PatchPlayerHealth
@@ -51,8 +36,8 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            float clamped = Mathf.Clamp(health, 0f, PlayerHealthConfig.MaxHealth);
-            SetInternalHealth(__instance, clamped);
+            float newHealth = Mathf.Clamp(health, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            SetInternalHealth(__instance, newHealth);
             return false;
         }
 
@@ -60,10 +45,11 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_RecoverHealth(PlayerHealth __instance, float recovery)
         {
-            if (__instance.CurrentHealth <= 0f) return false;
+            if (__instance.CurrentHealth <= 0f) 
+                return false;
 
-            float novaVida = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, PlayerHealthConfig.MaxHealth);
-            SetInternalHealth(__instance, novaVida);
+            float newHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            SetInternalHealth(__instance, newHealth);
             return false;
         }
 
@@ -71,13 +57,15 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_TakeDamage(PlayerHealth __instance, float damage)
         {
-            if (!__instance.IsAlive || !__instance.CanTakeDamage) return false;
+            if (!__instance.IsAlive || !__instance.CanTakeDamage) 
+                return false;
 
-            float novaVida = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, PlayerHealthConfig.MaxHealth);
-            SetInternalHealth(__instance, novaVida);
+            float newHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            SetInternalHealth(__instance, newHealth);
 
             __instance.TimeSinceLastDamage = 0f;
-            if (novaVida <= 0f) __instance.SendDie();
+            if (newHealth <= 0f)
+                __instance.SendDie();
 
             return false;
         }
@@ -91,42 +79,34 @@ namespace SkillTree.SkillPatchStats
         }
     }
 
-
     /// <summary>
     /// INCREASE XP GAIN
     /// </summary>
-    public static class PlayerXPConfig
-    {
-        public static float XpBase = 100f;
-        public static float XpBase2 = 100f;
-    }
 
     [HarmonyPatch(typeof(LevelManager), "AddXP")]
     public class PatchLevelManager
     {
-        private static bool _jaProcessado = false;
+        private static bool processed = false;
         [HarmonyPrefix]
         public static void Prefix(LevelManager __instance, ref int xp)
         {
-            if (_jaProcessado)
+            if (Core.SkillData.MoreXP == 0 && Core.SkillData.MoreXP2 == 0)
                 return;
 
-            float multiplicador = PlayerXPConfig.XpBase / 100f;
+            if (processed)
+                return;
 
-            if (multiplicador != 1.0f)
-            {
-                _jaProcessado = true;
-                int xpOriginal = xp;
-                xp = Mathf.CeilToInt(xp * multiplicador);
-                MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {PlayerXPConfig.XpBase}%)");
-                MelonLogger.Msg("Total XP Now: " + (__instance.TotalXP + xp));
-            }
+            processed = true;
+            int xpOriginal = xp;
+            xp = Mathf.CeilToInt(xp * (1 + (Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * SkillModifiers.XPGainBonus));
+            MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {SkillModifiers.BaseXPGainRate + ((Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * SkillModifiers.XPGainBonus)}%)");
+            MelonLogger.Msg("Total XP Now: " + (__instance.TotalXP + xp));
         }
 
         [HarmonyPostfix]
         public static void Postfix()
         {
-            _jaProcessado = false;
+            processed = false;
         }
     }
 
@@ -143,7 +123,7 @@ namespace SkillTree.SkillPatchStats
             if (_jaProcessado)
                 return;
 
-            if (!PlayerXpMoney.XpMoney)
+            if (Core.SkillData.MoreXPWhenEarnMoney == 0)
                 return;
 
             float valorTotalDinheiro = __instance.Payment;
@@ -177,14 +157,6 @@ namespace SkillTree.SkillPatchStats
     /// <summary>
     /// SLEEP SYSTEM
     /// </summary>
-    public static class SkipSchedule
-    {
-        public static bool Add = false;
-    }
-    public static class AllowSleepAthEne
-    {
-        public static bool Add = false;
-    }
 
     public static class ScheduleLogic
     {
@@ -230,10 +202,10 @@ namespace SkillTree.SkillPatchStats
             {
                 float currentTime = NetworkSingleton<TimeManager>.Instance.CurrentTime;
 
-                if (!AllowSleepAthEne.Add)
+                if (Core.SkillData.AllowSleepAthEne == 0)
                     return true;
 
-                if (currentTime > 700 && currentTime < 1800 && !SkipSchedule.Add)
+                if (currentTime > 700 && currentTime < 1800 && (Core.SkillData.SkipSchedule == 0))
                     return true;
 
                 __result = true;
@@ -247,26 +219,24 @@ namespace SkillTree.SkillPatchStats
             [HarmonyPrefix]
             public static bool Prefix(Bed __instance)
             {
-                if (!SkipSchedule.Add)
+                if (Core.SkillData.SkipSchedule == 0)
                     return true;
-
-                var intObj = __instance.intObj;
 
                 if (Singleton<ManagementClipboard>.Instance.IsEquipped || __instance.AssignedEmployee != null)
                     return true;
 
                 float currentTime = NetworkSingleton<TimeManager>.Instance.CurrentTime;
-
                 if (currentTime >= 0 && currentTime < 700)
                     return true;
-                else if (!CanUseBedSkill() && currentTime <= 1800)
+
+                if (!CanUseBedSkill() && currentTime <= 1800)
                 {
-                    intObj.SetMessage("You've already rested today! Use it only tomorrow.");
+                    __instance.intObj.SetMessage("You've already rested today! Use it only tomorrow.");
                 }
                 else if (CanUseBedSkill() && currentTime < 2357)
                 {
                     string remaining = ScheduleLogic.GetTimeRemaining(currentTime);
-                    intObj.SetMessage($"Next Shift in: {remaining}");
+                    __instance.intObj.SetMessage($"Next Shift in: {remaining}");
                 }
                 else
                     return true;
@@ -281,12 +251,12 @@ namespace SkillTree.SkillPatchStats
             [HarmonyPrefix]
             public static bool Prefix()
             {
-                if (!SkipSchedule.Add)
+                if (Core.SkillData.SkipSchedule == 0)
                     return true;
 
                 if (!CanUseBedSkill())
                 {
-                    MelonLogger.Msg("[BedSkill] You've already rested today! Use it only tomorrow.");
+                    MelonLogger.Msg("[BedSkill] You've already rested today! You can't use it until tomorrow.");
                     return true;
                 }
 
@@ -338,8 +308,6 @@ namespace SkillTree.SkillPatchStats
     /// </summary>
     public static class CounterofferHelper
     {
-        public static bool Counteroffer = false;
-
         public static float CalculateSuccessChance(CounterofferInterface instance)
         {
             var conversation = instance.conversation;
@@ -468,7 +436,7 @@ namespace SkillTree.SkillPatchStats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (!Counteroffer)
+                if (Core.SkillData.AllowSeeCounteroffChance == 0)
                     return;
 
                 CreateSuccessLabel(__instance);
@@ -482,7 +450,7 @@ namespace SkillTree.SkillPatchStats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (!Counteroffer)
+                if (Core.SkillData.AllowSeeCounteroffChance == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);
@@ -495,7 +463,7 @@ namespace SkillTree.SkillPatchStats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (!Counteroffer)
+                if (Core.SkillData.AllowSeeCounteroffChance == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);
@@ -507,10 +475,6 @@ namespace SkillTree.SkillPatchStats
     /// <summary>
     /// BETTER DELIVERY
     /// </summary>
-    public static class BetterDelivery
-    {
-        public static bool Add = false;
-    }
 
     [HarmonyPatch(typeof(DeliveryManager), "SendDelivery")]
     public static class DeliveryTime_Patch
@@ -518,7 +482,7 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static void Prefix(ref DeliveryInstance delivery)
         {
-            if (!BetterDelivery.Add)
+            if (Core.SkillData.BetterDelivery == 0)
                 return;
 
             if (delivery == null)

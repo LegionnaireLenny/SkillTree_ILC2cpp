@@ -195,37 +195,30 @@ namespace SkillTree
             [HarmonyPostfix]
             public static void Athletic_Apply_Postfix()
             {
-                float baseWithSkill = SkillPatchStats.PlayerMovespeed.MovespeedBase;
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = baseWithSkill + 0.3f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus) + 0.3f;
             }
 
             [HarmonyPatch(typeof(Energizing), "ApplyToPlayer")]
             [HarmonyPostfix]
             public static void Energizing_Apply_Postfix()
             {
-                float baseWithSkill = SkillPatchStats.PlayerMovespeed.MovespeedBase;
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = baseWithSkill + 0.15f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus) + 0.15f;
             }
 
             [HarmonyPatch(typeof(Athletic), "ClearFromPlayer")]
             [HarmonyPostfix]
             public static void Athletic_Clear_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillPatchStats.PlayerMovespeed.MovespeedBase;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus);
             }
 
             [HarmonyPatch(typeof(Energizing), "ClearFromPlayer")]
             [HarmonyPostfix]
             public static void Energizing_Clear_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillPatchStats.PlayerMovespeed.MovespeedBase;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus);
             }
         }
-    }
-
-    public static class QuickPackagers
-    {
-        public static bool Add = false;
     }
 
     [HarmonyPatch]
@@ -235,15 +228,17 @@ namespace SkillTree
         [HarmonyPostfix]
         public static void Postfix_Speed(PackagingStation __instance)
         {
-            if (QuickPackagers.Add)
-                __instance.PackagerEmployeeSpeedMultiplier = 2f;
+            // For some reason having the MoreStackItem skill makes packagers move faster
+            MelonLogger.Msg($"MoreStackItem: {Core.SkillData.MoreStackItem} - Starting multiplier: {__instance.PackagerEmployeeSpeedMultiplier} - New multiplier: {SkillModifiers.PackagerMoveSpeedMultiplier}");
+            if (Core.SkillData.MoreStackItem > 0)
+                __instance.PackagerEmployeeSpeedMultiplier = SkillModifiers.PackagerMoveSpeedMultiplier;
         }
     }
 
     public static class StackCache
     {
         public static Dictionary<string, int> ItemStack = new Dictionary<string, int>();
-        public static bool IsLoaded = false;
+        private static bool IsLoaded = false;
 
         public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> business)
         {
