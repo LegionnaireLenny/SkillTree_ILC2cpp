@@ -21,11 +21,33 @@ using static SkillTree.SkillActive.SkillActive;
 
 namespace SkillTree
 {
+    public static class SkillModifiers
+    {
+        // Stats
+
+
+        // Operations
+        public static readonly int CauldronBaseOutput = 10;
+        public static readonly int StackSizeMultiplier = 2;
+        public static readonly int MixDryOutputSizeMultiplier = 2;
+        public static readonly int ChemistStationSpeedMultiplier = 2;
+        public static readonly float QualityIncreaseGrowTent = 0.16f;
+        public static readonly float QualityIncreasePlants = 0.15f;
+        public static readonly float QualityIncreaseShrooms = 0.30f;
+        public static readonly int YieldIncreasePlants = 1;
+        public static readonly float GrowthSpeedIncreasePlants = 0.025f;
+
+        // Social
+
+
+        // Special
+    }
+
     public class Core : MelonMod
     {
         public static Core Instance;
 
-        private SkillTreeData skillData;
+        private static SkillTreeData skillData;
         private SkillConfig skillConfig;
         private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
@@ -37,6 +59,8 @@ namespace SkillTree
         private float timer = 2f;
         private bool waiting = true;
         private bool treeUiChange = false;
+
+        public static SkillTreeData SkillData { get; set; }
 
         public override void OnInitializeMelon()
         {
@@ -78,9 +102,9 @@ namespace SkillTree
                 timer -= Time.deltaTime;
                 if (timer <= 0f)
                 {
-                    skillData = SkillTreeSaveManager.LoadOrCreate();
+                    SkillData = SkillTreeSaveManager.LoadOrCreate();
                     skillConfig = SkillTreeSaveManager.LoadConfig();
-                    skillTreeUI = new SkillTreeUI(skillData, skillConfig);
+                    skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
 
                     ItemUnlocker.UnlockSpecificItems();
                     ValidSave();
@@ -187,7 +211,7 @@ namespace SkillTree
 
             //MelonLogger.Msg("skillPointValid " + skillPointValid);
 
-            int totalSkillPoint = skillData.StatsPoints + skillData.OperationsPoints + skillData.SocialPoints + skillData.UsedSkillPoints;
+            int totalSkillPoint = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.UsedSkillPoints;
             //MelonLogger.Msg("totalSkillPoint " + totalSkillPoint);
 
             if (skillPointValid > 0)
@@ -221,7 +245,7 @@ namespace SkillTree
                     specialSkillPointValid = 0;
 
                 if (skillTreeUI == null)
-                    skillTreeUI = new SkillTreeUI(skillData, skillConfig);
+                    skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
 
                 if (skillTreeUI != null)
                     skillTreeUI.AddPoints(statsGained, opsGained, socialGained, specialGained);
@@ -236,25 +260,25 @@ namespace SkillTree
             int currentTier = LevelManager.Instance.Tier - 1;
 
             int maxPointsPossible = (currentRank * 7) + currentTier;
-            int maxPointsJson = skillData.StatsPoints + skillData.OperationsPoints + skillData.SocialPoints + skillData.SpecialPoints + skillData.UsedSkillPoints;
+            int maxPointsJson = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints;
 
             if (maxPointsPossible != maxPointsJson)
             {
                 MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {(currentRank * 7) + currentTier}");
-                MelonLogger.Msg($"Max Points JSON: {skillData.StatsPoints} + {skillData.OperationsPoints} + " +
-                    $"{skillData.SocialPoints} + {skillData.SpecialPoints} + {skillData.UsedSkillPoints} = " +
-                    $"{skillData.StatsPoints + skillData.OperationsPoints + skillData.SocialPoints + skillData.SpecialPoints + skillData.UsedSkillPoints}");
+                MelonLogger.Msg($"Max Points JSON: {SkillData.StatsPoints} + {SkillData.OperationsPoints} + " +
+                    $"{SkillData.SocialPoints} + {SkillData.SpecialPoints} + {SkillData.UsedSkillPoints} = " +
+                    $"{SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints}");
                 MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
                 string path = SkillTreeSaveManager.GetDynamicPath();
                 if (File.Exists(path))
                     File.Delete(path);
-                skillData = SkillTreeSaveManager.LoadOrCreate();
+                SkillData = SkillTreeSaveManager.LoadOrCreate();
                 skillConfig = SkillTreeSaveManager.LoadConfig();
-                skillTreeUI = new SkillTreeUI(skillData, skillConfig);
+                skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
             }
-            SkillSystem.ApplyAll(skillData);
+            SkillSystem.ApplyAll(SkillData);
         }
 
         public override void OnGUI()

@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Management;
 using Il2CppScheduleOne.Money;
+using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.Tools;
@@ -11,6 +12,7 @@ using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.ATM;
 using MelonLoader;
 using SkillTree.Json;
+using SkillTree.SkillPatchOperations;
 using SkillTree.SkillSpecial.SkillEmployee;
 using System.Reflection;
 using UnityEngine;
@@ -115,41 +117,51 @@ namespace SkillTree.SkillEffect
 
                 // OPERATIONS
                 case "Operations":
-                    SkillPatchOperations.BetterGrowTent.Add = (data.Operations * 0.16f);
+                    //SkillPatchOperations.BetterGrowTent.Add = (data.Operations * 0.16f);
                     break;
                 case "GrowthSpeed":
-                    SkillPatchOperations.GrowthSpeedUp.Add = (data.GrowthSpeed * 0.025f);
+                    //SkillPatchOperations.GrowthSpeedUp.Add = (data.GrowthSpeed * 0.025f);
                     break;
                 case "GrowthSpeed2":
-                    SkillPatchOperations.GrowthSpeedUp.Add = ((data.GrowthSpeed + data.GrowthSpeed2) * 0.025f);
+                    //SkillPatchOperations.GrowthSpeedUp.Add = ((data.GrowthSpeed + data.GrowthSpeed2) * 0.025f);
                     break;
                 case "MoreYield":
-                    SkillPatchOperations.YieldAdd.Add = (data.MoreYield);
+                    //SkillPatchOperations.YieldAdd.Add = (data.MoreYield);
                     break;
                 case "MoreQuality":
-                    SkillPatchOperations.QualityUP.Add = (data.MoreQuality * 0.15f);
-                    SkillPatchOperations.QualityMushroomUP.Add = (data.MoreQuality == 2 ? 0.3f : 0f);
+                    //SkillPatchOperations.QualityUP.Add = (data.MoreQuality * 0.15f);
+                    //SkillPatchOperations.QualityMushroomUP.Add = (data.MoreQuality == 2 ? 0.3f : 0f);
                     break;
                 case "MoreQualityMethCoca":
-                    SkillPatchOperations.MethQualityAdd.Add = (data.MoreQualityMethCoca == 1);
+                    //SkillPatchOperations.MethQualityAdd.Add = (data.MoreQualityMethCoca == 1);
                     break;
                 case "AbsorbentSoil":
-                    SkillPatchOperations.AbsorbentSoil.Add = (data.AbsorbentSoil == 1);
+                    //SkillPatchOperations.AbsorbentSoil.Add = (data.AbsorbentSoil == 1);
                     break;
                 case "MoreMixAndDryingRackOutput":
-                    SkillPatchOperations.StackItem2xFix.Add = (data.MoreMixAndDryingRackOutput == 1);
-                    SkillPatchOperations.MixOutputAdd.Add = (data.MoreMixAndDryingRackOutput * 2) == 0 ? 1 : (data.MoreMixAndDryingRackOutput * 2);
+                    if (Core.SkillData.MoreMixAndDryingRackOutput > 0)
+                    {
+                        DryingRack[] racks = GameObject.FindObjectsOfType<DryingRack>();
+                        //MelonLogger.Msg($"[DryingRack] Updating capacity for {racks.Length} active racks.");
+                        foreach (DryingRack rack in racks)
+                        {
+                            DryingRack_Patch.ApplyCapacityUpdate(rack);
+                        }
+                        MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
+                    }
+                    //SkillPatchOperations.StackItem2xFix.Add = (data.MoreMixAndDryingRackOutput == 1);
+                    //SkillPatchOperations.MixOutputAdd.Add = (data.MoreMixAndDryingRackOutput * 2) == 0 ? 1 : (data.MoreMixAndDryingRackOutput * 2);
                     break;
                 case "ChemistStationQuick":
-                    SkillPatchOperations.StationTimeLess.TimeAjust = (data.ChemistStationQuick * 1.5f) == 0 ? 1 : (data.ChemistStationQuick * 2);
-                    SkillPatchOperations.MixOutputAdd.TimeAjust = (data.ChemistStationQuick * 2) == 0 ? 1 : (data.ChemistStationQuick * 2);
+                    //SkillPatchOperations.StationTimeLess.TimeAjust = (data.ChemistStationQuick * 1.5f) == 0 ? 1 : (data.ChemistStationQuick * 2);
+                    //SkillPatchOperations.MixOutputAdd.TimeAjust = (data.ChemistStationQuick * 2) == 0 ? 1 : (data.ChemistStationQuick * 2);
                     break;
                 case "MoreCauldronOutput":
-                    {
-                        int valueBase = SkillPatchOperations.CauldronOutputAdd.Add;
-                        int bonus = Mathf.FloorToInt(valueBase * 1f * data.MoreCauldronOutput);
-                        SkillPatchOperations.CauldronOutputAdd.Add = valueBase + bonus;
-                    }
+                    //{
+                    //    int valueBase = SkillPatchOperations.CauldronOutputAdd.Add;
+                    //    int bonus = Mathf.FloorToInt(valueBase * 1f * data.MoreCauldronOutput);
+                    //    SkillPatchOperations.CauldronOutputAdd.Add = valueBase + bonus;
+                    //}
                     break;
 
                 // SOCIAL

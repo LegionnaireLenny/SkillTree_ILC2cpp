@@ -25,7 +25,7 @@ namespace SkillTree.Json
         public int MoreMovespeed = 0;
 
         // Stats subs
-        [Skill("More XP", "Increase XP Gain by 5%", SkillCategory.Stats, "Stats")]
+        [Skill("More XP", "Increase XP Gain by 5%", SkillCategory.Stats, "Stats", 2)]
         public int MoreXP = 0;
 
         // MoreXP subs
@@ -63,7 +63,7 @@ namespace SkillTree.Json
         [Skill("Better Grow Tent Quality", "Improve Grow Tent Quality (Trash -> Low)", SkillCategory.Operations, null, 1)]
         public int Operations = 0;
 
-        [Skill("Increase Growth Speed", "Increase Growth Speed by 2.5%", SkillCategory.Operations, "Operations")]
+        [Skill("Increase Growth Speed", "Increase Growth Speed by 2.5%", SkillCategory.Operations, "Operations", 2)]
         public int GrowthSpeed = 0;
 
         // Operations subs
@@ -106,7 +106,7 @@ namespace SkillTree.Json
 
         /* SOCIAL START HERE */
 
-        [Skill("More sample chance", "Increase Sample Chance by 5%", SkillCategory.Social)]
+        [Skill("More sample chance", "Increase Sample Chance by 5%", SkillCategory.Social, null, 2)]
         public int Social = 0;
 
         // Social subs

@@ -10,6 +10,7 @@ using Il2CppScheduleOne.Product;
 using Il2CppScheduleOne.StationFramework;
 using Il2CppScheduleOne.Variables;
 using MelonLoader;
+using SkillTree.Json;
 using System.Reflection;
 using UnityEngine;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
@@ -17,22 +18,250 @@ using static Il2CppScheduleOne.ObjectScripts.Pot;
 namespace SkillTree.SkillPatchOperations
 {
     /// <summary>
-    /// ABSORBENT SOIL
+    /// INCREASE QUALITY METH
     /// </summary>
-    public static class AbsorbentSoil
+    /// 
+
+    [HarmonyPatch(typeof(LabOven), "Shatter")]
+    public static class LabOven_QualityPatch
     {
-        public static bool Add = false;
+        private static HashSet<object> processedOperations = new HashSet<object>();
+
+        [HarmonyPrefix]
+        public static void Prefix(LabOven __instance)
+        {
+            MelonLogger.Msg($"LabOven_QualityPatch enter - MoreQualityMethCoca: {Core.SkillData.MoreQualityMethCoca}");
+            if (Core.SkillData.MoreQualityMethCoca == 0)
+                return;
+
+            if (__instance.CurrentOperation == null)
+                return;
+
+            if (processedOperations.Contains(__instance.CurrentOperation))
+                return;
+
+            MelonLogger.Msg($"LabOven_QualityPatch meth quality: {__instance.CurrentOperation.IngredientQuality}");
+            if (__instance.CurrentOperation.IngredientQuality < EQuality.Heavenly)
+            {
+                //MelonLogger.Msg($"__instance.CurrentOperation.IngredientQuality {__instance.CurrentOperation.IngredientQuality}");
+                __instance.CurrentOperation.IngredientQuality += 1;
+                processedOperations.Add(__instance.CurrentOperation);
+                //MelonLogger.Msg($"__instance.CurrentOperation.IngredientQuality {__instance.CurrentOperation.IngredientQuality}");
+                MelonCoroutines.Start(CleanUp(__instance.CurrentOperation));
+            }
+        }
+
+        private static System.Collections.IEnumerator CleanUp(object id)
+        {
+            yield return new WaitForSeconds(1f);
+            processedOperations.Remove(id);
+        }
     }
 
+    /// <summary>
+    /// INCREASE CAULDRON OUTPUT
+    /// </summary>
+
+    //[HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
+    //public static class Cauldron_Finish_Patch
+    //{
+    //    [HarmonyPrefix]
+    //    public static void Prefix(Cauldron __instance)
+    //    {
+    //    }
+    //}
+
+    // TODO: Cauldron_Double_Output_Patch
+    [HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
+    public static class Cauldron_Double_Output_Patch
+    {
+        [HarmonyPrefix]
+        public static void Prefix(QualityItemDefinition __instance, ref int quantity)
+        {
+
+            if (Core.SkillData.MoreCauldronOutput == 0) 
+                return;
+
+            MelonLogger.Msg($"Cauldron_Double_Output_Patch enter: MoreCauldronOutput {Core.SkillData.MoreCauldronOutput} quantity {quantity} base {SkillModifiers.CauldronBaseOutput}");
+            if (quantity != SkillModifiers.CauldronBaseOutput)
+                return;
+
+            if (__instance.name.Contains("CocaineBase"))
+            {
+                quantity = SkillModifiers.CauldronBaseOutput * 2; 
+            }
+        }
+    }
+
+    /// <summary>
+    /// SPEED UP CHEMIST STATIONS
+    /// </summary>
+
+    // TODO: Cauldron_Speed_Patch
+    [HarmonyPatch(typeof(Cauldron), "MinPass")]
+    public static class Cauldron_Speed_Patch
+    {
+        [HarmonyPrefix]
+        public static void Prefix(Cauldron __instance)
+        {
+            MelonLogger.Msg($"Cauldron_Speed_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
+
+            if (Core.SkillData.ChemistStationQuick == 0)
+                return;
+
+            if (__instance.RemainingCookTime > 0)
+            {
+                MelonLogger.Msg($"Cauldron cook time decremented");
+                __instance.RemainingCookTime--;
+            }
+        }
+    }
+
+    // TODO: ChemistryStation_MinPass_IL2CPP_Patch
+    [HarmonyPatch(typeof(ChemistryStation), "MinPass")]
+    public static class ChemistryStation_MinPass_IL2CPP_Patch
+    {
+        [HarmonyPrefix]
+        public static void Prefix(ChemistryStation __instance)
+        {
+            MelonLogger.Msg($"ChemistryStation_MinPass_IL2CPP_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
+
+            if (Core.SkillData.ChemistStationQuick == 0)
+                return;
+
+            if (__instance.CurrentCookOperation != null)
+            {
+                __instance.CurrentCookOperation.Progress(1);
+            }
+        }
+    }
+
+    // TODO: Oven_FastProgress_IL2CPP_Patch
+    [HarmonyPatch(typeof(LabOven), "MinPass")]
+    public static class Oven_FastProgress_IL2CPP_Patch
+    {
+        [HarmonyPostfix]
+        public static void Prefix(LabOven __instance)
+        {
+            MelonLogger.Msg($"Oven_FastProgress_IL2CPP_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
+
+            if (Core.SkillData.ChemistStationQuick == 0)
+                return;
+
+            if (__instance.CurrentOperation != null)
+            {
+                __instance.CurrentOperation.CookProgress++;
+            }
+        }
+    }
+
+    /// <summary>
+    /// INCREASE MIXSTATION OUTPUT AND FIXS
+    /// </summary>
+
+    [HarmonyPatch(typeof(MixingStation))]
+    public static class MixStationPatch
+    {
+        [HarmonyPatch("GetMixQuantity")]
+        [HarmonyPostfix]
+        public static void Postfix(MixingStation __instance, ref int __result)
+        {
+            if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+                return;
+
+            MelonLogger.Msg($"MixStationPatch enter: MoreMixAndDryingRackOutput {Core.SkillData.MoreMixAndDryingRackOutput}");
+            if (__result <= 0)
+                return;
+
+            if (__instance.ProductSlot == null || __instance.MixerSlot == null)
+                return;
+
+            __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity), 
+                                __instance.MaxMixQuantity * SkillModifiers.MixDryOutputSizeMultiplier);
+        }
+    }
+
+    [HarmonyPatch(typeof(MixingStation), "MinPass")]
+    public static class MixStation_Time_Patch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(MixingStation __instance)
+        {
+            MelonLogger.Msg($"MixStation_Time_Patch enter: time {__instance.CurrentMixTime}");
+
+            if (__instance == null)
+                return;
+
+            if (__instance.CurrentMixTime < __instance.GetMixTimeForCurrentOperation() / 2)
+            {
+                if (Core.SkillData.ChemistStationQuick > 0)
+                    __instance.CurrentMixTime = (int)(__instance.GetMixTimeForCurrentOperation() / SkillModifiers.ChemistStationSpeedMultiplier);
+
+                // Original check was for MixOutputAdd.Add, which was essentially a check for the player having the MoreMixAndDryingRackOutput skill
+                // Having the output size skill affect mixing times probably wasn't intentional, but I left it
+                if (Core.SkillData.MoreMixAndDryingRackOutput > 0)
+                    __instance.CurrentMixTime += (int)(__instance.GetMixTimeForCurrentOperation() / 4);
+            }
+            MelonLogger.Msg($"MixStation_Time_Patch exit: time {__instance.CurrentMixTime}");
+        }
+    }
+
+    [HarmonyPatch(typeof(DryingRack), "InitializeGridItem")]
+    public static class DryingRack_Patch
+    {
+        [HarmonyPostfix]
+        public static void Postfix(DryingRack __instance)
+        {
+            MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
+            ApplyCapacityUpdate(__instance);
+        }
+
+        public static void ApplyCapacityUpdate(DryingRack __instance)
+        {
+            if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+                return;
+
+            __instance.ItemCapacity *= SkillModifiers.MixDryOutputSizeMultiplier;
+            __instance.RefreshHangingVisuals();
+        }
+    }
+
+    //Trying to update the racks when they're placed
+    //[HarmonyPatch(typeof(DryingRack), "Initialize")]
+    //public static class DryingRack_Placement_Patch
+    //{
+    //    [HarmonyPostfix]
+    //    public static void Postfix(DryingRack __instance)
+    //    {
+    //        MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
+    //        ApplyCapacityUpdate(__instance);
+    //    }
+
+    //    public static void ApplyCapacityUpdate(DryingRack __instance)
+    //    {
+    //        if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+    //            return;
+
+    //        __instance.ItemCapacity *= SkillModifiers.MixDryOutputSizeMultiplier;
+    //        __instance.RefreshHangingVisuals();
+    //    }
+    //}
+
+    /// <summary>
+    /// ABSORBENT SOIL
+    /// </summary>
 
     [HarmonyPatch(typeof(Pot), "OnPlantFullyHarvested")]
     public static class Pot_OnPlantFullyHarvested_Patch
     {
         private static readonly HashSet<int> processedIds = new HashSet<int>();
 
-        static bool Prefix(Pot __instance)
+        [HarmonyPrefix]
+        public static bool Prefix(Pot __instance)
         {
-            if (!AbsorbentSoil.Add)
+            MelonLogger.Msg($"Pot_OnPlantFullyHarvested_Patch enter: AbsorbentSoil {Core.SkillData.AbsorbentSoil}");
+
+            if (Core.SkillData.AbsorbentSoil == 0)
                 return true;
 
             try
@@ -85,12 +314,12 @@ namespace SkillTree.SkillPatchOperations
                     MelonLogger.Msg("Soil still usable: additives preserved");
                 }
                 MelonCoroutines.Start(CleanUp(id));
-                return false; 
+                return false;
             }
             catch (System.Exception ex)
             {
                 MelonLogger.Error($"OnPlantFullyHarvested patch failed: {ex}");
-                return true; 
+                return true;
             }
         }
         private static System.Collections.IEnumerator CleanUp(int id)
@@ -102,223 +331,8 @@ namespace SkillTree.SkillPatchOperations
     }
 
     /// <summary>
-    /// INCREASE CAULDRON OUTPUT
-    /// </summary>
-    public static class CauldronOutputAdd
-    {
-        public static int Add = 10;
-    }
-
-    //[HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
-    //public static class Cauldron_Finish_Patch
-    //{
-    //    [HarmonyPrefix]
-    //    public static void Prefix(Cauldron __instance)
-    //    {
-    //    }
-    //}
-
-    [HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
-    public static class Cauldron_Double_Output_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(QualityItemDefinition __instance, ref int quantity)
-        {
-            if (CauldronOutputAdd.Add == 10) return;
-
-            if (__instance.name.Contains("CocaineBase") && quantity == 10)
-            {
-                quantity = CauldronOutputAdd.Add; 
-            }
-        }
-    }
-
-    /// <summary>
-    /// SPEED UP CHEMIST STATIONS
-    /// </summary>
-    public static class StationTimeLess
-    {
-        public static float TimeAjust = 1f;
-    }
-
-    [HarmonyPatch(typeof(Cauldron), "MinPass")]
-    public static class Cauldron_Speed_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(Cauldron __instance)
-        {
-            if (__instance.RemainingCookTime > 0)
-            {
-                if (StationTimeLess.TimeAjust > 1f)
-                    __instance.RemainingCookTime--;
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(ChemistryStation), "MinPass")]
-    public static class ChemistryStation_MinPass_IL2CPP_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(ChemistryStation __instance)
-        {
-            if (StationTimeLess.TimeAjust > 1f && __instance.CurrentCookOperation != null)
-            {
-                __instance.CurrentCookOperation.Progress(1);
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(LabOven), "MinPass")]
-    public static class Oven_FastProgress_IL2CPP_Patch
-    {
-        [HarmonyPostfix]
-        public static void Prefix(LabOven __instance)
-        {
-            if (StationTimeLess.TimeAjust > 1f && __instance.CurrentOperation != null)
-            {
-                __instance.CurrentOperation.CookProgress++;
-            }
-        }
-    }
-
-    /// <summary>
-    /// INCREASE MIXSTATION OUTPUT AND FIXS
-    /// </summary>
-    public static class MixOutputAdd
-    {
-        public static int Add = 1;
-        public static int TimeAjust = 1;
-    }
-
-    [HarmonyPatch(typeof(MixingStation))]
-    public static class MixStationPatch
-    {
-        [HarmonyPatch("GetMixQuantity")]
-        [HarmonyPostfix]
-        public static void Postfix(MixingStation __instance, ref int __result)
-        {
-            if (__result <= 0)
-                return;
-
-            if (__instance.ProductSlot == null || __instance.MixerSlot == null)
-                return;
-
-            int qtyProduct = __instance.ProductSlot.Quantity;
-            int qtyMixer = __instance.MixerSlot.Quantity;
-            int originalMax = Mathf.Min(Mathf.Min(qtyProduct, qtyMixer), __instance.MaxMixQuantity * MixOutputAdd.Add);
-
-            __result = originalMax;
-        }
-    }
-
-    [HarmonyPatch(typeof(MixingStation), "MinPass")]
-    public static class MixStation_Time_Patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(MixingStation __instance)
-        {
-            if (__instance == null)
-                return;
-
-            if (__instance.CurrentMixTime < __instance.GetMixTimeForCurrentOperation() / 2)
-            {
-                if (MixOutputAdd.TimeAjust > 1)
-                    __instance.CurrentMixTime = (int)(__instance.GetMixTimeForCurrentOperation() / 2);
-                if (MixOutputAdd.Add == 2)
-                    __instance.CurrentMixTime += (int)(__instance.GetMixTimeForCurrentOperation() / 4);
-            }
-        }
-    }
-
-    public static class StackItem2xFix
-    {
-        private static bool _add = false;
-        public static bool Add
-        {
-            get => _add;
-            set
-            {
-                _add = value;
-                UpdateAllRacks();
-            }
-        }
-
-        public static void UpdateAllRacks()
-        {
-            DryingRack[] racks = GameObject.FindObjectsOfType<DryingRack>();
-            MelonLogger.Msg($"[DryingRack] Updating capacity for {racks.Length} active racks.");
-            foreach (var rack in racks)
-            {
-                DryingRack_Patch.ApplyCapacityUpdate(rack);
-            }
-            MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
-        }
-    }
-
-    [HarmonyPatch(typeof(DryingRack), "InitializeGridItem")]
-    public static class DryingRack_Patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(DryingRack __instance)
-        {
-            MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
-            ApplyCapacityUpdate(__instance);
-        }
-
-        public static void ApplyCapacityUpdate(DryingRack __instance)
-        {
-            int targetCapacity = StackItem2xFix.Add ? 40 : 20;
-
-            __instance.ItemCapacity = targetCapacity;
-
-            //if (__instance.HangAlignments != null && __instance.HangAlignments.Length != targetCapacity)
-            //{
-
-            //    Transform[] originalTransforms = __instance.GetComponentsInChildren<Transform>();
-
-            //    Transform[] newAlignments = new Transform[targetCapacity];
-
-            //    for (int i = 0; i < targetCapacity; i++)
-            //    {
-            //        newAlignments[i] = __instance.HangAlignments[i % __instance.HangAlignments.Length];
-            //    }
-            //    __instance.HangAlignments = newAlignments;
-            //}
-
-            ////FieldInfo hangSlotsField = AccessTools.Field(typeof(DryingRack), "hangSlots");
-            //Array currentHangSlots = (Array)__instance.hangSlots;
-
-            //if (currentHangSlots != null && currentHangSlots.Length != targetCapacity)
-            //{
-            //    Type elementType = currentHangSlots.GetType().GetElementType();
-            //    Array newHangSlots = Array.CreateInstance(elementType, targetCapacity);
-
-            //    int itemsToCopy = Math.Min(currentHangSlots.Length, targetCapacity);
-            //    Array.Copy(currentHangSlots, newHangSlots, itemsToCopy);
-
-            //    if (targetCapacity > currentHangSlots.Length)
-            //    {
-            //        for (int i = currentHangSlots.Length; i < targetCapacity; i++)
-            //        {
-            //            object newSlot = Activator.CreateInstance(elementType);
-            //            newHangSlots.SetValue(newSlot, i);
-            //        }
-            //    }
-            //    __instance.hangSlots = (Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppReferenceArray<ItemSlot>)newHangSlots;
-            //    //hangSlotsField.SetValue(__instance, newHangSlots);
-            //}
-
-            __instance.RefreshHangingVisuals();
-        }
-    }
-
-    /// <summary>
     /// CHANGE GROW SPEED
     /// </summary>
-    public static class GrowthSpeedUp
-    {
-        public static float Add = 0f;
-    }
 
     [HarmonyPatch(typeof(Plant), "MinPass")]
     public static class Plant_MinPass_Patch
@@ -326,6 +340,8 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPrefix]
         public static bool Prefix(Plant __instance, int mins)
         {
+            MelonLogger.Msg($"Plant_MinPass_Patch enter: growth progress {__instance.NormalizedGrowthProgress}");
+
             if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true; 
 
@@ -334,7 +350,7 @@ namespace SkillTree.SkillPatchOperations
             num *= __instance.Pot.GetAverageLightExposure(out var growSpeedMultiplier);
             num *= __instance.Pot.GrowSpeedMultiplier;
             num *= growSpeedMultiplier;
-            num += (num * GrowthSpeedUp.Add);
+            num += num * (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * SkillModifiers.GrowthSpeedIncreasePlants;
 
             if (GameManager.IS_TUTORIAL)
                 num *= 0.3f;
@@ -347,6 +363,7 @@ namespace SkillTree.SkillPatchOperations
             __instance.SetNormalizedGrowthProgress(__instance.NormalizedGrowthProgress + num);
             //MelonLogger.Msg($" After Growth Plant {__instance.NormalizedGrowthProgress}");
 
+            MelonLogger.Msg($"Plant_MinPass_Patch growth progress boosted {__instance.NormalizedGrowthProgress + num}");
             return false;
         }
     }
@@ -357,11 +374,14 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPrefix]
         public static void Prefix(ShroomColony __instance, ref float change)
         {
-            if (change > 0f && GrowthSpeedUp.Add > 0f)
+            if (Core.SkillData.GrowthSpeed == 0 && Core.SkillData.GrowthSpeed2 == 0)
+                return;
+            
+            if (change > 0f)
             {
                 MelonLogger.Msg($" Growth Shroom {__instance.GrowthProgress}");
                 MelonLogger.Msg($" Before Shroom change {change}");
-                change += change * GrowthSpeedUp.Add;
+                change += change * (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * SkillModifiers.GrowthSpeedIncreasePlants;
                 MelonLogger.Msg($" After Shroom change {change}");
             }
         }
@@ -370,12 +390,6 @@ namespace SkillTree.SkillPatchOperations
     /// <summary>
     /// CHANGE QUALITY SYSTEM BY POT TYPE -- BETTER POT = BETTER QUALITY
     /// </summary>
-    /// 
-
-    public static class QualityMushroomUP
-    {
-        public static float Add = 0f;
-    }
 
     [HarmonyPatch(typeof(ShroomColony), "GetHarvestedShroom")]
     public static class MushroomQualityPatch
@@ -385,15 +399,19 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(ShroomColony __instance, ref ShroomInstance __result)
         {
-            if (QualityMushroomUP.Add <= 0f || __result == null) return;
+            MelonLogger.Msg($"MushroomQualityPatch enter: MoreQuality {Core.SkillData.MoreQuality}");
+            if (Core.SkillData.MoreQuality < 2 || __result == null) 
+                return;
 
             int id = __instance.GetInstanceID();
-            if (processedIds.Contains(id)) return;
+            if (processedIds.Contains(id)) 
+                return;
 
+            MelonLogger.Msg($"MushroomQualityPatch doing something");
             float baseQuality = __instance.NormalizedQuality;
             //MelonLogger.Msg($"Base: {baseQuality}");
 
-            __instance.ChangeQuality(QualityMushroomUP.Add);
+            __instance.ChangeQuality(SkillModifiers.QualityIncreaseShrooms);
 
             processedIds.Add(id);
 
@@ -410,116 +428,103 @@ namespace SkillTree.SkillPatchOperations
         }
     }
 
-    public static class QualityUP
-    {
-        public static float Add = 0f;
-    }
-
-    public static class BetterGrowTent
-    {
-        public static float Add = 0f;
-    }
-
     [HarmonyPatch(typeof(Plant), "Initialize")]
     public static class PlantQualityPatch
     {
         [HarmonyPostfix]
         public static void Postfix(Plant __instance)
         {
-            if (__instance.Pot != null)
+            MelonLogger.Msg($"PlantQualityPatch Enter");
+            if (__instance.Pot == null)
+                return;
+            MelonLogger.Msg($"PlantQualityPatch pot not null");
+
+            string potName = __instance.Pot.Name.ToString();
+            float baseQuality = 0.5f;
+            float currentQuality = __instance.QualityLevel;
+
+            if (potName.Equals("Grow Tent")) 
+                baseQuality = 0.1f + (SkillModifiers.QualityIncreaseGrowTent * Core.SkillData.Operations);
+            else if (potName.Equals("Plastic Pot")) 
+                baseQuality = 0.36f;
+            else if (potName.Equals("Moisture-Preserving Pot")) 
+                baseQuality = 0.36f;
+            else if (potName.Equals("Air Pot")) 
+                baseQuality = 0.5f;
+            else baseQuality = 0.1f; 
+
+            float finalQuality = baseQuality + (SkillModifiers.QualityIncreasePlants * Core.SkillData.MoreQuality);
+
+            if (Core.SkillData.AbsorbentSoil == 1)
             {
-                string potName = __instance.Pot.Name.ToString();
-                float baseQuality = 0.5f;
-                float currentQuality = __instance.QualityLevel;
-
-                if (potName.Equals("Grow Tent")) baseQuality = 0.1f + BetterGrowTent.Add;
-                else if (potName.Equals("Plastic Pot")) baseQuality = 0.36f;
-                else if (potName.Equals("Moisture-Preserving Pot")) baseQuality = 0.36f;
-                else if (potName.Equals("Air Pot")) baseQuality = 0.5f;
-                else baseQuality = 0.1f; 
-
-                float finalQuality = baseQuality + QualityUP.Add;
-
-                ///
-                if (AbsorbentSoil.Add)
+                MelonLogger.Msg("AbsobentSoil skill detected");
+                var additives = __instance.Pot.AppliedAdditives;
+                if (additives == null || additives.Count == 0)
+                    MelonLogger.Msg("No initial additives found for instant growth");
+                else
                 {
-                    if (__instance.Pot == null)
-                        MelonLogger.Warning("Plant.Initialize Postfix: Pot is null");
-                    else
+                    float delta = 0f;
+                    foreach (var additive in additives)
                     {
-                        var additives = __instance.Pot.AppliedAdditives;
-                        if (additives == null || additives.Count == 0)
-                            MelonLogger.Msg("No initial additives found for instant growth");
-                        else
+                        if (additive == null)
+                            continue;
+
+                        MelonLogger.Msg("Additive Name: " + additive.Name.ToString().ToLower());
+
+                        /*switch (additive.Name.ToString().ToLower().Trim())
                         {
-                            float delta = 0f;
-                            foreach (var additive in additives)
-                            {
-                                if (additive == null)
-                                    continue;
+                            case "fertilizer":
+                                delta = +0.3f;
+                                break;
 
-                                MelonLogger.Msg("Additive Name: " + additive.Name.ToString().ToLower());
+                            case "pgr":
+                                delta = -0.3f;
+                                break;
 
-                                /*switch (additive.Name.ToString().ToLower().Trim())
-                                {
-                                    case "fertilizer":
-                                        delta = +0.3f;
-                                        break;
-
-                                    case "pgr":
-                                        delta = -0.3f;
-                                        break;
-
-                                    case "speedgrow":
-                                        delta = -0.3f;
-                                        break;
-                                }*/
+                            case "speedgrow":
+                                delta = -0.3f;
+                                break;
+                        }*/
 
 
-                                //finalQuality += delta;
-                                //MelonLogger.Msg($"[SkillTree] Change Quality {finalQuality} | Additive: {additive.Name.ToString().ToLower().Trim()}");
+                        //finalQuality += delta;
+                        //MelonLogger.Msg($"[SkillTree] Change Quality {finalQuality} | Additive: {additive.Name.ToString().ToLower().Trim()}");
 
-                                if (additive.InstantGrowth > 0f && __instance.NormalizedGrowthProgress < 0.5f)
-                                {
-                                    float before = __instance.NormalizedGrowthProgress;
+                        if (additive.InstantGrowth > 0f && __instance.NormalizedGrowthProgress < 0.5f)
+                        {
+                            float before = __instance.NormalizedGrowthProgress;
 
-                                    __instance.SetNormalizedGrowthProgress(
-                                        before + additive.InstantGrowth
-                                    );
+                            __instance.SetNormalizedGrowthProgress(
+                                before + additive.InstantGrowth
+                            );
 
-                                    MelonLogger.Msg(
-                                        $"Instant growth applied: +{additive.InstantGrowth} (from {before} to {__instance.NormalizedGrowthProgress})"
-                                    );
-                                }
-
-                                if (finalQuality < 0.27f && finalQuality > 0.17f)
-                                    finalQuality = 0.27f;
-                            }
+                            MelonLogger.Msg(
+                                $"Instant growth applied: +{additive.InstantGrowth} (from {before} to {__instance.NormalizedGrowthProgress})"
+                            );
                         }
+
+                        if (finalQuality < 0.27f && finalQuality > 0.17f)
+                            finalQuality = 0.27f;
                     }
                 }
-
-                __instance.QualityLevel = finalQuality;
-
-              /*  var traverse = Traverse.Create(__instance);
-                traverse.Field("QualityLevel").SetValue(finalQuality);
-
-                traverse.Field("<QualityLevel>k__BackingField").SetValue(finalQuality);
-
-                traverse.Field("_qualityLevel").SetValue(finalQuality);*/
-
-                MelonLogger.Msg($"[SkillTree] Plant Init: {potName} | Final: {finalQuality} | Skill: {QualityUP.Add} | Total: {__instance.QualityLevel}");
             }
+
+            __instance.QualityLevel = finalQuality;
+
+            /*  var traverse = Traverse.Create(__instance);
+            traverse.Field("QualityLevel").SetValue(finalQuality);
+
+            traverse.Field("<QualityLevel>k__BackingField").SetValue(finalQuality);
+
+            traverse.Field("_qualityLevel").SetValue(finalQuality);*/
+
+            MelonLogger.Msg($"[SkillTree] Plant Init: {potName} | Final: {finalQuality} | Skill: {SkillModifiers.QualityIncreasePlants * Core.SkillData.MoreQuality} | Total: {__instance.QualityLevel}");
         }
     }
 
     /// <summary>
     /// ADD YIELD FROM PLANTS
     /// </summary>
-    public static class YieldAdd
-    {
-        public static int Add = 0;
-    }
 
     [HarmonyPatch(typeof(Plant), "GrowthDone")]
     public static class GrowthDone_SmartBasePatch
@@ -527,68 +532,27 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPrefix]
         public static void Prefix(Plant __instance)
         {
-            if (!Il2CppFishNet.InstanceFinder.IsServer) return;
+            MelonLogger.Msg($"[GrowthDone_SmartBasePatch]  - MoreYield {Core.SkillData.MoreYield}");
+            if (!Il2CppFishNet.InstanceFinder.IsServer)
+                return;
+
+            if (Core.SkillData.MoreYield == 0)
+                return;
 
             var currentMultiplier = __instance.YieldMultiplier;
             var originalBase = __instance.BaseYieldQuantity;
 
-            //var traverse = Traverse.Create(__instance);
-
-            if (Mathf.Approximately(currentMultiplier, 1.0f) && YieldAdd.Add != 0 && originalBase == 12)
+            MelonLogger.Msg($"[GrowthDone_SmartBasePatch] Yield multiplier {__instance.YieldMultiplier}. Base yield: {__instance.BaseYieldQuantity}");
+            if (Mathf.Approximately(currentMultiplier, 1.0f) && originalBase == 12)
             {
-                int finalBase = originalBase + YieldAdd.Add; 
+                int finalBase = originalBase + SkillModifiers.YieldIncreasePlants; 
 
                 __instance.BaseYieldQuantity = finalBase; 
-                MelonLogger.Msg($"[Skill More Yield] No additives detected. Skill applied. New Base: {finalBase}");
-            }
-            /*else
-                __instance.BaseYieldQuantity = 12;*/
-        }
-    }
-
-    /// <summary>
-    /// INCREASE QUALITY METH
-    /// </summary>
-    /// 
-    public static class MethQualityAdd
-    {
-        public static bool Add = false;
-    }
-
-    [HarmonyPatch(typeof(LabOven), "Shatter")]
-    public static class LabOven_QualityPatch
-    {
-        private static HashSet<object> processedOperations = new HashSet<object>();
-
-        [HarmonyPrefix]
-        public static void Prefix(LabOven __instance)
-        {
-            if (__instance.CurrentOperation == null)
-                return;
-
-            if (!MethQualityAdd.Add)
-                return;
-
-            var op = __instance.CurrentOperation;
-
-            if (processedOperations.Contains(op))
-                return;
-
-            if (op.IngredientQuality < EQuality.Heavenly)
-            {
-                //MelonLogger.Msg($"__instance.CurrentOperation.IngredientQuality {__instance.CurrentOperation.IngredientQuality}");
-                __instance.CurrentOperation.IngredientQuality += 1;
-                processedOperations.Add(op);
-                //MelonLogger.Msg($"__instance.CurrentOperation.IngredientQuality {__instance.CurrentOperation.IngredientQuality}");
-                MelonCoroutines.Start(CleanUp(op));
+                MelonLogger.Msg($"[GrowthDone_SmartBasePatch] No additives detected. Skill applied. New Base: {finalBase}");
             }
         }
-
-        private static System.Collections.IEnumerator CleanUp(object id)
-        {
-            yield return new WaitForSeconds(1f);
-            processedOperations.Remove(id);
-        }
     }
+
+
 
 }
