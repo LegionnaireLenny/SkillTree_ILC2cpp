@@ -10,6 +10,7 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Json;
 using SkillTree.SkillEffect;
+using SkillTree.SkillPatchSocial;
 using SkillTree.SkillsJson;
 using SkillTree.SkillSpecial.SkillEmployee;
 using SkillTree.UI;
@@ -23,31 +24,132 @@ namespace SkillTree
 {
     public static class SkillModifiers
     {
-        // Stats
+        #region Stats
         public static readonly float PlayerBaseHealth = 100f;
         public static readonly float HealthBonus = 20f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
         public static readonly float MoveSpeedBonus = 0.10f;
         public static readonly float BaseXPGainRate = 100f;
-        public static readonly float XPGainBonus = 5f;
+        public static readonly float XPGainBonus = 0.05f;
+        public static readonly float SaleXPBonus = 0.05f;
         public static readonly int InventoryStackSizeMultiplier = 2;
         public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
-        // Operations
+        public static float GetPlayerMaxHealth()
+        {
+            return PlayerBaseHealth + (Core.SkillData.Stats * HealthBonus);
+        }
+
+        public static float GetPlayerMoveSpeed()
+        {
+            return PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * MoveSpeedBonus);
+        }
+
+        public static float GetXPGainBonus()
+        {
+            return (Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * XPGainBonus;
+        }
+
+        public static float GetSaleXPBonus()
+        {
+            return Core.SkillData.MoreXPWhenEarnMoney * SaleXPBonus;
+        }
+        #endregion Stats
+
+        #region Operations
         public static readonly int CauldronBaseOutput = 10;
+        public static readonly int CauldronOutputMultiplier = 2;
         public static readonly int StackSizeMultiplier = 2;
         public static readonly int MixDryOutputSizeMultiplier = 2;
         public static readonly int ChemistStationSpeedMultiplier = 2;
-        public static readonly float QualityIncreaseGrowTent = 0.16f;
-        public static readonly float QualityIncreasePlants = 0.15f;
-        public static readonly float QualityIncreaseShrooms = 0.30f;
-        public static readonly int YieldIncreasePlants = 1;
-        public static readonly float GrowthSpeedIncreasePlants = 0.025f;
+        public static readonly float QualityBonusGrowTent = 0.16f;
+        public static readonly float QualityBonusPlants = 0.15f;
+        public static readonly float QualityBonusShrooms = 0.30f;
+        public static readonly int YieldBonusPlants = 1;
+        public static readonly float GrowthSpeedBonusPlants = 0.025f;
 
-        // Social
+        public static int GetCauldronStackSize()
+        {
+            return CauldronBaseOutput * (Core.SkillData.MoreCauldronOutput * CauldronOutputMultiplier);
+        }
+
+        public static float GetGrowthSpeedMultiplier()
+        {
+            return 1f + (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * GrowthSpeedBonusPlants;
+        }
+
+        public static float GetGrowTentBonus()
+        {
+            return Core.SkillData.Operations * QualityBonusGrowTent;
+        }
+
+        public static float GetPlantBonus()
+        {
+            return Core.SkillData.MoreQuality * QualityBonusPlants;
+        }
+
+        #endregion Operations
+
+        #region Social
+        public static readonly float ATMDepositBonus = 2000f;
+        public static readonly int CustomerLimitBonus = 2;
+        public static readonly float CustomerSampleAcceptBonus = 0.05f;
+        public static readonly float DealerCutReduction = 0.05f;
+        public static readonly float SupplierCashBonus = 0.675f;
+        public static readonly float SupplierItemBonus = 0.5f;
+        public static readonly float LaunderingBonus = 0.20f;
+        public static readonly float CustomerCashBonus = 0.10f;
+        public static readonly float DealerSpeedBonus = 1f;
+
+        public static float GetATMLimit()
+        {
+            return ATM.WEEKLY_DEPOSIT_LIMIT + (Core.SkillData.MoreATMLimit * ATMDepositBonus);
+        }
+
+        public static int GetMaxCustomers()
+        {
+            return Dealer.MAX_CUSTOMERS + (Core.SkillData.DealerMoreCustomer * CustomerLimitBonus);
+        }
+
+        public static float GetCustomerSampleBonus()
+        {
+            return Core.SkillData.Social * CustomerSampleAcceptBonus;
+        }
+
+        public static float GetDealerCut()
+        {
+            return Core.SkillData.DealerCutLess * DealerCutReduction;
+        }
+        public static float GetSupplierCashMultiplier()
+        {
+            return 1f + (Core.SkillData.BetterSupplier * SupplierCashBonus);
+        }
+
+        public static int GetSupplierItemLimit()
+        {
+            return (int)(Supplier.DEADDROP_ITEM_LIMIT * (1f + (Core.SkillData.BetterSupplier * SupplierItemBonus)));
+        }
+
+        public static float GetLaunderingCapacityMultiplier()
+        {
+            return 1f + (Core.SkillData.BusinessEvolving * LaunderingBonus);
+        }
+
+        public static float GetCustomerCashMultiplier()
+        {
+            return 1f + (Core.SkillData.CityEvolving * CustomerCashBonus);
+        }
+
+        public static float GetDealerSpeedBonus()
+        {
+            return Core.SkillData.DealerSpeedUp * DealerSpeedBonus;
+        }
+        #endregion Social
 
 
         // Special
+
+
     }
 
     public class Core : MelonMod

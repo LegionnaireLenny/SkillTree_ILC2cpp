@@ -61,11 +61,6 @@ namespace SkillTree.SkillPatchSocial
         }
     }
 
-    public static class ATMConfig
-    {
-        public static float MaxWeeklyLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
-    }
-
     [HarmonyPatch(typeof(ATMInterface))]
     public static class ATM_DynamicLimit_IL2CPP_Final_Patch
     {
@@ -73,7 +68,7 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool PrefixGetRemaining(ref float __result)
         {
-            __result = Mathf.Max(0f, ATMConfig.MaxWeeklyLimit - ATM.WeeklyDepositSum);
+            __result = Mathf.Max(0f, SkillModifiers.GetATMLimit() - ATM.WeeklyDepositSum);
             return false;
         }
 
@@ -89,7 +84,7 @@ namespace SkillTree.SkillPatchSocial
 
             if (depositing && index == ATMInterface.amounts.Length - 1)
             {
-                float remaining = Mathf.Max(0f, ATMConfig.MaxWeeklyLimit - ATM.WeeklyDepositSum);
+                float remaining = Mathf.Max(0f, SkillModifiers.GetATMLimit() - ATM.WeeklyDepositSum);
                 __result = Mathf.Min(NetworkSingleton<MoneyManager>.Instance.cashBalance, remaining);
                 return false;
             }
@@ -102,7 +97,7 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool PrefixSetSelected(ATMInterface __instance, float amount)
         {
-            float remaining = Mathf.Max(0f, ATMConfig.MaxWeeklyLimit - ATM.WeeklyDepositSum);
+            float remaining = Mathf.Max(0f, SkillModifiers.GetATMLimit() - ATM.WeeklyDepositSum);
 
             float onlineBalance = NetworkSingleton<MoneyManager>.Instance.sync___get_value_onlineBalance();
 
@@ -127,14 +122,14 @@ namespace SkillTree.SkillPatchSocial
         {
             if (!__instance.isOpen) return;
 
-            bool limitReached = ATM.WeeklyDepositSum >= ATMConfig.MaxWeeklyLimit;
+            bool limitReached = ATM.WeeklyDepositSum >= SkillModifiers.GetATMLimit();
 
             if (__instance.menu_DepositButton != null)
                 __instance.menu_DepositButton.interactable = !limitReached;
 
             if (__instance.depositLimitText != null)
             {
-                __instance.depositLimitText.text = MoneyManager.FormatAmount(ATM.WeeklyDepositSum) + " / " + MoneyManager.FormatAmount(ATMConfig.MaxWeeklyLimit);
+                __instance.depositLimitText.text = MoneyManager.FormatAmount(ATM.WeeklyDepositSum) + " / " + MoneyManager.FormatAmount(SkillModifiers.GetATMLimit());
                 __instance.depositLimitText.color = limitReached ? new Color32(255, 75, 75, 255) : Color.white;
             }
         }
@@ -146,7 +141,7 @@ namespace SkillTree.SkillPatchSocial
             if (__instance.depositing)
             {
                 float cash = NetworkSingleton<MoneyManager>.Instance.cashBalance;
-                float remaining = Mathf.Max(0f, ATMConfig.MaxWeeklyLimit - ATM.WeeklyDepositSum);
+                float remaining = Mathf.Max(0f, SkillModifiers.GetATMLimit() - ATM.WeeklyDepositSum);
                 var buttons = __instance.amountButtons;
 
                 for (int i = 0; i < ATMInterface.amounts.Length; i++)
@@ -168,10 +163,7 @@ namespace SkillTree.SkillPatchSocial
     /// <summary>
     /// UP CUSTOMER SAMPLE
     /// </summary>
-    public static class CustomerSample
-    {
-        public static float AddSampleChance = 0f;
-    }
+
     [HarmonyPatch(typeof(Customer), "GetSampleSuccess")]
     public class PatchSampleSuccessUI
     {
@@ -187,11 +179,12 @@ namespace SkillTree.SkillPatchSocial
         {
             if (_depth == 1)
             {
-                if (CustomerSample.AddSampleChance <= 0) return;
+                if (Core.SkillData.Social == 0) 
+                    return;
 
                 float origin = __result;
 
-                __result = Mathf.Clamp(__result + CustomerSample.AddSampleChance, 0f, 1f);
+                __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
                 MelonLogger.Msg($"[Skill] Changed sample chance from {origin:P0} to {__result:P0}");
             }
             _depth--;
@@ -202,10 +195,6 @@ namespace SkillTree.SkillPatchSocial
     /// <summary>
     /// UP ASSIGN CUSTOMER DEALER
     /// </summary>
-    public static class DealerUpCustomer
-    {
-        public static int MaxCustomer = Dealer.MAX_CUSTOMERS;
-    }
 
     [HarmonyPatch(typeof(DealerManagementApp))]
     public class DealerManagementPatch
@@ -237,12 +226,12 @@ namespace SkillTree.SkillPatchSocial
 
             if (__instance.CustomerTitleLabel != null)
             {
-                __instance.CustomerTitleLabel.text = $"Assigned Customers ({dealer.AssignedCustomers.Count}/{DealerUpCustomer.MaxCustomer})";
+                __instance.CustomerTitleLabel.text = $"Assigned Customers ({dealer.AssignedCustomers.Count}/{SkillModifiers.GetMaxCustomers()})";
             }
 
             if (__instance.AssignCustomerButton != null)
             {
-                __instance.AssignCustomerButton.gameObject.SetActive(dealer.AssignedCustomers.Count < DealerUpCustomer.MaxCustomer);
+                __instance.AssignCustomerButton.gameObject.SetActive(dealer.AssignedCustomers.Count < SkillModifiers.GetMaxCustomers());
                 __instance.AssignCustomerButton.transform.SetSiblingIndex(1);
             }
 
@@ -274,13 +263,13 @@ namespace SkillTree.SkillPatchSocial
 
         private static void CheckAndExpandUI(DealerManagementApp __instance)
         {
-            if (__instance.CustomerEntries.Length < DealerUpCustomer.MaxCustomer)
+            if (__instance.CustomerEntries.Length < SkillModifiers.GetMaxCustomers())
             {
                 List<RectTransform> entriesList = __instance.CustomerEntries.ToList();
                 RectTransform template = entriesList[0];
                 Transform listParent = template.parent;
 
-                while (entriesList.Count < DealerUpCustomer.MaxCustomer)
+                while (entriesList.Count < SkillModifiers.GetMaxCustomers())
                 {
                     RectTransform newSlot = GameObject.Instantiate(template, listParent);
                     newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
@@ -296,11 +285,6 @@ namespace SkillTree.SkillPatchSocial
     /// <summary>
     /// BETTER SUPPLIER
     /// </summary>
-    public static class SupplierUp
-    {
-        public static float SupplierCashLimitMultiplier = 1;
-        public static float SupplierItemLimitMultiplier = 1;
-    }
 
     [HarmonyPatch(typeof(PhoneShopInterface))]
     public class PhoneShopGlobalPatch
@@ -309,13 +293,14 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool CartChanged_Prefix(PhoneShopInterface __instance)
         {
-            if (__instance == null) return true;
+            if (__instance == null)
+                return true;
             
             __instance.ConfirmButton.interactable = false;
 
             float orderTotal = 0f;
             int orderQuantity = 0;
-            int maxQuantity = (int)(Supplier.DEADDROP_ITEM_LIMIT * SupplierUp.SupplierItemLimitMultiplier);
+            int maxQuantity = SkillModifiers.GetSupplierItemLimit();
 
             foreach (var item in __instance._cart)
             {
@@ -347,10 +332,10 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPrefix]
         public static bool Prefix(Supplier __instance, ref float __result)
         {
-            if (SupplierUp.SupplierCashLimitMultiplier == 1)
+            if (Core.SkillData.BetterSupplier == 0)
                 return true; 
 
-            __result = __instance.MaxOrderLimit * SupplierUp.SupplierCashLimitMultiplier;
+            __result = __instance.MaxOrderLimit * SkillModifiers.GetSupplierCashMultiplier();
             MelonLogger.Msg($"Supplier: {__instance.fullName}'s order limit increased from ${__instance.MaxOrderLimit} to ${__result}");
             return false; 
         }
@@ -359,10 +344,6 @@ namespace SkillTree.SkillPatchSocial
     /// <summary>
     /// BETTER BUSINESS
     /// </summary>
-    public static class BetterBusiness
-    {
-        public static float Add = 0f;
-    }
 
     [HarmonyPatch]
     public static class BusinessLaunderingPatch

@@ -36,7 +36,7 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            float newHealth = Mathf.Clamp(health, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            float newHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
             SetInternalHealth(__instance, newHealth);
             return false;
         }
@@ -48,7 +48,7 @@ namespace SkillTree.SkillPatchStats
             if (__instance.CurrentHealth <= 0f) 
                 return false;
 
-            float newHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            float newHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
             SetInternalHealth(__instance, newHealth);
             return false;
         }
@@ -60,7 +60,7 @@ namespace SkillTree.SkillPatchStats
             if (!__instance.IsAlive || !__instance.CanTakeDamage) 
                 return false;
 
-            float newHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.PlayerBaseHealth + (SkillModifiers.HealthBonus * Core.SkillData.Stats));
+            float newHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.GetPlayerMaxHealth());
             SetInternalHealth(__instance, newHealth);
 
             __instance.TimeSinceLastDamage = 0f;
@@ -98,8 +98,8 @@ namespace SkillTree.SkillPatchStats
 
             processed = true;
             int xpOriginal = xp;
-            xp = Mathf.CeilToInt(xp * (1 + (Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * SkillModifiers.XPGainBonus));
-            MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {SkillModifiers.BaseXPGainRate + ((Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * SkillModifiers.XPGainBonus)}%)");
+            xp = Mathf.CeilToInt(xp * (1 + SkillModifiers.GetXPGainBonus()));
+            MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {SkillModifiers.BaseXPGainRate + (SkillModifiers.GetXPGainBonus() * 100)}%)");
             MelonLogger.Msg("Total XP Now: " + (__instance.TotalXP + xp));
         }
 
@@ -116,33 +116,31 @@ namespace SkillTree.SkillPatchStats
     [HarmonyPatch(typeof(Contract), "SubmitPayment")]
     public class PatchContractPayment
     {
-        private static bool _jaProcessado = false;
+        private static bool processed = false;
         [HarmonyPrefix]
         public static void Prefix(Contract __instance, float bonusTotal)
         {
-            if (_jaProcessado)
+            if (processed)
                 return;
 
             if (Core.SkillData.MoreXPWhenEarnMoney == 0)
                 return;
 
-            float valorTotalDinheiro = __instance.Payment;
+            if (__instance.Payment <= 0)
+                return;
 
-            if (valorTotalDinheiro > 0)
+            int bonusXP = Mathf.RoundToInt(__instance.Payment * SkillModifiers.GetSaleXPBonus());
+
+            if (bonusXP > 0)
             {
-                int xpGanhaPeloDinheiro = Mathf.RoundToInt(valorTotalDinheiro * 0.05f);
+                LevelManager levelManager = LevelManager.Instance;
 
-                if (xpGanhaPeloDinheiro > 0)
+                if (levelManager != null)
                 {
-                    LevelManager levelManager = LevelManager.Instance;
+                    MelonLogger.Msg($"[Contract] Payment of ${__instance.Payment} converted into {bonusXP} base XP.");
 
-                    if (levelManager != null)
-                    {
-                        MelonLogger.Msg($"[Contract] Payment of ${valorTotalDinheiro} converted into {xpGanhaPeloDinheiro} base XP.");
-
-                        levelManager.AddXP(xpGanhaPeloDinheiro);
-                        _jaProcessado = true;
-                    }
+                    levelManager.AddXP(bonusXP);
+                    processed = true;
                 }
             }
         }
@@ -150,7 +148,7 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPostfix]
         public static void Postfix()
         {
-            _jaProcessado = false;
+            processed = false;
         }
     }
 
@@ -306,6 +304,7 @@ namespace SkillTree.SkillPatchStats
     /// <summary>
     /// COUNTER OFFER 
     /// </summary>
+    /// 
     public static class CounterofferHelper
     {
         public static float CalculateSuccessChance(CounterofferInterface instance)
@@ -502,5 +501,4 @@ namespace SkillTree.SkillPatchStats
             MelonLogger.Msg($"[DeliverySkill] Delivery scaling adjusted. Original: {originalTime}m | New: {newTime}m");
         }
     }
-
 }

@@ -88,7 +88,7 @@ namespace SkillTree.SkillPatchOperations
 
             if (__instance.name.Contains("CocaineBase"))
             {
-                quantity = SkillModifiers.CauldronBaseOutput * 2; 
+                quantity = SkillModifiers.GetCauldronStackSize(); 
             }
         }
     }
@@ -350,7 +350,7 @@ namespace SkillTree.SkillPatchOperations
             num *= __instance.Pot.GetAverageLightExposure(out var growSpeedMultiplier);
             num *= __instance.Pot.GrowSpeedMultiplier;
             num *= growSpeedMultiplier;
-            num += num * (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * SkillModifiers.GrowthSpeedIncreasePlants;
+            num *= SkillModifiers.GetGrowthSpeedMultiplier();
 
             if (GameManager.IS_TUTORIAL)
                 num *= 0.3f;
@@ -381,7 +381,7 @@ namespace SkillTree.SkillPatchOperations
             {
                 MelonLogger.Msg($" Growth Shroom {__instance.GrowthProgress}");
                 MelonLogger.Msg($" Before Shroom change {change}");
-                change += change * (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * SkillModifiers.GrowthSpeedIncreasePlants;
+                change *= SkillModifiers.GetGrowthSpeedMultiplier();
                 MelonLogger.Msg($" After Shroom change {change}");
             }
         }
@@ -411,7 +411,7 @@ namespace SkillTree.SkillPatchOperations
             float baseQuality = __instance.NormalizedQuality;
             //MelonLogger.Msg($"Base: {baseQuality}");
 
-            __instance.ChangeQuality(SkillModifiers.QualityIncreaseShrooms);
+            __instance.ChangeQuality(SkillModifiers.QualityBonusShrooms);
 
             processedIds.Add(id);
 
@@ -441,10 +441,9 @@ namespace SkillTree.SkillPatchOperations
 
             string potName = __instance.Pot.Name.ToString();
             float baseQuality = 0.5f;
-            float currentQuality = __instance.QualityLevel;
 
             if (potName.Equals("Grow Tent")) 
-                baseQuality = 0.1f + (SkillModifiers.QualityIncreaseGrowTent * Core.SkillData.Operations);
+                baseQuality = 0.1f + SkillModifiers.GetGrowTentBonus();
             else if (potName.Equals("Plastic Pot")) 
                 baseQuality = 0.36f;
             else if (potName.Equals("Moisture-Preserving Pot")) 
@@ -453,7 +452,7 @@ namespace SkillTree.SkillPatchOperations
                 baseQuality = 0.5f;
             else baseQuality = 0.1f; 
 
-            float finalQuality = baseQuality + (SkillModifiers.QualityIncreasePlants * Core.SkillData.MoreQuality);
+            float finalQuality = baseQuality + SkillModifiers.GetPlantBonus();
 
             if (Core.SkillData.AbsorbentSoil == 1)
             {
@@ -518,7 +517,7 @@ namespace SkillTree.SkillPatchOperations
 
             traverse.Field("_qualityLevel").SetValue(finalQuality);*/
 
-            MelonLogger.Msg($"[SkillTree] Plant Init: {potName} | Final: {finalQuality} | Skill: {SkillModifiers.QualityIncreasePlants * Core.SkillData.MoreQuality} | Total: {__instance.QualityLevel}");
+            MelonLogger.Msg($"[SkillTree] Plant Init: {potName} | Final: {finalQuality} | Skill: {SkillModifiers.QualityBonusPlants * Core.SkillData.MoreQuality} | Total: {__instance.QualityLevel}");
         }
     }
 
@@ -545,7 +544,7 @@ namespace SkillTree.SkillPatchOperations
             MelonLogger.Msg($"[GrowthDone_SmartBasePatch] Yield multiplier {__instance.YieldMultiplier}. Base yield: {__instance.BaseYieldQuantity}");
             if (Mathf.Approximately(currentMultiplier, 1.0f) && originalBase == 12)
             {
-                int finalBase = originalBase + SkillModifiers.YieldIncreasePlants; 
+                int finalBase = originalBase + SkillModifiers.YieldBonusPlants; 
 
                 __instance.BaseYieldQuantity = finalBase; 
                 MelonLogger.Msg($"[GrowthDone_SmartBasePatch] No additives detected. Skill applied. New Base: {finalBase}");

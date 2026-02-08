@@ -195,28 +195,28 @@ namespace SkillTree
             [HarmonyPostfix]
             public static void Athletic_Apply_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus) + 0.3f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + 0.3f;
             }
 
             [HarmonyPatch(typeof(Energizing), "ApplyToPlayer")]
             [HarmonyPostfix]
             public static void Energizing_Apply_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus) + 0.15f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + 0.15f;
             }
 
             [HarmonyPatch(typeof(Athletic), "ClearFromPlayer")]
             [HarmonyPostfix]
             public static void Athletic_Clear_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus);
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
             }
 
             [HarmonyPatch(typeof(Energizing), "ClearFromPlayer")]
             [HarmonyPostfix]
             public static void Energizing_Clear_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * SkillModifiers.MoveSpeedBonus);
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
             }
         }
     }
