@@ -199,10 +199,36 @@ namespace SkillTree.SkillPatchSocial
     [HarmonyPatch(typeof(DealerManagementApp))]
     public class DealerManagementPatch
     {
+        private static void CheckAndExpandUI(DealerManagementApp __instance)
+        {
+            if (Core.SkillData == null)
+                return;
+
+            if (__instance.CustomerEntries.Length < SkillModifiers.GetMaxCustomers())
+            {
+                List<RectTransform> entriesList = __instance.CustomerEntries.ToList();
+                RectTransform template = entriesList[0];
+                Transform listParent = template.parent;
+
+                while (entriesList.Count < SkillModifiers.GetMaxCustomers())
+                {
+                    RectTransform newSlot = GameObject.Instantiate(template, listParent);
+                    newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
+                    entriesList.Add(newSlot);
+                }
+
+                __instance.CustomerEntries = entriesList.ToArray();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(__instance.Content);
+            }
+        }
+
         [HarmonyPatch("Awake")]
         [HarmonyPostfix]
         public static void Awake_Postfix(DealerManagementApp __instance)
         {
+            if (Core.SkillData == null)
+                return;
+
             CheckAndExpandUI(__instance);
 
             if (__instance.AssignCustomerButton != null)
@@ -222,6 +248,9 @@ namespace SkillTree.SkillPatchSocial
         [HarmonyPostfix]
         public static void SetDisplayedDealer_Postfix(DealerManagementApp __instance, Dealer dealer)
         {
+            if (Core.SkillData == null)
+                return;
+            
             CheckAndExpandUI(__instance);
 
             if (__instance.CustomerTitleLabel != null)
@@ -258,26 +287,6 @@ namespace SkillTree.SkillPatchSocial
                 {
                     __instance.CustomerEntries[j].gameObject.SetActive(false);
                 }
-            }
-        }
-
-        private static void CheckAndExpandUI(DealerManagementApp __instance)
-        {
-            if (__instance.CustomerEntries.Length < SkillModifiers.GetMaxCustomers())
-            {
-                List<RectTransform> entriesList = __instance.CustomerEntries.ToList();
-                RectTransform template = entriesList[0];
-                Transform listParent = template.parent;
-
-                while (entriesList.Count < SkillModifiers.GetMaxCustomers())
-                {
-                    RectTransform newSlot = GameObject.Instantiate(template, listParent);
-                    newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
-                    entriesList.Add(newSlot);
-                }
-
-                __instance.CustomerEntries = entriesList.ToArray();
-                LayoutRebuilder.ForceRebuildLayoutImmediate(__instance.Content);
             }
         }
     }

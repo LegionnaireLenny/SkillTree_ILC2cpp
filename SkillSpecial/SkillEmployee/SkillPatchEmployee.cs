@@ -1,108 +1,98 @@
 ﻿using HarmonyLib;
-using MelonLoader;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Management;
+using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI.Management;
+using Il2CppSystem;
+using MelonLoader;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using static MelonLoader.MelonLogger;
 
 namespace SkillTree.SkillSpecial.SkillEmployee
 {
-    public static class CanWork
+    [HarmonyPatch]
+    public static class EmployeePatches
     {
-        public static bool Add = false;
-    }
-
-    [HarmonyPatch(typeof(Employee), "CanWork")]
-    public class Patch_Employee_CanWork
-    {
-        static void Postfix(ref bool __result)
+        [HarmonyPatch(typeof(Employee), "CanWork")]
+        [HarmonyPostfix]
+        public static void Postfix(Employee __instance, ref bool __result)
         {
-            if (CanWork.Add)
-                __result = true;
+            if (__instance == null || Core.SkillData == null || Core.SkillData.Employees24h == 0)
+                return;
+
+            __result = __instance.GetHome() != null &&
+                __instance.PaidForToday &&
+                (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || (Core.SkillData.Employees24h == 1));
         }
-    }
 
-    [HarmonyPatch(typeof(ClipboardScreen), "Start")]
-    public class Patch_ClipboardScreen_Fix
-    {
-        static void Postfix(ClipboardScreen __instance)
+        //[HarmonyPatch(typeof(ClipboardScreen), "Start")]
+        //public class Patch_ClipboardScreen_Fix
+        //{
+        //    static void Postfix(ClipboardScreen __instance)
+        //    {
+        //        if (__instance.Container == null) return;
+
+        //        __instance.Container.localScale = new Vector3(0.9f, 0.9f, 1f);
+        //    }
+        //}
+
+        private static readonly HashSet<Il2CppSystem.Guid> processedEmployees = [];
+
+        [HarmonyPatch(typeof(Employee), "UpdateBehaviour")]
+        [HarmonyPostfix]
+        public static void Postfix(Employee __instance)
         {
-            if (__instance.Container == null) return;
+            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMovespeed == 0)
+                return;
 
-            __instance.Container.localScale = new Vector3(0.9f, 0.9f, 1f);
+            __instance.Movement.MovementSpeedScale = SkillModifiers.EmployeeMoveSpeedBonus;
+            if (!processedEmployees.Contains(__instance.GUID))
+            {
+                MelonLogger.Msg($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
+                processedEmployees.Add(__instance.GUID);
+            }
         }
-    }
 
-    public static class EmployeeMovespeed
-    {
-        public static bool Add = false;
-    }
+        private static readonly HashSet<Il2CppSystem.Guid> processedBotanists = [];
 
-    public static class EmployeeMoreStation
-    {
-        public static int Add = 0;
-    }
-
-    [HarmonyPatch(typeof(Employee), "SetIsPaid")]
-    public class Patch_Employee_ActiveNew()
-    {
-        private static Packager[] packagerList;
-        private static Chemist[] chemistList;
-        private static Botanist[] botanistList;
-        private static Cleaner[] cleanerList;
-
-        static void Postfix()
+        [HarmonyPatch(typeof(Botanist), "UpdateBehaviour")]
+        [HarmonyPostfix]
+        public static void Postfix(Botanist __instance)
         {
-            if(!BetterBotanist.Add) return;
+            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMaxStation == 0)
+                return;
 
-            packagerList = UnityEngine.Object.FindObjectsOfType<Packager>();
-            chemistList = UnityEngine.Object.FindObjectsOfType<Chemist>();
-            botanistList = UnityEngine.Object.FindObjectsOfType<Botanist>();
-            cleanerList = UnityEngine.Object.FindObjectsOfType<Cleaner>();
+            (int, int) stations = SkillModifiers.GetBotanistStationBonus();
+            __instance.configuration.Assigns.MaxItems = stations.Item1;
 
-
-            if (EmployeeMoreStation.Add == 0) return;
-
-            foreach (Packager packager in packagerList)
+            if (!processedBotanists.Contains(__instance.GUID))
             {
-                if (EmployeeMovespeed.Add)
-                    packager.Movement.MovementSpeedScale = 0.33f;
+                MelonLogger.Msg($"Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}");
+            processedBotanists.Add(__instance.GUID);
             }
+        }
 
-            foreach (Chemist chemist in chemistList)
+        private static readonly HashSet<Il2CppSystem.Guid> processedChemists = [];
+
+        [HarmonyPatch(typeof(Chemist), "UpdateBehaviour")]
+        [HarmonyPostfix]
+        public static void Postfix(Chemist __instance)
+        {
+            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMaxStation == 0)
+                return;
+
+            (int, int) stations = SkillModifiers.GetChemistStationBonus();
+            __instance.configuration.Stations.MaxItems = stations.Item1;
+
+            if (!processedChemists.Contains(__instance.GUID))
             {
-                if (EmployeeMovespeed.Add)
-                    chemist.Movement.MovementSpeedScale = 0.33f;
-
-                if (EmployeeMoreStation.Add > 0)
-                {
-                    var config = chemist.Configuration as ChemistConfiguration;
-                    config.Stations.MaxItems = 4 + EmployeeMoreStation.Add;
-                }
-            }
-
-            foreach (Botanist botanist in botanistList)
-            {
-                if (EmployeeMovespeed.Add)
-                    botanist.Movement.MovementSpeedScale = 0.33f;
-
-                if (EmployeeMoreStation.Add > 0)
-                {
-                    var config = botanist.Configuration as BotanistConfiguration;
-                    config.Assigns.MaxItems = 8 + (EmployeeMoreStation.Add * 2);
-                }
-            }
-            foreach (Cleaner cleaner in cleanerList)
-            {
-                if (!EmployeeMovespeed.Add) continue;
-
-                cleaner.Movement.MovementSpeedScale = 0.33f;
+                MelonLogger.Msg($"Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
+                processedChemists.Add(__instance.GUID);
             }
         }
     }

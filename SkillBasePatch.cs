@@ -221,20 +221,6 @@ namespace SkillTree
         }
     }
 
-    [HarmonyPatch]
-    public static class RouteExpanderPatch
-    {
-        [HarmonyPatch(typeof(PackagingStation), "Awake")]
-        [HarmonyPostfix]
-        public static void Postfix_Speed(PackagingStation __instance)
-        {
-            // For some reason having the MoreStackItem skill makes packagers move faster
-            MelonLogger.Msg($"MoreStackItem: {Core.SkillData.MoreStackItem} - Starting multiplier: {__instance.PackagerEmployeeSpeedMultiplier} - New multiplier: {SkillModifiers.PackagerMoveSpeedMultiplier}");
-            if (Core.SkillData.MoreStackItem > 0)
-                __instance.PackagerEmployeeSpeedMultiplier = SkillModifiers.PackagerMoveSpeedMultiplier;
-        }
-    }
-
     public static class StackCache
     {
         public static Dictionary<string, int> ItemStack = new Dictionary<string, int>();
@@ -254,5 +240,4 @@ namespace SkillTree
             MelonLogger.Msg("ItemStack Memory successfully stored!");
         }
     }
-
 }

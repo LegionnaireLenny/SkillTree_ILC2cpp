@@ -45,13 +45,6 @@ namespace SkillTree.SkillActive
             }
         }
 
-        public static class SkillEnabled
-        {
-            public static bool enabledTrash = false;
-            public static bool enabledHeal = false;
-            public static bool enabledGetCash = false;
-        }
-
         public static void ClearTrash()
         {
             if(clearTrashUsed)
@@ -81,7 +74,8 @@ namespace SkillTree.SkillActive
             else
             {
                 float oldHp = Player.Local.Health.CurrentHealth;
-                Player.Local.Health.RecoverHealth(150);
+                Player.Local.Health.RecoverHealth(1000);
+                //Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Heal",
                                 $"{oldHp} to {Player.Local.Health.CurrentHealth}",
@@ -118,7 +112,5 @@ namespace SkillTree.SkillActive
                 getCashUsed = true;
             }
         }
-
-
     }
 }

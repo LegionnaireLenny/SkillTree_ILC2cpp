@@ -73,6 +73,16 @@ namespace SkillTree
             return CauldronBaseOutput * (Core.SkillData.MoreCauldronOutput * CauldronOutputMultiplier);
         }
 
+        public static int GetChemistStationSpeedMultiplier()
+        {
+            return Core.SkillData.ChemistStationQuick * ChemistStationSpeedMultiplier;
+        }
+
+        public static int GetMixDryOutputMultiplier()
+        {
+            return Core.SkillData.MoreMixAndDryingRackOutput * MixDryOutputSizeMultiplier;
+        }
+
         public static float GetGrowthSpeedMultiplier()
         {
             return 1f + (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * GrowthSpeedBonusPlants;
@@ -91,24 +101,31 @@ namespace SkillTree
         #endregion Operations
 
         #region Social
+        //public static readonly float BaseWeeklyDepositLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
+        public static readonly float BaseWeeklyDepositLimit = 10000f;
+        //public static readonly int BaseMaxCustomer = Dealer.MAX_CUSTOMERS;
+        public static readonly int BaseMaxCustomer = 10;
+        public static readonly float BaseDealerCut = 0.20f;
+        //public static readonly int BaseDeadDropItemLimit = Supplier.DEADDROP_ITEM_LIMIT;
+        public static readonly int BaseDeadDropItemLimit = 10;
         public static readonly float ATMDepositBonus = 2000f;
         public static readonly int CustomerLimitBonus = 2;
         public static readonly float CustomerSampleAcceptBonus = 0.05f;
         public static readonly float DealerCutReduction = 0.05f;
         public static readonly float SupplierCashBonus = 0.675f;
-        public static readonly float SupplierItemBonus = 0.5f;
+        public static readonly float SupplierItemBonus = 0.50f;
         public static readonly float LaunderingBonus = 0.20f;
         public static readonly float CustomerCashBonus = 0.10f;
         public static readonly float DealerSpeedBonus = 1f;
 
         public static float GetATMLimit()
         {
-            return ATM.WEEKLY_DEPOSIT_LIMIT + (Core.SkillData.MoreATMLimit * ATMDepositBonus);
+            return BaseWeeklyDepositLimit + (Core.SkillData.MoreATMLimit * ATMDepositBonus);
         }
 
         public static int GetMaxCustomers()
         {
-            return Dealer.MAX_CUSTOMERS + (Core.SkillData.DealerMoreCustomer * CustomerLimitBonus);
+            return BaseMaxCustomer + (Core.SkillData.DealerMoreCustomer * CustomerLimitBonus);
         }
 
         public static float GetCustomerSampleBonus()
@@ -118,8 +135,9 @@ namespace SkillTree
 
         public static float GetDealerCut()
         {
-            return Core.SkillData.DealerCutLess * DealerCutReduction;
+            return BaseDealerCut - (Core.SkillData.DealerCutLess * DealerCutReduction);
         }
+
         public static float GetSupplierCashMultiplier()
         {
             return 1f + (Core.SkillData.BetterSupplier * SupplierCashBonus);
@@ -127,7 +145,7 @@ namespace SkillTree
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(Supplier.DEADDROP_ITEM_LIMIT * (1f + (Core.SkillData.BetterSupplier * SupplierItemBonus)));
+            return (int)(BaseDeadDropItemLimit * (1f + (Core.SkillData.BetterSupplier * SupplierItemBonus)));
         }
 
         public static float GetLaunderingCapacityMultiplier()
@@ -146,9 +164,33 @@ namespace SkillTree
         }
         #endregion Social
 
+        #region Special
+        public static readonly float EmployeeMoveSpeedBonus = 0.33f;
+        public static readonly int EmployeeStationBonus = 2;
+        public static readonly int MaxChemistStations = 4;
+        public static readonly int MaxBotanistStations = 8;
 
-        // Special
+        //public static float GetEmployeeMoveSpeedBonus()
+        //{
+        //    return Core.SkillData.EmployeeMovespeed == 0 ? 1f : EmployeeMoveSpeedBonus;
+        //}
 
+        public static int GetEmployeeStationBonus()
+        {
+            return Core.SkillData.EmployeeMaxStation * EmployeeStationBonus;
+        }
+
+        public static (int, int) GetChemistStationBonus()
+        {
+            return (MaxChemistStations + GetEmployeeStationBonus(), MaxChemistStations);
+        }
+
+        public static (int, int) GetBotanistStationBonus()
+        {
+            return (MaxBotanistStations + GetEmployeeStationBonus(), MaxBotanistStations);
+        }
+
+        #endregion Special
 
     }
 
@@ -271,13 +313,13 @@ namespace SkillTree
         public void ActiveSkills()
         {
             ValidSkill();
-            if (Input.GetKeyDown(KeyCode.F1) && SkillEnabled.enabledTrash)
+            if (Input.GetKeyDown(KeyCode.F1) && SkillData.Special == 1)
                 ClearTrash();
 
-            if (Input.GetKeyDown(KeyCode.F2) && SkillEnabled.enabledHeal)
+            if (Input.GetKeyDown(KeyCode.F2) && SkillData.Heal == 1)
                 Heal();
 
-            if (Input.GetKeyDown(KeyCode.F3) && SkillEnabled.enabledGetCash)
+            if (Input.GetKeyDown(KeyCode.F3) && SkillData.GetCashDealer == 1)
                 GetCashDealer();
         }
 

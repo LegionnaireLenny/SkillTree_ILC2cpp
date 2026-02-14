@@ -171,7 +171,7 @@ namespace SkillTree.SkillEffect
                             customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
                             customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                            MelonLogger.Msg($"[CityEvolving] {key}: Spending range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinWeeklySpend}-{customer.CustomerData.MaxWeeklySpend}");
+                            MelonLogger.Msg($"[CityEvolving] {key}'s spending range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinWeeklySpend}-{customer.CustomerData.MaxWeeklySpend}");
                         }
                     }
                     MelonLogger.Msg($"Weekly spend increased by {(SkillModifiers.GetCustomerCashMultiplier() % 1) * 100}%");
@@ -198,27 +198,23 @@ namespace SkillTree.SkillEffect
                     //MelonLogger.Msg($"ATM Deposit Weekly Limit: ${SkillPatchSocial.ATMConfig.MaxWeeklyLimit}");
                     break;
                 case "DealerCutLess":
+                    foreach (Dealer dealer in dealerList)
                     {
-                        foreach (Dealer dealer in dealerList)
-                        {
-                            if (!ValidDealer(dealer))
-                                continue;
-                            float origin = dealer.Cut;
-                            dealer.Cut -= SkillModifiers.GetDealerCut();
-                            MelonLogger.Msg($"Dealer: {dealer.name} decreased cut from {origin * 100}% to {dealer.Cut * 100}%");
-                        }
+                        if (!ValidDealer(dealer))
+                            continue;
+                        float originalCut = dealer.Cut;
+                        dealer.Cut = SkillModifiers.GetDealerCut();
+                        MelonLogger.Msg($"Dealer: {dealer.name} decreased cut from {originalCut * 100}% to {dealer.Cut * 100}%");
                     }
                     break;
                 case "DealerSpeedUp":
+                    foreach (Dealer dealer in dealerList)
                     {
-                        foreach (Dealer dealer in dealerList)
-                        {
-                            if (!ValidDealer(dealer))
-                                continue;
-                            float origin = dealer.Movement.MoveSpeedMultiplier;
-                            dealer.Movement.MoveSpeedMultiplier += SkillModifiers.GetDealerSpeedBonus();
-                            MelonLogger.Msg($"Dealer: {dealer.name} movespeed increased from {origin * 100}% to {dealer.Movement.MoveSpeedMultiplier * 100}%");
-                        }
+                        if (!ValidDealer(dealer))
+                            continue;
+                        float originalMoveSpeed = dealer.Movement.MoveSpeedMultiplier;
+                        dealer.Movement.MoveSpeedMultiplier += SkillModifiers.GetDealerSpeedBonus();
+                        MelonLogger.Msg($"Dealer: {dealer.name} movespeed increased from {originalMoveSpeed * 100}% to {dealer.Movement.MoveSpeedMultiplier * 100}%");
                     }
                     break;
                 case "DealerMoreCustomer":
@@ -234,27 +230,27 @@ namespace SkillTree.SkillEffect
 
                 //SPECIAL
                 case "Special":
-                    SkillEnabled.enabledTrash = (data.Special == 1);
+                    //SkillEnabled.enabledTrash = (data.Special == 1);
                     break;
                 case "Heal":
-                    SkillEnabled.enabledHeal = (data.Heal == 1);
+                    //SkillEnabled.enabledHeal = (data.Heal == 1);
                     break;
                 case "GetCashDealer":
-                    SkillEnabled.enabledGetCash = (data.GetCashDealer == 1);
+                    //SkillEnabled.enabledGetCash = (data.GetCashDealer == 1);
                     break;
                 case "BetterBotanists":
-                    BetterBotanist.Add = (data.BetterBotanists == 1);
+                    //BetterBotanist.Add = (data.BetterBotanists == 1);
                     break;
                 case "Employees24h":
-                    CanWork.Add = (data.Employees24h == 1);
+                    //CanWork.Add = (data.Employees24h == 1);
                     break;
                 case "EmployeeMovespeed":
-                    EmployeeMovespeed.Add = (data.EmployeeMovespeed == 1);
-                    ValidEmployees();
+                    //EmployeeMovespeed.Add = (data.EmployeeMovespeed == 1);
+                    //ValidEmployees();
                     break;
                 case "EmployeeMaxStation":
-                    EmployeeMoreStation.Add = (data.EmployeeMaxStation * 2);
-                    ValidEmployees();
+                    //EmployeeMoreStation.Add = (data.EmployeeMaxStation * 2);
+                    //ValidEmployees();
                     break;
             }
         }
@@ -272,42 +268,6 @@ namespace SkillTree.SkillEffect
             if (dealer.name.ToLower().Contains("carteldealer"))
                 return false;
             return true;
-        }
-
-        private static void ValidEmployees()
-        {
-            if (!BetterBotanist.Add) return;
-
-            packagerList = UnityEngine.Object.FindObjectsOfType<Packager>();
-            chemistList = UnityEngine.Object.FindObjectsOfType<Chemist>();
-            botanistList = UnityEngine.Object.FindObjectsOfType<Botanist>();
-            cleanerList = UnityEngine.Object.FindObjectsOfType<Cleaner>();
-
-            foreach (Packager packager in packagerList)
-            {
-                if (EmployeeMovespeed.Add)
-                    packager.Movement.MovementSpeedScale = 0.33f;
-            }
-
-            foreach (Chemist chemist in chemistList)
-            {
-                if (EmployeeMovespeed.Add)
-                    chemist.Movement.MovementSpeedScale = 0.33f;
-                chemist.configuration.Stations.MaxItems += EmployeeMoreStation.Add;
-            }
-
-            foreach (Botanist botanist in botanistList)
-            {
-                if (EmployeeMovespeed.Add)
-                    botanist.Movement.MovementSpeedScale = 0.33f;
-                botanist.configuration.Assigns.MaxItems += EmployeeMoreStation.Add;
-            }
-
-            foreach (Cleaner cleaner in cleanerList)
-            {
-                if (EmployeeMovespeed.Add)
-                    cleaner.Movement.MovementSpeedScale = 0.33f;
-            }
         }
     }
 }

@@ -8,12 +8,6 @@ using System.Text;
 
 namespace SkillTree.SkillSpecial.SkillEmployee
 {
-
-    public static class BetterBotanist
-    {
-        public static bool Add = false;
-    }
-
     [HarmonyPatch]
     public static class Patch_Botanist_Fix
     {
@@ -37,31 +31,31 @@ namespace SkillTree.SkillSpecial.SkillEmployee
         {
             if (__instance.TryCast<SowSeedInPotBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 7.5f : 15f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 7.5f : 15f;
             }
             else if (__instance.TryCast<WaterPotBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 5f : 10f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 5f : 10f;
             }
             else if (__instance.TryCast<HarvestPotBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 7.5f : 15f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 7.5f : 15f;
             }
             else if (__instance.TryCast<HarvestMushroomBedBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 8f : 16f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 8f : 16f;
             }
             else if (__instance.TryCast<AddSoilToGrowContainerBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 5f : 10f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 5f : 10f;
             }
             else if (__instance.TryCast<ApplySpawnToMushroomBedBehaviour>() != null)
             {
-                __result = BetterBotanist.Add ? 5f : 10f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 5f : 10f;
             }
             else
             {
-                __result = BetterBotanist.Add ? 5f : 10f;
+                __result = Core.SkillData.BetterBotanists == 1 ? 5f : 10f;
             }
 
             return false; 

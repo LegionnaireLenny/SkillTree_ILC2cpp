@@ -25,16 +25,12 @@ namespace SkillTree.SkillPatchOperations
     [HarmonyPatch(typeof(LabOven), "Shatter")]
     public static class LabOven_QualityPatch
     {
-        private static HashSet<object> processedOperations = new HashSet<object>();
+        private static readonly HashSet<object> processedOperations = [];
 
         [HarmonyPrefix]
         public static void Prefix(LabOven __instance)
         {
-            MelonLogger.Msg($"LabOven_QualityPatch enter - MoreQualityMethCoca: {Core.SkillData.MoreQualityMethCoca}");
-            if (Core.SkillData.MoreQualityMethCoca == 0)
-                return;
-
-            if (__instance.CurrentOperation == null)
+            if (__instance.CurrentOperation == null || Core.SkillData == null || Core.SkillData.MoreQualityMethCoca == 0)
                 return;
 
             if (processedOperations.Contains(__instance.CurrentOperation))
@@ -58,151 +54,126 @@ namespace SkillTree.SkillPatchOperations
         }
     }
 
-    /// <summary>
-    /// INCREASE CAULDRON OUTPUT
-    /// </summary>
 
-    //[HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
-    //public static class Cauldron_Finish_Patch
-    //{
-    //    [HarmonyPrefix]
-    //    public static void Prefix(Cauldron __instance)
-    //    {
-    //    }
-    //}
-
-    // TODO: Cauldron_Double_Output_Patch
-    [HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
-    public static class Cauldron_Double_Output_Patch
+    [HarmonyPatch]
+    public static class CraftingStationSpeedPatches
     {
+        // TODO: test
+        [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
         [HarmonyPrefix]
-        public static void Prefix(QualityItemDefinition __instance, ref int quantity)
+        public static void Prefix(Cauldron __instance, ref int minutes)
         {
-
-            if (Core.SkillData.MoreCauldronOutput == 0) 
+            if (__instance.RemainingCookTime <= 0 || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            MelonLogger.Msg($"Cauldron_Double_Output_Patch enter: MoreCauldronOutput {Core.SkillData.MoreCauldronOutput} quantity {quantity} base {SkillModifiers.CauldronBaseOutput}");
-            if (quantity != SkillModifiers.CauldronBaseOutput)
-                return;
-
-            if (__instance.name.Contains("CocaineBase"))
-            {
-                quantity = SkillModifiers.GetCauldronStackSize(); 
-            }
+            minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
+            MelonLogger.Msg($"Patch_Cauldron_OnTimePass progress {minutes} minutes");
         }
-    }
 
-    /// <summary>
-    /// SPEED UP CHEMIST STATIONS
-    /// </summary>
-
-    // TODO: Cauldron_Speed_Patch
-    [HarmonyPatch(typeof(Cauldron), "MinPass")]
-    public static class Cauldron_Speed_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(Cauldron __instance)
-        {
-            MelonLogger.Msg($"Cauldron_Speed_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
-
-            if (Core.SkillData.ChemistStationQuick == 0)
-                return;
-
-            if (__instance.RemainingCookTime > 0)
-            {
-                MelonLogger.Msg($"Cauldron cook time decremented");
-                __instance.RemainingCookTime--;
-            }
-        }
-    }
-
-    // TODO: ChemistryStation_MinPass_IL2CPP_Patch
-    [HarmonyPatch(typeof(ChemistryStation), "MinPass")]
-    public static class ChemistryStation_MinPass_IL2CPP_Patch
-    {
-        [HarmonyPrefix]
-        public static void Prefix(ChemistryStation __instance)
-        {
-            MelonLogger.Msg($"ChemistryStation_MinPass_IL2CPP_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
-
-            if (Core.SkillData.ChemistStationQuick == 0)
-                return;
-
-            if (__instance.CurrentCookOperation != null)
-            {
-                __instance.CurrentCookOperation.Progress(1);
-            }
-        }
-    }
-
-    // TODO: Oven_FastProgress_IL2CPP_Patch
-    [HarmonyPatch(typeof(LabOven), "MinPass")]
-    public static class Oven_FastProgress_IL2CPP_Patch
-    {
+        private static bool blockChemistryOnTimePassSecondExecution = false;
+        [HarmonyPatch(typeof(ChemistryStation), "OnTimePass")]
         [HarmonyPostfix]
-        public static void Prefix(LabOven __instance)
+        public static void Postfix(ChemistryStation __instance, int minutes)
         {
-            MelonLogger.Msg($"Oven_FastProgress_IL2CPP_Patch enter: ChemistStationQuick {Core.SkillData.ChemistStationQuick}");
-
-            if (Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.CurrentCookOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            if (__instance.CurrentOperation != null)
+            if (blockChemistryOnTimePassSecondExecution)
             {
-                __instance.CurrentOperation.CookProgress++;
+                blockChemistryOnTimePassSecondExecution = false;
+                return;
             }
+
+            // Reduce the multiplier by one to account for Progress being called in the original function
+            __instance.CurrentCookOperation.Progress(minutes * (SkillModifiers.GetChemistStationSpeedMultiplier() - 1));
+            blockChemistryOnTimePassSecondExecution = true;
         }
-    }
 
-    /// <summary>
-    /// INCREASE MIXSTATION OUTPUT AND FIXS
-    /// </summary>
+        [HarmonyPatch(typeof(OvenCookOperation), "GetCookDuration")]
+        [HarmonyPostfix]
+        public static void Postfix(OvenCookOperation __instance, ref int __result)
+        {
+            if (Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
+                return;
 
-    [HarmonyPatch(typeof(MixingStation))]
-    public static class MixStationPatch
-    {
-        [HarmonyPatch("GetMixQuantity")]
+            __result = __instance.Ingredient.StationItem.GetModule<CookableModule>().CookTime / SkillModifiers.GetChemistStationSpeedMultiplier();
+        }
+
+        // TODO: fix. Doesn't work. Mix timer goes into negative and completes at the normal time
+        private static bool blockMixingOnTimePassSecondExecution = false;
+        [HarmonyPatch(typeof(MixingStation), "GetMixTimeForCurrentOperation")]
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
         {
-            if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+            if (__instance.CurrentMixOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            MelonLogger.Msg($"MixStationPatch enter: MoreMixAndDryingRackOutput {Core.SkillData.MoreMixAndDryingRackOutput}");
-            if (__result <= 0)
+            if (blockMixingOnTimePassSecondExecution)
+            {
+                blockMixingOnTimePassSecondExecution = false;
                 return;
+            }
 
-            if (__instance.ProductSlot == null || __instance.MixerSlot == null)
-                return;
-
-            __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity), 
-                                __instance.MaxMixQuantity * SkillModifiers.MixDryOutputSizeMultiplier);
+            __result = (__instance.MixTimePerItem * __instance.CurrentMixOperation.Quantity) / SkillModifiers.GetChemistStationSpeedMultiplier();
+            //blockMixingOnTimePassSecondExecution = true;
         }
     }
 
-    [HarmonyPatch(typeof(MixingStation), "MinPass")]
-    public static class MixStation_Time_Patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix(MixingStation __instance)
-        {
-            MelonLogger.Msg($"MixStation_Time_Patch enter: time {__instance.CurrentMixTime}");
 
-            if (__instance == null)
+    [HarmonyPatch]
+    public static class CraftingStationOutputPatches
+    {
+        /// <summary>
+        /// INCREASE CAULDRON OUTPUT
+        /// </summary>
+
+        [HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
+        [HarmonyPostfix]
+        public static void Postfix(Cauldron __instance)
+        {
+            if (Core.SkillData == null || Core.SkillData.MoreCauldronOutput == 0)
                 return;
 
-            if (__instance.CurrentMixTime < __instance.GetMixTimeForCurrentOperation() / 2)
+            if (InstanceFinder.IsServer)
             {
-                if (Core.SkillData.ChemistStationQuick > 0)
-                    __instance.CurrentMixTime = (int)(__instance.GetMixTimeForCurrentOperation() / SkillModifiers.ChemistStationSpeedMultiplier);
-
-                // Original check was for MixOutputAdd.Add, which was essentially a check for the player having the MoreMixAndDryingRackOutput skill
-                // Having the output size skill affect mixing times probably wasn't intentional, but I left it
-                if (Core.SkillData.MoreMixAndDryingRackOutput > 0)
-                    __instance.CurrentMixTime += (int)(__instance.GetMixTimeForCurrentOperation() / 4);
+                QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(10) as QualityItemInstance;
+                qualityItemInstance.SetQuality(__instance.InputQuality);
+                __instance.OutputSlot.InsertItem(qualityItemInstance);
             }
-            MelonLogger.Msg($"MixStation_Time_Patch exit: time {__instance.CurrentMixTime}");
+        }
+
+        //// TODO: Cauldron_Double_Output_Patch, incorrectly activates on chemistry station
+        //[HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
+        //public static class Patch_Cauldron_Double_Output
+        //{
+        //    [HarmonyPrefix]
+        //    public static void Prefix(QualityItemDefinition __instance, ref int quantity)
+        //    {
+
+        //        if (Core.SkillData.MoreCauldronOutput == 0) 
+        //            return;
+
+        //        if (quantity != SkillModifiers.CauldronBaseOutput)
+        //            return;
+
+        //        MelonLogger.Msg($"Cauldron_Double_Output_Patch enter: MoreCauldronOutput {Core.SkillData.MoreCauldronOutput} quantity {quantity} base {SkillModifiers.CauldronBaseOutput}");
+        //        if (__instance.name.Contains("CocaineBase"))
+        //        {
+        //            quantity = SkillModifiers.GetCauldronStackSize(); 
+        //        }
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(MixingStation), "GetMixQuantity")]
+        [HarmonyPostfix]
+        public static void Postfix(MixingStation __instance, ref int __result)
+        {
+
+            if (__instance.GetProduct() == null || __instance.GetMixer() == null || Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
+                return;
+
+            __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity) * SkillModifiers.GetMixDryOutputMultiplier(), 
+                __instance.MaxMixQuantity * SkillModifiers.GetMixDryOutputMultiplier());
         }
     }
 
@@ -218,7 +189,7 @@ namespace SkillTree.SkillPatchOperations
 
         public static void ApplyCapacityUpdate(DryingRack __instance)
         {
-            if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+            if (Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
                 return;
 
             __instance.ItemCapacity *= SkillModifiers.MixDryOutputSizeMultiplier;
@@ -261,20 +232,15 @@ namespace SkillTree.SkillPatchOperations
         {
             MelonLogger.Msg($"Pot_OnPlantFullyHarvested_Patch enter: AbsorbentSoil {Core.SkillData.AbsorbentSoil}");
 
-            if (Core.SkillData.AbsorbentSoil == 0)
+            if (Core.SkillData == null || Core.SkillData.AbsorbentSoil == 0)
                 return true;
+
+            if (__instance.Plant == null)
+                return false;
 
             try
             {
                 //var traverse = Traverse.Create(__instance);
-
-                var plant = __instance.Plant;
-                if (plant == null)
-                {
-                    MelonLogger.Msg("OnPlantFullyHarvested skipped: Plant is null");
-                    return false;
-                }
-
                 if (InstanceFinder.IsServer)
                 {
                     float value = NetworkSingleton<VariableDatabase>.Instance
@@ -400,6 +366,7 @@ namespace SkillTree.SkillPatchOperations
         public static void Postfix(ShroomColony __instance, ref ShroomInstance __result)
         {
             MelonLogger.Msg($"MushroomQualityPatch enter: MoreQuality {Core.SkillData.MoreQuality}");
+
             if (Core.SkillData.MoreQuality < 2 || __result == null) 
                 return;
 
@@ -434,10 +401,8 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(Plant __instance)
         {
-            MelonLogger.Msg($"PlantQualityPatch Enter");
-            if (__instance.Pot == null)
+            if (__instance.Pot == null || Core.SkillData == null)
                 return;
-            MelonLogger.Msg($"PlantQualityPatch pot not null");
 
             string potName = __instance.Pot.Name.ToString();
             float baseQuality = 0.5f;
@@ -532,6 +497,7 @@ namespace SkillTree.SkillPatchOperations
         public static void Prefix(Plant __instance)
         {
             MelonLogger.Msg($"[GrowthDone_SmartBasePatch]  - MoreYield {Core.SkillData.MoreYield}");
+
             if (!Il2CppFishNet.InstanceFinder.IsServer)
                 return;
 
