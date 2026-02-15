@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
 		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\Effect\SkillSystem.cs" />

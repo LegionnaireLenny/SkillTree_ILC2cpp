@@ -25,36 +25,38 @@ namespace SkillTree.Core.FileManagement
         public int MoreMovespeed = 0;
 
         // Stats subs
-        [Skill("More XP", "Increase XP Gain by 5%", SkillCategory.Stats, "Stats", 2)]
-        public int MoreXP = 0;
-
-        // MoreXP subs
         [Skill("More Item Stack (x2)", "Increase Item Stack (x2)", SkillCategory.Stats, "Stats", 1)]
         public int MoreStackItem = 0;
-
-        // MoreXP subs
-        [Skill("More XP Per Sell When Earn Money", "Earn 5% bonus XP based on item value when selling drugs", SkillCategory.Stats, "MoreXP", 1)]
-        public int MoreXPWhenEarnMoney = 0;
 
         // Stats subs
         [Skill("Better Delivery", "Make Deliveries Faster (6H -> 2H)", SkillCategory.Stats, "Stats", 1)]
         public int BetterDelivery = 0;
 
         // Stats subs
-        [Skill("Allow Sleep with Athletic or Energizing", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, "Stats", 1)]
-        public int AllowSleepAthEne = 0;
-
-        // Stats subs
         [Skill("Counteroffer Perception", "Allows you to see the chance of a customer making a counteroffer", SkillCategory.Stats, "Stats", 1)]
         public int AllowSeeCounteroffChance = 0;
+
+        // Stats subs
+        [Skill("Allow Sleep with Athletic or Energizing", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, "Stats", 1)]
+        public int AllowSleepAthEne = 0;
 
         // AllowSleepAthEne subs
         [Skill("Allow Use Bed to Skip the Current Schedule", "Skip Schedule Only Affect Plants (Plants Grow 33% of the time)", SkillCategory.Stats, "AllowSleepAthEne", 1)]
         public int SkipSchedule = 0;
 
         // Stats subs
+        [Skill("More XP", "Increase XP Gain by 5%", SkillCategory.Stats, "Stats", 2)]
+        public int MoreXP = 0;
+
+        // MoreXP subs
         [Skill("More XP 2", "Increase XP Gain by an additional 5%", SkillCategory.Stats, "MoreXP", 4)]
         public int MoreXP2 = 0;
+
+        // MoreXP subs
+        [Skill("More XP Per Sell When Earn Money", "Earn 5% bonus XP based on item value when selling drugs", SkillCategory.Stats, "MoreXP", 1)]
+        public int MoreXPWhenEarnMoney = 0;
+
+
 
         /* STATUS END HERE */
 

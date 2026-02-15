@@ -290,10 +290,10 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(Plant __instance, int mins)
         {
-            MelonLogger.Msg($"Plant_MinPass_Patch enter: growth progress {__instance.NormalizedGrowthProgress}");
-
             if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true; 
+
+            //MelonLogger.Msg($"Plant_MinPass_Patch enter: growth progress {__instance.NormalizedGrowthProgress}");
 
             float num = 1f / (__instance.GrowthTime * 60f) * mins;
             num *= __instance.Pot.GetTemperatureGrowthMultiplier();
@@ -313,7 +313,7 @@ namespace SkillTree.Core.Patches.Operations
             __instance.SetNormalizedGrowthProgress(__instance.NormalizedGrowthProgress + num);
             //MelonLogger.Msg($" After Growth Plant {__instance.NormalizedGrowthProgress}");
 
-            MelonLogger.Msg($"Plant_MinPass_Patch growth progress boosted {__instance.NormalizedGrowthProgress + num}");
+            //MelonLogger.Msg($"Plant_MinPass_Patch growth progress boosted {__instance.NormalizedGrowthProgress + num}");
             return false;
         }
     }
@@ -480,12 +480,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(Plant __instance)
         {
-            MelonLogger.Msg($"[GrowthDone_SmartBasePatch]  - MoreYield {Core.SkillData.MoreYield}");
-
-            if (!InstanceFinder.IsServer)
-                return;
-
-            if (Core.SkillData.MoreYield == 0)
+            if (!InstanceFinder.IsServer || Core.SkillData == null || Core.SkillData.MoreYield == 0)
                 return;
 
             var currentMultiplier = __instance.YieldMultiplier;
