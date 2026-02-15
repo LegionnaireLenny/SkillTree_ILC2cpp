@@ -2,6 +2,15 @@ Issues
 Bed skills don't reset on load
 Other active skills probably don't reset on load either
 
+Todo
+SkillPatchSocial
+SkillPatchOperation
+SkillPatchSpecial
+SkillTreeUI
+Core
+SkillBasePatch
+SkillSystem
+
 Testing
 Check ATM limit (10000, 12000, 14000)
 Check Dealer customers (10, 12)

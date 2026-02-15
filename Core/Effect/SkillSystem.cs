@@ -47,26 +47,6 @@ namespace SkillTree.Core.Effect
                     break;
                 case "MoreStackItem":
                     Patches.Stats.MoreStackItem.SetItemStackSize();
-                    //{
-                    //    if (Core.SkillData.MoreStackItem == 0)
-                    //        break;
-
-                    //    if (registry == null)
-                    //        break;
-
-                    //    StackCache.FillCache(allItems);
-                    //    foreach (ItemDefinition item in allItems)
-                    //    {
-                    //        string key = item.name;
-
-                    //        if (StackCache.ItemStack.TryGetValue(key, out int baseMin))
-                    //        {
-                    //            item.StackLimit = baseMin * SkillModifiers.InventoryStackSizeMultiplier;
-                    //            //MelonLogger.Msg($"[MoreStackItem] {key}: {baseMin} -> {item.StackLimit}");
-                    //        }
-                    //    }
-                    //    MelonLogger.Msg($"Skill Item Stack x2 Active");
-                    //}
                     break;
                 case "MoreXP":
                     //SkillPatchStats.PlayerXPConfig.XpBase = 100f + (Core.SkillData.MoreXP * 5f);
