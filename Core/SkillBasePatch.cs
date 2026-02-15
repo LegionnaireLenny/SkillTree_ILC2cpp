@@ -11,7 +11,7 @@ using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI.Shop;
 using UnityEngine;
 
-namespace SkillTree
+namespace SkillTree.Core
 {
     /// <summary>
     /// ADD POINTS AT LEVEL UP
@@ -120,7 +120,7 @@ namespace SkillTree
                     if (alreadyExists)
                         continue;
 
-                    StorableItemDefinition targetItem = System.Array.Find(allItems, x => x.ID.ToLower() == id);
+                    StorableItemDefinition targetItem = Array.Find(allItems, x => x.ID.ToLower() == id);
 
                     if (targetItem != null)
                     {

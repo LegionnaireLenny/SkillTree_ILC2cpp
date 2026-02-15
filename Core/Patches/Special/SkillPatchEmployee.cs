@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace SkillTree.SkillSpecial.SkillEmployee
+namespace SkillTree.Core.Patches.Special
 {
     [HarmonyPatch]
     public static class EmployeePatches
@@ -27,7 +27,7 @@ namespace SkillTree.SkillSpecial.SkillEmployee
 
             __result = __instance.GetHome() != null &&
                 __instance.PaidForToday &&
-                (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || (Core.SkillData.Employees24h == 1));
+                (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || Core.SkillData.Employees24h == 1);
         }
 
         //[HarmonyPatch(typeof(ClipboardScreen), "Start")]

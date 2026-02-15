@@ -24,10 +24,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Il2CppScheduleOne.PlayerScripts;
 
-namespace SkillTree.SkillPatchStats
+namespace SkillTree.Core.Patches.Stats
 {
     [HarmonyPatch(typeof(PlayerHealth))]
-    public class PatchPlayerHealth
+    public class PlayerHealthPatches
     {
         [HarmonyPatch("SetHealth")]
         [HarmonyPrefix]
@@ -118,7 +118,7 @@ namespace SkillTree.SkillPatchStats
             processed = true;
             int xpOriginal = xp;
             xp = Mathf.CeilToInt(xp * (1 + SkillModifiers.GetXPGainBonus()));
-            MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {SkillModifiers.BaseXPGainRate + (SkillModifiers.GetXPGainBonus() * 100)}%)");
+            MelonLogger.Msg($"[XP] Apply: {xpOriginal} -> {xp} (Base: {SkillModifiers.BaseXPGainRate + SkillModifiers.GetXPGainBonus() * 100}%)");
             MelonLogger.Msg("Total XP Now: " + (__instance.TotalXP + xp));
         }
 
@@ -190,8 +190,8 @@ namespace SkillTree.SkillPatchStats
             int next = GetNextSchedule();
             if (next == 0) next = 2400;
 
-            int currentTotalMin = ((int)currentTime / 100 * 60) + ((int)currentTime % 100);
-            int nextTotalMin = (next / 100 * 60) + (next % 100);
+            int currentTotalMin = (int)currentTime / 100 * 60 + (int)currentTime % 100;
+            int nextTotalMin = next / 100 * 60 + next % 100;
 
             int diff = nextTotalMin - currentTotalMin;
             int h = diff / 60;
@@ -222,7 +222,7 @@ namespace SkillTree.SkillPatchStats
                 if (Core.SkillData.AllowSleepAthEne == 0)
                     return true;
 
-                if (currentTime > 700 && currentTime < 1800 && (Core.SkillData.SkipSchedule == 0))
+                if (currentTime > 700 && currentTime < 1800 && Core.SkillData.SkipSchedule == 0)
                     return true;
 
                 __result = true;
@@ -252,7 +252,7 @@ namespace SkillTree.SkillPatchStats
                 }
                 else if (CanUseBedSkill() && currentTime < 2357)
                 {
-                    string remaining = ScheduleLogic.GetTimeRemaining(currentTime);
+                    string remaining = GetTimeRemaining(currentTime);
                     __instance.intObj.SetMessage($"Next Shift in: {remaining}");
                 }
                 else
@@ -283,14 +283,14 @@ namespace SkillTree.SkillPatchStats
                 {
                     int nextTarget = GetNextSchedule();
 
-                    int totalMinutesPassed = (int)(CalculateMinutesBetween(currentTime, (float)nextTarget)) / 3;
+                    int totalMinutesPassed = CalculateMinutesBetween(currentTime, nextTarget) / 3;
 
                     if (totalMinutesPassed > 0)
                     {
                         foreach (GrowContainer container in UnityEngine.Object.FindObjectsOfType<GrowContainer>())
                             AccessTools.Method(typeof(GrowContainer), "DrainMoisture")?.Invoke(container, new object[] { totalMinutesPassed * 3 });
                         foreach (Plant plant in UnityEngine.Object.FindObjectsOfType<Plant>())
-                            plant.MinPass((int)(totalMinutesPassed));
+                            plant.MinPass(totalMinutesPassed);
                     }
 
                     lastDayUsed = (int)NetworkSingleton<TimeManager>.Instance.CurrentDay;
@@ -313,8 +313,8 @@ namespace SkillTree.SkillPatchStats
             int endHours = (int)end / 100;
             int endMins = (int)end % 100;
 
-            int startTotal = (startHours * 60) + startMins;
-            int endTotal = (endHours * 60) + endMins;
+            int startTotal = startHours * 60 + startMins;
+            int endTotal = endHours * 60 + endMins;
 
             return endTotal - startTotal;
         }
@@ -340,21 +340,21 @@ namespace SkillTree.SkillPatchStats
             float adjustedWeeklySpend = customerData.GetAdjustedWeeklySpend(NPC.RelationData.RelationDelta / 5f);
 
             Il2CppSystem.Collections.Generic.List<EDay> orderDays = customerData.GetOrderDays(customer.CurrentAddiction, NPC.RelationData.RelationDelta / 5f);
-            float num = adjustedWeeklySpend / (float)orderDays.Count;
+            float num = adjustedWeeklySpend / orderDays.Count;
 
             if (price >= num * 3f) 
                 return 0f;
 
             float valueProposition = Customer.GetValueProposition(Registry.GetItem<ProductDefinition>(customer.OfferedContractInfo.Products.entries[0].ProductID), 
-                                    customer.OfferedContractInfo.Payment / (float)customer.OfferedContractInfo.Products.entries[0].Quantity);
+                                    customer.OfferedContractInfo.Payment / customer.OfferedContractInfo.Products.entries[0].Quantity);
 
             float productEnjoyment = customer.GetProductEnjoyment(product, customerData.Standards.GetCorrespondingQuality());
 
             float num2 = Mathf.InverseLerp(-1f, 1f, productEnjoyment);
 
-            float valueProposition2 = Customer.GetValueProposition(product, price / (float)quantity);
+            float valueProposition2 = Customer.GetValueProposition(product, price / quantity);
 
-            float num3 = Mathf.Pow((float)quantity / (float)customer.OfferedContractInfo.Products.entries[0].Quantity, 0.6f);
+            float num3 = Mathf.Pow(quantity / (float)customer.OfferedContractInfo.Products.entries[0].Quantity, 0.6f);
 
             float num4 = Mathf.Lerp(0f, 2f, num3 * 0.5f); float num5 = Mathf.Lerp(1f, 0f, Mathf.Abs(num4 - 1f));
 
@@ -435,7 +435,7 @@ namespace SkillTree.SkillPatchStats
             if (SuccessLabel == null)
                 return;
 
-            float chance = CounterofferHelper.CalculateSuccessChance(instance);
+            float chance = CalculateSuccessChance(instance);
             //MelonLogger.Msg($"CalculateSuccessChance {chance}");
 
             string color =
@@ -444,7 +444,7 @@ namespace SkillTree.SkillPatchStats
                 "#F44336";
 
             SuccessLabel.text =
-                $"<color={color}>Success chance: {(chance * 100f):0}%</color>";
+                $"<color={color}>Success chance: {chance * 100f:0}%</color>";
             //MelonLogger.Msg($"SuccessLabel.text {SuccessLabel.text}");
         }
 
@@ -511,7 +511,7 @@ namespace SkillTree.SkillPatchStats
 
             int originalTime = delivery.TimeUntilArrival;
 
-            float ratio = Mathf.InverseLerp(60f, 360f, (float)originalTime);
+            float ratio = Mathf.InverseLerp(60f, 360f, originalTime);
 
             int newTime = Mathf.RoundToInt(Mathf.Lerp(30f, 120f, ratio));
 

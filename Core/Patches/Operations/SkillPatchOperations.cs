@@ -10,12 +10,12 @@ using Il2CppScheduleOne.Product;
 using Il2CppScheduleOne.StationFramework;
 using Il2CppScheduleOne.Variables;
 using MelonLoader;
-using SkillTree.Json;
+using SkillTree.Core.FileManagement;
 using System.Reflection;
 using UnityEngine;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
-namespace SkillTree.SkillPatchOperations
+namespace SkillTree.Core.Patches.Operations
 {
     /// <summary>
     /// INCREASE QUALITY METH
@@ -99,7 +99,7 @@ namespace SkillTree.SkillPatchOperations
             if (__instance.CurrentMixOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            __result = (__instance.MixTimePerItem * __instance.CurrentMixOperation.Quantity) / SkillModifiers.GetChemistStationSpeedMultiplier();
+            __result = __instance.MixTimePerItem * __instance.CurrentMixOperation.Quantity / SkillModifiers.GetChemistStationSpeedMultiplier();
         }
     }
 
@@ -167,7 +167,7 @@ namespace SkillTree.SkillPatchOperations
         [HarmonyPostfix]
         public static void Postfix(DryingRack __instance)
         {
-            MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
+            //MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
             ApplyCapacityUpdate(__instance);
         }
 
@@ -266,7 +266,7 @@ namespace SkillTree.SkillPatchOperations
                 MelonCoroutines.Start(CleanUp(id));
                 return false;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 MelonLogger.Error($"OnPlantFullyHarvested patch failed: {ex}");
                 return true;
@@ -295,7 +295,7 @@ namespace SkillTree.SkillPatchOperations
             if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true; 
 
-            float num = 1f / ((float)__instance.GrowthTime * 60f) * (float)mins;
+            float num = 1f / (__instance.GrowthTime * 60f) * mins;
             num *= __instance.Pot.GetTemperatureGrowthMultiplier();
             num *= __instance.Pot.GetAverageLightExposure(out var growSpeedMultiplier);
             num *= __instance.Pot.GrowSpeedMultiplier;
@@ -482,7 +482,7 @@ namespace SkillTree.SkillPatchOperations
         {
             MelonLogger.Msg($"[GrowthDone_SmartBasePatch]  - MoreYield {Core.SkillData.MoreYield}");
 
-            if (!Il2CppFishNet.InstanceFinder.IsServer)
+            if (!InstanceFinder.IsServer)
                 return;
 
             if (Core.SkillData.MoreYield == 0)

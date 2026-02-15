@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace SkillTree.SkillSpecial.SkillEmployee
+namespace SkillTree.Core.Patches.Special
 {
     [HarmonyPatch]
     public static class Patch_Botanist_Fix

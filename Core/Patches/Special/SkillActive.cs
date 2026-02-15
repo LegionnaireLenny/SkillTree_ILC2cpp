@@ -13,7 +13,7 @@ using Il2CppScheduleOne.Tools;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Management;
-using SkillTree.Json;
+using SkillTree.Core.FileManagement;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -22,7 +22,7 @@ using UnityEngine.UI;
 using static Il2CppScheduleOne.UI.Items.FilterConfigPanel.SearchCategory;
 using static Il2CppScheduleOne.UI.MainMenu.MainMenuPopup;
 
-namespace SkillTree.SkillActive
+namespace SkillTree.Core.Patches.Special
 {
     public static class SkillActive
     {

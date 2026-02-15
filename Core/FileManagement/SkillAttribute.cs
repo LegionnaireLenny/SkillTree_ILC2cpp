@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SkillTree.Json
+namespace SkillTree.Core.FileManagement
 {
     public enum SkillCategory
     {

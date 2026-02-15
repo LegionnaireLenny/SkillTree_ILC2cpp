@@ -9,19 +9,19 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
-using SkillTree.Json;
-using SkillTree.SkillEffect;
-using SkillTree.SkillPatchSocial;
-using SkillTree.SkillsJson;
-using SkillTree.SkillSpecial.SkillEmployee;
-using SkillTree.UI;
+using SkillTree.Core;
+using SkillTree.Core.Effect;
+using SkillTree.Core.FileManagement;
+using SkillTree.Core.Patches.Social;
+using SkillTree.Core.Patches.Special;
+using SkillTree.Core.UI;
 using UnityEngine;
-using static SkillTree.SkillActive.SkillActive;
+using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(SkillTree.Core), "SkillTree", "1.0.0", "CrazyReizor", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "1.0.0", "CrazyReizor", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
-namespace SkillTree
+namespace SkillTree.Core
 {
     public static class SkillModifiers
     {
@@ -39,12 +39,12 @@ namespace SkillTree
 
         public static float GetPlayerMaxHealth()
         {
-            return PlayerBaseHealth + (Core.SkillData.Stats * HealthBonus);
+            return PlayerBaseHealth + Core.SkillData.Stats * HealthBonus;
         }
 
         public static float GetPlayerMoveSpeed()
         {
-            return PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * MoveSpeedBonus);
+            return PlayerBaseMoveSpeed + Core.SkillData.MoreMovespeed * MoveSpeedBonus;
         }
 
         public static float GetXPGainBonus()
@@ -122,12 +122,12 @@ namespace SkillTree
 
         public static float GetATMLimit()
         {
-            return BaseWeeklyDepositLimit + (Core.SkillData.MoreATMLimit * ATMDepositBonus);
+            return BaseWeeklyDepositLimit + Core.SkillData.MoreATMLimit * ATMDepositBonus;
         }
 
         public static int GetMaxCustomers()
         {
-            return BaseMaxCustomer + (Core.SkillData.DealerMoreCustomer * CustomerLimitBonus);
+            return BaseMaxCustomer + Core.SkillData.DealerMoreCustomer * CustomerLimitBonus;
         }
 
         public static float GetCustomerSampleBonus()
@@ -137,27 +137,27 @@ namespace SkillTree
 
         public static float GetDealerCut()
         {
-            return BaseDealerCut - (Core.SkillData.DealerCutLess * DealerCutReduction);
+            return BaseDealerCut - Core.SkillData.DealerCutLess * DealerCutReduction;
         }
 
         public static float GetSupplierCashMultiplier()
         {
-            return 1f + (Core.SkillData.BetterSupplier * SupplierCashBonus);
+            return 1f + Core.SkillData.BetterSupplier * SupplierCashBonus;
         }
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(BaseDeadDropItemLimit * (1f + (Core.SkillData.BetterSupplier * SupplierItemBonus)));
+            return (int)(BaseDeadDropItemLimit * (1f + Core.SkillData.BetterSupplier * SupplierItemBonus));
         }
 
         public static float GetLaunderingCapacityMultiplier()
         {
-            return 1f + (Core.SkillData.BusinessEvolving * LaunderingBonus);
+            return 1f + Core.SkillData.BusinessEvolving * LaunderingBonus;
         }
 
         public static float GetCustomerCashMultiplier()
         {
-            return 1f + (Core.SkillData.CityEvolving * CustomerCashBonus);
+            return 1f + Core.SkillData.CityEvolving * CustomerCashBonus;
         }
 
         public static float GetDealerSpeedBonus()
@@ -332,7 +332,7 @@ namespace SkillTree
             if (currentRank == 0 && currentTier == 0)
                 return;
 
-            if (levelUp && currentTier == (lastProcessedTier - 1) && (int)LevelManager.Instance.Rank == (int)lastProcessedRank)
+            if (levelUp && currentTier == lastProcessedTier - 1 && (int)LevelManager.Instance.Rank == (int)lastProcessedRank)
                 return;
 
             else if (levelUp)
@@ -410,12 +410,12 @@ namespace SkillTree
             int currentRank = (int)LevelManager.Instance.Rank;
             int currentTier = LevelManager.Instance.Tier - 1;
 
-            int maxPointsPossible = (currentRank * 7) + currentTier;
+            int maxPointsPossible = currentRank * 7 + currentTier;
             int maxPointsJson = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints;
 
             if (maxPointsPossible != maxPointsJson)
             {
-                MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {(currentRank * 7) + currentTier}");
+                MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
                 MelonLogger.Msg($"Max Points JSON: {SkillData.StatsPoints} + {SkillData.OperationsPoints} + " +
                     $"{SkillData.SocialPoints} + {SkillData.SpecialPoints} + {SkillData.UsedSkillPoints} = " +
                     $"{SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints}");

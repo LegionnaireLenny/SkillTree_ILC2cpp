@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine.Rendering;
 
-namespace SkillTree.Json
+namespace SkillTree.Core.FileManagement
 {
-    [System.Serializable]
+    [Serializable]
     public class SkillTreeData
     {
         public int StatsPoints = 0;

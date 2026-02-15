@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace SkillTree.SkillPatchSocial
+namespace SkillTree.Core.Patches.Social
 {
 
     public static class CustomerCache
@@ -97,7 +97,7 @@ namespace SkillTree.SkillPatchSocial
                 return false;
             }
 
-            __result = (float)ATMInterface.amounts[index];
+            __result = ATMInterface.amounts[index];
             return false;
         }
 
@@ -109,7 +109,7 @@ namespace SkillTree.SkillPatchSocial
 
             float onlineBalance = NetworkSingleton<MoneyManager>.Instance.sync___get_value_onlineBalance();
 
-            float limitForOperation = (!__instance.depositing)
+            float limitForOperation = !__instance.depositing
                 ? onlineBalance
                 : Mathf.Min(NetworkSingleton<MoneyManager>.Instance.cashBalance, remaining);
 
@@ -156,11 +156,11 @@ namespace SkillTree.SkillPatchSocial
                 {
                     if (i >= buttons.Count) break;
 
-                    float amountVal = (float)ATMInterface.amounts[i];
+                    float amountVal = ATMInterface.amounts[i];
                     if (i == ATMInterface.amounts.Length - 1)
                         buttons[i].interactable = cash > 0f && remaining > 0f;
                     else
-                        buttons[i].interactable = (cash >= amountVal) && (amountVal <= remaining);
+                        buttons[i].interactable = cash >= amountVal && amountVal <= remaining;
                 }
                 return false;
             }
@@ -220,7 +220,7 @@ namespace SkillTree.SkillPatchSocial
 
                 while (entriesList.Count < SkillModifiers.GetMaxCustomers())
                 {
-                    RectTransform newSlot = GameObject.Instantiate(template, listParent);
+                    RectTransform newSlot = UnityEngine.Object.Instantiate(template, listParent);
                     newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
                     entriesList.Add(newSlot);
                 }
@@ -314,9 +314,9 @@ namespace SkillTree.SkillPatchSocial
             float orderTotal = __instance.GetOrderTotal(out itemCount);
 
             __instance.OrderTotalLabel.text = MoneyManager.FormatAmount(orderTotal, false, false);
-            __instance.OrderTotalLabel.color = ((orderTotal <= __instance.orderLimit) ? __instance.ValidAmountColor : __instance.InvalidAmountColor);
+            __instance.OrderTotalLabel.color = orderTotal <= __instance.orderLimit ? __instance.ValidAmountColor : __instance.InvalidAmountColor;
             __instance.ItemLimitLabel.text = itemCount.ToString() + "/" + itemMax.ToString();
-            __instance.ItemLimitLabel.color = ((itemCount <= itemMax) ? Color.black : __instance.InvalidAmountColor);
+            __instance.ItemLimitLabel.color = itemCount <= itemMax ? Color.black : __instance.InvalidAmountColor;
 
             __instance.ConfirmButton.interactable = orderTotal > 0f && orderTotal <= __instance.orderLimit && itemCount <= SkillModifiers.GetSupplierItemLimit();
             return false;

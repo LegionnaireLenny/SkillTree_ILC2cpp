@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillTree.SkillsJson
+namespace SkillTree.Core.FileManagement
 {
-    [System.Serializable]
+    [Serializable]
     public class SkillConfig
     {
         [JsonConverter(typeof(StringEnumConverter))]
