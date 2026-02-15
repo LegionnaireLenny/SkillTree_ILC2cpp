@@ -56,6 +56,11 @@ namespace SkillTree.Core
         {
             return Core.SkillData.MoreXPWhenEarnMoney * SaleXPBonus;
         }
+
+        public static int GetInventoryStackSizeMultiplier()
+        {
+            return Core.SkillData.MoreStackItem * InventoryStackSizeMultiplier;
+        }
         #endregion Stats
 
         #region Operations

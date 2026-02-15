@@ -184,24 +184,4 @@ namespace SkillTree.Core
             }
         }
     }
-
-    public static class StackCache
-    {
-        public static Dictionary<string, int> ItemStack = new Dictionary<string, int>();
-        private static bool IsLoaded = false;
-
-        public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> business)
-        {
-            if (IsLoaded) return;
-
-            foreach (var c in business)
-            {
-                string key = c.name;
-                if (!ItemStack.ContainsKey(key))
-                    ItemStack.Add(key, c.StackLimit);
-            }
-            IsLoaded = true;
-            MelonLogger.Msg("ItemStack Memory successfully stored!");
-        }
-    }
 }

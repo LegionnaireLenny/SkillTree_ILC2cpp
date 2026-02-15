@@ -14,7 +14,7 @@ namespace SkillTree.Core.FileManagement
         public int SpecialPoints = 0;
         public int UsedSkillPoints = 0;
 
-        /* STATUS START HERE */
+        /* STATS START HERE */
 
         // Stats 
         [Skill("More Health", "Increase Max Health by +20", SkillCategory.Stats, null, 1)]
@@ -57,8 +57,7 @@ namespace SkillTree.Core.FileManagement
         public int MoreXPWhenEarnMoney = 0;
 
 
-
-        /* STATUS END HERE */
+        /* STATS END HERE */
 
         /* OPERATIONS START HERE */
 

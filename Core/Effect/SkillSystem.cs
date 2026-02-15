@@ -23,8 +23,6 @@ namespace SkillTree.Core.Effect
 {
     public static class SkillSystem
     {
-        private static Player localPlayer;
-        private static PlayerMovement playerMovement;
         private static Customer[] customerList;
         private static Business[] businessList;
         private static Dealer[] dealerList;
@@ -32,8 +30,6 @@ namespace SkillTree.Core.Effect
 
         public static void ApplySkill(string skillId, SkillTreeData data)
         {
-            localPlayer = Player.Local;
-            playerMovement = PlayerMovement.Instance;
             registry = Registry.Instance;
             customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
             dealerList = UnityEngine.Object.FindObjectsOfType<Dealer>();
@@ -50,26 +46,27 @@ namespace SkillTree.Core.Effect
                     Patches.Stats.MoreMoveSpeed.SetPlayerSpeed();
                     break;
                 case "MoreStackItem":
-                    {
-                        if (Core.SkillData.MoreStackItem == 0)
-                            break;
+                    Patches.Stats.MoreStackItem.SetItemStackSize();
+                    //{
+                    //    if (Core.SkillData.MoreStackItem == 0)
+                    //        break;
 
-                        if (registry == null)
-                            break;
+                    //    if (registry == null)
+                    //        break;
 
-                        StackCache.FillCache(allItems);
-                        foreach (ItemDefinition item in allItems)
-                        {
-                            string key = item.name;
+                    //    StackCache.FillCache(allItems);
+                    //    foreach (ItemDefinition item in allItems)
+                    //    {
+                    //        string key = item.name;
 
-                            if (StackCache.ItemStack.TryGetValue(key, out int baseMin))
-                            {
-                                item.StackLimit = baseMin * SkillModifiers.InventoryStackSizeMultiplier;
-                                //MelonLogger.Msg($"[MoreStackItem] {key}: {baseMin} -> {item.StackLimit}");
-                            }
-                        }
-                        MelonLogger.Msg($"Skill Item Stack x2 Active");
-                    }
+                    //        if (StackCache.ItemStack.TryGetValue(key, out int baseMin))
+                    //        {
+                    //            item.StackLimit = baseMin * SkillModifiers.InventoryStackSizeMultiplier;
+                    //            //MelonLogger.Msg($"[MoreStackItem] {key}: {baseMin} -> {item.StackLimit}");
+                    //        }
+                    //    }
+                    //    MelonLogger.Msg($"Skill Item Stack x2 Active");
+                    //}
                     break;
                 case "MoreXP":
                     //SkillPatchStats.PlayerXPConfig.XpBase = 100f + (Core.SkillData.MoreXP * 5f);

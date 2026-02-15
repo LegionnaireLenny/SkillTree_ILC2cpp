@@ -20,13 +20,16 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
+		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
+		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
 		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\Effect\SkillSystem.cs" />
 		<Compile Include="Core\Patches\Operations\SkillPatchOperations.cs" />
 		<Compile Include="Core\Patches\Social\SkillPatchSocial.cs" />
-		<Compile Include="Core\Patches\Stats\SkillPatchStats.cs" />
+		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
 		<Compile Include="Core\FileManagement\SkillAttribute.cs" />
 		<Compile Include="Core\FileManagement\SkillSlot.cs" />
 		<Compile Include="Core\FileManagement\SkillTreeConfig.cs" />

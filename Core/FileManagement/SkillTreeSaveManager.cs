@@ -4,6 +4,7 @@ using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
 using SkillTree.Core.Patches.Social;
+using SkillTree.Core.Patches.Stats;
 using UnityEngine;
 
 
@@ -28,6 +29,7 @@ namespace SkillTree.Core.FileManagement
                 MelonLogger.Msg($"[SkillTree] New save detected or file is missing: {path}");
 
                 CustomerCache.ClearCache();
+                //MoreStackItem.StackCache.ClearCache();
 
                 var data = CreateDefault();
                 Save(data); 
