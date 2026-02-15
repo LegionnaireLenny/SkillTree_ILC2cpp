@@ -20,6 +20,7 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\Effect\SkillSystem.cs" />
 		<Compile Include="Core\Patches\Operations\SkillPatchOperations.cs" />
@@ -32,6 +33,7 @@
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\SkillPatchBotanist.cs" />
 		<Compile Include="Core\Patches\Special\SkillPatchEmployee.cs" />
+		<Compile Include="Core\Patches\Stats\MoreMoveSpeed.cs" />
 		<Compile Include="Core\UI\SkillTreeUI.cs" />
 	</ItemGroup>
 

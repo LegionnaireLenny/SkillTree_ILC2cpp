@@ -44,15 +44,10 @@ namespace SkillTree.Core.Effect
             {
                 // Stats
                 case "Stats":
-                    MelonLogger.Msg("Player Health Before: " + localPlayer.Health.CurrentHealth);
-                    localPlayer.Health.SetHealth(SkillModifiers.GetPlayerMaxHealth());
-                    localPlayer.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
-                    MelonLogger.Msg("Player Health Now: " + localPlayer.Health.CurrentHealth);
+                    Patches.Stats.Stats.SetPlayerHealth();
                     break;
                 case "MoreMovespeed":
-                    MelonLogger.Msg("MoveSpeed Before: " + playerMovement.MoveSpeedMultiplier);
-                    playerMovement.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-                    MelonLogger.Msg("MoveSpeed Now: " + playerMovement.MoveSpeedMultiplier);
+                    Patches.Stats.MoreMoveSpeed.SetPlayerSpeed();
                     break;
                 case "MoreStackItem":
                     {

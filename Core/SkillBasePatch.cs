@@ -183,42 +183,6 @@ namespace SkillTree.Core
                 }
             }
         }
-
-        /// <summary>
-        /// FIX MOVESPEED OF EFFECTS Athletic AND Energizing
-        /// </summary>
-        [HarmonyPatch]
-        public static class SpeedEffect_SkillHarmony_Patch
-        {
-
-            [HarmonyPatch(typeof(Athletic), "ApplyToPlayer")]
-            [HarmonyPostfix]
-            public static void Athletic_Apply_Postfix()
-            {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Athletic.SPEED_MULTIPLIER - 1f);
-            }
-
-            [HarmonyPatch(typeof(Energizing), "ApplyToPlayer")]
-            [HarmonyPostfix]
-            public static void Energizing_Apply_Postfix()
-            {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Energizing.SPEED_MULTIPLIER - 1f);
-            }
-
-            [HarmonyPatch(typeof(Athletic), "ClearFromPlayer")]
-            [HarmonyPostfix]
-            public static void Athletic_Clear_Postfix()
-            {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-            }
-
-            [HarmonyPatch(typeof(Energizing), "ClearFromPlayer")]
-            [HarmonyPostfix]
-            public static void Energizing_Clear_Postfix()
-            {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-            }
-        }
     }
 
     public static class StackCache
