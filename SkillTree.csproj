@@ -20,6 +20,11 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Patches\Operations\AbsorbentSoil.cs" />
+		<Compile Include="Core\Patches\Operations\ChemistStationQuick.cs" />
+		<Compile Include="Core\Patches\Operations\GrowthSpeed.cs" />
+		<Compile Include="Core\Patches\Operations\MoreQuality.cs" />
+		<Compile Include="Core\Patches\Operations\MoreYield.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
 		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
@@ -27,7 +32,6 @@
 		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\Effect\SkillSystem.cs" />
-		<Compile Include="Core\Patches\Operations\SkillPatchOperations.cs" />
 		<Compile Include="Core\Patches\Social\SkillPatchSocial.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
 		<Compile Include="Core\FileManagement\SkillAttribute.cs" />
