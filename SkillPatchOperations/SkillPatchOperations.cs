@@ -70,7 +70,6 @@ namespace SkillTree.SkillPatchOperations
             MelonLogger.Msg($"Patch_Cauldron_OnTimePass progress {minutes} minutes");
         }
 
-        private static bool blockChemistryOnTimePassSecondExecution = false;
         [HarmonyPatch(typeof(ChemistryStation), "OnTimePass")]
         [HarmonyPostfix]
         public static void Postfix(ChemistryStation __instance, int minutes)
@@ -78,15 +77,8 @@ namespace SkillTree.SkillPatchOperations
             if (__instance.CurrentCookOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            if (blockChemistryOnTimePassSecondExecution)
-            {
-                blockChemistryOnTimePassSecondExecution = false;
-                return;
-            }
-
             // Reduce the multiplier by one to account for Progress being called in the original function
             __instance.CurrentCookOperation.Progress(minutes * (SkillModifiers.GetChemistStationSpeedMultiplier() - 1));
-            blockChemistryOnTimePassSecondExecution = true;
         }
 
         [HarmonyPatch(typeof(OvenCookOperation), "GetCookDuration")]
@@ -100,7 +92,6 @@ namespace SkillTree.SkillPatchOperations
         }
 
         // TODO: fix. Doesn't work. Mix timer goes into negative and completes at the normal time
-        private static bool blockMixingOnTimePassSecondExecution = false;
         [HarmonyPatch(typeof(MixingStation), "GetMixTimeForCurrentOperation")]
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
@@ -108,14 +99,7 @@ namespace SkillTree.SkillPatchOperations
             if (__instance.CurrentMixOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
-            if (blockMixingOnTimePassSecondExecution)
-            {
-                blockMixingOnTimePassSecondExecution = false;
-                return;
-            }
-
             __result = (__instance.MixTimePerItem * __instance.CurrentMixOperation.Quantity) / SkillModifiers.GetChemistStationSpeedMultiplier();
-            //blockMixingOnTimePassSecondExecution = true;
         }
     }
 

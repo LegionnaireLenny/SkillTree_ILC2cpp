@@ -291,62 +291,39 @@ namespace SkillTree.SkillPatchSocial
         }
     }
 
-    /// <summary>
-    /// BETTER SUPPLIER
-    /// </summary>
-
-    [HarmonyPatch(typeof(PhoneShopInterface))]
-    public class PhoneShopGlobalPatch
+    [HarmonyPatch]
+    public class BetterSupplierPatches
     {
-        [HarmonyPatch("CartChanged")]
+        [HarmonyPatch(typeof(PhoneShopInterface), "CartChanged")]
         [HarmonyPrefix]
-        public static bool CartChanged_Prefix(PhoneShopInterface __instance)
+        public static bool Patch_CartChanged(PhoneShopInterface __instance)
         {
-            if (__instance == null)
+            if (Core.SkillData == null || Core.SkillData.BetterSupplier == 0)
                 return true;
-            
-            __instance.ConfirmButton.interactable = false;
 
-            float orderTotal = 0f;
-            int orderQuantity = 0;
-            int maxQuantity = SkillModifiers.GetSupplierItemLimit();
+            int itemCount;
+            int itemMax = SkillModifiers.GetSupplierItemLimit();
+            float orderTotal = __instance.GetOrderTotal(out itemCount);
 
-            foreach (var item in __instance._cart)
-            {
-                orderTotal += item.Listing.Price * item.Quantity;
-                orderQuantity += item.Quantity;
-            }
+            __instance.OrderTotalLabel.text = MoneyManager.FormatAmount(orderTotal, false, false);
+            __instance.OrderTotalLabel.color = ((orderTotal <= __instance.orderLimit) ? __instance.ValidAmountColor : __instance.InvalidAmountColor);
+            __instance.ItemLimitLabel.text = itemCount.ToString() + "/" + itemMax.ToString();
+            __instance.ItemLimitLabel.color = ((itemCount <= itemMax) ? Color.black : __instance.InvalidAmountColor);
 
-            MelonLogger.Msg($"Order Limit: {__instance.orderLimit}");
-
-            __instance.OrderTotalLabel.text = MoneyManager.FormatAmount(orderTotal);
-            __instance.OrderTotalLabel.color = (orderTotal <= __instance.orderLimit) ? __instance.ValidAmountColor : __instance.InvalidAmountColor;
-            __instance.ItemLimitLabel.text = orderQuantity + "/" + maxQuantity;
-            __instance.ItemLimitLabel.color = ((orderQuantity <= maxQuantity) ? Color.black : __instance.InvalidAmountColor);
-
-            //MelonLogger.Msg($"Order Total: {orderTotal} | Items: {itemCount}");
-
-            if (orderTotal > 0f && orderTotal <= __instance.orderLimit)
-            {
-                __instance.ConfirmButton.interactable = orderQuantity <= (maxQuantity);
-                //MelonLogger.Msg($"Can Confirm: {__instance.ConfirmButton.interactable} (Limit: {SupplierUp.SupplierLimit})");
-            }
+            __instance.ConfirmButton.interactable = orderTotal > 0f && orderTotal <= __instance.orderLimit && itemCount <= SkillModifiers.GetSupplierItemLimit();
             return false;
         }
-    }
 
-    [HarmonyPatch(typeof(Supplier), "GetDeadDropLimit")]
-    public static class Supplier_GetDeadDropLimit_Patch
-    {
-        [HarmonyPrefix]
-        public static bool Prefix(Supplier __instance, ref float __result)
+        [HarmonyPatch(typeof(Supplier), "GetDeadDropLimit")]
+        [HarmonyPostfix]
+        public static void Patch_GetDeadDropLimit(Supplier __instance, ref float __result)
         {
-            if (Core.SkillData.BetterSupplier == 0)
-                return true; 
+            if (Core.SkillData == null || Core.SkillData.BetterSupplier == 0)
+                return;
 
-            __result = __instance.MaxOrderLimit * SkillModifiers.GetSupplierCashMultiplier();
-            MelonLogger.Msg($"Supplier: {__instance.fullName}'s order limit increased from ${__instance.MaxOrderLimit} to ${__result}");
-            return false; 
+            float originalLimit = __result;
+            __result *= SkillModifiers.GetSupplierCashMultiplier();
+            MelonLogger.Msg($"Supplier {__instance.fullName}'s order limit increased from ${originalLimit} to ${__result}");
         }
     }
 

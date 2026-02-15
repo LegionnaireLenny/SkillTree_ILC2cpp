@@ -220,7 +220,6 @@ namespace SkillTree
             Instance = this;
 
             var harmony = new HarmonyLib.Harmony("com.reizor.skilltree");
-            harmony.PatchAll();
 
             LoggerInstance.Msg("Harmony patches applied.");
         }
