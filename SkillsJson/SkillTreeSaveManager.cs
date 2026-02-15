@@ -28,9 +28,7 @@ namespace SkillTree.Json
             {
                 MelonLogger.Msg($"[SkillTree] New save detected or file is missing: {path}");
 
-                CustomerCache.IsLoaded = false;
-                CustomerCache.OriginalMinSpend.Clear();
-                CustomerCache.OriginalMaxSpend.Clear();
+                CustomerCache.ClearCache();
 
                 var data = CreateDefault();
                 Save(data); 

@@ -22,6 +22,7 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using Il2CppScheduleOne.PlayerScripts;
 
 namespace SkillTree.SkillPatchStats
 {
@@ -32,8 +33,12 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            float newHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
-            SetInternalHealth(__instance, newHealth);
+            __instance.CurrentHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
+            __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
+            if (__instance.CurrentHealth <= 0f)
+            {
+                __instance.SendDie();
+            }
             return false;
         }
 
@@ -41,37 +46,55 @@ namespace SkillTree.SkillPatchStats
         [HarmonyPrefix]
         public static bool Prefix_RecoverHealth(PlayerHealth __instance, float recovery)
         {
-            if (__instance.CurrentHealth <= 0f) 
+            if (__instance.CurrentHealth <= 0f)
+            {
+                Il2CppScheduleOne.Console.LogWarning("RecoverHealth called on dead player. Use Revive() instead.", null);
                 return false;
-
-            float newHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
-            SetInternalHealth(__instance, newHealth);
+            }
+            __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
+            __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
             return false;
         }
 
-        [HarmonyPatch("TakeDamage")]
+        [HarmonyPatch("RpcLogic___TakeDamage_3505310624")]
         [HarmonyPrefix]
-        public static bool Prefix_TakeDamage(PlayerHealth __instance, float damage)
+        public static bool Prefix_RpcLogic_TakeDamage(PlayerHealth __instance, float damage, bool flinch = true, bool playBloodMist = true)
         {
-            if (!__instance.IsAlive || !__instance.CanTakeDamage) 
+            if (!__instance.IsAlive)
+            {
                 return false;
+            }
 
-            float newHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.GetPlayerMaxHealth());
-            SetInternalHealth(__instance, newHealth);
+            if (!__instance.CanTakeDamage)
+            {
+                Il2CppScheduleOne.Console.LogWarning("Player cannot take damage right now.", null);
+                return false;
+            }
 
+            MelonLogger.MsgPastel($"Player health: {__instance.CurrentHealth} - {damage} = {__instance.CurrentHealth - damage}");
+            __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.TimeSinceLastDamage = 0f;
-            if (newHealth <= 0f)
-                __instance.SendDie();
+            __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
+
+            if (__instance.Player.IsOwner)
+            {
+                if (flinch && PlayerSingleton<PlayerCamera>.InstanceExists)
+                {
+                    PlayerSingleton<PlayerCamera>.Instance.JoltCamera();
+                }
+
+                if (__instance.CurrentHealth <= 0f)
+                {
+                    __instance.SendDie();
+                }
+            }
+
+            if (playBloodMist)
+            {
+                __instance.PlayBloodMist();
+            }
 
             return false;
-        }
-
-        private static void SetInternalHealth(PlayerHealth instance, float value)
-        {
-            var field = instance._CurrentHealth_k__BackingField;
-            instance._CurrentHealth_k__BackingField = value;
-
-            instance.onHealthChanged?.Invoke(value);
         }
     }
 

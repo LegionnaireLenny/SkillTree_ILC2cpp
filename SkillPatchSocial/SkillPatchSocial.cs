@@ -19,13 +19,14 @@ namespace SkillTree.SkillPatchSocial
 
     public static class CustomerCache
     {
-        public static Dictionary<string, float> OriginalMinSpend = new Dictionary<string, float>();
-        public static Dictionary<string, float> OriginalMaxSpend = new Dictionary<string, float>();
-        public static bool IsLoaded = false;
+        private static bool IsLoaded = false;
+        public static readonly Dictionary<string, float> OriginalMinSpend = [];
+        public static readonly Dictionary<string, float> OriginalMaxSpend = [];
 
         public static void FillCache(List<Customer> customers)
         {
-            if (IsLoaded) return; 
+            if (IsLoaded) 
+                return; 
 
             foreach (var c in customers)
             {
@@ -38,6 +39,13 @@ namespace SkillTree.SkillPatchSocial
             }
             IsLoaded = true;
             MelonLogger.Msg("Customer spending history successfully stored!");
+        }
+
+        public static void ClearCache()
+        {
+            IsLoaded = false;
+            OriginalMinSpend.Clear();
+            OriginalMaxSpend.Clear();
         }
     }
 
