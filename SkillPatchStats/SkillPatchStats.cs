@@ -25,10 +25,6 @@ using UnityEngine.UI;
 
 namespace SkillTree.SkillPatchStats
 {
-    /// <summary>
-    /// CHANGE HEALTH BASE
-    /// </summary>
-
     [HarmonyPatch(typeof(PlayerHealth))]
     public class PatchPlayerHealth
     {

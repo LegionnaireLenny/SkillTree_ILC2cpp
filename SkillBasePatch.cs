@@ -195,14 +195,14 @@ namespace SkillTree
             [HarmonyPostfix]
             public static void Athletic_Apply_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + 0.3f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Athletic.SPEED_MULTIPLIER - 1f);
             }
 
             [HarmonyPatch(typeof(Energizing), "ApplyToPlayer")]
             [HarmonyPostfix]
             public static void Energizing_Apply_Postfix()
             {
-                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + 0.15f;
+                PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Energizing.SPEED_MULTIPLIER - 1f);
             }
 
             [HarmonyPatch(typeof(Athletic), "ClearFromPlayer")]

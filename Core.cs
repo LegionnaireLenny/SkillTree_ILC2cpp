@@ -6,6 +6,7 @@ using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
+using Il2CppScheduleOne.PlayerScripts.Health;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Json;
@@ -25,7 +26,8 @@ namespace SkillTree
     public static class SkillModifiers
     {
         #region Stats
-        public static readonly float PlayerBaseHealth = 100f;
+        //public static readonly float PlayerBaseHealth = 100f;
+        public static readonly float PlayerBaseHealth = PlayerHealth.MAX_HEALTH;
         public static readonly float HealthBonus = 20f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
         public static readonly float MoveSpeedBonus = 0.10f;
@@ -101,13 +103,13 @@ namespace SkillTree
         #endregion Operations
 
         #region Social
-        //public static readonly float BaseWeeklyDepositLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
-        public static readonly float BaseWeeklyDepositLimit = 10000f;
-        //public static readonly int BaseMaxCustomer = Dealer.MAX_CUSTOMERS;
-        public static readonly int BaseMaxCustomer = 10;
+        public static readonly float BaseWeeklyDepositLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
+        //public static readonly float BaseWeeklyDepositLimit = 10000f;
+        public static readonly int BaseMaxCustomer = Dealer.MAX_CUSTOMERS;
+        //public static readonly int BaseMaxCustomer = 10;
         public static readonly float BaseDealerCut = 0.20f;
-        //public static readonly int BaseDeadDropItemLimit = Supplier.DEADDROP_ITEM_LIMIT;
-        public static readonly int BaseDeadDropItemLimit = 10;
+        public static readonly int BaseDeadDropItemLimit = Supplier.DEADDROP_ITEM_LIMIT;
+        //public static readonly int BaseDeadDropItemLimit = 10;
         public static readonly float ATMDepositBonus = 2000f;
         public static readonly int CustomerLimitBonus = 2;
         public static readonly float CustomerSampleAcceptBonus = 0.05f;

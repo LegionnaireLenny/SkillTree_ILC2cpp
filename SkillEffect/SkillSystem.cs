@@ -29,11 +29,6 @@ namespace SkillTree.SkillEffect
         private static Dealer[] dealerList;
         private static Registry registry;
 
-        private static Packager[] packagerList;
-        private static Chemist[] chemistList;
-        private static Botanist[] botanistList;
-        private static Cleaner[] cleanerList;
-
         public static void ApplySkill(string skillId, SkillTreeData data)
         {
             localPlayer = Player.Local;
