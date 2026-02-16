@@ -16,8 +16,6 @@ namespace SkillTree.Core.Patches.Operations
             if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true; 
 
-            //MelonLogger.Msg($"Plant_MinPass_Patch enter: growth progress {__instance.NormalizedGrowthProgress}");
-
             float num = 1f / (__instance.GrowthTime * 60f) * mins;
             num *= __instance.Pot.GetTemperatureGrowthMultiplier();
             num *= __instance.Pot.GetAverageLightExposure(out var growSpeedMultiplier);
@@ -31,12 +29,7 @@ namespace SkillTree.Core.Patches.Operations
             if (__instance.Pot.NormalizedMoistureAmount <= 0f)
                 num *= 0f;
 
-            //MelonLogger.Msg($" Before Growth Plant  {__instance.NormalizedGrowthProgress}");
-            //MelonLogger.Msg($" Add Growth Plant  {__instance.NormalizedGrowthProgress}");
             __instance.SetNormalizedGrowthProgress(__instance.NormalizedGrowthProgress + num);
-            //MelonLogger.Msg($" After Growth Plant {__instance.NormalizedGrowthProgress}");
-
-            //MelonLogger.Msg($"Plant_MinPass_Patch growth progress boosted {__instance.NormalizedGrowthProgress + num}");
             return false;
         }
 
@@ -47,13 +40,7 @@ namespace SkillTree.Core.Patches.Operations
             if (Core.SkillData.GrowthSpeed == 0 && Core.SkillData.GrowthSpeed2 == 0)
                 return;
 
-            if (change > 0f)
-            {
-                MelonLogger.Msg($" Growth Shroom {__instance.GrowthProgress}");
-                MelonLogger.Msg($" Before Shroom change {change}");
-                change *= SkillModifiers.GetGrowthSpeedMultiplier();
-                MelonLogger.Msg($" After Shroom change {change}");
-            }
+            change *= SkillModifiers.GetGrowthSpeedMultiplier();
         }
     }
 }

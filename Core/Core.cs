@@ -193,6 +193,7 @@ namespace SkillTree.Core
         #endregion Social
 
         #region Special
+        public static readonly float BotanistActionSpeedBonus = 0.5f;
         public static readonly float EmployeeMoveSpeedBonus = 0.33f;
         public static readonly int EmployeeStationBonus = 2;
         public static readonly int MaxChemistStations = 4;
@@ -202,6 +203,11 @@ namespace SkillTree.Core
         //{
         //    return Core.SkillData.EmployeeMovespeed == 0 ? 1f : EmployeeMoveSpeedBonus;
         //}
+
+        public static float GetBotanistActionSpeedBonus()
+        {
+            return Core.SkillData.BetterBotanists == 1 ? BotanistActionSpeedBonus : 1f;
+        }
 
         public static int GetEmployeeStationBonus()
         {
@@ -438,6 +444,14 @@ namespace SkillTree.Core
                 MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
             }
         }
+
+        public static bool ValidDealer(Dealer dealer)
+        {
+            if (dealer.name.ToLower().Contains("carteldealer"))
+                return false;
+            return true;
+        }
+
 
         private void ValidSave()
         {

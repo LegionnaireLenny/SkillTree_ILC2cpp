@@ -91,6 +91,11 @@ namespace SkillTree.Core.Patches.Special
 
                 foreach (Dealer dealer in dealerList)
                 {
+                    if (!Core.ValidDealer(dealer))
+                    {
+                        continue;
+                    }
+                    
                     totalCash += dealer.Cash;
                     MoneyManager.Instance.ChangeCashBalance(dealer.Cash, true, true);
 

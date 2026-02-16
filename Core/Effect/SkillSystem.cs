@@ -26,15 +26,12 @@ namespace SkillTree.Core.Effect
         private static Customer[] customerList;
         private static Business[] businessList;
         private static Dealer[] dealerList;
-        private static Registry registry;
 
         public static void ApplySkill(string skillId, SkillTreeData data)
         {
-            registry = Registry.Instance;
             customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
             dealerList = UnityEngine.Object.FindObjectsOfType<Dealer>();
             businessList = UnityEngine.Object.FindObjectsOfType<Business>();
-            Il2CppSystem.Collections.Generic.List<ItemDefinition> allItems = registry.GetAllItems();
 
             switch (skillId)
             {
@@ -168,7 +165,7 @@ namespace SkillTree.Core.Effect
                 case "DealerCutLess":
                     foreach (Dealer dealer in dealerList)
                     {
-                        if (!ValidDealer(dealer))
+                        if (!Core.ValidDealer(dealer))
                             continue;
                         float originalCut = dealer.Cut;
                         dealer.Cut = SkillModifiers.GetDealerCut();
@@ -178,7 +175,7 @@ namespace SkillTree.Core.Effect
                 case "DealerSpeedUp":
                     foreach (Dealer dealer in dealerList)
                     {
-                        if (!ValidDealer(dealer))
+                        if (!Core.ValidDealer(dealer))
                             continue;
                         float originalMoveSpeed = dealer.Movement.MoveSpeedMultiplier;
                         dealer.Movement.MoveSpeedMultiplier += SkillModifiers.GetDealerSpeedBonus();
@@ -231,11 +228,5 @@ namespace SkillTree.Core.Effect
             }
         }
 
-        private static bool ValidDealer(Dealer dealer)
-        {
-            if (dealer.name.ToLower().Contains("carteldealer"))
-                return false;
-            return true;
-        }
     }
 }
