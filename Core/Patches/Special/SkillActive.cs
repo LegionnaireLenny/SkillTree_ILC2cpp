@@ -1,26 +1,10 @@
-﻿using HarmonyLib;
-using MelonLoader;
-using Il2CppScheduleOne.DevUtilities;
+﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
-using Il2CppScheduleOne.Management;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
-using Il2CppScheduleOne.PlayerScripts.Health;
-using Il2CppScheduleOne.Property;
-using Il2CppScheduleOne.Tools;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
-using Il2CppScheduleOne.UI.Management;
-using SkillTree.Core.FileManagement;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using static Il2CppScheduleOne.UI.Items.FilterConfigPanel.SearchCategory;
-using static Il2CppScheduleOne.UI.MainMenu.MainMenuPopup;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -107,9 +91,8 @@ namespace SkillTree.Core.Patches.Special
 
                 foreach (Dealer dealer in dealerList)
                 {
-                    float cashDealer = dealer.Cash;
-                    totalCash += cashDealer;
-                    MoneyManager.Instance.ChangeCashBalance(cashDealer, true, true);
+                    totalCash += dealer.Cash;
+                    MoneyManager.Instance.ChangeCashBalance(dealer.Cash, true, true);
 
                     dealer.SetCash(0f);
                 }

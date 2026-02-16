@@ -2,16 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
-using Il2CppScheduleOne.Management;
-using Il2CppScheduleOne.NPCs;
-using Il2CppScheduleOne.Trash;
-using Il2CppScheduleOne.UI.Management;
-using Il2CppSystem;
 using MelonLoader;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -25,21 +16,25 @@ namespace SkillTree.Core.Patches.Special
             if (__instance == null || Core.SkillData == null || Core.SkillData.Employees24h == 0)
                 return;
 
+
+            Employee.NoWorkReason bogusReason = null;
+            foreach (Employee.NoWorkReason reason in __instance.WorkIssues)
+            {
+                if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
+                {
+                    bogusReason = reason;
+                }
+            }
+
+            if (bogusReason != null)
+            {
+                __instance.WorkIssues.Remove(bogusReason);
+            }
+
             __result = __instance.GetHome() != null &&
-                __instance.PaidForToday &&
-                (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || Core.SkillData.Employees24h == 1);
+                       __instance.PaidForToday &&
+                       (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || Core.SkillData.Employees24h == 1);
         }
-
-        //[HarmonyPatch(typeof(ClipboardScreen), "Start")]
-        //public class Patch_ClipboardScreen_Fix
-        //{
-        //    static void Postfix(ClipboardScreen __instance)
-        //    {
-        //        if (__instance.Container == null) return;
-
-        //        __instance.Container.localScale = new Vector3(0.9f, 0.9f, 1f);
-        //    }
-        //}
 
         private static readonly HashSet<Il2CppSystem.Guid> processedEmployees = [];
 
@@ -73,7 +68,7 @@ namespace SkillTree.Core.Patches.Special
             if (!processedBotanists.Contains(__instance.GUID))
             {
                 MelonLogger.Msg($"Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}");
-            processedBotanists.Add(__instance.GUID);
+                processedBotanists.Add(__instance.GUID);
             }
         }
 
