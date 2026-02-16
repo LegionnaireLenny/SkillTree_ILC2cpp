@@ -1,33 +1,12 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
+using SkillTree.Core.StateManagement;
 
 namespace SkillTree.Core.Patches.Stats
 {
     public static class MoreStackItem
     {
-        public static class StackCache
-        {
-            public static readonly Dictionary<string, int> ItemStack = [];
-
-            public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> items)
-            {
-                foreach (ItemDefinition item in items)
-                {
-                    if (!ItemStack.ContainsKey(item.name))
-                    {
-                        ItemStack.Add(item.name, item.StackLimit);
-                    }
-                }
-                MelonLogger.Msg("ItemStack Memory successfully stored!");
-            }
-
-            public static void ClearCache()
-            {
-                ItemStack.Clear();
-            }
-        }
-
         public static void SetItemStackSize()
         {
             if (Registry.Instance == null || Core.SkillData == null || Core.SkillData.MoreStackItem == 0)

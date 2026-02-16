@@ -54,7 +54,7 @@ namespace SkillTree.Core.Patches.Operations
                 potBonus = SkillModifiers.GetPlantQualityBonus();
 
             float finalQuality = __instance.QualityLevel + potBonus;
-            MelonLogger.Msg($"[SkillTree] Plant Initialize: {potName} | Base Quality: {__instance.QualityLevel} | Pot Bonus: +{potBonus} | Final: {finalQuality}");
+            //MelonLogger.Msg($"[SkillTree] Plant Initialize: {potName} | Base Quality: {__instance.QualityLevel} | Pot Bonus: +{potBonus} | Final: {finalQuality}");
             __instance.QualityLevel = finalQuality;
         }
     }

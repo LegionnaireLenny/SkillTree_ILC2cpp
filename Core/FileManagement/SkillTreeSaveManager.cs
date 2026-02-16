@@ -3,8 +3,8 @@ using Il2CppScheduleOne.Persistence;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
-using SkillTree.Core.Patches.Social;
 using SkillTree.Core.Patches.Stats;
+using SkillTree.Core.StateManagement;
 using UnityEngine;
 
 

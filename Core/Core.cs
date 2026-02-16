@@ -204,7 +204,7 @@ namespace SkillTree.Core
         //    return Core.SkillData.EmployeeMovespeed == 0 ? 1f : EmployeeMoveSpeedBonus;
         //}
 
-        public static float GetBotanistActionSpeedBonus()
+        public static float GetBotanistActionSpeedMultiplier()
         {
             return Core.SkillData.BetterBotanists == 1 ? BotanistActionSpeedBonus : 1f;
         }

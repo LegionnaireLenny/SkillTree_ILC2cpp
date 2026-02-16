@@ -2,13 +2,12 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
-using Il2CppScheduleOne.NPCs.Behaviour;
 using MelonLoader;
 
 namespace SkillTree.Core.Patches.Special
 {
     [HarmonyPatch]
-    public static class BetterEmployees
+    public class BetterEmployees
     {
         [HarmonyPatch(typeof(Employee), "CanWork")]
         [HarmonyPostfix]
@@ -90,55 +89,6 @@ namespace SkillTree.Core.Patches.Special
                 MelonLogger.Msg($"Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
                 processedChemists.Add(__instance.GUID);
             }
-        }
-
-        [HarmonyPatch(typeof(AddSoilToGrowContainerBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void AddSoilToGrowContainerBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(ApplyAdditiveToGrowContainerBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void ApplyAdditiveToGrowContainerBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(ApplySpawnToMushroomBedBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void ApplySpawnToMushroomBedBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(HarvestMushroomBedBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void HarvestMushroomBedBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(HarvestPotBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void HarvestPotBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(SowSeedInPotBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void SowSeedInPotBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
-        }
-
-        [HarmonyPatch(typeof(WaterPotBehaviour), "GetActionDuration")]
-        [HarmonyPostfix]
-        public static void WaterPotBehaviour(ref float __result)
-        {
-            __result *= SkillModifiers.GetBotanistActionSpeedBonus();
         }
     }
 }

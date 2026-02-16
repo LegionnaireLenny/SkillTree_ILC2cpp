@@ -13,11 +13,11 @@ using Il2CppScheduleOne.UI.ATM;
 using MelonLoader;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Operations;
-using SkillTree.Core.Patches.Social;
 using System.Reflection;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 using SkillTree.Core.FileManagement;
+using SkillTree.Core.StateManagement;
 
 namespace SkillTree.Core.Effect
 {

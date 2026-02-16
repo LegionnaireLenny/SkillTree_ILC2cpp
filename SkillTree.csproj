@@ -25,6 +25,14 @@
 		<Compile Include="Core\Patches\Operations\GrowthSpeed.cs" />
 		<Compile Include="Core\Patches\Operations\MoreQuality.cs" />
 		<Compile Include="Core\Patches\Operations\MoreYield.cs" />
+		<Compile Include="Core\Patches\Social\BetterSupplierPatches.cs" />
+		<Compile Include="Core\StateManagement\StackCache.cs" />
+		<Compile Include="Core\StateManagement\BusinessCache.cs" />
+		<Compile Include="Core\Patches\Social\BusinessLaunderingPatch.cs" />
+		<Compile Include="Core\StateManagement\CustomerCache.cs" />
+		<Compile Include="Core\Patches\Social\DealerManagementPatch.cs" />
+		<Compile Include="Core\Patches\Social\MoreATMLimit.cs" />
+		<Compile Include="Core\Patches\Special\BetterBotanists.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
 		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
