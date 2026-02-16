@@ -374,7 +374,7 @@ namespace SkillTree.Core.UI
 
             Rect tooltipRect = new Rect(
                 30f,
-                anchorRect.y - 20f,
+                anchorRect.y - 40f,
                 size.x + padding,
                 size.y + padding
             );

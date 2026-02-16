@@ -96,7 +96,7 @@ namespace SkillTree.Core.Patches.Operations
                 baseQuality = 0.5f;
             else baseQuality = 0.1f;
 
-            float finalQuality = baseQuality + SkillModifiers.GetPlantBonus();
+            float finalQuality = baseQuality + SkillModifiers.GetPlantQualityBonus();
 
             if (Core.SkillData.AbsorbentSoil == 1)
             {

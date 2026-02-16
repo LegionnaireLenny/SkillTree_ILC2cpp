@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
+using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
@@ -14,6 +15,7 @@ using SkillTree.Core.Effect;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Social;
 using SkillTree.Core.Patches.Special;
+using SkillTree.Core.Patches.Stats;
 using SkillTree.Core.UI;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
@@ -64,6 +66,7 @@ namespace SkillTree.Core
         #endregion Stats
 
         #region Operations
+        public static readonly int BaseDryingRackCapacity = 20;
         public static readonly int CauldronBaseOutput = 10;
         public static readonly int CauldronOutputMultiplier = 2;
         public static readonly int StackSizeMultiplier = 2;
@@ -75,14 +78,22 @@ namespace SkillTree.Core
         public static readonly int YieldBonusPlants = 1;
         public static readonly float GrowthSpeedBonusPlants = 0.025f;
 
-        public static int GetCauldronStackSize()
+        public static int GetCauldronOutputBonus()
         {
-            return CauldronBaseOutput * (Core.SkillData.MoreCauldronOutput * CauldronOutputMultiplier);
+            if (Core.SkillData.MoreCauldronOutput == 0)
+                return CauldronBaseOutput;
+            else
+                return CauldronBaseOutput * (Core.SkillData.MoreCauldronOutput * CauldronOutputMultiplier);
         }
 
         public static int GetChemistStationSpeedMultiplier()
         {
             return Core.SkillData.ChemistStationQuick * ChemistStationSpeedMultiplier;
+        }
+
+        public static int GetMethCocaProductQualityBonus()
+        {
+            return Core.SkillData.MoreQualityMethCoca;
         }
 
         public static int GetMixDryOutputMultiplier()
@@ -100,9 +111,14 @@ namespace SkillTree.Core
             return Core.SkillData.Operations * QualityBonusGrowTent;
         }
 
-        public static float GetPlantBonus()
+        public static float GetPlantQualityBonus()
         {
             return Core.SkillData.MoreQuality * QualityBonusPlants;
+        }
+
+        public static int GetPlantYieldBonus()
+        {
+            return Core.SkillData.MoreYield * YieldBonusPlants;
         }
 
         #endregion Operations
@@ -199,6 +215,11 @@ namespace SkillTree.Core
 
         #endregion Special
 
+
+        public static EQuality GetModifiedQuality(EQuality quality, int qualityChange)
+        {
+            return (EQuality)Math.Clamp((int)quality + qualityChange, (int)EQuality.Trash, (int)EQuality.Heavenly);
+        }
     }
 
     public class Core : MelonMod
@@ -240,6 +261,7 @@ namespace SkillTree.Core
             timer = 2f;
             waiting = true;
             treeUiChange = false;
+            AllowSleep.Reset();
         }
 
         public override void OnUpdate()

@@ -96,15 +96,15 @@ namespace SkillTree.Core.Effect
                     //SkillPatchOperations.AbsorbentSoil.Add = (data.AbsorbentSoil == 1);
                     break;
                 case "MoreMixAndDryingRackOutput":
-                    if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
-                        break;
+                    //if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
+                    //    break;
 
-                    DryingRack[] racks = UnityEngine.Object.FindObjectsOfType<DryingRack>();
-                    foreach (DryingRack rack in racks)
-                    {
-                        DryingRack_Patch.ApplyCapacityUpdate(rack);
-                    }
-                    MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
+                    //DryingRack[] racks = UnityEngine.Object.FindObjectsOfType<DryingRack>();
+                    //foreach (DryingRack rack in racks)
+                    //{
+                    //    DryingRack_Patch.ApplyCapacityUpdate(rack);
+                    //}
+                    //MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
                     //SkillPatchOperations.StackItem2xFix.Add = (data.MoreMixAndDryingRackOutput == 1);
                     //SkillPatchOperations.MixOutputAdd.Add = (data.MoreMixAndDryingRackOutput * 2) == 0 ? 1 : (data.MoreMixAndDryingRackOutput * 2);
                     break;

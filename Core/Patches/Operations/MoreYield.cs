@@ -8,70 +8,46 @@ using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
 {
-    [HarmonyPatch(typeof(Plant), "GrowthDone")]
+    [HarmonyPatch]
     public static class MoreYield
     {
+        [HarmonyPatch(typeof(Plant), "GrowthDone")]
         [HarmonyPrefix]
-        public static void Prefix(Plant __instance)
+        public static void GrowthDone_Prefix(Plant __instance)
         {
-            if (!InstanceFinder.IsServer || Core.SkillData == null || Core.SkillData.MoreYield == 0)
+            if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || Core.SkillData == null || Core.SkillData.MoreYield == 0)
                 return;
 
-            var currentMultiplier = __instance.YieldMultiplier;
-            var originalBase = __instance.BaseYieldQuantity;
-
-            MelonLogger.Msg($"[GrowthDone_SmartBasePatch] Yield multiplier {__instance.YieldMultiplier}. Base yield: {__instance.BaseYieldQuantity}");
-            if (Mathf.Approximately(currentMultiplier, 1.0f) && originalBase == 12)
-            {
-                int finalBase = originalBase + SkillModifiers.YieldBonusPlants; 
-
-                __instance.BaseYieldQuantity = finalBase; 
-                MelonLogger.Msg($"[GrowthDone_SmartBasePatch] No additives detected. Skill applied. New Base: {finalBase}");
-            }
+            __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
         }
 
         [HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
-        [HarmonyPostfix]
-        public static void Postfix(Cauldron __instance)
+        [HarmonyPrefix]
+        public static bool Prefix(Cauldron __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.MoreCauldronOutput == 0)
-                return;
+            if (Core.SkillData == null || (Core.SkillData.MoreCauldronOutput == 0 && Core.SkillData.MoreQualityMethCoca == 0))
+                return true;
 
             if (InstanceFinder.IsServer)
             {
-                QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(10) as QualityItemInstance;
-                qualityItemInstance.SetQuality(__instance.InputQuality);
+                QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(SkillModifiers.GetCauldronOutputBonus()) as QualityItemInstance;
+                qualityItemInstance.SetQuality(SkillModifiers.GetModifiedQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
                 __instance.OutputSlot.InsertItem(qualityItemInstance);
             }
+
+            __instance.CauldronFillable.ResetContents();
+            if (__instance.onCookEnd != null)
+            {
+                __instance.onCookEnd.Invoke();
+            }
+
+            return false;
         }
-
-        //// TODO: Cauldron_Double_Output_Patch, incorrectly activates on chemistry station
-        //[HarmonyPatch(typeof(QualityItemDefinition), "GetDefaultInstance", typeof(int))]
-        //public static class Patch_Cauldron_Double_Output
-        //{
-        //    [HarmonyPrefix]
-        //    public static void Prefix(QualityItemDefinition __instance, ref int quantity)
-        //    {
-
-        //        if (Core.SkillData.MoreCauldronOutput == 0) 
-        //            return;
-
-        //        if (quantity != SkillModifiers.CauldronBaseOutput)
-        //            return;
-
-        //        MelonLogger.Msg($"Cauldron_Double_Output_Patch enter: MoreCauldronOutput {Core.SkillData.MoreCauldronOutput} quantity {quantity} base {SkillModifiers.CauldronBaseOutput}");
-        //        if (__instance.name.Contains("CocaineBase"))
-        //        {
-        //            quantity = SkillModifiers.GetCauldronStackSize(); 
-        //        }
-        //    }
-        //}
 
         [HarmonyPatch(typeof(MixingStation), "GetMixQuantity")]
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
         {
-
             if (__instance.GetProduct() == null || __instance.GetMixer() == null || Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
                 return;
 
@@ -83,17 +59,27 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPostfix]
         public static void Postfix(DryingRack __instance)
         {
-            //MelonLogger.Msg($"[DryingRack] Updating rack capacity.");
-            ApplyCapacityUpdate(__instance);
+            if (Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
+                return;
+            UpdateDryingRackCapacity(__instance);
         }
 
-        public static void ApplyCapacityUpdate(DryingRack __instance)
+        [HarmonyPatch(typeof(DryingRack), "Open")]
+        [HarmonyPrefix]
+        public static void Prefix(DryingRack __instance)
         {
             if (Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
                 return;
+            UpdateDryingRackCapacity(__instance);
+        }
 
-            __instance.ItemCapacity *= SkillModifiers.MixDryOutputSizeMultiplier;
-            __instance.RefreshHangingVisuals();
+        private static void UpdateDryingRackCapacity(DryingRack rack)
+        {
+            int original = rack.ItemCapacity;
+            rack.ItemCapacity = SkillModifiers.BaseDryingRackCapacity * SkillModifiers.MixDryOutputSizeMultiplier;
+
+            if (original != rack.ItemCapacity)
+                rack.RefreshHangingVisuals();
         }
     }
 }

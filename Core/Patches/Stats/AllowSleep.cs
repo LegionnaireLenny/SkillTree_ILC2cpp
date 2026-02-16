@@ -8,9 +8,16 @@ using MelonLoader;
 
 namespace SkillTree.Core.Patches.Stats
 {
-    public static class AllowSleep
+    public class AllowSleep
     {
         private static int lastDayUsed = -1;
+
+        // Skipping a schedule and then loading another save prevents resting until the next day because the state isn't tracked through saves properly
+        // I don't care enough about this restriction to track state properly or implement something more robust, so reset it on scene change
+        public static void Reset()
+        {
+            lastDayUsed = -1;
+        }
 
         public static bool CanUseBedSkill()
         {
@@ -80,7 +87,7 @@ namespace SkillTree.Core.Patches.Stats
 
                 if (!CanUseBedSkill() && currentTime <= 1800)
                 {
-                    __instance.intObj.SetMessage("You've already rested today! Use it only tomorrow.");
+                    __instance.intObj.SetMessage("Sleep. Schedule has already been skipped today.");
                 }
                 else if (CanUseBedSkill() && currentTime < 2357)
                 {
