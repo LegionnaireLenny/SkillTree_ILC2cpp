@@ -30,9 +30,17 @@ namespace SkillTree.Core.Patches.Special
 
         private static int currentDay = -1;
 
-        public static bool clearTrashUsed = false;
-        public static bool healUsed = false;
-        public static bool getCashUsed = false;
+        private static bool clearTrashUsed = false;
+        private static bool healUsed = false;
+        private static bool getCashUsed = false;
+
+        public static void Reset()
+        {
+            clearTrashUsed = false;
+            healUsed = false;
+            getCashUsed = false;
+            currentDay = -1;
+        }
 
         public static void ValidSkill()
         {

@@ -19,31 +19,31 @@ namespace SkillTree.Core.FileManagement
         [Skill("More Health", "Increase max health by 20", SkillCategory.Stats, null, 1)]
         public int Stats = 0;
 
-        [Skill("More Movespeed", "Increase movespeed by 10%", SkillCategory.Stats, "Stats", 3)]
+        [Skill("Fleet Feet", "Increase movespeed by 10%", SkillCategory.Stats, "Stats", 3)]
         public int MoreMovespeed = 0;
 
-        [Skill("More Item Stack (x2)", "Increase item stack multiplier by 2", SkillCategory.Stats, "Stats", 1)]
+        [Skill("Prison Wallet", "Increase item stack multiplier by 2", SkillCategory.Stats, "Stats", 1)]
         public int MoreStackItem = 0;
 
         [Skill("Better Delivery", "Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours", SkillCategory.Stats, "Stats", 1)]
         public int BetterDelivery = 0;
 
-        [Skill("Counteroffer Perception", "Allows you to see the chance of a customer accepting a counteroffer", SkillCategory.Stats, "Stats", 1)]
+        [Skill("Counteroffer Perception", "See the chance of a customer accepting a counteroffer", SkillCategory.Stats, "Stats", 1)]
         public int AllowSeeCounteroffChance = 0;
 
-        [Skill("Allow Sleep with Athletic or Energizing", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, "Stats", 1)]
+        [Skill("Master Sleeper", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, "Stats", 1)]
         public int AllowSleepAthEne = 0;
 
-        [Skill("Allow Use Bed to Skip the Current Schedule", "Skip to next time period. Plants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, "AllowSleepAthEne", 1)]
+        [Skill("Take a Nap", "Can use a bed to skip to the next time period. Plants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, "AllowSleepAthEne", 1)]
         public int SkipSchedule = 0;
 
-        [Skill("More XP", "Increase XP Gain by 5%", SkillCategory.Stats, "Stats", 2)]
+        [Skill("More XP", "Increase XP gain by 5%", SkillCategory.Stats, "Stats", 2)]
         public int MoreXP = 0;
 
-        [Skill("More XP 2", "Increase XP Gain by an additional 5%", SkillCategory.Stats, "MoreXP", 4)]
+        [Skill("More XP 2", "Increase XP gain by an additional 5%", SkillCategory.Stats, "MoreXP", 4)]
         public int MoreXP2 = 0;
 
-        [Skill("More XP Per Sell When Earn Money", "Earn 5% bonus XP based on item value when selling drugs", SkillCategory.Stats, "MoreXP", 1)]
+        [Skill("Bonus XP from Drug Sales", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, "MoreXP", 1)]
         public int MoreXPWhenEarnMoney = 0;
 
 
@@ -57,31 +57,31 @@ namespace SkillTree.Core.FileManagement
         [Skill("Advanced Pot Techniques", "+15% Quality. [Lvl 1] Plastic/Moisture Pots gain +1 Tier. [Max Lvl] Air Pot/Shroom gain +1 Tier.", SkillCategory.Operations, "Operations", 2)]
         public int MoreQuality = 0;
 
-        [Skill("More Quality Meth/Coca", "Upgrade Meth/Coca Quality Tier When Shatter", SkillCategory.Operations, "MoreQuality", 1)]
+        [Skill("Increase Meth/Coca Quality", "Meth and cocaine quality increased by 1", SkillCategory.Operations, "MoreQuality", 1)]
         public int MoreQualityMethCoca = 0;
 
         //[Skill("More Quality Mushroom", "Upgrade Mushroom Quality Tier", SkillCategory.Operations, "MoreQuality", 1)]
         //public int MoreQualityMushroom = 0;
 
-        [Skill("AbsorbentSoil", "Soil additives last until the soil is depleted", SkillCategory.Operations, "Operations", 1)]
+        [Skill("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Operations, "Operations", 1)]
         public int AbsorbentSoil = 0;
 
         [Skill("Increase Growth Speed", "Increase Growth Speed by 2.5%", SkillCategory.Operations, "Operations", 2)]
         public int GrowthSpeed = 0;
 
-        [Skill("Increase Growth Speed 2°", "Increase Growth Speed by 2.5%", SkillCategory.Operations, "GrowthSpeed", 2)]
+        [Skill("Increase Growth Speed 2", "Increase Growth Speed by 2.5%", SkillCategory.Operations, "GrowthSpeed", 2)]
         public int GrowthSpeed2 = 0;
 
-        [Skill("Chemist Station Quick", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, "GrowthSpeed", 1)]
+        [Skill("Increase Crafting Speed", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, "GrowthSpeed", 1)]
         public int ChemistStationQuick = 0;
 
-        [Skill("More Yield", "Increase base yield of plants by 1", SkillCategory.Operations, "Operations", 1)]
+        [Skill("Increase Plant Yield", "Increase base yield of plants by 1", SkillCategory.Operations, "Operations", 1)]
         public int MoreYield = 0;
 
-        [Skill("More Mix and Drying Rack Output", "Double the slot capacity for mixing stations and drying racks", SkillCategory.Operations, "MoreYield", 1)]
+        [Skill("Increase Mix and Drying Rack Output", "Double the slot capacity for mixing stations and drying racks", SkillCategory.Operations, "MoreYield", 1)]
         public int MoreMixAndDryingRackOutput = 0;
 
-        [Skill("More Cauldron Output", "Double the cauldron's output", SkillCategory.Operations, "MoreYield", 1)]
+        [Skill("Double Cauldron Output", "Double the cauldron's output", SkillCategory.Operations, "MoreYield", 1)]
         public int MoreCauldronOutput = 0;
 
         /* OPERATIONS END HERE */

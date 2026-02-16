@@ -121,21 +121,21 @@ namespace SkillTree.Core.Patches.Stats
                 if (currentTime >= 700)
                 {
                     int nextTarget = GetNextSchedule();
-
-                    int totalMinutesPassed = CalculateMinutesBetween(currentTime, nextTarget) / 3;
+                    int totalMinutesPassed = CalculateMinutesBetween(currentTime, nextTarget);
 
                     if (totalMinutesPassed > 0)
                     {
                         foreach (GrowContainer container in UnityEngine.Object.FindObjectsOfType<GrowContainer>())
-                            AccessTools.Method(typeof(GrowContainer), "DrainMoisture")?.Invoke(container, new object[] { totalMinutesPassed * 3 });
-                        foreach (Plant plant in UnityEngine.Object.FindObjectsOfType<Plant>())
-                            plant.MinPass(totalMinutesPassed);
+                        {
+                            container.DrainMoisture(totalMinutesPassed);
+                            container.TryCast<Pot>()?.OnTimeSkipped(totalMinutesPassed / 3);
+                            container.TryCast<MushroomBed>()?.OnTimeSkipped(totalMinutesPassed / 3);
+                        }
                     }
 
                     lastDayUsed = (int)NetworkSingleton<TimeManager>.Instance.CurrentDay;
 
-                    NetworkSingleton<TimeManager>.Instance.SetTime(nextTarget);
-
+                    NetworkSingleton<TimeManager>.Instance.SkipForwardToTime(nextTarget);
                     MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
                     return false;
                 }

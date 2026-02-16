@@ -74,7 +74,7 @@ namespace SkillTree.Core
         public static readonly int ChemistStationSpeedMultiplier = 2;
         public static readonly float QualityBonusGrowTent = 0.16f;
         public static readonly float QualityBonusPlants = 0.15f;
-        public static readonly float QualityBonusShrooms = 0.30f;
+        public static readonly float QualityBonusShrooms = 0.15f;
         public static readonly int YieldBonusPlants = 1;
         public static readonly float GrowthSpeedBonusPlants = 0.025f;
 
@@ -106,14 +106,19 @@ namespace SkillTree.Core
             return 1f + (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * GrowthSpeedBonusPlants;
         }
 
-        public static float GetGrowTentBonus()
+        public static float GetGrowTentQualityBonus()
         {
             return Core.SkillData.Operations * QualityBonusGrowTent;
         }
 
-        public static float GetPlantQualityBonus()
+        public static float GetPlantQualityBonus(int maxSkillBonus = 2)
         {
-            return Core.SkillData.MoreQuality * QualityBonusPlants;
+            return Math.Clamp(Core.SkillData.MoreQuality, 0, maxSkillBonus) * QualityBonusPlants;
+        }
+
+        public static float GetShroomQualityBonus()
+        {
+            return Core.SkillData.MoreQuality * QualityBonusShrooms;
         }
 
         public static int GetPlantYieldBonus()
@@ -261,7 +266,9 @@ namespace SkillTree.Core
             timer = 2f;
             waiting = true;
             treeUiChange = false;
+
             AllowSleep.Reset();
+            SkillActive.Reset();
         }
 
         public override void OnUpdate()
