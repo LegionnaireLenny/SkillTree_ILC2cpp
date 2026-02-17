@@ -7,12 +7,8 @@ using UnityEngine.UI;
 
 namespace SkillTree.Core.Patches.Social
 {
-    /// <summary>
-    /// UP ASSIGN CUSTOMER DEALER
-    /// </summary>
-
     [HarmonyPatch(typeof(DealerManagementApp))]
-    public class DealerManagementPatch
+    public class DealerPatches
     {
         private static void CheckAndExpandUI(DealerManagementApp __instance)
         {

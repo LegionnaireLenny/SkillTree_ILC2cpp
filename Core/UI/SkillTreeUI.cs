@@ -235,7 +235,7 @@ namespace SkillTree.Core.UI
                     int newValue = value + 1;
                     skill.Field.SetValue(Core.SkillData, newValue);
                     ConsumePoint(skill.Category);
-                    SkillSystem.ApplySkill(skill.Id, Core.SkillData);
+                    SkillSystem.ApplySkill(skill.Id);
                     SkillTreeSaveManager.Save(Core.SkillData);
                 }
                 GUI.enabled = true;

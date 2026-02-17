@@ -11,8 +11,6 @@ using Il2CppScheduleOne.Tools;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.ATM;
 using MelonLoader;
-using SkillTree.Core.Patches.Special;
-using SkillTree.Core.Patches.Operations;
 using System.Reflection;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
@@ -23,15 +21,11 @@ namespace SkillTree.Core.Effect
 {
     public static class SkillSystem
     {
-        private static Customer[] customerList;
-        private static Business[] businessList;
         private static Dealer[] dealerList;
 
-        public static void ApplySkill(string skillId, SkillTreeData data)
+        public static void ApplySkill(string skillId)
         {
-            customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
             dealerList = UnityEngine.Object.FindObjectsOfType<Dealer>();
-            businessList = UnityEngine.Object.FindObjectsOfType<Business>();
 
             switch (skillId)
             {
@@ -93,15 +87,6 @@ namespace SkillTree.Core.Effect
                     //SkillPatchOperations.AbsorbentSoil.Add = (data.AbsorbentSoil == 1);
                     break;
                 case "MoreMixAndDryingRackOutput":
-                    //if (Core.SkillData.MoreMixAndDryingRackOutput == 0)
-                    //    break;
-
-                    //DryingRack[] racks = UnityEngine.Object.FindObjectsOfType<DryingRack>();
-                    //foreach (DryingRack rack in racks)
-                    //{
-                    //    DryingRack_Patch.ApplyCapacityUpdate(rack);
-                    //}
-                    //MelonLogger.Msg($"[DryingRack] Capacity updated for {racks.Length} active racks.");
                     //SkillPatchOperations.StackItem2xFix.Add = (data.MoreMixAndDryingRackOutput == 1);
                     //SkillPatchOperations.MixOutputAdd.Add = (data.MoreMixAndDryingRackOutput * 2) == 0 ? 1 : (data.MoreMixAndDryingRackOutput * 2);
                     break;
@@ -122,41 +107,10 @@ namespace SkillTree.Core.Effect
                     //SkillPatchSocial.CustomerSample.AddSampleChance = (data.Social * 0.05f);
                     break;
                 case "CityEvolving":
-                    if (Core.SkillData.CityEvolving == 0)
-                        break;
-                        
-                    CustomerCache.FillCache(customerList.ToList());
-                    foreach (Customer customer in customerList)
-                    {
-                        string key = customer.CustomerData.name;
-
-                        if (CustomerCache.OriginalMinSpend.TryGetValue(key, out float baseMin) &&
-                            CustomerCache.OriginalMaxSpend.TryGetValue(key, out float baseMax))
-                        {
-                            customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
-                            customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
-
-                            //MelonLogger.Msg($"[CityEvolving] {key}'s spending range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinWeeklySpend}-{customer.CustomerData.MaxWeeklySpend}");
-                        }
-                    }
-                    MelonLogger.Msg($"Weekly spend increased by {SkillModifiers.GetCustomerCashMultiplier() % 1 * 100}%");
+                    Patches.Social.CustomerPatches.SetCustomerSpendLimits();
                     break;
                 case "BusinessEvolving":
-                    if (Core.SkillData.BusinessEvolving == 0)
-                        break;
-
-                    BusinessCache.FillCache(businessList.ToList());
-                    foreach (Business business in businessList)
-                    {
-                        string key = business.PropertyName;
-
-                        if (BusinessCache.LaunderCapacity.TryGetValue(key, out float baseMin))
-                        {
-                            business.LaunderCapacity = baseMin * SkillModifiers.GetLaunderingCapacityMultiplier();
-                            MelonLogger.Msg($"[BusinessEvolving] {key}: {baseMin} -> {business.LaunderCapacity}");
-                        }
-                    }
-                    MelonLogger.Msg($"[BusinessEvolving] LaunderCapacity increased by {SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100}%");
+                    Patches.Social.BusinessPatches.SetLaunderingCapacity();
                     break;
                 case "MoreATMLimit":
                     //SkillPatchSocial.ATMConfig.MaxWeeklyLimit += (data.MoreATMLimit * 2000);

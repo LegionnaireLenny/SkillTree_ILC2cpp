@@ -8,7 +8,7 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Social
 {
     [HarmonyPatch]
-    public class BetterSupplierPatches
+    public class SupplierPatches
     {
         [HarmonyPatch(typeof(PhoneShopInterface), "CartChanged")]
         [HarmonyPrefix]

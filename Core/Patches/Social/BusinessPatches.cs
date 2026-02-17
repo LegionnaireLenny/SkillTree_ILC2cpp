@@ -4,13 +4,30 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using SkillTree.Core.StateManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social
 {
     [HarmonyPatch]
-    public static class BusinessLaunderingPatch
+    public static class BusinessPatches
     {
+        public static void SetLaunderingCapacity()
+        {
+            Business[] businessList = UnityEngine.Object.FindObjectsOfType<Business>();
+            Cache.FillCache(businessList.ToList());
+            foreach (Business business in businessList)
+            {
+                if (Cache.OriginalLaunderCapacity.TryGetValue(business.PropertyName, out float original))
+                {
+                    business.LaunderCapacity = original + (original * SkillModifiers.GetLaunderingCapacityMultiplier());
+                    MelonLogger.Msg($"[BusinessEvolving] {business.PropertyName}: {original} -> {business.LaunderCapacity}");
+                }
+            }
+            MelonLogger.Msg($"[BusinessEvolving] LaunderCapacity increased by {SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100}%");
+        }
+
+
         // Handles the progression of minutes and partial payments every 4 hours (240 mins)
         [HarmonyPatch(typeof(Business), "MinsPass")]
         [HarmonyPrefix]

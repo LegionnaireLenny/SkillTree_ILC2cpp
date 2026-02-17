@@ -12,6 +12,7 @@ Ideas
 Stats - More stamina
 Stats - Taser resistance
 Stats - Cuff resistance
+Social - increase customer min and max orders per week
 
 Testing
 Check ATM limit (10000, 12000, 14000)

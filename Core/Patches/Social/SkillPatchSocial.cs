@@ -1,41 +1,43 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.UI.Shop;
 using MelonLoader;
-using System.Reflection;
+using SkillTree.Core.StateManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social
 {
-
-    /// <summary>
-    /// UP CUSTOMER SAMPLE
-    /// </summary>
-
-    [HarmonyPatch(typeof(Customer), "GetSampleSuccess")]
-    public class PatchSampleSuccessUI
+    [HarmonyPatch]
+    public class CustomerPatches
     {
-        private static int _depth = 0;
-        [HarmonyPrefix]
-        public static void Prefix()
-        {
-            _depth++;
-        }
-
+        [HarmonyPatch(typeof(Customer), "GetSampleSuccess")]
         [HarmonyPostfix]
         public static void Postfix(ref float __result, float __state)
         {
-            if (_depth == 1)
+            if (Core.SkillData == null || Core.SkillData.Social == 0) 
+                return;
+
+            float origin = __result;
+            __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
+            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {origin:P0} to {__result:P0}");
+
+        }
+
+        public static void SetCustomerSpendLimits()
+        {
+            Customer[] customerList = customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
+            Cache.FillCache(customerList.ToList());
+            foreach (Customer customer in customerList)
             {
-                if (Core.SkillData == null || Core.SkillData.Social == 0) 
-                    return;
+                if (Cache.OriginalMinSpend.TryGetValue(customer.CustomerData.name, out float baseMin) &&
+                    Cache.OriginalMaxSpend.TryGetValue(customer.CustomerData.name, out float baseMax))
+                {
+                    customer.CustomerData.MinWeeklySpend = baseMin + (baseMin * SkillModifiers.GetCustomerCashMultiplier());
+                    customer.CustomerData.MaxWeeklySpend = baseMax + (baseMax * SkillModifiers.GetCustomerCashMultiplier());
 
-                float origin = __result;
-
-                __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
-                MelonLogger.Msg($"[Skill] Changed sample chance from {origin:P0} to {__result:P0}");
+                    MelonLogger.Msg($"[CityEvolving] {customer.CustomerData.name}'s spending range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinWeeklySpend}-{customer.CustomerData.MaxWeeklySpend}");
+                }
             }
-            _depth--;
+            MelonLogger.Msg($"Weekly spend increased by {SkillModifiers.GetCustomerCashMultiplier() % 1 * 100}%");
         }
     }
 }
