@@ -2,7 +2,6 @@ Issues
 opening skill tree doesn't preserve previous cursor lock state
 
 Todo
-SkillPatchSocial
 SkillTreeUI
 Core
 SkillBasePatch
@@ -12,6 +11,7 @@ Ideas
 Stats - More stamina
 Stats - Taser resistance
 Stats - Cuff resistance
+Stats - more melee damage
 Social - increase customer min and max orders per week
 
 Testing

@@ -1,7 +1,6 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Levelling;
@@ -12,7 +11,6 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
-using SkillTree.Core.Patches.Social;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
 using UnityEngine;
@@ -32,7 +30,7 @@ namespace SkillTree.Core
         public static readonly float MoveSpeedBonus = 0.10f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
-        public static readonly int InventoryStackSizeMultiplier = 2;
+        public static readonly int InventoryStackSizeMultiplier = 1;
         public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
         public static float GetPlayerMaxHealth()
@@ -57,7 +55,7 @@ namespace SkillTree.Core
 
         public static int GetInventoryStackSizeMultiplier()
         {
-            return Core.SkillData.MoreStackItem * InventoryStackSizeMultiplier;
+            return 1 + (Core.SkillData.MoreStackItem * InventoryStackSizeMultiplier);
         }
         #endregion Stats
 
@@ -121,35 +119,31 @@ namespace SkillTree.Core
         {
             return Core.SkillData.MoreYield * YieldBonusPlants;
         }
-
         #endregion Operations
 
         #region Social
         public static readonly float BaseWeeklyDepositLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
-        //public static readonly float BaseWeeklyDepositLimit = 10000f;
         public static readonly int BaseMaxCustomer = Dealer.MAX_CUSTOMERS;
-        //public static readonly int BaseMaxCustomer = 10;
         public static readonly float BaseDealerCut = 0.20f;
         public static readonly int BaseDeadDropItemLimit = Supplier.DEADDROP_ITEM_LIMIT;
-        //public static readonly int BaseDeadDropItemLimit = 10;
         public static readonly float ATMDepositBonus = 2000f;
         public static readonly int CustomerLimitBonus = 2;
         public static readonly float CustomerSampleAcceptBonus = 0.05f;
+        public static readonly float CustomerCashBonus = 0.10f;
         public static readonly float DealerCutReduction = 0.05f;
+        public static readonly float DealerSpeedBonus = 1f;
         public static readonly float SupplierCashBonus = 0.675f;
         public static readonly float SupplierItemBonus = 0.50f;
         public static readonly float LaunderingBonus = 0.20f;
-        public static readonly float CustomerCashBonus = 0.10f;
-        public static readonly float DealerSpeedBonus = 1f;
 
         public static float GetATMLimit()
         {
-            return BaseWeeklyDepositLimit + Core.SkillData.MoreATMLimit * ATMDepositBonus;
+            return BaseWeeklyDepositLimit + (Core.SkillData.MoreATMLimit * ATMDepositBonus);
         }
 
         public static int GetMaxCustomers()
         {
-            return BaseMaxCustomer + Core.SkillData.DealerMoreCustomer * CustomerLimitBonus;
+            return BaseMaxCustomer + (Core.SkillData.DealerMoreCustomer * CustomerLimitBonus);
         }
 
         public static float GetCustomerSampleBonus()
@@ -157,34 +151,39 @@ namespace SkillTree.Core
             return Core.SkillData.Social * CustomerSampleAcceptBonus;
         }
 
-        public static float GetDealerCut()
+        public static float GetDealerCutReduction()
         {
-            return BaseDealerCut - Core.SkillData.DealerCutLess * DealerCutReduction;
+            return Core.SkillData.DealerCutLess * DealerCutReduction;
         }
+
+        //public static float GetDealerCut()
+        //{
+        //    return BaseDealerCut - Core.SkillData.DealerCutLess * DealerCutReduction;
+        //}
 
         public static float GetSupplierCashMultiplier()
         {
-            return 1f + Core.SkillData.BetterSupplier * SupplierCashBonus;
+            return 1f + (Core.SkillData.BetterSupplier * SupplierCashBonus);
         }
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(BaseDeadDropItemLimit * (1f + Core.SkillData.BetterSupplier * SupplierItemBonus));
+            return (int)(BaseDeadDropItemLimit * (1f + (Core.SkillData.BetterSupplier * SupplierItemBonus)));
         }
 
         public static float GetLaunderingCapacityMultiplier()
         {
-            return 1f + Core.SkillData.BusinessEvolving * LaunderingBonus;
+            return 1f + (Core.SkillData.BusinessEvolving * LaunderingBonus);
         }
 
         public static float GetCustomerCashMultiplier()
         {
-            return 1f + Core.SkillData.CityEvolving * CustomerCashBonus;
+            return 1f + (Core.SkillData.CityEvolving * CustomerCashBonus);
         }
 
-        public static float GetDealerSpeedBonus()
+        public static float GetDealerSpeedMultiplier()
         {
-            return Core.SkillData.DealerSpeedUp * DealerSpeedBonus;
+            return 1f + (Core.SkillData.DealerSpeedUp * DealerSpeedBonus);
         }
         #endregion Social
 
@@ -253,8 +252,6 @@ namespace SkillTree.Core
             Instance = this;
 
             var harmony = new HarmonyLib.Harmony("com.reizor.skilltree");
-
-            LoggerInstance.Msg("Harmony patches applied.");
         }
 
         public void Reset()
@@ -271,6 +268,7 @@ namespace SkillTree.Core
 
             AllowSleep.Reset();
             SkillActive.Reset();
+            Cache.Reset();
         }
 
         public override void OnUpdate()

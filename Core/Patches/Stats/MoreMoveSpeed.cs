@@ -13,7 +13,7 @@ namespace SkillTree.Core.Patches.Stats
         {
             float original = PlayerMovement.Instance.MoveSpeedMultiplier;
             PlayerMovement.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-            MelonLogger.Msg($"Player speed multiplier changed {original} to {PlayerMovement.Instance.MoveSpeedMultiplier}");
+            MelonLogger.Msg($"[MoreMovespeed] Player speed multiplier changed {original} to {PlayerMovement.Instance.MoveSpeedMultiplier}");
         }
 
         [HarmonyPatch(typeof(Athletic), "ApplyToPlayer")]

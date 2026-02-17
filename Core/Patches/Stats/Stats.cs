@@ -12,9 +12,14 @@ namespace SkillTree.Core.Patches.Stats
     {
         public static void SetPlayerHealth()
         {
+            if (Core.SkillData.Stats == 0)
+            {
+                return;
+            }
+
             float original = Player.Local.Health.CurrentHealth;
             Player.Local.Health.SetHealth(SkillModifiers.GetPlayerMaxHealth());
-            MelonLogger.Msg($"Player max health changed from {original} to {Player.Local.Health.CurrentHealth} ");
+            MelonLogger.Msg($"[Stats] Player max health changed from {original} to {Player.Local.Health.CurrentHealth} ");
         }
 
         [HarmonyPatch("RecoverHealth")]
@@ -46,7 +51,7 @@ namespace SkillTree.Core.Patches.Stats
                 return false;
             }
 
-            MelonLogger.MsgPastel($"Player health: {__instance.CurrentHealth} - {damage} = {__instance.CurrentHealth - damage}");
+            MelonLogger.MsgPastel($"[Stats] Player health: {__instance.CurrentHealth} - {damage} = {__instance.CurrentHealth - damage}");
             __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.TimeSinceLastDamage = 0f;
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);

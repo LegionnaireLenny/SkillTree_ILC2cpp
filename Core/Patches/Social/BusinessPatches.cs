@@ -13,17 +13,24 @@ namespace SkillTree.Core.Patches.Social
     {
         public static void SetLaunderingCapacity()
         {
+            if (Core.SkillData.BusinessEvolving != 0)
+            {
+                MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100}%");
+            }
+
             Business[] businessList = UnityEngine.Object.FindObjectsOfType<Business>();
             Cache.FillCache(businessList.ToList());
             foreach (Business business in businessList)
             {
                 if (Cache.OriginalLaunderCapacity.TryGetValue(business.PropertyName, out float original))
                 {
-                    business.LaunderCapacity = original + (original * SkillModifiers.GetLaunderingCapacityMultiplier());
-                    MelonLogger.Msg($"[BusinessEvolving] {business.PropertyName}: {original} -> {business.LaunderCapacity}");
+                    business.LaunderCapacity = original * SkillModifiers.GetLaunderingCapacityMultiplier();
+                    if (!Mathf.Approximately(original, business.LaunderCapacity))
+                    {
+                        MelonLogger.Msg($"[BusinessEvolving] {business.PropertyName}: ${original} -> ${business.LaunderCapacity}");
+                    }
                 }
             }
-            MelonLogger.Msg($"[BusinessEvolving] LaunderCapacity increased by {SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100}%");
         }
 
 

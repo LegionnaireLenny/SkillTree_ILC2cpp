@@ -17,7 +17,7 @@ namespace SkillTree.Core.Patches.Social
 
             float origin = __result;
             __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
-            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {origin:P0} to {__result:P0}");
+            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {(int)origin} to {(int)__result}");
 
         }
 
@@ -25,6 +25,12 @@ namespace SkillTree.Core.Patches.Social
         {
             Customer[] customerList = customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
             Cache.FillCache(customerList.ToList());
+
+            if (Core.SkillData.CityEvolving != 0)
+            {
+                MelonLogger.Msg($"[CityEvolving] Increasing customer weekly spending limit by {(int)(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
+            }
+
             foreach (Customer customer in customerList)
             {
                 if (Cache.OriginalMinSpend.TryGetValue(customer.CustomerData.name, out float baseMin) &&
@@ -33,10 +39,12 @@ namespace SkillTree.Core.Patches.Social
                     customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
                     customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                    MelonLogger.Msg($"[CityEvolving] {customer.CustomerData.name}'s spending range increased from {baseMin:P0}-{baseMax:P0} to {customer.CustomerData.MinWeeklySpend:P0}-{customer.CustomerData.MaxWeeklySpend:P0}");
+                    if (!Mathf.Approximately(baseMin, customer.CustomerData.MinWeeklySpend))
+                    {
+                        MelonLogger.Msg($"[CityEvolving] {customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
+                    }
                 }
             }
-            MelonLogger.Msg($"Weekly spend increased by {SkillModifiers.GetCustomerCashMultiplier() % 1 * 100}%");
         }
     }
 }

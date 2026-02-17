@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine.Rendering;
-
-namespace SkillTree.Core.FileManagement
+﻿namespace SkillTree.Core.FileManagement
 {
     [Serializable]
     public class SkillTreeData

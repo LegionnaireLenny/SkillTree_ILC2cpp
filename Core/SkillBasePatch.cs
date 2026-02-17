@@ -1,14 +1,9 @@
 ﻿using HarmonyLib;
-using MelonLoader;
 using Il2CppScheduleOne;
-using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Levelling;
-using Il2CppScheduleOne.ObjectScripts;
-using Il2CppScheduleOne.PlayerScripts;
-using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI.Shop;
+using MelonLoader;
 using UnityEngine;
 
 namespace SkillTree.Core

@@ -38,7 +38,7 @@ namespace SkillTree.Core
                     OriginalLaunderCapacity.Add(business.PropertyName, business.LaunderCapacity);
                 }
             }
-            MelonLogger.Msg("Successfully cached original laundering capacity for each business!");
+            MelonLogger.Msg("[Cache] Successfully cached original laundering capacity for each business!");
         }
 
         //public class OriginalCustomer
@@ -52,7 +52,6 @@ namespace SkillTree.Core
 
         public static void FillCache(List<Customer> customers)
         {
-            
             foreach (Customer customer in customers)
             {
                 //if (Customers.Find(x => x.Name.Equals(customer.CustomerData.name)) == null)
@@ -75,7 +74,7 @@ namespace SkillTree.Core
                     //OriginalMaxSpend.Add(customer.CustomerData.name, customer.CustomerData.MaxOrdersPerWeek);
                 }
             }
-            MelonLogger.Msg("Successfully cached orignal spending capacity for each customer!");
+            MelonLogger.Msg("[Cache] Successfully cached orignal spending capacity for each customer!");
         }
 
         public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> items)
@@ -87,7 +86,25 @@ namespace SkillTree.Core
                     ItemStack.Add(item.name, item.StackLimit);
                 }
             }
-            MelonLogger.Msg("Successfully cached stack limits for each item!");
+            MelonLogger.Msg("[Cache] Successfully cached stack limits for each item!");
+        }
+
+        public static void FillCache(Il2CppSystem.Collections.Generic.List<Dealer> dealers)
+        {
+            if (OriginalDealerCut.Count > 0)
+            {
+                return;
+            }
+            
+            foreach (Dealer dealer in dealers)
+            {
+                if (!OriginalDealerCut.ContainsKey(dealer.name))
+                {
+                    OriginalDealerCut.Add(dealer.name, dealer.Cut);
+                    OriginalDealerMoveSpeed.Add(dealer.name, dealer.Movement.MoveSpeedMultiplier);
+                }
+            }
+            MelonLogger.Msg("[Cache] Successfully cached dealer data!");
         }
 
         public static void Reset()
@@ -96,6 +113,8 @@ namespace SkillTree.Core
             OriginalMinSpend.Clear();
             OriginalMaxSpend.Clear();
             ItemStack.Clear();
+            OriginalDealerCut.Clear();
+            OriginalDealerMoveSpeed.Clear();
             //Customers.Clear()
         }
     }

@@ -1,15 +1,50 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.UI.Phone.Messages;
+using MelonLoader;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace SkillTree.Core.Patches.Social
 {
-    [HarmonyPatch(typeof(DealerManagementApp))]
+    [HarmonyPatch]
     public class DealerPatches
     {
+        public static void SetDealerCut()
+        {
+            Cache.FillCache(Dealer.AllPlayerDealers);
+
+            foreach (Dealer dealer in Dealer.AllPlayerDealers)
+            {
+                if (Cache.OriginalDealerCut.TryGetValue(dealer.name, out float baseCut))
+                {
+                    dealer.Cut = baseCut - SkillModifiers.GetDealerCutReduction();
+                    if (!Mathf.Approximately(baseCut, dealer.Cut))
+                    {
+                        MelonLogger.Msg($"{dealer.name}'s cut changed from {(int)(baseCut * 100)}% to {(int)(dealer.Cut * 100)}%");
+                    }
+                }
+            }
+        }
+
+        public static void SetDealerMoveSpeed()
+        {
+            Cache.FillCache(Dealer.AllPlayerDealers);
+
+            foreach (Dealer dealer in Dealer.AllPlayerDealers)
+            {
+                if (Cache.OriginalDealerMoveSpeed.TryGetValue(dealer.name, out float baseMoveSpeed))
+                {
+                    dealer.Movement.MoveSpeedMultiplier = baseMoveSpeed * SkillModifiers.GetDealerSpeedMultiplier();
+                    if (!Mathf.Approximately(baseMoveSpeed, dealer.Movement.MoveSpeedMultiplier))
+                    {
+                        MelonLogger.Msg($"{dealer.name}'s movespeed multiplier changed from x{baseMoveSpeed} to x{dealer.Movement.MoveSpeedMultiplier}");
+                    }
+                }
+            }
+        }
+
         private static void CheckAndExpandUI(DealerManagementApp __instance)
         {
             if (Core.SkillData == null)
@@ -33,7 +68,7 @@ namespace SkillTree.Core.Patches.Social
             }
         }
 
-        [HarmonyPatch("Awake")]
+        [HarmonyPatch(typeof(DealerManagementApp), "Awake")]
         [HarmonyPostfix]
         public static void Awake_Postfix(DealerManagementApp __instance)
         {
@@ -55,7 +90,7 @@ namespace SkillTree.Core.Patches.Social
             LayoutRebuilder.ForceRebuildLayoutImmediate(__instance.Content);
         }
 
-        [HarmonyPatch("SetDisplayedDealer")]
+        [HarmonyPatch(typeof(DealerManagementApp), "SetDisplayedDealer")]
         [HarmonyPostfix]
         public static void SetDisplayedDealer_Postfix(DealerManagementApp __instance, Dealer dealer)
         {

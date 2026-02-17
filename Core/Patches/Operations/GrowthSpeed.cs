@@ -2,7 +2,6 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
-using MelonLoader;
 
 namespace SkillTree.Core.Patches.Operations
 {

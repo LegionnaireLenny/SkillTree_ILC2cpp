@@ -4,8 +4,6 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Variables;
-using MelonLoader;
-using UnityEngine;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
 namespace SkillTree.Core.Patches.Operations
@@ -34,7 +32,7 @@ namespace SkillTree.Core.Patches.Operations
             __instance.SetRemainingSoilUses(__instance._remainingSoilUses - 1);
             __instance.SetSoilState(ESoilState.Flat);
 
-            MelonLogger.Msg($"Soil and additives have {__instance._remainingSoilUses} remaining uses");
+            //MelonLogger.Msg($"[AbsorbentSoil] Soil and additives have {__instance._remainingSoilUses} remaining uses");
             if (__instance._remainingSoilUses <= 0)
             {
                 __instance.ClearAdditives();

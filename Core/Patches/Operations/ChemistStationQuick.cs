@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.StationFramework;
-using MelonLoader;
 
 namespace SkillTree.Core.Patches.Operations
 {

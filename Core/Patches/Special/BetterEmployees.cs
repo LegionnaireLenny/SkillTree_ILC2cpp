@@ -48,7 +48,7 @@ namespace SkillTree.Core.Patches.Special
             __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
             if (!processedEmployees.Contains(__instance.GUID))
             {
-                MelonLogger.Msg($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
+                MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
                 processedEmployees.Add(__instance.GUID);
             }
         }
@@ -67,7 +67,7 @@ namespace SkillTree.Core.Patches.Special
 
             if (!processedBotanists.Contains(__instance.GUID))
             {
-                MelonLogger.Msg($"Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}");
+                MelonLogger.Msg($"[EmployeeMaxStation] Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}");
                 processedBotanists.Add(__instance.GUID);
             }
         }
@@ -86,7 +86,7 @@ namespace SkillTree.Core.Patches.Special
 
             if (!processedChemists.Contains(__instance.GUID))
             {
-                MelonLogger.Msg($"Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
+                MelonLogger.Msg($"[EmployeeMaxStation] Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
                 processedChemists.Add(__instance.GUID);
             }
         }

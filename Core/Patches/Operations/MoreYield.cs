@@ -3,7 +3,6 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
-using MelonLoader;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
