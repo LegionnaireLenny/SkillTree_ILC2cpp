@@ -1,11 +1,10 @@
 ﻿using MelonLoader;
 using Newtonsoft.Json;
-using SkillTree.Core.Effect;
 using SkillTree.Core.FileManagement;
 using System.Reflection;
 using UnityEngine;
 
-namespace SkillTree.Core.UI
+namespace SkillTree.Core
 {
     public class SkillTreeUI
     {

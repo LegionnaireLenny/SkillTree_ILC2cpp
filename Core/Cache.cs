@@ -3,7 +3,7 @@ using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Property;
 using MelonLoader;
 
-namespace SkillTree.Core.StateManagement
+namespace SkillTree.Core
 {
     public static class Cache
     {
@@ -87,7 +87,7 @@ namespace SkillTree.Core.StateManagement
                     ItemStack.Add(item.name, item.StackLimit);
                 }
             }
-            MelonLogger.Msg("ItemStack Memory successfully stored!");
+            MelonLogger.Msg("Successfully cached stack limits for each item!");
         }
 
         public static void Reset()

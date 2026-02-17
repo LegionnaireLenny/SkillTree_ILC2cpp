@@ -25,10 +25,10 @@
 		<Compile Include="Core\Patches\Operations\GrowthSpeed.cs" />
 		<Compile Include="Core\Patches\Operations\MoreQuality.cs" />
 		<Compile Include="Core\Patches\Operations\MoreYield.cs" />
-		<Compile Include="Core\Patches\Social\BetterSupplierPatches.cs" />
-		<Compile Include="Core\StateManagement\Cache.cs" />
-		<Compile Include="Core\Patches\Social\BusinessLaunderingPatch.cs" />
-		<Compile Include="Core\Patches\Social\DealerManagementPatch.cs" />
+		<Compile Include="Core\Patches\Social\SupplierPatches.cs" />
+		<Compile Include="Core\Cache.cs" />
+		<Compile Include="Core\Patches\Social\BusinessPatches.cs" />
+		<Compile Include="Core\Patches\Social\DealerPatches.cs" />
 		<Compile Include="Core\Patches\Social\MoreATMLimit.cs" />
 		<Compile Include="Core\Patches\Special\BetterBotanists.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
@@ -37,7 +37,7 @@
 		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
 		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
-		<Compile Include="Core\Effect\SkillSystem.cs" />
+		<Compile Include="Core\SkillSystem.cs" />
 		<Compile Include="Core\Patches\Social\SkillPatchSocial.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
 		<Compile Include="Core\FileManagement\SkillAttribute.cs" />
@@ -47,7 +47,7 @@
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\BetterEmployees.cs" />
 		<Compile Include="Core\Patches\Stats\MoreMoveSpeed.cs" />
-		<Compile Include="Core\UI\SkillTreeUI.cs" />
+		<Compile Include="Core\SkillTreeUI.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

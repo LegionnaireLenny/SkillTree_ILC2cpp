@@ -17,7 +17,7 @@ using static SkillTree.Core.Patches.Special.SkillActive;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.StateManagement;
 
-namespace SkillTree.Core.Effect
+namespace SkillTree.Core
 {
     public static class SkillSystem
     {

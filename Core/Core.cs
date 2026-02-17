@@ -11,12 +11,10 @@ using Il2CppScheduleOne.PlayerScripts.Health;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core;
-using SkillTree.Core.Effect;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Social;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
-using SkillTree.Core.UI;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
