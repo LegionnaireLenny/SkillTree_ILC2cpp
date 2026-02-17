@@ -16,9 +16,9 @@ namespace SkillTree.Core.Patches.Stats
                 return;
 
             int original = xp;
-            int bonus = Mathf.CeilToInt(xp * SkillModifiers.GetXPGainBonus());
-            xp += bonus;
-            MelonLogger.Msg($"[XP] Earned {bonus} XP from {original} | Skill bonus is {(int)(SkillModifiers.GetXPGainBonus() * 100)}% | {__instance.TotalXP} + {xp} = {__instance.TotalXP + xp}");
+            int bonus = Mathf.CeilToInt(xp * (SkillModifiers.GetXPGainMultiplier() - 1));
+            xp = (int)(xp * SkillModifiers.GetXPGainMultiplier());
+            MelonLogger.Msg($"[XP] Earned {bonus} XP from {original} | Skill bonus is {(int)(SkillModifiers.GetXPGainMultiplier() % 1 * 100)}% | {__instance.TotalXP} + {xp} = {__instance.TotalXP + xp}");
         }
     }
 

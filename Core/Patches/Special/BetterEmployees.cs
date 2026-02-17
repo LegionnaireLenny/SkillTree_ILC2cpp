@@ -45,7 +45,7 @@ namespace SkillTree.Core.Patches.Special
             if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMovespeed == 0)
                 return;
 
-            __instance.Movement.MovementSpeedScale = SkillModifiers.EmployeeMoveSpeedBonus;
+            __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
             if (!processedEmployees.Contains(__instance.GUID))
             {
                 MelonLogger.Msg($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");

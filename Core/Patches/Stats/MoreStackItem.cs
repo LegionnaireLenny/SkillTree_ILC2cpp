@@ -1,7 +1,17 @@
 ﻿using Il2CppScheduleOne;
+using Il2CppScheduleOne.Economy;
+using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.Management;
+using Il2CppScheduleOne.Money;
+using Il2CppScheduleOne.PlayerScripts;
+using Il2CppScheduleOne.Property;
+using Il2CppScheduleOne.Tools;
+using Il2CppScheduleOne.UI;
+using Il2CppScheduleOne.UI.ATM;
 using MelonLoader;
-using SkillTree.Core.StateManagement;
+using System.Reflection;
+using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -13,11 +23,11 @@ namespace SkillTree.Core.Patches.Stats
                 return;
 
             Il2CppSystem.Collections.Generic.List<ItemDefinition> allItems = Registry.Instance.GetAllItems();
-            StackCache.FillCache(allItems);
+            Cache.FillCache(allItems);
 
             foreach (ItemDefinition item in allItems)
             {
-                if (StackCache.ItemStack.TryGetValue(item.name, out int baseStackLimit))
+                if (Cache.ItemStack.TryGetValue(item.name, out int baseStackLimit))
                 {
                     item.StackLimit = baseStackLimit * SkillModifiers.GetInventoryStackSizeMultiplier();
                     MelonLogger.Msg($"[MoreStackItem] {item.name}: {baseStackLimit} -> {item.StackLimit}");

@@ -26,12 +26,10 @@ namespace SkillTree.Core
     public static class SkillModifiers
     {
         #region Stats
-        //public static readonly float PlayerBaseHealth = 100f;
         public static readonly float PlayerBaseHealth = PlayerHealth.MAX_HEALTH;
         public static readonly float HealthBonus = 20f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
         public static readonly float MoveSpeedBonus = 0.10f;
-        public static readonly float BaseXPGainRate = 100f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
         public static readonly int InventoryStackSizeMultiplier = 2;
@@ -39,17 +37,17 @@ namespace SkillTree.Core
 
         public static float GetPlayerMaxHealth()
         {
-            return PlayerBaseHealth + Core.SkillData.Stats * HealthBonus;
+            return PlayerBaseHealth + (Core.SkillData.Stats * HealthBonus);
         }
 
         public static float GetPlayerMoveSpeed()
         {
-            return PlayerBaseMoveSpeed + Core.SkillData.MoreMovespeed * MoveSpeedBonus;
+            return PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * MoveSpeedBonus);
         }
 
-        public static float GetXPGainBonus()
+        public static float GetXPGainMultiplier()
         {
-            return (Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * XPGainBonus;
+            return 1f + ((Core.SkillData.MoreXP + Core.SkillData.MoreXP2) * XPGainBonus);
         }
 
         public static float GetSaleXPBonus()
@@ -101,7 +99,7 @@ namespace SkillTree.Core
 
         public static float GetGrowthSpeedMultiplier()
         {
-            return 1f + (Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * GrowthSpeedBonusPlants;
+            return 1f + ((Core.SkillData.GrowthSpeed + Core.SkillData.GrowthSpeed2) * GrowthSpeedBonusPlants);
         }
 
         public static float GetGrowTentQualityBonus()
@@ -197,14 +195,14 @@ namespace SkillTree.Core
         public static readonly int MaxChemistStations = 4;
         public static readonly int MaxBotanistStations = 8;
 
-        //public static float GetEmployeeMoveSpeedBonus()
-        //{
-        //    return Core.SkillData.EmployeeMovespeed == 0 ? 1f : EmployeeMoveSpeedBonus;
-        //}
+        public static float GetEmployeeMoveSpeedScale()
+        {
+            return Core.SkillData.EmployeeMovespeed == 0 ? 1f : EmployeeMoveSpeedBonus;
+        }
 
         public static float GetBotanistActionSpeedMultiplier()
         {
-            return Core.SkillData.BetterBotanists == 1 ? BotanistActionSpeedBonus : 1f;
+            return Mathf.Clamp(1f - (Core.SkillData.BetterBotanists * BotanistActionSpeedBonus), 0.1f, 1f);
         }
 
         public static int GetEmployeeStationBonus()
@@ -433,11 +431,8 @@ namespace SkillTree.Core
                 if (specialSkillPointValid > 0)
                     specialSkillPointValid = 0;
 
-                if (skillTreeUI == null)
-                    skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
-
-                if (skillTreeUI != null)
-                    skillTreeUI.AddPoints(statsGained, opsGained, socialGained, specialGained);
+                skillTreeUI ??= new SkillTreeUI(SkillData, skillConfig);
+                skillTreeUI?.AddPoints(statsGained, opsGained, socialGained, specialGained);
 
                 MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
             }
@@ -475,7 +470,7 @@ namespace SkillTree.Core
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
             }
-            SkillSystem.ApplyAll(SkillData);
+            SkillSystem.ApplyAll();
         }
 
         public override void OnGUI()

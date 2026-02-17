@@ -78,7 +78,7 @@ namespace SkillTree.Core
             MelonLogger.Msg("Successfully cached orignal spending capacity for each customer!");
         }
 
-        public static void FillCache(List<ItemDefinition> items)
+        public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> items)
         {
             foreach (ItemDefinition item in items)
             {

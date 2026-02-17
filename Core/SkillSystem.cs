@@ -1,21 +1,7 @@
-﻿using Il2CppScheduleOne;
-using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.Employees;
-using Il2CppScheduleOne.ItemFramework;
-using Il2CppScheduleOne.Management;
-using Il2CppScheduleOne.Money;
-using Il2CppScheduleOne.ObjectScripts;
-using Il2CppScheduleOne.PlayerScripts;
-using Il2CppScheduleOne.Property;
-using Il2CppScheduleOne.Tools;
-using Il2CppScheduleOne.UI;
-using Il2CppScheduleOne.UI.ATM;
+﻿using Il2CppScheduleOne.Economy;
 using MelonLoader;
-using System.Reflection;
-using UnityEngine;
-using static SkillTree.Core.Patches.Special.SkillActive;
 using SkillTree.Core.FileManagement;
-using SkillTree.Core.StateManagement;
+using System.Reflection;
 
 namespace SkillTree.Core
 {
@@ -174,13 +160,12 @@ namespace SkillTree.Core
             }
         }
 
-        public static void ApplyAll(SkillTreeData data)
+        public static void ApplyAll()
         {
             foreach (var field in typeof(SkillTreeData).GetFields(BindingFlags.Public | BindingFlags.Instance))
             {
-                ApplySkill(field.Name, data);
+                ApplySkill(field.Name);
             }
         }
-
     }
 }

@@ -10,7 +10,7 @@ namespace SkillTree.Core.Patches.Social
     {
         [HarmonyPatch(typeof(Customer), "GetSampleSuccess")]
         [HarmonyPostfix]
-        public static void Postfix(ref float __result, float __state)
+        public static void Postfix(ref float __result)
         {
             if (Core.SkillData == null || Core.SkillData.Social == 0) 
                 return;
@@ -30,10 +30,10 @@ namespace SkillTree.Core.Patches.Social
                 if (Cache.OriginalMinSpend.TryGetValue(customer.CustomerData.name, out float baseMin) &&
                     Cache.OriginalMaxSpend.TryGetValue(customer.CustomerData.name, out float baseMax))
                 {
-                    customer.CustomerData.MinWeeklySpend = baseMin + (baseMin * SkillModifiers.GetCustomerCashMultiplier());
-                    customer.CustomerData.MaxWeeklySpend = baseMax + (baseMax * SkillModifiers.GetCustomerCashMultiplier());
+                    customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
+                    customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                    MelonLogger.Msg($"[CityEvolving] {customer.CustomerData.name}'s spending range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinWeeklySpend}-{customer.CustomerData.MaxWeeklySpend}");
+                    MelonLogger.Msg($"[CityEvolving] {customer.CustomerData.name}'s spending range increased from {baseMin:P0}-{baseMax:P0} to {customer.CustomerData.MinWeeklySpend:P0}-{customer.CustomerData.MaxWeeklySpend:P0}");
                 }
             }
             MelonLogger.Msg($"Weekly spend increased by {SkillModifiers.GetCustomerCashMultiplier() % 1 * 100}%");
