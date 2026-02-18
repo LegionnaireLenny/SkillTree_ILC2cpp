@@ -85,32 +85,25 @@
         [Skill("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Social, null, 2)]
         public int Social = 0;
 
-        // Social subs
         [Skill("Spread the Wealth", "Increase citizens' weekly spending limits by 10%", SkillCategory.Social, "Social", 2)]
         public int CityEvolving = 0;
 
-        // Social subs
         [Skill("Hoard the Wealth", "Increase ATM deposit limit by $2000", SkillCategory.Social, "Social", 2)]
         public int MoreATMLimit = 0;
 
-        // MoreATMLimit subs
         [Skill("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, "Social", 3)]
         public int BusinessEvolving = 0;
 
-        // Social subs
         [Skill("Well-Oiled Machine", "Increase dealer's customer limit by 2", SkillCategory.Social, "Social", 1)]
         public int DealerMoreCustomer = 0;
 
-        // Social subs
         [Skill("Cheapskate", "Decrease dealer's cut by 5%", SkillCategory.Social, "DealerMoreCustomer", 2)]
         public int DealerCutLess = 0;
 
-        // Social subs
         [Skill("Well-Connected", "Increase dead drop order and item limits by 50%", SkillCategory.Social, "Social", 2)]
         public int BetterSupplier = 0;
 
-        // DealerCutLess subs
-        [Skill("Slave Driver", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
+        [Skill("Hustler", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
         public int DealerSpeedUp = 0;
 
         /* SOCIAL ENDS HERE */

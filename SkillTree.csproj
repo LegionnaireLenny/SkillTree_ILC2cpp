@@ -37,6 +37,7 @@
 		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
 		<Compile Include="Core\Patches\Stats\Stats.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
+		<Compile Include="Core\SkillModifiers.cs" />
 		<Compile Include="Core\SkillSystem.cs" />
 		<Compile Include="Core\Patches\Social\CustomerPatches.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />

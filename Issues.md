@@ -1,11 +1,19 @@
 Issues
 opening skill tree doesn't preserve previous cursor lock state
+tooltips overflow window
 
 Todo
+make skill tree an app
+add support for mod app
+add support for user configuration
 SkillTreeUI
 Core
 SkillBasePatch
 SkillSystem
+tweak/remove shop injection patches
+tweak gradual laundering patch for compatibility
+tweak atm patches for compatibility
+
 
 Ideas
 Stats - More stamina

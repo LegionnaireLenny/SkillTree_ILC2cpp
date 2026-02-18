@@ -10,8 +10,6 @@ namespace SkillTree.Core.Patches.Special
 {
     public static class SkillActive
     {
-        private static Dealer[] dealerList;
-
         private static int currentDay = -1;
 
         private static bool clearTrashUsed = false;
@@ -86,16 +84,10 @@ namespace SkillTree.Core.Patches.Special
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             else
             {
-                dealerList = UnityEngine.Object.FindObjectsOfType<Dealer>();
                 float totalCash = 0;
 
-                foreach (Dealer dealer in dealerList)
-                {
-                    if (!Core.ValidDealer(dealer))
-                    {
-                        continue;
-                    }
-                    
+                foreach (Dealer dealer in Dealer.AllPlayerDealers)
+                {             
                     totalCash += dealer.Cash;
                     MoneyManager.Instance.ChangeCashBalance(dealer.Cash, true, true);
 
