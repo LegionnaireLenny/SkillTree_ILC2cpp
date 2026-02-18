@@ -48,7 +48,7 @@ namespace SkillTree.Core
             LoggerInstance.Msg("SkillTree Initialized.");
             Instance = this;
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
-            Keybinds.SetFilePath($"UserData/SkillTree_Config.json");
+            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg");
             MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
             ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill One", KeyCode.F1, "Streetsweeper", "Activate 'Streetsweeper' skill");
             ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill Two", KeyCode.F2, "Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
