@@ -12,7 +12,6 @@ namespace SkillTree.Core
 
         private SkillCategory? selectedCategory = null;
 
-        private SkillConfig settings;
         public bool isRebinding = false;
 
         public bool Visible { get; set; }
@@ -41,9 +40,8 @@ namespace SkillTree.Core
         // =========================
         // Constructor
         // =========================
-        public SkillTreeUI(SkillTreeData data, SkillConfig sharedConfig)
+        public SkillTreeUI(SkillTreeData data)
         {
-            settings = sharedConfig;
             BuildSkillMap();
         }
 
@@ -107,42 +105,6 @@ namespace SkillTree.Core
                 }
 
                 GUILayout.FlexibleSpace();
-
-                GUILayout.BeginVertical("box");
-                string buttonLabel = isRebinding ? "<Color=yellow>Press any key... (ESC to cancel)</Color>" : $"Menu Hotkey: {settings.MenuHotkey}";
-
-                if (GUILayout.Button(buttonLabel, new GUILayoutOption[] { GUILayout.Height(30) }))
-                {
-                    isRebinding = true;
-                    MelonLogger.Msg("[SkillTree] Rebinding started. Waiting for input...");
-                }
-
-                GUILayout.EndVertical();
-
-                if (isRebinding)
-                {
-                    Event e = Event.current;
-
-                    if (e.isKey && e.type == EventType.KeyDown)
-                    {
-                        if (e.keyCode == KeyCode.Escape)
-                        {
-                            isRebinding = false;
-                            MelonLogger.Msg("[SkillTree] Rebinding cancelled by user.");
-                        }
-                        else if (e.keyCode != KeyCode.None)
-                        {
-                            settings.MenuHotkey = e.keyCode;
-
-                            SkillTreeSaveManager.SaveConfig(settings);
-
-                            isRebinding = false;
-                            MelonLogger.Msg($"[SkillTree] Hotkey successfully changed to: {settings.MenuHotkey}");
-                        }
-                        e.Use();
-                    }
-                }
-
                 GUI.DragWindow();
             }
             catch (Exception e)

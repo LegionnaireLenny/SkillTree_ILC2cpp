@@ -7,6 +7,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using MelonLoader.Utils;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Special;
@@ -14,7 +15,7 @@ using SkillTree.Core.Patches.Stats;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "1.0.0", "CrazyReizor", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.0.0", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
@@ -24,7 +25,6 @@ namespace SkillTree.Core
         public static Core Instance;
 
         public static SkillTreeData SkillData;
-        private SkillConfig skillConfig;
         private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -36,13 +36,23 @@ namespace SkillTree.Core
         private bool waiting = true;
         private bool treeUiChange = false;
 
+        private static MelonPreferences_Category Keybinds { get; set; }
+        public static MelonPreferences_Entry MenuHotkey { get; set; }
+        public static MelonPreferences_Entry ActiveSkillOne { get; set; }
+        public static MelonPreferences_Entry ActiveSkillTwo { get; set; }
+        public static MelonPreferences_Entry ActiveSkillThree { get; set; }
+
 
         public override void OnInitializeMelon()
         {
             LoggerInstance.Msg("SkillTree Initialized.");
             Instance = this;
-
-            var harmony = new HarmonyLib.Harmony("com.reizor.skilltree");
+            Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
+            Keybinds.SetFilePath($"UserData/SkillTree_Config.json");
+            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
+            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill One", KeyCode.F1, "Streetsweeper", "Activate 'Streetsweeper' skill");
+            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill Two", KeyCode.F2, "Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
+            ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill Three", KeyCode.F3, "Siphon Funds", "Activate 'Siphon Funds' skill");
         }
 
         public void Reset()
@@ -79,8 +89,7 @@ namespace SkillTree.Core
                 if (timer <= 0f)
                 {
                     SkillData = SkillTreeSaveManager.LoadOrCreate();
-                    skillConfig = SkillTreeSaveManager.LoadConfig();
-                    skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
+                    skillTreeUI = new SkillTreeUI(SkillData);
 
                     ItemUnlocker.UnlockSpecificItems();
                     ValidateSave();
@@ -99,7 +108,7 @@ namespace SkillTree.Core
 
             ActiveSkills();
 
-            if (Input.GetKeyDown(skillConfig.MenuHotkey))
+            if (Input.GetKeyDown((KeyCode)MenuHotkey.BoxedValue))
             {
                 skillTreeUI.Visible = !skillTreeUI.Visible;
                 treeUiChange = true;
@@ -139,13 +148,13 @@ namespace SkillTree.Core
         public void ActiveSkills()
         {
             ValidSkill();
-            if (Input.GetKeyDown(KeyCode.F1) && SkillData.Special == 1)
+            if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillData.Special == 1)
                 ClearTrash();
 
-            if (Input.GetKeyDown(KeyCode.F2) && SkillData.Heal == 1)
+            if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillData.Heal == 1)
                 Heal();
 
-            if (Input.GetKeyDown(KeyCode.F3) && SkillData.GetCashDealer == 1)
+            if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillData.GetCashDealer == 1)
                 GetCashDealer();
         }
 
@@ -220,7 +229,7 @@ namespace SkillTree.Core
                 if (specialSkillPointValid > 0)
                     specialSkillPointValid = 0;
 
-                skillTreeUI ??= new SkillTreeUI(SkillData, skillConfig);
+                skillTreeUI ??= new SkillTreeUI(SkillData);
                 skillTreeUI?.AddPoints(statsGained, opsGained, socialGained, specialGained);
 
                 MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
@@ -246,8 +255,7 @@ namespace SkillTree.Core
                 if (File.Exists(path))
                     File.Delete(path);
                 SkillData = SkillTreeSaveManager.LoadOrCreate();
-                skillConfig = SkillTreeSaveManager.LoadConfig();
-                skillTreeUI = new SkillTreeUI(SkillData, skillConfig);
+                skillTreeUI = new SkillTreeUI(SkillData);
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
             }

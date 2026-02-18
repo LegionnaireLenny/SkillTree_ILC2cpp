@@ -110,13 +110,13 @@
 
         /* SPECIAL STARTS HERE */
 
-        [Skill("Streetsweeper (F1)", "Once per day, destroy all trash on the map", SkillCategory.Special, null, 1)]
+        [Skill("Streetsweeper", "Once per day, destroy all trash on the map", SkillCategory.Special, null, 1)]
         public int Special = 0;
 
-        [Skill("Fit as a Fiddle (F2)", "Once per day, heal to max health", SkillCategory.Special, "Special", 1)]
+        [Skill("Fit as a Fiddle", "Once per day, heal to max health", SkillCategory.Special, "Special", 1)]
         public int Heal = 0;
 
-        [Skill("Siphon Funds (F3)", "Once per day, instantly collect your cash from all dealers", SkillCategory.Special, "Special", 1)]
+        [Skill("Siphon Funds", "Once per day, instantly collect your cash from all dealers", SkillCategory.Special, "Special", 1)]
         public int GetCashDealer = 0;
 
         [Skill("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, "Special", 1)]
