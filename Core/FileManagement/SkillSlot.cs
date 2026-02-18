@@ -48,7 +48,7 @@
         [Skill("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, null, 1)]
         public int Operations = 0;
 
-        [Skill("Advanced Pot Techniques", "Increase plant and mushroom quality by 15%. Bonus for plants in grow tents, plastic pots, and moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, "Operations", 2)]
+        [Skill("Advanced Pot Techniques", "Increase plant and mushroom quality by 15%. Bonus for plants in grow tents, plastic pots, \nand moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, "Operations", 2)]
         public int MoreQuality = 0;
 
         [Skill("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Operations, "MoreQuality", 1)]

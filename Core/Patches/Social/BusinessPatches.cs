@@ -15,7 +15,7 @@ namespace SkillTree.Core.Patches.Social
         {
             if (Core.SkillData.BusinessEvolving != 0)
             {
-                MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100}%");
+                MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             }
 
             Business[] businessList = UnityEngine.Object.FindObjectsOfType<Business>();

@@ -24,7 +24,7 @@ namespace SkillTree.Core.Patches.Special
             currentDay = -1;
         }
 
-        public static void ValidSkill()
+        public static void ResetSkillsIfNewDay()
         {
             if (currentDay != (int)TimeManager.Instance.CurrentDay)
             {

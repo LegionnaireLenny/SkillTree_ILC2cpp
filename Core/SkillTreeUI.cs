@@ -183,10 +183,10 @@ namespace SkillTree.Core
 
             bool canBuy = parentUnlocked && value < maxLevel && GetPoints(skill.Category) > 0;
 
-            Rect labelRect = new Rect(startX, currentY, 380f, 20f);
+            Rect labelRect = new Rect(startX, currentY, 380f, 24f);
             GUI.Label(labelRect, $"{skill.Name} ({value}/{maxLevel})");
 
-            Rect buttonRect = new Rect(startX + 470f, currentY, 24f, 20f);
+            Rect buttonRect = new Rect(startX + 470f, currentY, 24f, 24f);
 
             if (value < maxLevel)
             {
@@ -288,9 +288,9 @@ namespace SkillTree.Core
             int value = (int)skill.Field.GetValue(Core.SkillData);
 
             float startX = 20 + depth * 30;
-            float lineHeight = 22f;
+            float lineHeight = 24f;
 
-            Rect labelRect = new Rect(startX, currentY, 270, 20);
+            Rect labelRect = new Rect(startX, currentY, 270, 24);
             GUI.Label(labelRect, $"{skill.Name}: {value}/1");
 
             bool parentUnlocked =
@@ -302,7 +302,7 @@ namespace SkillTree.Core
                 GetPoints(skill.Category) > 0 &&
                 parentUnlocked;
 
-            Rect btnRect = new Rect(startX + 260, currentY, 30, 20);
+            Rect btnRect = new Rect(startX + 260, currentY, 30, 24);
 
             GUI.enabled = canBuy;
             if (GUI.Button(btnRect, "+"))

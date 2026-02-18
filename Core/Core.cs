@@ -106,9 +106,10 @@ namespace SkillTree.Core
             if (lastProcessedTier != LevelManager.Instance.Tier)
                 AttPoints(true);
 
+            ResetSkillsIfNewDay();
             ActiveSkills();
 
-            if (Input.GetKeyDown((KeyCode)MenuHotkey.BoxedValue))
+            if (Input.GetKeyDown((KeyCode)MenuHotkey.BoxedValue) && (skillTreeUI.Visible || Cursor.lockState != CursorLockMode.None))
             {
                 skillTreeUI.Visible = !skillTreeUI.Visible;
                 treeUiChange = true;
@@ -147,7 +148,11 @@ namespace SkillTree.Core
 
         public void ActiveSkills()
         {
-            ValidSkill();
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                return;
+            }
+
             if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillData.Special == 1)
                 ClearTrash();
 
