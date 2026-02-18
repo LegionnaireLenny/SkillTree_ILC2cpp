@@ -1,13 +1,11 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
-using MelonLoader.Utils;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Special;
@@ -24,6 +22,7 @@ namespace SkillTree.Core
     {
         public static Core Instance;
 
+        public static readonly string version = "2.0.0";
         public static SkillTreeData SkillData;
         private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
@@ -49,10 +48,10 @@ namespace SkillTree.Core
             Instance = this;
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg");
-            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
-            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill One", KeyCode.F1, "Streetsweeper", "Activate 'Streetsweeper' skill");
-            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill Two", KeyCode.F2, "Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
-            ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_Skill Three", KeyCode.F3, "Siphon Funds", "Activate 'Siphon Funds' skill");
+            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
+            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Streetsweeper", "Activate 'Streetsweeper' skill");
+            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
+            ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
         }
 
         public void Reset()

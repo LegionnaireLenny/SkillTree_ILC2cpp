@@ -42,7 +42,7 @@
 		<Compile Include="Core\Patches\Social\CustomerPatches.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
 		<Compile Include="Core\FileManagement\SkillAttribute.cs" />
-		<Compile Include="Core\FileManagement\SkillSlot.cs" />
+		<Compile Include="Core\FileManagement\SkillTreeData.cs" />
 		<Compile Include="Core\FileManagement\SkillTreeSaveManager.cs" />
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\BetterEmployees.cs" />

@@ -100,7 +100,7 @@
         [Skill("Cheapskate", "Decrease dealer's cut by 5%", SkillCategory.Social, "DealerMoreCustomer", 2)]
         public int DealerCutLess = 0;
 
-        [Skill("Well-Connected", "Increase dead drop order and item limits by 50%", SkillCategory.Social, "Social", 2)]
+        [Skill("Well-Connected", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
         public int BetterSupplier = 0;
 
         [Skill("Hustler", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
