@@ -48,7 +48,7 @@
         [Skill("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, null, 1)]
         public int Operations = 0;
 
-        [Skill("Advanced Pot Techniques", "Increase plant and mushroom quality by 15%. Bonus for plants in grow tents, plastic pots, \nand moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, "Operations", 2)]
+        [Skill("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%. Bonus for plants in plastic pots \nand moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, "Operations", 2)]
         public int MoreQuality = 0;
 
         [Skill("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Operations, "MoreQuality", 1)]
@@ -94,14 +94,14 @@
         [Skill("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, "Social", 3)]
         public int BusinessEvolving = 0;
 
+        [Skill("Well-Connected", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
+        public int BetterSupplier = 0;
+
         [Skill("Well-Oiled Machine", "Increase dealer's customer limit by 2", SkillCategory.Social, "Social", 1)]
         public int DealerMoreCustomer = 0;
 
         [Skill("Cheapskate", "Decrease dealer's cut by 5%", SkillCategory.Social, "DealerMoreCustomer", 2)]
         public int DealerCutLess = 0;
-
-        [Skill("Well-Connected", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
-        public int BetterSupplier = 0;
 
         [Skill("Hustler", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
         public int DealerSpeedUp = 0;
