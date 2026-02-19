@@ -1,12 +1,9 @@
 # **Skill Tree Mod**
 
-**Source Code**: [https://github.com/AugustoCesarAC/SkillTree](https://github.com/AugustoCesarAC/SkillTree)
+**(Il2cpp) Main Version**
 
-**Main and Mono Branch**
 
-**Now with Special Category**
-
-## **Functions**
+## **Leveling**
 
 To open the Skill Tree Window, just press **"C"**
 
@@ -28,68 +25,63 @@ Skill Points are divided into four categories: **Stats, Operations, Social, Spec
 
 ---
 
+## **Default Keybinds**
+
+* Open Skill Tree Menu: C
+* Activate Skill One "Streetsweeper: F1
+* Activate Skill Two "Fit as a Fiddle": F2
+* Activate Skill Three "Siphon Funds": F3
+
+---
+
 ## **Skill Trees (Spoilers)**
 
 ### **Category: Stats**
 
-```text
-[*] [More Health]: Increase Max Health by +20 (Parent: None)
-    [*] [More Movespeed]: Increase 10% by Movespeed (Parent: More Health)
-    [*] [More XP]: Increase XP Gain by 5% (Parent: More Health)
-        [*] [More Item Stack (x2)]: Increase Item Stack (x2) (Parent: More XP)
-        [*] [More XP Per Sell When Earn Money]: Earn 5% bonus XP (Parent: More XP)
-        [*] [More XP 2]: Increase XP Gain by an additional 5% (Parent: More XP)
-    [*] [Better Delivery]: Make Deliveries More Fast (6H -> 2H) (Parent: More Health)
-    [*] [Allow Sleep with Athletic or Energizing]: (Parent: More Health)
-        [*] [Allow Use Bed to Skip Schedule]: Skip Schedule (Parent: Allow Sleep)
-    [*] [Counteroffer Perception]: See chance of counteroffer (Parent: More Health)
-
-```
+* **Hardy**: Increase max health by 20
+  * **Fleet Feet**: Increase movespeed by 10%
+  * **Prison Wallet**: Double item stack size
+  * **Speed Dial**: Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours
+  * **Crystal Ball**: See the chance of a customer accepting a counteroffer
+  * **Master Sleeper**: Allow sleeping while Athletic or Energizing effects are active
+    * **Napping on the Job**: Can use a bed to skip to the next time period. Plants only grow at 33% of their normal speed when time is skipped
+  * **Fast Learner**: Increase XP gain by 5%
+    * **Turbo Nerdo**: Increase XP gain by an additional 5%
+    * **Kingpin**: Gain 5% of a drug sale's value as bonus XP
 
 ### **Category: Operations**
 
-```text
-[*] [Better Grow Tent Quality]: Trash -> Low (Parent: None)
-    [*] [Increase Growth Speed]: Increase Growth Speed by 2.5% (Parent: Better Grow Tent)
-        [*] [More Yield]: Increase Yield by 1 (Parent: Increase Growth Speed)
-            [*] [Advanced Pot Techniques]: +15% Quality & Pot Tiers (Parent: More Yield)
-                [*] [More Quality Mushroom]: Upgrade Tier (Parent: Advanced Pots)
-                [*] [Increase Growth Speed 2°]: +2.5% Speed (Parent: Advanced Pots)
-            [*] [More Quality Meth]: Upgrade Meth Quality Tier (Parent: More Yield)
-            [*] [Chemist Station Quick]: Increase Station Speed (Parent: More Yield)
-                [*] [More Mix and Drying Rack Output]: Double Output (Parent: Chemist)
-                    [*] [More Cauldron Output]: Double Output (Parent: Mix/Drying)
-                [*] [AbsorbentSoil]: Preserve soil additives (Parent: Chemist)
-
-```
+* **Pitchin' a Tent**: Increase quality of plants in grow tents by 16%
+  * **Advanced Pot Techniques**: Increase plant and mushroom quality by 15%. Bonus for plants in grow tents, plastic pots, and moisture pots capped at 15%. Mushrooms only affected at rank 2.
+    * **Harder and Stronger**: Meth and cocaine quality increased by 1
+  * **Absorbent Soil**: Soil additives last until the soil is depleted
+  * **Green Thumb**: Increase plant and mushroom growth speed 2.5%
+    * **Plant Whisperer**: Increase plant and mushroom growth speed by an additional 2.5%
+    * **Quick Crafter**: Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations
+  * **Bountiful Harvest**: Increase base yield of plants by 1
+    * **Crankin' One Out**: Double the slot capacity for mixing stations and drying racks
+    * **Witch's Brew**: Double the cauldron's output
 
 ### **Category: Social**
 
-```text
-[*] [More sample chance]: Increase Sample Chance by 5% (Parent: None)
-    [*] [Civil More Money per week]: Increase Weekly Money by 10% (Parent: Marketing)
-    [*] [More ATM Limit]: Increase ATM Deposit Limit by +1500 (Parent: Marketing)
-    [*] [Better Business]: +20% Max Laundering Capacity (Parent: Marketing)
-    [*] [Better Supplier]: +50% Debt and Item Limits (Parent: Marketing)
-    [*] [Dealer More Customer]: Increase Dealer Customers (+2) (Parent: Marketing)
-        [*] [Less Dealer Cut]: Decrease Dealer's Cut by 5% (Parent: Dealer)
-        [*] [Dealer Speed Up]: Increase Movespeed (2x) (Parent: Dealer)
-
-```
+* **Silver Tongued Devil**: Increase chance a potential customer will accept a free sample by 5%
+  * **Spread the Wealth**: Increase citizens' weekly spending limits by 10%
+  * **Hoard the Wealth**: Increase ATM deposit limit by $2000
+  * **Squeaky Clean**: Increase money laundering capacity by 20%
+  * **Well-Connected**: Increase dead drop order limit by 67.5% and item limit by 50%
+  * **Well-Oiled Machine**: Increase dealer's customer limit by 2
+    * **Cheapskate**: Decrease dealer's cut by 5%
+    * **Hustler**: Double the movespeed of dealers
 
 ### **Special Skills**
 
-```text
-[*] **Destroy Trash (F1)** | Gain ability to destroy trash. 
-[*] **Heal Yourself (F2)** | Gain ability to heal your life. 
-[*] **Get Dealers Cash (F3)** | Gain ability to get dealers cash.
-[*] **Employees Work 24h** | Employees don't stop at 4 AM.
-[*] **Better Botanists** | All botanist actions are 2x faster. 
-[*] ↳ *Move Speed* | Employees move 3x faster. 
-[*] ↳ *Max Station* | Increase +2 MaxStation for Botanists/Chemists. 
-
-```
----
+* **Streetsweeper**: Once per day: destroy all trash on the map
+  * **Fit as a Fiddle**: Once per day: heal to max health
+  * **Siphon Funds**: Once per day: instantly collect your cash from all dealers
+  * **Fast Farmers**: Botanists perform all actions twice as fast
+    * **Sweatshop**: Employees don't stop at 4 AM
+    * **RUN BITCH RUN!**: Employees move 3 times faster
+    * **Over Worked and Underpaid**: Increase station assignment limit for botanists and chemists by 2
 
 ---
 
@@ -141,41 +133,33 @@ Payments are now sent every **4 hours**. (e.g., Laundering 2,000 pays out 334 si
 
 ---
 
-## **Observations**
+## **Notes**
 
-**Multiplayer:** I haven't been able to test this thoroughly in multiplayer yet. There may be bugs, and I will do my best to fix them as they are reported.
 
-**Feedback:** If you encounter bugs, have balance suggestions, or new ideas, please notify me on the mod page.
+**Multiplayer**: I haven't been able to test this thoroughly in multiplayer yet. There may be bugs, and I will do my best to fix them as they are reported.
 
-**Open Source:** The code is open source so anyone can modify or learn from it. (I used AI to help with patching, but I manually handle the logic and code insertion when the AI struggles).
+**Feedback**: If you encounter bugs, have balance suggestions, or new ideas, please notify me on the mod page.
+
+**Open Source**: SkillTree (Forked) is open source and distributed with the same licenses as the original: non-commercial use only, accepting donations is fine, and you must credit the original authors. Feel free to fork, modify, and learn from it. The original mod used AI code for the Harmony patches, and I've gutted most of it.
 
 ---
 
 ## **Known Issues**
 
-(I have tried my best to fix these, but they remain minor issues for now):
-
-* The Better Supplier interface does not update the display from 0/10 to 0/20, but you can still successfully buy 20 items.
-* While the Skill Tree UI is open, you can still perform punches (but you cannot use items).
-* When increasing the "Max Assigned Customers" for dealers, the UI lacks a scrollbar, but customers are assigned successfully.
-* If you start the mod during the Tutorial, the Skill Tree UI will bug out.
-* If you exit to the menu and restart without closing the game entirely, the mod may trigger an error.
-
----
-
-## **Curiosity**
-
-This isn't my first mod, but it is the first one I've made for myself that I felt was "good enough" to share. One of my previous mods, City Evolving, was actually integrated into this skill tree. My other previous work was a "Wait" system similar to Bethesda games.
+* None at the moment
 
 ---
 
 ## **F.A.Q.**
 
-**1. Q: My points disappeared or my skills reset. Why?**
-A: This happens if the JSON file and your save go out of sync (e.g., closing without saving). The mod safely resets skills and returns your points.
+Q: **My points disappeared or my skills reset. Why?**
 
----
+A: The mod reads a JSON file in UserData which syncs with your save. If you level up and spend points but close the game without saving, the JSON and your save file will be out of sync. In this case, the mod resets your skills and returns the points to you for relocation.
 
-<img width="213" height="217" alt="Paypal" src="https://github.com/user-attachments/assets/09358efc-bc2c-4863-9706-b47e22b7e34c" />
+Q: **Will skills get unique images?**
 
-If you liked it, please **endorse** this mod and, if you're feeling generous, consider **buying me a coffee**! ☕
+A: I don't think so. I initially wanted to add them, but I prioritized the mod's functionality instead.
+
+Q: **If I have an idea for the progression system, will you add it?**
+
+A: I'm open to it, but it depends on the complexity. I have already set aside ideas like "More Employees" or "More Routes" because the game's internal systems for those are very complex. I might consider them for a separate "Upgradable System" mod later.

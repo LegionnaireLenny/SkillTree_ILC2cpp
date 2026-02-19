@@ -20,9 +20,8 @@ Stats - More stamina
 Stats - Taser resistance
 Stats - Cuff resistance
 Stats - more melee damage
+Stats - Jump height
 Social - increase customer min and max orders per week
-
-Testing
-Check ATM limit (10000, 12000, 14000)
-Check Dealer customers (10, 12)
-Check athletic and energizing effects on player
+Social - increased pawn prices
+Social - Increased trash prices
+Operations - Add police to the map
