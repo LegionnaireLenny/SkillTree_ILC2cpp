@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
+using Il2CppScheduleOne.ItemFramework;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -27,6 +28,18 @@ namespace SkillTree.Core.Patches.Operations
 
             if (__instance.Pot.NormalizedMoistureAmount <= 0f)
                 num *= 0f;
+
+            if (Core.SkillData.AbsorbentSoil == 1 && __instance.NormalizedGrowthProgress < 0.5f)
+            {                
+                foreach (var additive in __instance.Pot.AppliedAdditives)
+                {
+                    if (additive.InstantGrowth > 0f)
+                    {
+                        num += additive.InstantGrowth;
+                        break;
+                    }
+                }
+            }
 
             __instance.SetNormalizedGrowthProgress(__instance.NormalizedGrowthProgress + num);
             return false;

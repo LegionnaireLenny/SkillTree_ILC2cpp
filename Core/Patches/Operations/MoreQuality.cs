@@ -45,7 +45,7 @@ namespace SkillTree.Core.Patches.Operations
             float potBonus = 0f;
 
             if (potName.Equals("Grow Tent"))
-                potBonus = SkillModifiers.GetGrowTentQualityBonus() + SkillModifiers.GetPlantQualityBonus(1);
+                potBonus = SkillModifiers.GetGrowTentQualityBonus();
             else if (potName.Equals("Plastic Pot"))
                 potBonus = SkillModifiers.GetPlantQualityBonus(1);
             else if (potName.Equals("Moisture-Preserving Pot"))

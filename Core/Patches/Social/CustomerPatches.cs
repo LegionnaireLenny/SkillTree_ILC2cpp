@@ -17,7 +17,7 @@ namespace SkillTree.Core.Patches.Social
 
             float origin = __result;
             __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
-            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {(int)origin} to {(int)__result}");
+            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {(int)(origin * 100)}% to {(int)(__result * 100)}%");
 
         }
 
