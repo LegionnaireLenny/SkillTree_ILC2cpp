@@ -17,7 +17,7 @@ namespace SkillTree.Core.Patches.Stats
             MelonLogger.Msg($"[MoreStackItem] Increasing item stack by x{SkillModifiers.GetInventoryStackSizeMultiplier()}");
             foreach (ItemDefinition item in allItems)
             {
-                if (Cache.ItemStack.TryGetValue(item.name, out int baseStackLimit))
+                if (Cache.OriginalItemStackSize.TryGetValue(item.name, out int baseStackLimit))
                 {
                     item.StackLimit = baseStackLimit * SkillModifiers.GetInventoryStackSizeMultiplier();
                     MelonLogger.Msg($"[MoreStackItem] {item.name}: {baseStackLimit} -> {item.StackLimit}");

@@ -41,20 +41,19 @@ namespace SkillTree.Core.Patches.Operations
             if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || Core.SkillData == null || (Core.SkillData.Operations == 0 && Core.SkillData.MoreQuality == 0))
                 return;
 
-            string potName = __instance.Pot.Name;
             float potBonus = 0f;
 
-            if (potName.Equals("Grow Tent"))
+            if (__instance.Pot.Name.Equals("Grow Tent"))
                 potBonus = SkillModifiers.GetGrowTentQualityBonus();
-            else if (potName.Equals("Plastic Pot"))
+            else if (__instance.Pot.Name.Equals("Plastic Pot"))
                 potBonus = SkillModifiers.GetPlantQualityBonus(1);
-            else if (potName.Equals("Moisture-Preserving Pot"))
+            else if (__instance.Pot.Name.Equals("Moisture-Preserving Pot"))
                 potBonus = SkillModifiers.GetPlantQualityBonus(1);
-            else if (potName.Equals("Air Pot"))
+            else if (__instance.Pot.Name.Equals("Air Pot"))
                 potBonus = SkillModifiers.GetPlantQualityBonus();
 
             float finalQuality = __instance.QualityLevel + potBonus;
-            //MelonLogger.Msg($"[SkillTree] Plant Initialize: {potName} | Base Quality: {__instance.QualityLevel} | Pot Bonus: +{potBonus} | Final: {finalQuality}");
+            MelonLogger.Msg($"[SkillTree] Plant Growth Done: {__instance.Pot.GetManagementName()} | Base Quality: {__instance.QualityLevel} | Pot Bonus: +{potBonus} | Final: {finalQuality} ({ItemQuality.GetQuality(finalQuality)})");
             __instance.QualityLevel = finalQuality;
         }
     }

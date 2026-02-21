@@ -68,7 +68,7 @@ namespace SkillTree.Core
 
             AllowSleep.Reset();
             SkillActive.Reset();
-            Cache.Reset();
+            //Cache.Reset();
         }
 
         public override void OnUpdate()

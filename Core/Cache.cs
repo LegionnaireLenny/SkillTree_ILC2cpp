@@ -18,7 +18,7 @@ namespace SkillTree.Core
         //public static readonly Dictionary<string, float> OriginalMaxOrder = [];
 
         // Items
-        public static readonly Dictionary<string, int> ItemStack = [];
+        public static readonly Dictionary<string, int> OriginalItemStackSize = [];
 
         // Economy
         public static readonly Dictionary<string, float> OriginalDealerCut = [];
@@ -81,9 +81,9 @@ namespace SkillTree.Core
         {
             foreach (ItemDefinition item in items)
             {
-                if (!ItemStack.ContainsKey(item.name))
+                if (!OriginalItemStackSize.ContainsKey(item.name))
                 {
-                    ItemStack.Add(item.name, item.StackLimit);
+                    OriginalItemStackSize.Add(item.name, item.StackLimit);
                 }
             }
             MelonLogger.Msg("[Cache] Successfully cached stack limits for each item!");
@@ -112,7 +112,7 @@ namespace SkillTree.Core
             OriginalLaunderCapacity.Clear();
             OriginalMinSpend.Clear();
             OriginalMaxSpend.Clear();
-            ItemStack.Clear();
+            OriginalItemStackSize.Clear();
             OriginalDealerCut.Clear();
             OriginalDealerMoveSpeed.Clear();
             //Customers.Clear()
