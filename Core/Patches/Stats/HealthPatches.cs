@@ -4,12 +4,11 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 namespace SkillTree.Core.Patches.Stats
 {
     [HarmonyPatch(typeof(PlayerHealth))]
-    public class Stats
+    public class HealthPatches
     {
         public static void SetPlayerHealth()
         {
@@ -27,11 +26,12 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static bool Prefix_MinPass(PlayerHealth __instance)
         {
-            if (__instance.IsAlive && __instance.CurrentHealth < SkillModifiers.GetPlayerMaxHealth() && __instance.TimeSinceLastDamage > 30f)
+            if (__instance.IsAlive && 
+                __instance.CurrentHealth < SkillModifiers.GetPlayerMaxHealth() && 
+                __instance.TimeSinceLastDamage > SkillModifiers.GetPlayerHealthRegenDelay())
             {
-                __instance.RecoverHealth(0.5f);
-                MelonLogger.Msg($"Recovered {0.5f} health. Current health {__instance.CurrentHealth}. Max health {SkillModifiers.GetPlayerMaxHealth()}");
-
+                float recoveredHealth = SkillModifiers.GetPlayerHealthRegen();
+                __instance.RecoverHealth(recoveredHealth);
             }
             return false;
         }
@@ -47,7 +47,7 @@ namespace SkillTree.Core.Patches.Stats
             }
             __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            MelonLogger.Msg($"Recovered {recovery} health. Current health {__instance.CurrentHealth}. Max health {SkillModifiers.GetPlayerMaxHealth()}");
+            MelonLogger.Msg($"Health => Recovered {recovery} | Current {__instance.CurrentHealth} | Max {SkillModifiers.GetPlayerMaxHealth()}");
             return false;
         }
 
@@ -96,9 +96,14 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
+            if (Mathf.Approximately(health, SkillModifiers.PlayerBaseHealth))
+            {
+                health = SkillModifiers.GetPlayerMaxHealth();
+            }
+
             __instance.CurrentHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            MelonLogger.Msg($"[Stats] Trying to set health to {health}. Health after {__instance.CurrentHealth}.");
+            MelonLogger.Msg($"[Stats] Trying to set health to {health}. Health after {__instance.CurrentHealth}. Max health {SkillModifiers.GetPlayerMaxHealth()}");
             if (__instance.CurrentHealth <= 0f)
             {
                 __instance.SendDie();

@@ -11,17 +11,21 @@ namespace SkillTree.Core
             {
                 // Stats
                 case "Stats":
-                    Patches.Stats.Stats.SetPlayerHealth();
+                case "BattleScarred":
+                    Patches.Stats.HealthPatches.SetPlayerHealth();
+                    break;
+                case "Slippery":
+                    Patches.Stats.MovementPatches.SetPlayerJumpHeight();
+                    Patches.Stats.MovementPatches.SetPlayerStamina();
                     break;
                 case "MoreMovespeed":
-                    Patches.Stats.MoreMoveSpeed.SetPlayerSpeed();
+                    Patches.Stats.MovementPatches.SetPlayerSpeed();
                     break;
                 case "MoreStackItem":
                     Patches.Stats.MoreStackItem.SetItemStackSize();
                     break;
                 case "MoreXP":
                 case "MoreXP2":
-                case "BetterDelivery":
                 case "AllowSleepAthEne":
                 case "AllowSeeCounteroffChance":
                 case "SkipSchedule":
@@ -60,6 +64,7 @@ namespace SkillTree.Core
                     break;
                 case "DealerMoreCustomer":
                 case "BetterSupplier":
+                case "BetterDelivery":
                     break;
 
                 //SPECIAL

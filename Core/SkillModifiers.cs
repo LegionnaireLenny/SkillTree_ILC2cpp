@@ -1,7 +1,10 @@
-﻿using Il2CppScheduleOne.Economy;
+﻿using Il2CppGameKit.Utilities.Types;
+using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Money;
+using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
+using MelonLoader;
 using UnityEngine;
 
 namespace SkillTree.Core
@@ -11,21 +14,52 @@ namespace SkillTree.Core
         #region Stats
         public static readonly float PlayerBaseHealth = PlayerHealth.MAX_HEALTH;
         public static readonly float HealthBonus = 20f;
+        public static readonly float PlayerBaseHealthRegen = 0.5f;
+        public static readonly int HealthRegenBonus = 1;
+        public static readonly float PlayerBaseHealthRegenDelay = 30f;
+        public static readonly float PlayerBaseStamina = PlayerMovement.StaminaReserveMax;
+        public static readonly float StaminaBonus = 0.30f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
-        public static readonly float MoveSpeedBonus = 0.10f;
+        public static readonly float PlayerBaseJumpHeight = PlayerMovement.JumpMultiplier;
+        public static readonly float MoveSpeedBonus = 0.15f;
+        public static readonly float JumpHeightBonus = 0.30f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
-        public static readonly int InventoryStackSizeMultiplier = 1;
-        public static readonly float PackagerMoveSpeedMultiplier = 2f;
+        public static readonly int InventoryStackSizeBonus = 1;
+        public static readonly float BaseArrestTime = 1.75f;
+        public static readonly float ArrestTimeIncreaseBonus = 1f;
+        public static readonly float BaseArrestRadius = 2.75f;
+        public static readonly float ArrestRadiusReductionBonus = 0.75f;
+        //public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
         public static float GetPlayerMaxHealth()
         {
             return PlayerBaseHealth + (Core.SkillData.Stats * HealthBonus);
         }
 
+        public static float GetPlayerHealthRegen()
+        {
+            return PlayerBaseHealthRegen * (1 + (Core.SkillData.BattleScarred * HealthRegenBonus));
+        }
+
+        public static float GetPlayerHealthRegenDelay()
+        {
+            return PlayerBaseHealthRegenDelay / (Math.Abs(Core.SkillData.BattleScarred) + 1);
+        }
+
+        public static float GetPlayerMaxStamina()
+        {
+            return PlayerBaseStamina * (1 + (Core.SkillData.SpringHeeled * StaminaBonus));
+        }
+
         public static float GetPlayerMoveSpeed()
         {
-            return PlayerBaseMoveSpeed + (Core.SkillData.MoreMovespeed * MoveSpeedBonus);
+            return PlayerBaseMoveSpeed * (1 + (Core.SkillData.MoreMovespeed * MoveSpeedBonus));
+        }
+
+        public static float GetPlayerJumpHeight()
+        {
+            return PlayerBaseJumpHeight * (1 + (Core.SkillData.SpringHeeled * JumpHeightBonus));
         }
 
         public static float GetXPGainMultiplier()
@@ -40,8 +74,19 @@ namespace SkillTree.Core
 
         public static int GetInventoryStackSizeMultiplier()
         {
-            return 1 + (Core.SkillData.MoreStackItem * InventoryStackSizeMultiplier);
+            return 1 + (Core.SkillData.MoreStackItem * InventoryStackSizeBonus);
         }
+
+        public static float GetArrestTime()
+        {
+            return BaseArrestTime * (1 + (Core.SkillData.Slippery * ArrestTimeIncreaseBonus));
+        }
+
+        public static float GetArrestRadius()
+        {
+            return BaseArrestRadius * (1 + (Core.SkillData.Slippery * ArrestRadiusReductionBonus));
+        }
+
         #endregion Stats
 
         #region Operations

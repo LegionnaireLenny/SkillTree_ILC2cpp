@@ -14,14 +14,20 @@
         [Skill("Hardy", "Increase max health by 20", SkillCategory.Stats, null, 1)]
         public int Stats = 0;
 
-        [Skill("Fleet Feet", "Increase movespeed by 10%", SkillCategory.Stats, "Stats", 3)]
+        [Skill("Battle-scarred", "Increase health regen by 100% and decrease health regen delay by 50%", SkillCategory.Stats, "Stats", 1)]
+        public int BattleScarred = 0;
+
+        [Skill("Slippery", "Reduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, "BattleScarred", 1)]
+        public int Slippery = 0;
+
+        [Skill("Fleet Feet", "Increase movespeed by 15%", SkillCategory.Stats, "Stats", 2)]
         public int MoreMovespeed = 0;
+
+        [Skill("Spring-Heeled", "Increase max stamina by 30% and jump height by 30%", SkillCategory.Stats, "MoreMovespeed", 1)]
+        public int SpringHeeled = 0;
 
         [Skill("Prison Wallet", "Double item stack size", SkillCategory.Stats, "Stats", 1)]
         public int MoreStackItem = 0;
-
-        [Skill("Speed Dial", "Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours", SkillCategory.Stats, "Stats", 1)]
-        public int BetterDelivery = 0;
 
         [Skill("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Stats, "Stats", 1)]
         public int AllowSeeCounteroffChance = 0;
@@ -91,11 +97,14 @@
         [Skill("Hoard the Wealth", "Increase ATM deposit limit by $2000", SkillCategory.Social, "Social", 2)]
         public int MoreATMLimit = 0;
 
-        [Skill("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, "Social", 3)]
+        [Skill("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, "MoreATMLimit", 3)]
         public int BusinessEvolving = 0;
 
         [Skill("Well-Connected", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
         public int BetterSupplier = 0;
+
+        [Skill("Speed Dial", "Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours", SkillCategory.Social, "BetterSupplier", 1)]
+        public int BetterDelivery = 0;
 
         [Skill("Well-Oiled Machine", "Increase dealer's customer limit by 2", SkillCategory.Social, "Social", 1)]
         public int DealerMoreCustomer = 0;

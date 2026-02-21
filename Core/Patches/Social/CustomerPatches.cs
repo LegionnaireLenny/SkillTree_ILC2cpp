@@ -41,7 +41,7 @@ namespace SkillTree.Core.Patches.Social
 
                     if (!Mathf.Approximately(baseMin, customer.CustomerData.MinWeeklySpend))
                     {
-                        MelonLogger.Msg($"[CityEvolving] {customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
+                        //MelonLogger.Msg($"[CityEvolving] {customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
                     }
                 }
             }

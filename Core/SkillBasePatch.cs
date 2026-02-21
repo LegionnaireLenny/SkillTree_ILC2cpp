@@ -173,7 +173,7 @@ namespace SkillTree.Core
 
                         //Traverse.Create(__instance).Method("CreateListingUI", new object[] { newListing }).GetValue();
 
-                        MelonLogger.Msg($"[SkillTree Shop] Item successfully injected: {targetItem.Name}");
+                        //MelonLogger.Msg($"[SkillTree Shop] Item successfully injected: {targetItem.Name}");
                     }
                 }
             }

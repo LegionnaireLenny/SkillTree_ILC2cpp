@@ -7,11 +7,14 @@ using Il2CppScheduleOne.Product;
 using Il2CppScheduleOne.UI.Phone;
 using UnityEngine;
 using UnityEngine.UI;
+using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core.Patches.Stats
 {
     public static class AllowSeeCounteroffChance
     {
+        private static Text SuccessLabel;
+
         public static float CalculateSuccessChance(CounterofferInterface instance)
         {
             var conversation = instance.conversation;
@@ -70,29 +73,26 @@ namespace SkillTree.Core.Patches.Stats
             return Mathf.Clamp(probability, 0f, 1f);
         }
 
-        public static Text SuccessLabel;
 
         public static void CreateSuccessLabel(CounterofferInterface instance)
         {
             if (SuccessLabel != null)
+            {
                 return;
-
-            var fairLabel = instance.FairPriceLabel;
-
-            var parent = fairLabel.transform.parent;
+            }
 
             var go = UnityEngine.Object.Instantiate(
-                fairLabel.gameObject,
-                parent
+                instance.FairPriceLabel.gameObject,
+                instance.FairPriceLabel.transform.parent
             );
 
             go.name = "SuccessChanceLabel";
 
             SuccessLabel = go.GetComponent<Text>();
-            SuccessLabel.font = fairLabel.font;
-            SuccessLabel.fontSize = fairLabel.fontSize;
+            SuccessLabel.font = instance.FairPriceLabel.font;
+            SuccessLabel.fontSize = instance.FairPriceLabel.fontSize + 4;
             SuccessLabel.fontStyle = FontStyle.Bold;
-            SuccessLabel.alignment = fairLabel.alignment;
+            SuccessLabel.alignment = instance.FairPriceLabel.alignment;
             SuccessLabel.color = Color.black;
             SuccessLabel.supportRichText = true;
             SuccessLabel.enabled = true;
@@ -101,13 +101,14 @@ namespace SkillTree.Core.Patches.Stats
             var layout = go.AddComponent<LayoutElement>();
             layout.ignoreLayout = true;
 
-            RectTransform fairRT = fairLabel.rectTransform;
+            RectTransform fairRT = instance.FairPriceLabel.rectTransform;
             RectTransform rt = SuccessLabel.rectTransform;
 
             rt.anchorMin = fairRT.anchorMin;
             rt.anchorMax = fairRT.anchorMax;
             rt.pivot = fairRT.pivot;
             rt.sizeDelta = fairRT.sizeDelta;
+            
 
             rt.anchoredPosition = fairRT.anchoredPosition + new Vector2(0f, -23f);
 
@@ -129,8 +130,7 @@ namespace SkillTree.Core.Patches.Stats
                 chance >= 0.4f ? "#FFC107" :
                 "#F44336";
 
-            SuccessLabel.text =
-                $"<color={color}>Success chance: {chance * 100f:0}%</color>";
+            SuccessLabel.text = $"<color={color}>Success chance: {chance * 100f:0}%</color>";
             //MelonLogger.Msg($"SuccessLabel.text {SuccessLabel.text}");
         }
 

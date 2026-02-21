@@ -6,8 +6,8 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.0.2.0</AssemblyVersion>
-		<FileVersion>2.0.2.0</FileVersion>
+		<AssemblyVersion>2.0.3.0</AssemblyVersion>
+		<FileVersion>2.0.3.0</FileVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
@@ -30,9 +30,11 @@
 		<Compile Include="Core\Patches\Special\BetterBotanists.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
 		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
+		<Compile Include="Core\Patches\Stats\CrimePatches.cs" />
+		<Compile Include="Core\Patches\Stats\PlayerPatches.cs" />
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
 		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
-		<Compile Include="Core\Patches\Stats\Stats.cs" />
+		<Compile Include="Core\Patches\Stats\HealthPatches.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\SkillModifiers.cs" />
 		<Compile Include="Core\SkillSystem.cs" />
@@ -43,7 +45,7 @@
 		<Compile Include="Core\FileManagement\SkillTreeSaveManager.cs" />
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\BetterEmployees.cs" />
-		<Compile Include="Core\Patches\Stats\MoreMoveSpeed.cs" />
+		<Compile Include="Core\Patches\Stats\MovementPatches.cs" />
 		<Compile Include="Core\SkillTreeUI.cs" />
 	</ItemGroup>
 
