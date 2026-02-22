@@ -1,20 +1,23 @@
 ﻿using HarmonyLib;
+using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
+using MelonLoader;
+using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
 {
     [HarmonyPatch]
-    public class GrowthSpeed
+    public class PlantPatches
     {
         [HarmonyPatch(typeof(Plant), "MinPass")]
         [HarmonyPrefix]
         public static bool Prefix(Plant __instance, int mins)
         {
             if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
-                return true; 
+                return true;
 
             float num = 1f / (__instance.GrowthTime * 60f) * mins;
             num *= __instance.Pot.GetTemperatureGrowthMultiplier();
@@ -30,7 +33,7 @@ namespace SkillTree.Core.Patches.Operations
                 num *= 0f;
 
             if (Core.SkillData.AbsorbentSoil == 1 && __instance.NormalizedGrowthProgress < 0.5f)
-            {                
+            {
                 foreach (var additive in __instance.Pot.AppliedAdditives)
                 {
                     if (additive.InstantGrowth > 0f)
@@ -45,14 +48,30 @@ namespace SkillTree.Core.Patches.Operations
             return false;
         }
 
-        [HarmonyPatch(typeof(ShroomColony), "ChangeGrowthPercentage")]
+        [HarmonyPatch(typeof(Plant), "GrowthDone")]
         [HarmonyPrefix]
-        public static void Prefix(ShroomColony __instance, ref float change)
+        public static bool Patch_GrowthDone(Plant __instance)
         {
-            if (Core.SkillData.GrowthSpeed == 0 && Core.SkillData.GrowthSpeed2 == 0)
-                return;
+            if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || 
+                (Core.SkillData.Operations == 0 && Core.SkillData.MoreQuality == 0 && Core.SkillData.MoreYield == 0))
+                return true;
 
-            change *= SkillModifiers.GetGrowthSpeedMultiplier();
+            float baseQuality = __instance.QualityLevel;
+            float potBonus = 0f;
+
+            if (__instance.Pot.Name.Equals("Grow Tent"))
+                potBonus = SkillModifiers.GetGrowTentQualityBonus();
+            else if (__instance.Pot.Name.Equals("Plastic Pot") || __instance.Pot.Name.Equals("Moisture-Preserving Pot"))
+                potBonus = SkillModifiers.GetPlantQualityBonus(1);
+            else if (__instance.Pot.Name.Equals("Air Pot"))
+                potBonus = SkillModifiers.GetPlantQualityBonus();
+
+            ItemQuality.
+            float finalQuality = __instance.QualityLevel + potBonus;
+            __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
+            __instance.QualityLevel = finalQuality;
+            MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality} | Pot Bonus {potBonus} | Final Quality {finalQuality} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
+            return false;
         }
     }
 }

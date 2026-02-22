@@ -8,18 +8,8 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Operations
 {
     [HarmonyPatch]
-    public static class MoreYield
+    public static class QuantityPatches
     {
-        [HarmonyPatch(typeof(Plant), "GrowthDone")]
-        [HarmonyPrefix]
-        public static void GrowthDone_Prefix(Plant __instance)
-        {
-            if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || Core.SkillData == null || Core.SkillData.MoreYield == 0)
-                return;
-
-            __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
-        }
-
         [HarmonyPatch(typeof(Cauldron), "RpcLogic___FinishCookOperation_2166136261")]
         [HarmonyPrefix]
         public static bool Prefix(Cauldron __instance)
@@ -30,7 +20,7 @@ namespace SkillTree.Core.Patches.Operations
             if (InstanceFinder.IsServer)
             {
                 QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(SkillModifiers.GetCauldronOutputBonus()) as QualityItemInstance;
-                qualityItemInstance.SetQuality(SkillModifiers.GetModifiedQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
+                qualityItemInstance.SetQuality(ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
                 __instance.OutputSlot.InsertItem(qualityItemInstance);
             }
 
@@ -50,8 +40,11 @@ namespace SkillTree.Core.Patches.Operations
             if (__instance.GetProduct() == null || __instance.GetMixer() == null || Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
                 return;
 
+            //TODO probably doubling output
             __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity) * SkillModifiers.GetMixDryOutputMultiplier(),
                 __instance.MaxMixQuantity * SkillModifiers.GetMixDryOutputMultiplier());
+            //__result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity),
+            //    __instance.MaxMixQuantity * SkillModifiers.GetMixDryOutputMultiplier());
         }
 
         [HarmonyPatch(typeof(DryingRack), "InitializeGridItem")]

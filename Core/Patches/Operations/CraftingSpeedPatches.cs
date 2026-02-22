@@ -5,7 +5,7 @@ using Il2CppScheduleOne.StationFramework;
 namespace SkillTree.Core.Patches.Operations
 {
     [HarmonyPatch]
-    public class ChemistStationQuick
+    public class CraftingSpeedPatches
     {
         [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
         [HarmonyPrefix]

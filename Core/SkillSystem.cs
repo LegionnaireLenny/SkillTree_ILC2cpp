@@ -15,6 +15,8 @@ namespace SkillTree.Core
                     Patches.Stats.HealthPatches.SetPlayerHealth();
                     break;
                 case "Slippery":
+                    break;
+                case "SpringHeeled":
                     Patches.Stats.MovementPatches.SetPlayerJumpHeight();
                     Patches.Stats.MovementPatches.SetPlayerStamina();
                     break;

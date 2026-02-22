@@ -1,4 +1,5 @@
-﻿using Il2CppScheduleOne;
+﻿using HarmonyLib;
+using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Levelling;
@@ -8,21 +9,23 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
+using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
+using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.0.0", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.0", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        public static Core Instance;
+        private static readonly string version = "2.1.0";
+        private static Core Instance;
 
-        public static readonly string version = "2.0.0";
         public static SkillTreeData SkillData;
         private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
@@ -31,8 +34,8 @@ namespace SkillTree.Core
         private int lastProcessedTier = -1;
         private ERank lastProcessedRank = (ERank)(-1);
 
-        private float timer = 2f;
-        private bool waiting = true;
+        private float delayTime = 3f;
+        private bool setupComplete = false;
         private bool treeUiChange = false;
 
         private static MelonPreferences_Category Keybinds { get; set; }
@@ -41,17 +44,43 @@ namespace SkillTree.Core
         public static MelonPreferences_Entry ActiveSkillTwo { get; set; }
         public static MelonPreferences_Entry ActiveSkillThree { get; set; }
 
+        private static MelonPreferences_Category ModInfo { get; set; }
+        public static MelonPreferences_Entry Version { get; set; }
+        public static MelonPreferences_Entry ResetSkills { get; set; }
 
         public override void OnInitializeMelon()
         {
-            LoggerInstance.Msg("SkillTree Initialized.");
             Instance = this;
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
-            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg");
+            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
             MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
             ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Streetsweeper", "Activate 'Streetsweeper' skill");
             ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
             ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
+
+            ModInfo = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Mod Version: {version}");
+            Version = ModInfo.CreateEntry<string>("SkillTree_01_Version", version, $"Skill Tree Version", "Do not modify. This is used to determine if the skill tree was changed in such a way that a reset is required");
+            ResetSkills = ModInfo.CreateEntry<bool>("SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
+            ModInfo.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+
+            if (MelonBase.RegisteredMelons.Contains(FindMelon("Empire (Forked by Kaen01)", "Aracor")))
+            {
+                try
+                {
+                    var harmony = new HarmonyLib.Harmony("com.reizor.skilltree");
+                    harmony.Patch(
+                        Type.GetType("Empire.EmpireSetup.GeneralSetup,Empire-S1API").GetMethod("ResetPlayerStats"),
+                        prefix: new HarmonyMethod(typeof(SkillTree_EmpirePatches), nameof(SkillTree_EmpirePatches.Patch_ResetPlayerStats))
+                        );
+                    LoggerInstance.Msg("Empire 2.0 found, Empire.EmpireSetup.GeneralSetup.ResetPlayerStats() patched");
+                }
+                catch (Exception e)
+                {
+                    LoggerInstance.Msg($"Empire 2.0 patch failed {e}");
+                }
+            }
+
+            LoggerInstance.Msg("SkillTree Initialized.");
         }
 
         public void Reset()
@@ -62,13 +91,19 @@ namespace SkillTree.Core
             lastProcessedTier = -1;
             lastProcessedRank = (ERank)(-1);
 
-            timer = 2f;
-            waiting = true;
+            setupComplete = false;
             treeUiChange = false;
 
             AllowSleep.Reset();
             SkillActive.Reset();
-            //Cache.Reset();
+        }
+        private IEnumerator DelayedSetup()
+        {
+            yield return new WaitForSeconds(delayTime);
+            ItemUnlocker.UnlockSpecificItems();
+            ValidateSave();
+            AttPoints();
+            setupComplete = true;
         }
 
         public override void OnUpdate()
@@ -82,24 +117,10 @@ namespace SkillTree.Core
                 Player.Local == null)
                 return;
 
-            if (waiting)
+
+            if (!setupComplete)
             {
-                timer -= Time.deltaTime;
-                if (timer <= 0f)
-                {
-                    SkillData = SkillTreeSaveManager.LoadOrCreate();
-                    skillTreeUI = new SkillTreeUI(SkillData);
-
-                    ItemUnlocker.UnlockSpecificItems();
-                    ValidateSave();
-                    AttPoints();
-                    waiting = false;
-                }
-
-                if (waiting)
-                {
-                    return;
-                }
+                return;
             }
 
             if (lastProcessedTier != LevelManager.Instance.Tier)
@@ -142,6 +163,22 @@ namespace SkillTree.Core
             if (sceneName != "Main")
             {
                 Reset();
+            }
+
+            if (sceneName == "Main")
+            {
+                SkillData = SkillTreeSaveManager.LoadOrCreate();
+                skillTreeUI = new SkillTreeUI(SkillData);
+            }
+        }
+
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        {
+            base.OnSceneWasInitialized(buildIndex, sceneName);
+
+            if (sceneName == "Main")
+            {
+                MelonCoroutines.Start(DelayedSetup());
             }
         }
 
@@ -247,8 +284,33 @@ namespace SkillTree.Core
 
             int maxPointsPossible = currentRank * 7 + currentTier;
             int maxPointsJson = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints;
-
-            if (maxPointsPossible != maxPointsJson)
+            if ((bool)ResetSkills.BoxedValue)
+            {
+                MelonLogger.Msg($"Reset skills option is enabled. This happens the first time loading a save with version 2.1.0.0 or when manually enabled by the player. Resetting skills.");
+                string path = SkillTreeSaveManager.GetDynamicPath();
+                if (File.Exists(path))
+                    File.Delete(path);
+                SkillData = SkillTreeSaveManager.LoadOrCreate();
+                skillTreeUI = new SkillTreeUI(SkillData);
+                skillPointValid = maxPointsPossible - currentRank;
+                specialSkillPointValid = currentRank;
+                Version.BoxedValue = version;
+                ResetSkills.BoxedValue = false;
+            }
+            else if (!IsVersionCompatible())
+            {
+                MelonLogger.Msg("Invalid or outdated skill tree version detected. Resetting skills.");
+                string path = SkillTreeSaveManager.GetDynamicPath();
+                if (File.Exists(path))
+                    File.Delete(path);
+                SkillData = SkillTreeSaveManager.LoadOrCreate();
+                skillTreeUI = new SkillTreeUI(SkillData);
+                skillPointValid = maxPointsPossible - currentRank;
+                specialSkillPointValid = currentRank;
+                Version.BoxedValue = version;
+                ResetSkills.BoxedValue = false;
+            }
+            else if (maxPointsPossible != maxPointsJson)
             {
                 MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
                 MelonLogger.Msg($"Max Points JSON: {SkillData.StatsPoints} + {SkillData.OperationsPoints} + " +
@@ -264,6 +326,27 @@ namespace SkillTree.Core
                 specialSkillPointValid = currentRank;
             }
             SkillSystem.ApplyAll();
+        }
+
+        private static bool IsVersionCompatible()
+        {
+            string[] currentVersion = version.Split('.');
+            string[] fileVersion = ((string)Version.BoxedValue).Split('.');
+
+            for (int i = 0; i < 2; i++)
+            {
+                if (!int.TryParse(currentVersion[i], out int current) ||
+                    !int.TryParse(fileVersion[i], out int file))
+                {
+                    return false;
+                }
+
+                if (current > file)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public override void OnGUI()

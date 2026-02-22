@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.NPCs.Behaviour;
 using Il2CppScheduleOne.NPCs.CharacterClasses;
 using Il2CppScheduleOne.PlayerScripts;
@@ -11,6 +12,30 @@ namespace SkillTree.Core.Patches.Stats
     [HarmonyPatch(typeof(PursuitBehaviour))]
     public class CrimePatches
     {
+        [HarmonyPatch("Activate")]
+        [HarmonyPostfix]
+        public static void Patch_Activate(PursuitBehaviour __instance)
+        {
+            if (Core.SkillData == null || Core.SkillData.Slippery == 0)
+            {
+                return;
+            }
+
+            __instance.officer.ProxCircle.SetRadius(SkillModifiers.GetArrestRadius());
+        }
+
+        [HarmonyPatch("Resume")]
+        [HarmonyPostfix]
+        public static void Patch_Resume(PursuitBehaviour __instance)
+        {
+            if (Core.SkillData == null || Core.SkillData.Slippery == 0)
+            {
+                return;
+            }
+
+            __instance.officer.ProxCircle.SetRadius(SkillModifiers.GetArrestRadius());
+        }
+
         [HarmonyPatch("UpdateArrest")]
         [HarmonyPrefix]
         public static bool Patch_UpdateArrest(PursuitBehaviour __instance, float tick)
@@ -44,6 +69,33 @@ namespace SkillTree.Core.Patches.Stats
             }
 
             return false;
+        }
+
+        [HarmonyPatch("UpdateArrestCircle")]
+        [HarmonyPostfix]
+        public static void Patch_UpdateArrestCircle(PursuitBehaviour __instance)
+        {
+            if (Core.SkillData == null || Core.SkillData.Slippery == 0 || __instance.TargetPlayer == null)
+            {
+                return;
+            }
+
+            float num = Vector3.Distance(__instance.TargetPlayer.Avatar.CenterPoint, __instance.transform.position);
+            if (num < SkillModifiers.GetArrestRadius())
+            {
+                __instance.SetArrestCircleAlpha(__instance.ArrestCircle_MaxOpacity);
+                __instance.SetArrestCircleColor(new Color32(byte.MaxValue, 50, 50, byte.MaxValue));
+                return;
+            }
+            if (num < __instance.ArrestCircle_MaxVisibleDistance)
+            {
+                float num2 = Mathf.Lerp(__instance.ArrestCircle_MaxOpacity, 
+                    0f, 
+                    (num - SkillModifiers.GetArrestRadius()) / (__instance.ArrestCircle_MaxVisibleDistance - SkillModifiers.GetArrestRadius()));
+                __instance.SetArrestCircleAlpha(num2);
+                __instance.SetArrestCircleColor(Color.white);
+                return;
+            }
         }
     }
 }

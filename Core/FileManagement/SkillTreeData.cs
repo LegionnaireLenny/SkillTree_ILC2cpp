@@ -100,19 +100,19 @@
         [Skill("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, "MoreATMLimit", 3)]
         public int BusinessEvolving = 0;
 
-        [Skill("Well-Connected", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
+        [Skill("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, "Social", 2)]
         public int BetterSupplier = 0;
 
         [Skill("Speed Dial", "Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours", SkillCategory.Social, "BetterSupplier", 1)]
         public int BetterDelivery = 0;
 
-        [Skill("Well-Oiled Machine", "Increase dealer's customer limit by 2", SkillCategory.Social, "Social", 1)]
+        [Skill("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Social, "Social", 1)]
         public int DealerMoreCustomer = 0;
 
-        [Skill("Cheapskate", "Decrease dealer's cut by 5%", SkillCategory.Social, "DealerMoreCustomer", 2)]
+        [Skill("Wage Garnishment", "Decrease dealer's cut by 5%", SkillCategory.Social, "DealerMoreCustomer", 2)]
         public int DealerCutLess = 0;
 
-        [Skill("Hustler", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
+        [Skill("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Social, "DealerMoreCustomer", 1)]
         public int DealerSpeedUp = 0;
 
         /* SOCIAL ENDS HERE */

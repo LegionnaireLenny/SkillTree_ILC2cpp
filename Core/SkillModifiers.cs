@@ -6,6 +6,7 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using UnityEngine;
+using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core
 {
@@ -20,6 +21,7 @@ namespace SkillTree.Core
         public static readonly float PlayerBaseStamina = PlayerMovement.StaminaReserveMax;
         public static readonly float StaminaBonus = 0.30f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
+        //public static readonly float PlayerBaseMoveSpeed = PlayerMovement.StaticMoveSpeedMultiplier;
         public static readonly float PlayerBaseJumpHeight = PlayerMovement.JumpMultiplier;
         public static readonly float MoveSpeedBonus = 0.15f;
         public static readonly float JumpHeightBonus = 0.30f;
@@ -29,7 +31,7 @@ namespace SkillTree.Core
         public static readonly float BaseArrestTime = 1.75f;
         public static readonly float ArrestTimeIncreaseBonus = 1f;
         public static readonly float BaseArrestRadius = 2.75f;
-        public static readonly float ArrestRadiusReductionBonus = 0.75f;
+        public static readonly float ArrestRadiusReductionBonus = 0.25f;
         //public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
         public static float GetPlayerMaxHealth()
@@ -84,7 +86,7 @@ namespace SkillTree.Core
 
         public static float GetArrestRadius()
         {
-            return BaseArrestRadius * (1 + (Core.SkillData.Slippery * ArrestRadiusReductionBonus));
+            return BaseArrestRadius * (1 - (Core.SkillData.Slippery * ArrestRadiusReductionBonus));
         }
 
         #endregion Stats
@@ -96,9 +98,11 @@ namespace SkillTree.Core
         public static readonly int StackSizeMultiplier = 2;
         public static readonly int MixDryOutputSizeMultiplier = 2;
         public static readonly int ChemistStationSpeedMultiplier = 2;
+        public static readonly float BasePlantQualityLevel = 0.5f;
         public static readonly float QualityBonusGrowTent = 0.16f;
         public static readonly float QualityBonusPlants = 0.15f;
         public static readonly float QualityBonusShrooms = 0.15f;
+        public static readonly int BaseYieldPlants = 12;
         public static readonly int YieldBonusPlants = 1;
         public static readonly float GrowthSpeedBonusPlants = 0.025f;
 
@@ -251,10 +255,5 @@ namespace SkillTree.Core
 
         #endregion Special
 
-
-        public static EQuality GetModifiedQuality(EQuality quality, int qualityChange)
-        {
-            return (EQuality)Math.Clamp((int)quality + qualityChange, (int)EQuality.Trash, (int)EQuality.Heavenly);
-        }
     }
 }

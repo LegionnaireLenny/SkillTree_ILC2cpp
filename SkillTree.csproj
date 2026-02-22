@@ -6,8 +6,7 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.0.3.0</AssemblyVersion>
-		<FileVersion>2.0.3.0</FileVersion>
+		<AssemblyVersion>2.1.0.0</AssemblyVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
@@ -17,11 +16,13 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
 		<Compile Include="Core\Patches\Operations\AbsorbentSoil.cs" />
-		<Compile Include="Core\Patches\Operations\ChemistStationQuick.cs" />
-		<Compile Include="Core\Patches\Operations\GrowthSpeed.cs" />
-		<Compile Include="Core\Patches\Operations\MoreQuality.cs" />
-		<Compile Include="Core\Patches\Operations\MoreYield.cs" />
+		<Compile Include="Core\Patches\Operations\CraftingSpeedPatches.cs" />
+		<Compile Include="Core\Patches\Operations\MushroomPatches.cs" />
+		<Compile Include="Core\Patches\Operations\QualityPatches.cs" />
+		<Compile Include="Core\Patches\Operations\QuantityPatches.cs" />
+		<Compile Include="Core\Patches\Operations\PlantPatches.cs" />
 		<Compile Include="Core\Patches\Social\SupplierPatches.cs" />
 		<Compile Include="Core\Cache.cs" />
 		<Compile Include="Core\Patches\Social\BusinessPatches.cs" />
