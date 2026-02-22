@@ -3,6 +3,9 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
+using Il2CppScheduleOne.ItemFramework;
+using MelonLoader;
+using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -47,12 +50,13 @@ namespace SkillTree.Core.Patches.Operations
 
         [HarmonyPatch(typeof(Plant), "GrowthDone")]
         [HarmonyPrefix]
-        public static bool Patch_GrowthDone(Plant __instance)
+        public static void Patch_GrowthDone(Plant __instance)
         {
             if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || 
                 (Core.SkillData.Operations == 0 && Core.SkillData.MoreQuality == 0 && Core.SkillData.MoreYield == 0))
-                return true;
+                return;
 
+            //float baseQuality = __instance.QualityLevel;
             float potBonus = 0f;
 
             if (__instance.Pot.Name.Equals("Grow Tent"))
@@ -60,13 +64,12 @@ namespace SkillTree.Core.Patches.Operations
             else if (__instance.Pot.Name.Equals("Plastic Pot") || __instance.Pot.Name.Equals("Moisture-Preserving Pot"))
                 potBonus = SkillModifiers.GetPlantQualityBonus(1);
             else if (__instance.Pot.Name.Equals("Air Pot"))
-                potBonus = SkillModifiers.GetPlantQualityBonus();
+                potBonus = 0.05f + SkillModifiers.GetPlantQualityBonus();
 
             float finalQuality = __instance.QualityLevel + potBonus;
             __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
             __instance.QualityLevel = finalQuality;
-            //MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality} | Pot Bonus {potBonus} | Final Quality {finalQuality} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
-            return false;
+            //MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
         }
     }
 }

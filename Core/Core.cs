@@ -16,14 +16,14 @@ using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.0", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.1", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.1.0";
+        private static readonly string version = "2.1.1";
         private static Core Instance;
 
         public static SkillTreeData SkillData;
