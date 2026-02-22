@@ -40,11 +40,8 @@ namespace SkillTree.Core.Patches.Operations
             if (__instance.GetProduct() == null || __instance.GetMixer() == null || Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
                 return;
 
-            //TODO probably doubling output
-            __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity) * SkillModifiers.GetMixDryOutputMultiplier(),
+            __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity),
                 __instance.MaxMixQuantity * SkillModifiers.GetMixDryOutputMultiplier());
-            //__result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity),
-            //    __instance.MaxMixQuantity * SkillModifiers.GetMixDryOutputMultiplier());
         }
 
         [HarmonyPatch(typeof(DryingRack), "InitializeGridItem")]

@@ -24,7 +24,7 @@ namespace SkillTree.Core
         //public static readonly float PlayerBaseMoveSpeed = PlayerMovement.StaticMoveSpeedMultiplier;
         public static readonly float PlayerBaseJumpHeight = PlayerMovement.JumpMultiplier;
         public static readonly float MoveSpeedBonus = 0.15f;
-        public static readonly float JumpHeightBonus = 0.30f;
+        public static readonly float JumpHeightBonus = 0.35f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
         public static readonly int InventoryStackSizeBonus = 1;

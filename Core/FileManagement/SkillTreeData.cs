@@ -23,7 +23,7 @@
         [Skill("Fleet Feet", "Increase movespeed by 15%", SkillCategory.Stats, "Stats", 2)]
         public int MoreMovespeed = 0;
 
-        [Skill("Spring-Heeled", "Increase max stamina by 30% and jump height by 30%", SkillCategory.Stats, "MoreMovespeed", 1)]
+        [Skill("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Stats, "MoreMovespeed", 1)]
         public int SpringHeeled = 0;
 
         [Skill("Prison Wallet", "Double item stack size", SkillCategory.Stats, "Stats", 1)]
@@ -78,7 +78,7 @@
         [Skill("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Operations, "Operations", 1)]
         public int MoreYield = 0;
 
-        [Skill("Crankin' One Out", "Double the slot capacity for mixing stations and drying racks", SkillCategory.Operations, "MoreYield", 1)]
+        [Skill("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Operations, "MoreYield", 1)]
         public int MoreMixAndDryingRackOutput = 0;
 
         [Skill("Witch's Brew", "Double the cauldron's output", SkillCategory.Operations, "MoreYield", 1)]
