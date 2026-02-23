@@ -1,9 +1,9 @@
 {
-  "name": "SkillTree_Mono",
-  "version_number": "1.0.0",
+  "name": "SkillTree_IL2cpp",
+  "version_number": "2.1.1",
   "description": "Create a Skilltree system in Schedule I",
-  "main": "skilltree.dll",
-  "website_url": "https://github.com/AugustoCesarAC/SkillTree/tree/main",
-  "dependencies": ["LavaGang-MelonLoader-0.7.0"],
-  "author": "CrazyReizor"
+  "main": "skilltree_il2cpp.dll",
+  "website_url": "https://github.com/LegionnaireLenny/SkillTree_ILC2cpp",
+  "dependencies": [ "LavaGang-MelonLoader-0.7.0" ],
+  "author": "CrazyReizor & VindicatedVendetta"
 }
