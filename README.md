@@ -5,7 +5,9 @@
 This a significant rewrite of reizor153's mod SkillTree to fix several issues, and eventually implement some of my own ideas. This mod introduces a skill system to provide a deeper feeling of progression and implement fundamental mechanical changes.
 
 Original Author: reizor153 aka CrazyReizor
+
 Original Mod Page: SkillTree
+
 Original IL2CPP Source Code: https://github.com/AugustoCesarAC/SkillTree_ILC2cpp
 
 Forked Source Code: https://github.com/LegionnaireLenny/SkillTree_ILC2cpp
