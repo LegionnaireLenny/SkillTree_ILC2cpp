@@ -37,7 +37,7 @@ namespace SkillTree.Core.FileManagement
         [Skill("Master Sleeper", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, "Stats", 1)]
         public int AllowSleepAthEne = 0;
 
-        [Skill("Napping on the Job", "Can use a bed to skip to the next time period. Plants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, "AllowSleepAthEne", 1)]
+        [Skill("Napping on the Job", "Can use a bed to skip to the next time period. \nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, "AllowSleepAthEne", 1)]
         public int SkipSchedule = 0;
 
         [Skill("Fast Learner", "Increase XP gain by 5%", SkillCategory.Stats, "Stats", 2)]
@@ -121,7 +121,7 @@ namespace SkillTree.Core.FileManagement
 
         /* SPECIAL STARTS HERE */
 
-        [Skill("Streetsweeper", "Once per day, destroy all trash on the map", SkillCategory.Special, null, 1)]
+        [Skill("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, null, 1)]
         public int Special = 0;
 
         [Skill("Fit as a Fiddle", "Once per day, heal to max health", SkillCategory.Special, "Special", 1)]
