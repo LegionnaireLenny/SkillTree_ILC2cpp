@@ -1,6 +1,7 @@
 ﻿using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Property;
+using System.Collections.Generic;
 using MelonLoader;
 
 namespace SkillTree.Core

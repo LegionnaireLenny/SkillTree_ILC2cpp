@@ -3,6 +3,8 @@ using Il2CppScheduleOne.Persistence;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 
 
 namespace SkillTree.Core.FileManagement

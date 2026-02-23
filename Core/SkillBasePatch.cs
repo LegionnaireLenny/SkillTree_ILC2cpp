@@ -4,6 +4,8 @@ using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.UI.Shop;
 using MelonLoader;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillTree.Core

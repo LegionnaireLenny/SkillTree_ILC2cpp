@@ -1,4 +1,6 @@
-﻿namespace SkillTree.Core.FileManagement
+﻿using System;
+
+namespace SkillTree.Core.FileManagement
 {
     [Serializable]
     public class SkillTreeData

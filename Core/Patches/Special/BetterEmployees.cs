@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
 using MelonLoader;
+using System.Collections.Generic;
 
 namespace SkillTree.Core.Patches.Special
 {

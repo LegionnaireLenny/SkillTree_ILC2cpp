@@ -12,7 +12,9 @@ using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
+using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 

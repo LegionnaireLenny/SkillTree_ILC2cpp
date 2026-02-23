@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
 using MelonLoader;
+using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social

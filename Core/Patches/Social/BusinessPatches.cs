@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social

@@ -1,6 +1,8 @@
 ﻿using MelonLoader;
 using Newtonsoft.Json;
 using SkillTree.Core.FileManagement;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 

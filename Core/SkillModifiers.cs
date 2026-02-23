@@ -1,12 +1,9 @@
-﻿using Il2CppGameKit.Utilities.Types;
-using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.ItemFramework;
+﻿using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
-using MelonLoader;
+using System;
 using UnityEngine;
-using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core
 {
