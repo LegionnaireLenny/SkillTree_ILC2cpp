@@ -6,7 +6,7 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.1.1</AssemblyVersion>
+		<AssemblyVersion>2.1.2</AssemblyVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
