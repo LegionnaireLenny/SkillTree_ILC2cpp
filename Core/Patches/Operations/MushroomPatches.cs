@@ -33,6 +33,5 @@ namespace SkillTree.Core.Patches.Operations
             __result.SetQuality(ItemQuality.GetQuality(__instance.NormalizedQuality));
             MelonLogger.Msg($"Mushroom quality increased from {original} to {__result.Quality}");
         }
-
     }
 }

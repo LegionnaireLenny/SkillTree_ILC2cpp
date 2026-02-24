@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ObjectScripts;
-using Il2CppScheduleOne.StationFramework;
+using Il2CppScheduleOne.Persistence;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -11,7 +12,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(Cauldron __instance, ref int minutes)
         {
-            if (__instance.RemainingCookTime <= 0 || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.RemainingCookTime <= 0 || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -21,7 +22,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(ChemistryStation __instance, ref int minutes)
         {
-            if (__instance.CurrentCookOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.CurrentCookOperation == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -31,21 +32,31 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(MixingStation __instance, ref int minutes)
         {
-            if (__instance.CurrentMixOperation == null || Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.CurrentMixOperation == null || Core.SkillData.ChemistStationQuick == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
         }
 
-        [HarmonyPatch(typeof(OvenCookOperation), "GetCookDuration")]
-        [HarmonyPostfix]
-        public static void Postfix(OvenCookOperation __instance, ref int __result)
+        [HarmonyPatch(typeof(LabOven), "OnUncappedMinPass")]
+        [HarmonyPrefix]
+        public static bool Prefix(LabOven __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.ChemistStationQuick == 0)
-                return;
+            if (Core.SkillData.ChemistStationQuick == 0)
+                return true;
 
-            __result = __instance.Ingredient.StationItem.GetModule<CookableModule>().CookTime / SkillModifiers.GetChemistStationSpeedMultiplier();
+            if (__instance.CurrentOperation != null && !__instance.CurrentOperation.IsComplete())
+            {
+                __instance.CurrentOperation.UpdateCookProgress(1 * SkillModifiers.GetChemistStationSpeedMultiplier());
+                if (__instance.CurrentOperation.IsComplete() && !Singleton<LoadManager>.Instance.IsLoading)
+                {
+                    __instance.DingSound.Play();
+                }
+            }
+            __instance.UpdateOvenAppearance();
+            __instance.UpdateLiquid();
+
+            return false;
         }
-
     }
 }

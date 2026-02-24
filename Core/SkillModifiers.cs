@@ -91,10 +91,10 @@ namespace SkillTree.Core
         #region Operations
         public static readonly int BaseDryingRackCapacity = 20;
         public static readonly int CauldronBaseOutput = 10;
-        public static readonly int CauldronOutputMultiplier = 2;
-        public static readonly int StackSizeMultiplier = 2;
-        public static readonly int MixDryOutputSizeMultiplier = 2;
-        public static readonly int ChemistStationSpeedMultiplier = 2;
+        public static readonly int CauldronOutputBonus = 1;
+        //public static readonly int StackSizeMultiplier = 2;
+        public static readonly int MixDryOutputSizeBonus = 1;
+        public static readonly int ChemistStationSpeedBonus = 1;
         public static readonly float BasePlantQualityLevel = 0.5f;
         public static readonly float QualityBonusGrowTent = 0.16f;
         public static readonly float QualityBonusPlants = 0.15f;
@@ -103,17 +103,19 @@ namespace SkillTree.Core
         public static readonly int YieldBonusPlants = 1;
         public static readonly float GrowthSpeedBonusPlants = 0.025f;
 
-        public static int GetCauldronOutputBonus()
+        public static int GetCauldronOutput()
         {
-            if (Core.SkillData.MoreCauldronOutput == 0)
-                return CauldronBaseOutput;
-            else
-                return CauldronBaseOutput * (Core.SkillData.MoreCauldronOutput * CauldronOutputMultiplier);
+            return CauldronBaseOutput * (1 + (Core.SkillData.MoreCauldronOutput * CauldronOutputBonus));
+        }
+
+        public static int GetDryingRackCapacity()
+        {
+            return BaseDryingRackCapacity * (1 + (Core.SkillData.MoreMixAndDryingRackOutput * MixDryOutputSizeBonus));
         }
 
         public static int GetChemistStationSpeedMultiplier()
         {
-            return Core.SkillData.ChemistStationQuick * ChemistStationSpeedMultiplier;
+            return 1 + (Core.SkillData.ChemistStationQuick * ChemistStationSpeedBonus);
         }
 
         public static int GetMethCocaProductQualityBonus()
@@ -123,7 +125,7 @@ namespace SkillTree.Core
 
         public static int GetMixDryOutputMultiplier()
         {
-            return Core.SkillData.MoreMixAndDryingRackOutput * MixDryOutputSizeMultiplier;
+            return 1 + (Core.SkillData.MoreMixAndDryingRackOutput * MixDryOutputSizeBonus);
         }
 
         public static float GetGrowthSpeedMultiplier()

@@ -19,7 +19,7 @@ namespace SkillTree.Core.Patches.Operations
 
             if (InstanceFinder.IsServer)
             {
-                QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(SkillModifiers.GetCauldronOutputBonus()) as QualityItemInstance;
+                QualityItemInstance qualityItemInstance = __instance.CocaineBaseDefinition.GetDefaultInstance(SkillModifiers.GetCauldronOutput()) as QualityItemInstance;
                 qualityItemInstance.SetQuality(ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
                 __instance.OutputSlot.InsertItem(qualityItemInstance);
             }
@@ -65,7 +65,7 @@ namespace SkillTree.Core.Patches.Operations
         private static void UpdateDryingRackCapacity(DryingRack rack)
         {
             int original = rack.ItemCapacity;
-            rack.ItemCapacity = SkillModifiers.BaseDryingRackCapacity * SkillModifiers.MixDryOutputSizeMultiplier;
+            rack.ItemCapacity = SkillModifiers.GetDryingRackCapacity();
 
             if (original != rack.ItemCapacity)
                 rack.RefreshHangingVisuals();
