@@ -36,6 +36,7 @@
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
 		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
 		<Compile Include="Core\Patches\Stats\HealthPatches.cs" />
+		<Compile Include="Core\App\SkillTreeApp.cs" />
 		<Compile Include="Core\SkillBasePatch.cs" />
 		<Compile Include="Core\SkillModifiers.cs" />
 		<Compile Include="Core\SkillSystem.cs" />
@@ -297,6 +298,14 @@
 	  </Reference>
 	  <Reference Include="MelonLoader">
 	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\MelonLoader.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="S1API">
+	    <HintPath>dependencies\S1API.Il2Cpp.MelonLoader.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="S1APILoader">
+	    <HintPath>dependencies\S1APILoader.MelonLoader.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.AI.Navigation">
