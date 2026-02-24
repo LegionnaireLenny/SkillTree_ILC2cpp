@@ -25,8 +25,6 @@ namespace SkillTree.Core.FileManagement
             {
                 MelonLogger.Msg($"[SkillTree] New save detected or file is missing: {path}");
 
-                Cache.Reset();
-
                 var data = CreateDefault();
                 Save(data); 
                 return data;
