@@ -171,6 +171,10 @@ namespace SkillTree.Core
             {
                 SkillData = SkillTreeSaveManager.LoadOrCreate();
                 skillTreeUI = new SkillTreeUI(SkillData);
+                SkillTree_Test.AddChildren(SkillTree_Test.StatsTree);
+                SkillTree_Test.AddChildren(SkillTree_Test.OperationsTree);
+                SkillTree_Test.AddChildren(SkillTree_Test.SocialTree);
+                SkillTree_Test.AddChildren(SkillTree_Test.SpecialTree);
             }
         }
 
