@@ -135,7 +135,7 @@ namespace SkillTree.Core.Patches.Stats
 
                     lastDayUsed = (int)NetworkSingleton<TimeManager>.Instance.CurrentDay;
 
-                    NetworkSingleton<TimeManager>.Instance.SkipForwardToTime(nextTarget);
+                    NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
                     MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
                     return false;
                 }
