@@ -8,16 +8,6 @@ namespace SkillTree.Core.Patches.Operations
     [HarmonyPatch]
     public class CraftingSpeedPatches
     {
-        [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
-        [HarmonyPrefix]
-        public static void Prefix(Cauldron __instance, ref int minutes)
-        {
-            if (__instance.RemainingCookTime <= 0 || Core.SkillData.ChemistStationQuick == 0)
-                return;
-
-            minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
-        }
-
         [HarmonyPatch(typeof(ChemistryStation), "OnTimePass")]
         [HarmonyPrefix]
         public static void Prefix(ChemistryStation __instance, ref int minutes)
