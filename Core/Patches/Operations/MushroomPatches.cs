@@ -3,11 +3,13 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Product;
 using MelonLoader;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -24,29 +26,34 @@ namespace SkillTree.Core.Patches.Operations
             change *= SkillModifiers.GetGrowthSpeedMultiplier();
         }
 
+
         private static readonly HashSet<int> processedIds = [];
-        [HarmonyPatch(typeof(GrowingMushroom), "Harvest")]
+        [HarmonyPatch(typeof(ShroomColony), "GetHarvestedShroom")]
         [HarmonyPrefix]
-        public static void Patch_Harvest(GrowingMushroom __instance)
+        public static void Patch_GetHarvestedShroom(ShroomColony __instance)
         {
             if (Core.SkillData.MoreQuality < 2)
                 return;
 
-            int id = __instance._parentColony.GetInstanceID();
+            int id = __instance.GetInstanceID();
             if (processedIds.Contains(id))
                 return;
 
-            EQuality original = ItemQuality.GetQuality(__instance._parentColony.NormalizedQuality);
-            __instance._parentColony.ChangeQuality(SkillModifiers.GetShroomQualityBonus());
-            MelonLogger.Msg($"Mushroom colony quality increased from {original} to {ItemQuality.GetQuality(__instance._parentColony.NormalizedQuality)}");
+            float original = __instance.NormalizedQuality;
+            __instance.ChangeQuality(SkillModifiers.GetShroomQualityBonus());
+            MelonLogger.Msg($"Colony {id} | Quality increased from {ItemQuality.GetQuality(original)} to {ItemQuality.GetQuality(__instance.NormalizedQuality)}");
             processedIds.Add(id);
-            MelonCoroutines.Start(CleanUp(id));
         }
 
-        private static IEnumerator CleanUp(int id)
+        [HarmonyPatch(typeof(MushroomBed), "OnColonyFullyHarvested")]
+        [HarmonyPrefix]
+        public static void Patch_OnColonyFullyHarvested(MushroomBed __instance)
         {
-            yield return new WaitForSeconds(120f);
-            processedIds.Remove(id);
+            int id = __instance.CurrentColony.GetInstanceID();
+            if (processedIds.Remove(id))
+            {
+                MelonLogger.Msg($"Removing fully harvested colony {id} from cache"); ;
+            }
         }
     }
 }
