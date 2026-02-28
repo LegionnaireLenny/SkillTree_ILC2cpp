@@ -278,6 +278,7 @@ namespace SkillTree.Core
 
                 skillTreeUI ??= new SkillTreeUI(SkillData);
                 skillTreeUI?.AddPoints(statsGained, opsGained, socialGained, specialGained);
+                SkillPoints.AddSkillPoints(statsGained, opsGained, socialGained, specialGained);
 
                 MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
             }

@@ -28,6 +28,8 @@ namespace SkillTree.Core.App
         protected override string IconLabel => "Skills";
         protected override string IconFileName => "SkillTree (Forked).png";
 
+        private static Skill selectedSkill = null;
+
         protected override void OnCreated()
         {
             base.OnCreated();
@@ -35,7 +37,7 @@ namespace SkillTree.Core.App
 
         protected override void OnCreatedUI(GameObject container)
         {
-            // TODO: width is bugged, it sets the height. new S1API version hasn't released with fix
+            // TODO: ButtonWithLabel is bugged, width and height are swapped. new S1API version hasn't released with fix
             float buttonWidth = 50f;
             float buttonHeight = 100f;
             Color backgroundColor = new Color(0.1f, 0.1f, 0.1f);
@@ -45,29 +47,30 @@ namespace SkillTree.Core.App
             var appBackground = UIFactory.Panel("MainPanel", container.transform, backgroundColor, fullAnchor: true);
 
             var topBarContainer = UIFactory.Panel("topBarContainer", appBackground.transform, backgroundColor, anchorMin: new Vector2(0.084f, 1.1f), anchorMax: new Vector2(0.575f, 0.85f));
-            var topBar = UIFactory.TopBar("topBar", topBarContainer.transform, "Skill Trees", 0.82f, 15, 15, 5, 5);
-
+            var topBar = UIFactory.TopBar("topBar", topBarContainer.transform, "Skills", 0.82f, 15, 15, 5, 5);
+            
             var categoryContainer = UIFactory.ButtonRow("SkillCategories", topBar.transform);
-            var buttonCategoryStats = UIFactory.ButtonWithLabel("ButtonCategoryStats", "Stats", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
-            var buttonCategoryOperations = UIFactory.ButtonWithLabel("ButtonCategoryOperations", "Operations", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
-            var buttonCategorySocial = UIFactory.ButtonWithLabel("ButtonCategorySocial", "Social", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
-            var buttonCategorySpecial = UIFactory.ButtonWithLabel("ButtonCategorySpecial", "Special", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
+            var buttonCategoryStats = UIFactory.ButtonWithLabel("ButtonCategoryStats", $"Stats ({SkillPoints.StatsPoints})", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
+            var buttonCategoryOperations = UIFactory.ButtonWithLabel("ButtonCategoryOperations", $"Operations ({SkillPoints.OperationsPoints})", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
+            var buttonCategorySocial = UIFactory.ButtonWithLabel("ButtonCategorySocial", $"Social ({SkillPoints.SocialPoints})", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
+            var buttonCategorySpecial = UIFactory.ButtonWithLabel("ButtonCategorySpecial", $"Special ({SkillPoints.SpecialPoints})", categoryContainer.transform, buttonColor, buttonWidth, buttonHeight);
+            //categoryContainer.GetComponent<RectTransform>().offsetMin = new Vector2(270f, -83.525f);
 
             var statsTreeContainer = UIFactory.Panel("skillTreeContainer", appBackground.transform, Color.black, anchorMin: new Vector2(0.04f, 0.08f), anchorMax: new Vector2(0.618f, 0.8f));
-            UIFactory.VerticalLayoutOnGO(statsTreeContainer);
             var operationsTreeContainer = UIFactory.Panel("skillTreeContainer", appBackground.transform, Color.black, anchorMin: new Vector2(0.04f, 0.08f), anchorMax: new Vector2(0.618f, 0.8f));
-            UIFactory.VerticalLayoutOnGO(operationsTreeContainer);
             var socialTreeContainer = UIFactory.Panel("skillTreeContainer", appBackground.transform, Color.black, anchorMin: new Vector2(0.04f, 0.08f), anchorMax: new Vector2(0.618f, 0.8f));
-            UIFactory.VerticalLayoutOnGO(socialTreeContainer);
             var specialTreeContainer = UIFactory.Panel("skillTreeContainer", appBackground.transform, Color.black, anchorMin: new Vector2(0.04f, 0.08f), anchorMax: new Vector2(0.618f, 0.8f));
+            UIFactory.VerticalLayoutOnGO(statsTreeContainer);
+            UIFactory.VerticalLayoutOnGO(operationsTreeContainer);
+            UIFactory.VerticalLayoutOnGO(socialTreeContainer);
             UIFactory.VerticalLayoutOnGO(specialTreeContainer);
 
             var detailsPanel = UIFactory.Panel("DetailsPanel", appBackground.transform, detailsColor, new Vector2(0.7f, 0.085f), new Vector2(0.958f, 0.915f));
-            UIFactory.VerticalLayoutOnGO(detailsPanel);
             var skillName = UIFactory.Text("SkillName", "", detailsPanel.transform, anchor: TextAnchor.MiddleCenter);
             var skillDescription = UIFactory.Text("SkillDescription", "", detailsPanel.transform, anchor: TextAnchor.MiddleCenter);
             var skillLevel = UIFactory.Text("SkillLevel", "", detailsPanel.transform, anchor: TextAnchor.MiddleCenter);
-            //var levelSkillButton = UIFactory.RoundedButtonWithLabel("LevelSkillButton", "Level Skill", detailsPanel.transform, Color.blue, 100f, 50f, 10, Color.gray).Item2;
+            var buttonLevelUpSkill = UIFactory.RoundedButtonWithLabel("ButtonLevelUpSkill", "Level Skill", detailsPanel.transform, Color.gray, 100f, 50f, 18, Color.yellow);
+            UIFactory.VerticalLayoutOnGO(detailsPanel);
 
             List<SkillNode> statsNodes = CreateNodeTree(SkillTree_Test.StatsTree, statsTreeContainer, skillName, skillDescription, skillLevel);
             List<SkillNode> operationsNodes = CreateNodeTree(SkillTree_Test.OperationsTree, operationsTreeContainer, skillName, skillDescription, skillLevel);
@@ -77,6 +80,24 @@ namespace SkillTree.Core.App
             operationsTreeContainer.SetActive(false);
             socialTreeContainer.SetActive(false);
             specialTreeContainer.SetActive(false);
+
+            ButtonUtils.AddListener(buttonLevelUpSkill.Item2, () =>
+            {
+                bool levelUpSucceeded = selectedSkill.IncreaseSkillLevel();
+                if (levelUpSucceeded)
+                {
+                    Logger.Msg($"{selectedSkill.Name} increased from {selectedSkill.CurrentLevel - 1} to {selectedSkill.CurrentLevel}");
+                    skillLevel.text = $"Level {selectedSkill.CurrentLevel} / {selectedSkill.MaxLevel}";
+                    buttonCategoryStats.Item3.text = $"Stats ({SkillPoints.StatsPoints})";
+                    buttonCategoryOperations.Item3.text = $"Operations ({SkillPoints.OperationsPoints})";
+                    buttonCategorySocial.Item3.text = $"Social ({SkillPoints.SocialPoints})";
+                    buttonCategorySpecial.Item3.text = $"Special ({SkillPoints.SpecialPoints})";
+                }
+                else
+                {
+                    Logger.Msg($"{selectedSkill.Name} is already max level or parent skills are not leveled up");
+                }
+            });
 
             ButtonUtils.AddListener(buttonCategoryStats.Item2, () =>
             {
@@ -118,17 +139,32 @@ namespace SkillTree.Core.App
 
         private static List<SkillNode> CreateNodeTree(HashSet<Skill> skillTree, GameObject parent, Text skillName, Text skillDescription, Text skillLevel)
         {
+            static int GetDepth(Skill skill)
+            {
+                if (skill.Parent != null)
+                {
+                    return GetDepth(skill.Parent) + 1;
+                }
+                return 0;
+            }
+            
             List<SkillNode> nodes = new List<SkillNode>();
 
             foreach (var skill in skillTree)
             {
-                SkillNode node = new SkillNode(skill, UIFactory.RoundedButtonWithLabel(skill.Name, skill.Name, parent.transform, Color.grey, 30f, 30f, 10, Color.yellow).Item2);
+                int offset = GetDepth(skill) * 50;
+
+                var temp = UIFactory.RoundedButtonWithLabel(skill.Name, skill.Name, parent.transform, Color.grey, 30f, 30f, 14, Color.yellow);
+                temp.Item2.GetComponent<RectTransform>().offsetMin = new Vector2(offset, 0);
+                temp.Item3.GetComponent<RectTransform>().offsetMin = new Vector2(-offset, 0);
+                SkillNode node = new SkillNode(skill, temp.Item2);
                 ButtonUtils.AddListener(node.Button, () =>
                 {
-                    Logger.Msg(node.Skill.ToString());
+                    //Logger.Msg(node.Skill.ToString());
                     skillName.text = skill.Name;
                     skillDescription.text = skill.Description;
                     skillLevel.text = $"Level {skill.CurrentLevel} / {skill.MaxLevel}";
+                    selectedSkill = skill;
                 });
                 nodes.Add(node);
             }
