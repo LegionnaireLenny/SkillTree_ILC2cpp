@@ -5,6 +5,7 @@ using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -57,11 +58,11 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix(ref bool __result)
             {
-                if (Core.SkillData == null || Core.SkillData.AllowSleepAthEne == 0)
+                if (SkillTreeData.AllowSleepAthEne.CurrentLevel == 0)
                     return true;
 
                 float currentTime = NetworkSingleton<TimeManager>.Instance.CurrentTime;
-                if (currentTime > 700 && currentTime < 1800 && Core.SkillData.SkipSchedule == 0)
+                if (currentTime > 700 && currentTime < 1800 && SkillTreeData.SkipSchedule.CurrentLevel == 0)
                     return true;
 
                 __result = true;
@@ -75,7 +76,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix(Bed __instance)
             {
-                if (Core.SkillData == null || Core.SkillData.SkipSchedule == 0)
+                if (SkillTreeData.SkipSchedule.CurrentLevel == 0)
                     return true;
 
                 if (Singleton<ManagementClipboard>.Instance.IsEquipped || __instance.AssignedEmployee != null)
@@ -107,7 +108,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix()
             {
-                if (Core.SkillData == null || Core.SkillData.SkipSchedule == 0)
+                if (SkillTreeData.SkipSchedule.CurrentLevel == 0)
                     return true;
 
                 if (!CanUseBedSkill())

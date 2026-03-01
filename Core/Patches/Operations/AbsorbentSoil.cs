@@ -4,6 +4,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Variables;
+using SkillTree.Core.FileManagement;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
 namespace SkillTree.Core.Patches.Operations
@@ -15,7 +16,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(Pot __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.AbsorbentSoil == 0)
+            if (SkillTreeData.AbsorbentSoil.CurrentLevel == 0)
                 return true;
 
             if (__instance.Plant == null)

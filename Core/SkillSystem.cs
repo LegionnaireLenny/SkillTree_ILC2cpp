@@ -1,4 +1,5 @@
 ﻿using SkillTree.Core.FileManagement;
+using System.Linq;
 using System.Reflection;
 
 namespace SkillTree.Core
@@ -83,7 +84,7 @@ namespace SkillTree.Core
 
         public static void ApplyAll()
         {
-            foreach (var field in typeof(SkillTreeData).GetFields(BindingFlags.Public | BindingFlags.Instance))
+            foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
             {
                 ApplySkill(field.Name);
             }

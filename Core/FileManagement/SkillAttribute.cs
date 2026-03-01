@@ -1,15 +1,8 @@
 ﻿using MelonLoader;
-using S1API.Entities.Appearances.AccessoryFields;
-using SkillTree.Core.App;
-using SkillTree.Core.Patches.Social;
-using SkillTree.Core.Patches.Special;
-using SkillTree.Core.Patches.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
-using UnityEngine;
 
 namespace SkillTree.Core.FileManagement
 {
@@ -21,31 +14,6 @@ namespace SkillTree.Core.FileManagement
         Special
     }
 
-    [AttributeUsage(AttributeTargets.Field)]
-    public class SkillAttribute : Attribute
-    {
-        public string Name;
-        public string Description;
-        public string Parent;
-        public SkillCategory Category;
-        public int MaxLevel;
-
-        public SkillAttribute(
-            string name,
-            string description,
-            SkillCategory category,
-            string parent = null,
-            int maxLevel = 2)
-        {
-            Name = name;
-            Description = description;
-            Category = category;
-            Parent = parent;
-            MaxLevel = maxLevel;
-        }
-    }
-
-    [Serializable]
     public static class SkillPoints
     {
         public static int StatsPoints = 0;
@@ -74,14 +42,13 @@ namespace SkillTree.Core.FileManagement
 
             UsedSkillPoints++;
         }
+
         public static void AddSkillPoints(int stats, int ops, int social, int special)
         {
             StatsPoints += stats;
             OperationsPoints += ops;
             SocialPoints += social;
             SpecialPoints += special;
-
-            SkillTreeSaveManager.Save(Core.SkillData);
         }
 
         public static bool ArePointsAvailable(SkillCategory category)
@@ -89,16 +56,48 @@ namespace SkillTree.Core.FileManagement
             switch (category)
             {
                 case SkillCategory.Stats:
+                    MelonLogger.Msg($"StatsPoints: {StatsPoints}");
                     return StatsPoints > 0;
                 case SkillCategory.Operations:
+                    MelonLogger.Msg($"OperationsPoints: {OperationsPoints}");
                     return OperationsPoints > 0;
                 case SkillCategory.Social:
+                    MelonLogger.Msg($"SocialPoints: {SocialPoints}");
                     return SocialPoints > 0;
                 case SkillCategory.Special:
+                    MelonLogger.Msg($"SpecialPoints: {SpecialPoints}");
                     return SpecialPoints > 0;
                 default:
                     return false;
             }
+        }
+
+        public static Dictionary<string, int> GetSaveData()
+        {
+            Dictionary<string, int> skillData = new()
+            {
+                ["StatsPoints"] = StatsPoints,
+                ["OperationsPoints"] = OperationsPoints,
+                ["SocialPoints"] = SocialPoints,
+                ["SpecialPoints"] = SpecialPoints,
+                ["UsedSkillPoints"] = UsedSkillPoints
+            };
+
+            return skillData;
+        }
+
+        public static Dictionary<string, int> GetDefaultSaveData()
+        {
+            Dictionary<string, int> skillData = new()
+            {
+                ["StatsPoints"] = 0,
+                ["OperationsPoints"] = 0,
+                ["SocialPoints"] = 0,
+                ["SpecialPoints"] = 0,
+                ["UsedSkillPoints"] = 0
+            };
+
+            return skillData;
         }
 
         public static void LoadFromFile(JsonElement data)
@@ -111,7 +110,6 @@ namespace SkillTree.Core.FileManagement
         }
     }
 
-    [Serializable]
     public class Skill(
         string name,
         string description,
@@ -129,24 +127,47 @@ namespace SkillTree.Core.FileManagement
         public Skill Parent = parent;
         public List<Skill> Children = children;
 
+        public bool IsParentUnlocked()
+        {
+            if (Parent == null)
+            {
+                return true;
+            }
+
+            if (Parent.CurrentLevel < Parent.MaxLevel)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool IsSkillMaxLevel()
+        {
+            return CurrentLevel >= MaxLevel;
+        }
+
         private bool IsLevelUpValid()
         {
-            if (Parent != null && Parent.CurrentLevel < Parent.MaxLevel)
+            if (!IsParentUnlocked())
             {
+                MelonLogger.Msg($"Parent skill {Parent.Name} is not unlocked");
                 return false;
             }
 
             if (!SkillPoints.ArePointsAvailable(Category))
             {
+                MelonLogger.Msg($"Not enough {Category} points");
+                return false;
+            }
+                
+            if (IsSkillMaxLevel())
+            {
+                MelonLogger.Msg($"{Name} is already max level");
                 return false;
             }
 
-            if (CurrentLevel < MaxLevel)
-            {
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         public bool IncreaseSkillLevel()
@@ -172,8 +193,7 @@ namespace SkillTree.Core.FileManagement
         }
     }
 
-    [Serializable]
-    public static class SkillTree_Test
+    public class SkillTreeData
     {
         public static Skill Stats = new("Hardy", "Increase max health by 20", SkillCategory.Stats, 1, 0, null, []);
         public static Skill BattleScarred = new("Battle-scarred", "Increase health regen by 100% and decrease health regen delay by 50%", SkillCategory.Stats, 1, 0, Stats, []);
@@ -183,13 +203,13 @@ namespace SkillTree.Core.FileManagement
         public static Skill MoreStackItem = new("Prison Wallet", "Double item stack size", SkillCategory.Stats, 1, 0, Stats, []);
         public static Skill AllowSeeCounteroffChance = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Stats, 1, 0, Stats, []);
         public static Skill AllowSleepAthEne = new("Master Sleeper", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, 1, 0, Stats, []);
-        public static Skill SkipSchedule = new("Napping on the Job", "Can use a bed to skip to the next time period. \nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, AllowSleepAthEne, []);
+        public static Skill SkipSchedule = new("Napping on the Job", "Can use a bed to skip to the next time period. Plants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, AllowSleepAthEne, []);
         public static Skill MoreXP = new("Fast Learner", "Increase XP gain by 5%", SkillCategory.Stats, 2, 0, Stats, []);
         public static Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 5%", SkillCategory.Stats, 4, 0, MoreXP, []);
         public static Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, 1, 0, MoreXP, []);
 
         public static Skill Operations = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, 1, 0, null, []);
-        public static Skill MoreQuality = new("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%. Bonus for plants in plastic pots \nand moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, 2, 0, Operations, []);
+        public static Skill MoreQuality = new("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%. Bonus for plants in plastic pots and moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill MoreQualityMethCoca = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Operations, 1, 0, MoreQuality, []);
         public static Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Operations, 1, 0, Operations, []);
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
@@ -212,8 +232,8 @@ namespace SkillTree.Core.FileManagement
         public static Skill Special = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, 0, null, []);
         public static Skill Heal = new("Fit as a Fiddle", "Once per day, heal to max health", SkillCategory.Special, 1, 0, Special, []);
         public static Skill GetCashDealer = new("Siphon Funds", "Once per day, instantly collect your cash from all dealers", SkillCategory.Special, 1, 0, Special, []);
-        public static Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, 1, 0, Special, []);
         public static Skill Employees24h = new("Sweatshop", "Employees don't stop at 4 AM", SkillCategory.Special, 1, 0, Special, []);
+        public static Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, 1, 0, Special, []);
         public static Skill EmployeeMovespeed = new("RUN BITCH RUN!", "Employees move 3 times faster", SkillCategory.Special, 1, 0, BetterBotanists, []);
         public static Skill EmployeeMaxStation = new("Over Worked and Underpaid", "Increase station assignment limit for botanists and chemists by 2", SkillCategory.Special, 2, 0, BetterBotanists, []);
 
@@ -231,7 +251,7 @@ namespace SkillTree.Core.FileManagement
         ];
 
         public static HashSet<Skill> SpecialTree = [
-            Special, Heal, GetCashDealer, BetterBotanists, Employees24h, EmployeeMovespeed, EmployeeMaxStation
+            Special, Heal, GetCashDealer, Employees24h, BetterBotanists, EmployeeMovespeed, EmployeeMaxStation
         ];
 
         public static void AddChildren(HashSet<Skill> tree)
@@ -250,49 +270,45 @@ namespace SkillTree.Core.FileManagement
             }
         }
 
+        public static Dictionary<string, int> GetSaveData()
+        {
+            Dictionary<string, int> skillData = [];
+
+            SkillTreeData obj = new SkillTreeData();
+            var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
+
+            foreach (var field in fields)
+            {
+                skillData[field.Name] = (field.GetValue(obj) as Skill).CurrentLevel;
+            }
+
+            return skillData;
+        }
+
+        public static Dictionary<string, int> GetDefaultSaveData()
+        {
+            Dictionary<string, int> skillData = [];
+
+            SkillTreeData obj = new SkillTreeData();
+            var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
+
+            foreach (var field in fields)
+            {
+                skillData[field.Name] = 0;
+            }
+
+            return skillData;
+        }
+
         public static void LoadFromFile(JsonElement data)
         {
-            Stats.CurrentLevel = data.GetProperty("Stats").GetInt32();
-            BattleScarred.CurrentLevel = data.GetProperty("BattleScarred").GetInt32();
-            Slippery.CurrentLevel = data.GetProperty("Slippery").GetInt32();
-            MoreMovespeed.CurrentLevel = data.GetProperty("MoreMovespeed").GetInt32();
-            SpringHeeled.CurrentLevel = data.GetProperty("SpringHeeled").GetInt32();
-            MoreStackItem.CurrentLevel = data.GetProperty("MoreStackItem").GetInt32();
-            AllowSeeCounteroffChance.CurrentLevel = data.GetProperty("AllowSeeCounteroffChance").GetInt32();
-            AllowSleepAthEne.CurrentLevel = data.GetProperty("AllowSleepAthEne").GetInt32();
-            SkipSchedule.CurrentLevel = data.GetProperty("SkipSchedule").GetInt32();
-            MoreXP.CurrentLevel = data.GetProperty("MoreXP").GetInt32();
-            MoreXP2.CurrentLevel = data.GetProperty("MoreXP2").GetInt32();
-            MoreXPWhenEarnMoney.CurrentLevel = data.GetProperty("MoreXPWhenEarnMoney").GetInt32();
+            SkillTreeData obj = new SkillTreeData();
+            var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
 
-            Operations.CurrentLevel = data.GetProperty("Operations").GetInt32();
-            MoreQuality.CurrentLevel = data.GetProperty("MoreQuality").GetInt32();
-            MoreQualityMethCoca.CurrentLevel = data.GetProperty("MoreQualityMethCoca").GetInt32();
-            AbsorbentSoil.CurrentLevel = data.GetProperty("AbsorbentSoil").GetInt32();
-            GrowthSpeed.CurrentLevel = data.GetProperty("GrowthSpeed").GetInt32();
-            GrowthSpeed2.CurrentLevel = data.GetProperty("GrowthSpeed2").GetInt32();
-            ChemistStationQuick.CurrentLevel = data.GetProperty("ChemistStationQuick").GetInt32();
-            MoreYield.CurrentLevel = data.GetProperty("MoreYield").GetInt32();
-            MoreMixAndDryingRackOutput.CurrentLevel = data.GetProperty("MoreMixAndDryingRackOutput").GetInt32();
-            MoreCauldronOutput.CurrentLevel = data.GetProperty("MoreCauldronOutput").GetInt32();
-            
-            Social.CurrentLevel = data.GetProperty("Social").GetInt32();
-            CityEvolving.CurrentLevel = data.GetProperty("CityEvolving").GetInt32();
-            MoreATMLimit.CurrentLevel = data.GetProperty("MoreATMLimit").GetInt32();
-            BusinessEvolving.CurrentLevel = data.GetProperty("BusinessEvolving").GetInt32();
-            BetterSupplier.CurrentLevel = data.GetProperty("BetterSupplier").GetInt32();
-            BetterDelivery.CurrentLevel = data.GetProperty("BetterDelivery").GetInt32();
-            DealerMoreCustomer.CurrentLevel = data.GetProperty("DealerMoreCustomer").GetInt32();
-            DealerCutLess.CurrentLevel = data.GetProperty("DealerCutLess").GetInt32();
-            DealerSpeedUp.CurrentLevel = data.GetProperty("DealerSpeedUp").GetInt32();
-            
-            Special.CurrentLevel = data.GetProperty("Special").GetInt32();
-            Heal.CurrentLevel = data.GetProperty("Heal").GetInt32();
-            GetCashDealer.CurrentLevel = data.GetProperty("GetCashDealer").GetInt32();
-            BetterBotanists.CurrentLevel = data.GetProperty("BetterBotanists").GetInt32();
-            Employees24h.CurrentLevel = data.GetProperty("Employees24h").GetInt32();
-            EmployeeMovespeed.CurrentLevel = data.GetProperty("EmployeeMovespeed").GetInt32();
-            EmployeeMaxStation.CurrentLevel = data.GetProperty("EmployeeMaxStation").GetInt32();
+            foreach (var field in fields)
+            {
+                (field.GetValue(obj) as Skill).CurrentLevel = data.GetProperty(field.Name).GetInt32();
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Levelling;
@@ -7,14 +6,15 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using S1API.Lifecycle;
 using SkillTree.Core;
+using SkillTree.Core.App;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
 using System;
 using System.Collections;
-using System.IO;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
@@ -26,19 +26,17 @@ namespace SkillTree.Core
     public class Core : MelonMod
     {
         private static readonly string version = "2.1.4";
-        private static Core Instance;
+        //private static Core Instance;
 
-        public static SkillTreeData SkillData;
-        private SkillTreeUI skillTreeUI;
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
 
         private int lastProcessedTier = -1;
         private ERank lastProcessedRank = (ERank)(-1);
 
-        private float delayTime = 3f;
+        private readonly float delayTime = 3f;
         private bool setupComplete = false;
-        private bool treeUiChange = false;
+        //private bool treeUiChange = false;
 
         private static MelonPreferences_Category Keybinds { get; set; }
         public static MelonPreferences_Entry MenuHotkey { get; set; }
@@ -52,7 +50,7 @@ namespace SkillTree.Core
 
         public override void OnInitializeMelon()
         {
-            Instance = this;
+            //Instance = this;
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
             MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
@@ -85,26 +83,14 @@ namespace SkillTree.Core
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
-        public void Reset()
-        {
-            skillPointValid = 0;
-            specialSkillPointValid = 0;
-
-            lastProcessedTier = -1;
-            lastProcessedRank = (ERank)(-1);
-
-            setupComplete = false;
-            treeUiChange = false;
-
-            AllowSleep.Reset();
-            SkillActive.Reset();
-        }
         private IEnumerator DelayedSetup()
         {
             yield return new WaitForSeconds(delayTime);
             ItemUnlocker.UnlockSpecificItems();
             ValidateSave();
             AttPoints();
+            SkillTreeSaveManager.Save();
+            SkillTreeSaveManager.Load();
             setupComplete = true;
         }
 
@@ -129,33 +115,17 @@ namespace SkillTree.Core
                 AttPoints(true);
 
             ResetSkillsIfNewDay();
-            ActiveSkills();
 
-            if (Input.GetKeyDown((KeyCode)MenuHotkey.BoxedValue) && (skillTreeUI.Visible || Cursor.lockState != CursorLockMode.None))
+            if (Cursor.lockState != CursorLockMode.None)
             {
-                skillTreeUI.Visible = !skillTreeUI.Visible;
-                treeUiChange = true;
-            }
+                if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillTreeData.Special.CurrentLevel == 1)
+                    ClearTrash();
 
-            if (skillTreeUI.Visible)
-                PlayerCamera.Instance.SetDoFActive(true, 0.06f);
+                if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillTreeData.Heal.CurrentLevel == 1)
+                    Heal();
 
-            if (!skillTreeUI.Visible)
-                PlayerCamera.Instance.SetDoFActive(false, 0f);
-
-            if (skillTreeUI.Visible && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Tab) || Input.GetMouseButtonDown(1)))
-            {
-                skillTreeUI.Visible = !skillTreeUI.Visible;
-                treeUiChange = true;
-            }
-
-            if (treeUiChange)
-            {
-                treeUiChange = false;
-                Cursor.lockState = skillTreeUI.Visible ? CursorLockMode.None : CursorLockMode.Locked;
-                Cursor.visible = skillTreeUI.Visible;
-                GameInput.Instance.PlayerInput.enabled = !skillTreeUI.Visible;
-                PlayerInventory.Instance.SetInventoryEnabled(!skillTreeUI.Visible);
+                if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
+                    GetCashDealer();
             }
         }
 
@@ -164,17 +134,29 @@ namespace SkillTree.Core
             base.OnSceneWasLoaded(buildIndex, sceneName);
             if (sceneName != "Main")
             {
-                Reset();
+                skillPointValid = 0;
+                specialSkillPointValid = 0;
+
+                lastProcessedTier = -1;
+                lastProcessedRank = (ERank)(-1);
+
+                setupComplete = false;
+
+                AllowSleep.Reset();
+                SkillActive.Reset();
+                GameLifecycle.OnSaveComplete -= SkillTreeSaveManager.Save;
             }
 
             if (sceneName == "Main")
             {
-                SkillData = SkillTreeSaveManager.LoadOrCreate();
-                skillTreeUI = new SkillTreeUI(SkillData);
-                SkillTree_Test.AddChildren(SkillTree_Test.StatsTree);
-                SkillTree_Test.AddChildren(SkillTree_Test.OperationsTree);
-                SkillTree_Test.AddChildren(SkillTree_Test.SocialTree);
-                SkillTree_Test.AddChildren(SkillTree_Test.SpecialTree);
+                GameLifecycle.OnSaveComplete += SkillTreeSaveManager.Save;
+
+                SkillTreeData.AddChildren(SkillTreeData.StatsTree);
+                SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
+                SkillTreeData.AddChildren(SkillTreeData.SocialTree);
+                SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
+
+                SkillTreeSaveManager.Load();
             }
         }
 
@@ -186,23 +168,6 @@ namespace SkillTree.Core
             {
                 MelonCoroutines.Start(DelayedSetup());
             }
-        }
-
-        public void ActiveSkills()
-        {
-            if (Cursor.lockState == CursorLockMode.None)
-            {
-                return;
-            }
-
-            if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillData.Special == 1)
-                ClearTrash();
-
-            if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillData.Heal == 1)
-                Heal();
-
-            if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillData.GetCashDealer == 1)
-                GetCashDealer();
         }
 
         public void AttPoints(bool levelUp = false)
@@ -241,10 +206,7 @@ namespace SkillTree.Core
             lastProcessedTier = LevelManager.Instance.Tier;
             lastProcessedRank = LevelManager.Instance.Rank;
 
-            //MelonLogger.Msg("skillPointValid " + skillPointValid);
-
-            int totalSkillPoint = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.UsedSkillPoints;
-            //MelonLogger.Msg("totalSkillPoint " + totalSkillPoint);
+            int totalSkillPoint = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.UsedSkillPoints;
 
             if (skillPointValid > 0)
             {
@@ -276,8 +238,6 @@ namespace SkillTree.Core
                 if (specialSkillPointValid > 0)
                     specialSkillPointValid = 0;
 
-                skillTreeUI ??= new SkillTreeUI(SkillData);
-                skillTreeUI?.AddPoints(statsGained, opsGained, socialGained, specialGained);
                 SkillPoints.AddSkillPoints(statsGained, opsGained, socialGained, specialGained);
 
                 MelonLogger.Msg($"[SkillTree] Processed: Rank {LevelManager.Instance.Rank} Tier {LevelManager.Instance.Tier}. Gains: Stats+{statsGained} Operations+{opsGained} Social+{socialGained} Special+{specialGained}");
@@ -290,48 +250,42 @@ namespace SkillTree.Core
             int currentTier = LevelManager.Instance.Tier - 1;
 
             int maxPointsPossible = currentRank * 7 + currentTier;
-            int maxPointsJson = SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints;
+            int maxPointsJson = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints;
+
+            bool reset = false;
+
             if ((bool)ResetSkills.BoxedValue)
             {
                 MelonLogger.Msg($"Reset skills option is enabled. This happens the first time loading a save with version 2.1.0.0 or when manually enabled by the player. Resetting skills.");
-                string path = SkillTreeSaveManager.GetDynamicPath();
-                if (File.Exists(path))
-                    File.Delete(path);
-                SkillData = SkillTreeSaveManager.LoadOrCreate();
-                skillTreeUI = new SkillTreeUI(SkillData);
-                skillPointValid = maxPointsPossible - currentRank;
-                specialSkillPointValid = currentRank;
                 Version.BoxedValue = version;
                 ResetSkills.BoxedValue = false;
+                reset = true;
             }
             else if (!IsVersionCompatible())
             {
                 MelonLogger.Msg("Invalid or outdated skill tree version detected. Resetting skills.");
-                string path = SkillTreeSaveManager.GetDynamicPath();
-                if (File.Exists(path))
-                    File.Delete(path);
-                SkillData = SkillTreeSaveManager.LoadOrCreate();
-                skillTreeUI = new SkillTreeUI(SkillData);
-                skillPointValid = maxPointsPossible - currentRank;
-                specialSkillPointValid = currentRank;
                 Version.BoxedValue = version;
                 ResetSkills.BoxedValue = false;
+                reset = true;
             }
             else if (maxPointsPossible != maxPointsJson)
             {
                 MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
-                MelonLogger.Msg($"Max Points JSON: {SkillData.StatsPoints} + {SkillData.OperationsPoints} + " +
-                    $"{SkillData.SocialPoints} + {SkillData.SpecialPoints} + {SkillData.UsedSkillPoints} = " +
-                    $"{SkillData.StatsPoints + SkillData.OperationsPoints + SkillData.SocialPoints + SkillData.SpecialPoints + SkillData.UsedSkillPoints}");
+                MelonLogger.Msg($"Max Points JSON: {SkillPoints.StatsPoints} + {SkillPoints.OperationsPoints} + " +
+                    $"{SkillPoints.SocialPoints} + {SkillPoints.SpecialPoints} + {SkillPoints.UsedSkillPoints} = " +
+                    $"{SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints}");
                 MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
-                string path = SkillTreeSaveManager.GetDynamicPath();
-                if (File.Exists(path))
-                    File.Delete(path);
-                SkillData = SkillTreeSaveManager.LoadOrCreate();
-                skillTreeUI = new SkillTreeUI(SkillData);
+                reset = true;
+            }
+
+            if (reset)
+            {
+                //SkillTreeSaveManager.SaveDefault();
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
+                //SkillTreeSaveManager.Load();
             }
+
             SkillSystem.ApplyAll();
         }
 
@@ -354,21 +308,6 @@ namespace SkillTree.Core
                 }
             }
             return true;
-        }
-
-        public override void OnGUI()
-        {
-            if (skillTreeUI == null || !skillTreeUI.Visible)
-                return;
-
-            skillTreeUI.EnsureSkin();
-
-            GUI.skin = skillTreeUI.Skin;
-
-            if (Event.current.type == EventType.MouseDown)
-                GUI.FocusControl(null);
-
-            skillTreeUI.Draw();
         }
     }
 }

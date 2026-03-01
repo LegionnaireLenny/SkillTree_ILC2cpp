@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using System.Linq;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace SkillTree.Core.Patches.Social
     {
         public static void SetLaunderingCapacity()
         {
-            if (Core.SkillData.BusinessEvolving != 0)
+            if (SkillTreeData.BusinessEvolving.CurrentLevel != 0)
             {
                 MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             }

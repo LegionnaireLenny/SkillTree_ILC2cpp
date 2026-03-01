@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using System.Linq;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Postfix(ref float __result)
         {
-            if (Core.SkillData == null || Core.SkillData.Social == 0) 
+            if (SkillTreeData.Social.CurrentLevel == 0) 
                 return;
 
             float origin = __result;
@@ -27,7 +28,7 @@ namespace SkillTree.Core.Patches.Social
             Customer[] customerList = customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
             Cache.FillCache(customerList.ToList());
 
-            if (Core.SkillData.CityEvolving != 0)
+            if (SkillTreeData.CityEvolving.CurrentLevel != 0)
             {
                 MelonLogger.Msg($"[CityEvolving] Increasing customer weekly spending limit by {(int)(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
             }

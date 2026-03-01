@@ -3,9 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
-using Il2CppScheduleOne.ItemFramework;
-using MelonLoader;
-using UnityEngine;
+using SkillTree.Core.FileManagement;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -32,7 +30,7 @@ namespace SkillTree.Core.Patches.Operations
             if (__instance.Pot.NormalizedMoistureAmount <= 0f)
                 num *= 0f;
 
-            if (Core.SkillData.AbsorbentSoil == 1 && __instance.NormalizedGrowthProgress < 0.5f)
+            if (SkillTreeData.AbsorbentSoil.CurrentLevel == 1 && __instance.NormalizedGrowthProgress < 0.5f)
             {
                 foreach (var additive in __instance.Pot.AppliedAdditives)
                 {
@@ -53,7 +51,7 @@ namespace SkillTree.Core.Patches.Operations
         public static void Patch_GrowthDone(Plant __instance)
         {
             if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || 
-                (Core.SkillData.Operations == 0 && Core.SkillData.MoreQuality == 0 && Core.SkillData.MoreYield == 0))
+                (SkillTreeData.Operations.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
                 return;
 
             //float baseQuality = __instance.QualityLevel;

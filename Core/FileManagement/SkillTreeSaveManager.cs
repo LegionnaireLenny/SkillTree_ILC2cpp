@@ -1,61 +1,19 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Persistence;
+using Il2CppScheduleOne.Persistence.Datas;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 
 namespace SkillTree.Core.FileManagement
 {
     public static class SkillTreeSaveManager
     {
-        public static string GetDynamicPath()
-        {
-            string saveID = GetCurrentSaveID();
-            return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{saveID}.json");
-        }
-
-        public static SkillTreeData LoadOrCreate()
-        {
-            string path = GetDynamicPath();
-
-            if (!File.Exists(path))
-            {
-                MelonLogger.Msg($"[SkillTree] New save detected or file is missing: {path}");
-
-                var data = CreateDefault();
-                Save(data); 
-                return data;
-            }
-
-            try
-            {
-                string json = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<SkillTreeData>(json);
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Error($"[SkillTree] Save corrupted, recreating.\n{e}");
-                var data = CreateDefault();
-                Save(data);
-                return data;
-            }
-        }
-
-        public static void Save(SkillTreeData data)
-        {
-            string path = GetDynamicPath();
-            string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-            File.WriteAllText(path, json);
-        }
-
-        private static SkillTreeData CreateDefault()
-        {
-            return new SkillTreeData();
-        }
-
         public static string GetCurrentSaveID()
         {
             string fullPath = Singleton<LoadManager>.Instance.LoadedGameFolderPath;
@@ -64,6 +22,67 @@ namespace SkillTree.Core.FileManagement
                 return "DefaultPlayer";
 
             return Path.GetFileName(fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+        }
+
+        public static string GetSaveFilePath()
+        {
+            return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
+        }
+
+        public static void Save()
+        {
+            Dictionary<string, int> skillData = [];
+
+            foreach (var item in SkillPoints.GetSaveData())
+            {
+                skillData.Add(item.Key, item.Value);
+            }
+
+            foreach (var item in SkillTreeData.GetSaveData())
+            {
+                skillData.Add(item.Key, item.Value);
+            }
+
+            string path = GetSaveFilePath();
+            string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
+
+        public static void SaveDefault()
+        {
+            Dictionary<string, int> skillData = [];
+
+            foreach (var item in SkillPoints.GetDefaultSaveData())
+            {
+                skillData.Add(item.Key, item.Value);
+            }
+
+            foreach (var item in SkillTreeData.GetDefaultSaveData())
+            {
+                skillData.Add(item.Key, item.Value);
+            }
+
+            string path = GetSaveFilePath();
+            string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
+            File.WriteAllText(path, json);
+        }
+
+        public static void Load()
+        {
+            string path = GetSaveFilePath();
+
+            if (!File.Exists(path))
+            {
+                MelonLogger.Msg($"[SkillTree] Skill data file not found: {path}");
+                SaveDefault();
+            }
+
+            using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using JsonDocument doc = JsonDocument.Parse(fs);
+            JsonElement root = doc.RootElement.Clone();
+
+            SkillPoints.LoadFromFile(root);
+            SkillTreeData.LoadFromFile(root);
         }
     }
 }

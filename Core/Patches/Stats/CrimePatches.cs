@@ -4,6 +4,7 @@ using Il2CppScheduleOne.NPCs.Behaviour;
 using Il2CppScheduleOne.NPCs.CharacterClasses;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using System.Collections;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPostfix]
         public static void Patch_Activate(PursuitBehaviour __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.Slippery == 0)
+            if (SkillTreeData.Slippery.CurrentLevel == 0)
             {
                 return;
             }
@@ -28,7 +29,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPostfix]
         public static void Patch_Resume(PursuitBehaviour __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.Slippery == 0)
+            if (SkillTreeData.Slippery.CurrentLevel == 0)
             {
                 return;
             }
@@ -40,7 +41,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static bool Patch_UpdateArrest(PursuitBehaviour __instance, float tick)
         {
-            if (Core.SkillData == null || Core.SkillData.Slippery == 0 || __instance.TargetPlayer == null)
+            if (SkillTreeData.Slippery.CurrentLevel == 0 || __instance.TargetPlayer == null)
             {
                 return true;
             }
@@ -75,7 +76,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPostfix]
         public static void Patch_UpdateArrestCircle(PursuitBehaviour __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.Slippery == 0 || __instance.TargetPlayer == null)
+            if (SkillTreeData.Slippery.CurrentLevel == 0 || __instance.TargetPlayer == null)
             {
                 return;
             }

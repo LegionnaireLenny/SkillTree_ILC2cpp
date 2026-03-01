@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Delivery;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
@@ -11,7 +12,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static void Prefix(ref DeliveryInstance delivery)
         {
-            if (delivery == null || delivery.TimeUntilArrival <= 120 || Core.SkillData == null || Core.SkillData.BetterDelivery == 0)
+            if (delivery == null || delivery.TimeUntilArrival <= 120 || SkillTreeData.BetterDelivery.CurrentLevel == 0)
                 return;
 
             int originalTime = delivery.TimeUntilArrival;

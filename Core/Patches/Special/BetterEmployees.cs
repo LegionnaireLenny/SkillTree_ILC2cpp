@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Employees;
 using Il2CppScheduleOne.GameTime;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using System.Collections.Generic;
 
 namespace SkillTree.Core.Patches.Special
@@ -14,7 +15,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Postfix(Employee __instance, ref bool __result)
         {
-            if (__instance == null || Core.SkillData == null || Core.SkillData.Employees24h == 0)
+            if (__instance == null || SkillTreeData.Employees24h.CurrentLevel == 0)
                 return;
 
 
@@ -34,7 +35,7 @@ namespace SkillTree.Core.Patches.Special
 
             __result = __instance.GetHome() != null &&
                        __instance.PaidForToday &&
-                       (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || Core.SkillData.Employees24h == 1);
+                       (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || SkillTreeData.Employees24h.CurrentLevel == 1);
         }
 
         private static readonly HashSet<Il2CppSystem.Guid> processedEmployees = [];
@@ -43,7 +44,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Postfix(Employee __instance)
         {
-            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMovespeed == 0)
+            if (__instance == null || SkillTreeData.EmployeeMovespeed.CurrentLevel == 0)
                 return;
 
             __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
@@ -60,7 +61,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Postfix(Botanist __instance)
         {
-            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMaxStation == 0)
+            if (__instance == null || SkillTreeData.EmployeeMaxStation.CurrentLevel == 0)
                 return;
 
             (int, int) stations = SkillModifiers.GetBotanistStationBonus();
@@ -79,7 +80,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Postfix(Chemist __instance)
         {
-            if (__instance == null || Core.SkillData == null || Core.SkillData.EmployeeMaxStation == 0)
+            if (__instance == null || SkillTreeData.EmployeeMaxStation.CurrentLevel == 0)
                 return;
 
             (int, int) stations = SkillModifiers.GetChemistStationBonus();

@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
@@ -12,7 +13,7 @@ namespace SkillTree.Core.Patches.Stats
     {
         public static void SetPlayerHealth()
         {
-            if (Core.SkillData.Stats == 0)
+            if (SkillTreeData.Stats.CurrentLevel == 0)
             {
                 return;
             }

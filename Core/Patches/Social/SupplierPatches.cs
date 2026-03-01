@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI.Phone;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social
@@ -13,7 +14,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool Patch_CartChanged(PhoneShopInterface __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.BetterSupplier == 0)
+            if (SkillTreeData.BetterSupplier.CurrentLevel == 0)
                 return true;
 
             int itemCount;
@@ -33,7 +34,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Patch_GetDeadDropLimit(Supplier __instance, ref float __result)
         {
-            if (Core.SkillData == null || Core.SkillData.BetterSupplier == 0)
+            if (SkillTreeData.BetterSupplier.CurrentLevel == 0)
                 return;
 
             float originalLimit = __result;

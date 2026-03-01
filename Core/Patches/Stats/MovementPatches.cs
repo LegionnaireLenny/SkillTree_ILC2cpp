@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -14,19 +15,31 @@ namespace SkillTree.Core.Patches.Stats
         {
             float original = PlayerMovement.Instance.MoveSpeedMultiplier;
             PlayerMovement.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-            MelonLogger.Msg($"[MoreMovespeed] Player speed multiplier changed {original} to {PlayerMovement.Instance.MoveSpeedMultiplier}");
+
+            if (!Mathf.Approximately(original, PlayerMovement.Instance.MoveSpeedMultiplier))
+            {
+                MelonLogger.Msg($"Player speed multiplier changed from x{original} to x{PlayerMovement.Instance.MoveSpeedMultiplier}");
+            }
         }
 
         public static void SetPlayerJumpHeight()
         {
+            float original = PlayerMovement.JumpMultiplier;
             PlayerMovement.JumpMultiplier = SkillModifiers.GetPlayerJumpHeight();
-            MelonLogger.Msg($"Player jump multiplier changed from x{SkillModifiers.PlayerBaseJumpHeight} to x{PlayerMovement.JumpMultiplier}");
+            if (!Mathf.Approximately(original, PlayerMovement.JumpMultiplier))
+            {
+                MelonLogger.Msg($"Player jump multiplier changed from x{SkillModifiers.PlayerBaseJumpHeight} to x{PlayerMovement.JumpMultiplier}");
+            }
         }
 
         public static void SetPlayerStamina()
         {
             PlayerMovement.StaminaReserveMax = SkillModifiers.GetPlayerMaxStamina();
-            MelonLogger.Msg($"Player max stamina changed from {SkillModifiers.PlayerBaseStamina} to {PlayerMovement.StaminaReserveMax}");
+            if (!Mathf.Approximately(SkillModifiers.PlayerBaseStamina, PlayerMovement.StaminaReserveMax))
+            {
+                MelonLogger.Msg($"Player max stamina changed from {SkillModifiers.PlayerBaseStamina} to {PlayerMovement.StaminaReserveMax}");
+            }
+
         }
 
         //WIP stamina regen patch

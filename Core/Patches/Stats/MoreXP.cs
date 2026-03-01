@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Quests;
 using MelonLoader;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
@@ -12,7 +13,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static void Prefix_AddXP(LevelManager __instance, ref int xp)
         {
-            if (Core.SkillData.MoreXP == 0 && Core.SkillData.MoreXP2 == 0)
+            if (SkillTreeData.MoreXP.CurrentLevel == 0 && SkillTreeData.MoreXP2.CurrentLevel == 0)
                 return;
 
             int original = xp;
@@ -28,7 +29,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPostfix]
         public static void Postfix(Contract __instance, float bonusTotal)
         {
-            if (LevelManager.Instance == null || Core.SkillData == null || Core.SkillData.MoreXPWhenEarnMoney == 0)
+            if (LevelManager.Instance == null || SkillTreeData.MoreXPWhenEarnMoney.CurrentLevel == 0)
                 return;
 
             int bonusXP = Mathf.CeilToInt((__instance.Payment + bonusTotal) * SkillModifiers.GetSaleXPBonus());

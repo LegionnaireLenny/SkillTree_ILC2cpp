@@ -1,15 +1,10 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
-using Il2CppScheduleOne.Product;
 using MelonLoader;
-using System.Collections;
+using SkillTree.Core.FileManagement;
 using System.Collections.Generic;
-using UnityEngine;
-using static UnityEngine.UI.Image;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -20,7 +15,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_ChangeGrowthPercentage(ShroomColony __instance, ref float change)
         {
-            if (Core.SkillData.GrowthSpeed == 0 && Core.SkillData.GrowthSpeed2 == 0)
+            if (SkillTreeData.GrowthSpeed.CurrentLevel == 0 && SkillTreeData.GrowthSpeed2.CurrentLevel == 0)
                 return;
 
             change *= SkillModifiers.GetGrowthSpeedMultiplier();
@@ -32,7 +27,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_GetHarvestedShroom(ShroomColony __instance)
         {
-            if (Core.SkillData.MoreQuality < 2)
+            if (SkillTreeData.MoreQuality.CurrentLevel < 2)
                 return;
 
             int id = __instance.GetInstanceID();

@@ -5,9 +5,9 @@ using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Product;
 using Il2CppScheduleOne.UI.Phone;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 using UnityEngine.UI;
-using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -140,7 +140,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (Core.SkillData == null || Core.SkillData.AllowSeeCounteroffChance == 0)
+                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
                     return;
 
                 CreateSuccessLabel(__instance);
@@ -154,7 +154,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (Core.SkillData == null || Core.SkillData.AllowSeeCounteroffChance == 0)
+                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);
@@ -167,7 +167,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (Core.SkillData == null || Core.SkillData.AllowSeeCounteroffChance == 0)
+                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);

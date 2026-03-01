@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Persistence;
+using SkillTree.Core.FileManagement;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -12,7 +13,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(ChemistryStation __instance, ref int minutes)
         {
-            if (__instance.CurrentCookOperation == null || Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.CurrentCookOperation == null || SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -22,7 +23,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(MixingStation __instance, ref int minutes)
         {
-            if (__instance.CurrentMixOperation == null || Core.SkillData.ChemistStationQuick == 0)
+            if (__instance.CurrentMixOperation == null || SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -32,7 +33,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(LabOven __instance)
         {
-            if (Core.SkillData.ChemistStationQuick == 0)
+            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return true;
 
             if (__instance.CurrentOperation != null && !__instance.CurrentOperation.IsComplete())

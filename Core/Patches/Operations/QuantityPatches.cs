@@ -3,6 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
+using SkillTree.Core.FileManagement;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
@@ -15,7 +16,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(Cauldron __instance, int minutes)
         {
-            if (Core.SkillData.MoreCauldronOutput == 0 && Core.SkillData.MoreQualityMethCoca == 0)
+            if (SkillTreeData.MoreCauldronOutput.CurrentLevel == 0 && SkillTreeData.MoreQualityMethCoca.CurrentLevel == 0)
                 return true;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -63,7 +64,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
         {
-            if (__instance.GetProduct() == null || __instance.GetMixer() == null || Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
+            if (__instance.GetProduct() == null || __instance.GetMixer() == null || SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
                 return;
 
             __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity),
@@ -74,7 +75,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPostfix]
         public static void Postfix(DryingRack __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
+            if (SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }
@@ -83,7 +84,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Prefix(DryingRack __instance)
         {
-            if (Core.SkillData == null || Core.SkillData.MoreMixAndDryingRackOutput == 0)
+            if (SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }
