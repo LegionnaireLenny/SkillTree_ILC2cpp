@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.NPCs.Behaviour;
+using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Reflection;
 

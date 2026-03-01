@@ -3,7 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats

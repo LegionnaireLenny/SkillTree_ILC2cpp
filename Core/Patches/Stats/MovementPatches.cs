@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using SkillTree.Core.Skills;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 

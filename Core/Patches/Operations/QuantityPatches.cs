@@ -3,7 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations

@@ -4,7 +4,7 @@ using Il2CppScheduleOne.NPCs.Behaviour;
 using Il2CppScheduleOne.NPCs.CharacterClasses;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using System.Collections;
 using UnityEngine;
 

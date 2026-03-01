@@ -4,7 +4,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Variables;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
 namespace SkillTree.Core.Patches.Operations

@@ -2,11 +2,10 @@
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
-using SkillTree.Core.FileManagement;
 using System;
 using UnityEngine;
 
-namespace SkillTree.Core
+namespace SkillTree.Core.Skills
 {
     public static class SkillModifiers
     {
@@ -34,12 +33,12 @@ namespace SkillTree.Core
 
         public static float GetPlayerMaxHealth()
         {
-            return PlayerBaseHealth + (SkillTreeData.Stats.CurrentLevel * HealthBonus);
+            return PlayerBaseHealth + SkillTreeData.Stats.CurrentLevel * HealthBonus;
         }
 
         public static float GetPlayerHealthRegen()
         {
-            return PlayerBaseHealthRegen * (1 + (SkillTreeData.BattleScarred.CurrentLevel * HealthRegenBonus));
+            return PlayerBaseHealthRegen * (1 + SkillTreeData.BattleScarred.CurrentLevel * HealthRegenBonus);
         }
 
         public static float GetPlayerHealthRegenDelay()
@@ -49,22 +48,22 @@ namespace SkillTree.Core
 
         public static float GetPlayerMaxStamina()
         {
-            return PlayerBaseStamina * (1 + (SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus));
+            return PlayerBaseStamina * (1 + SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus);
         }
 
         public static float GetPlayerMoveSpeed()
         {
-            return PlayerBaseMoveSpeed * (1 + (SkillTreeData.MoreMovespeed.CurrentLevel * MoveSpeedBonus));
+            return PlayerBaseMoveSpeed * (1 + SkillTreeData.MoreMovespeed.CurrentLevel * MoveSpeedBonus);
         }
 
         public static float GetPlayerJumpHeight()
         {
-            return PlayerBaseJumpHeight * (1 + (SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus));
+            return PlayerBaseJumpHeight * (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus);
         }
 
         public static float GetXPGainMultiplier()
         {
-            return 1f + ((SkillTreeData.MoreXP.CurrentLevel + SkillTreeData.MoreXP2.CurrentLevel) * XPGainBonus);
+            return 1f + (SkillTreeData.MoreXP.CurrentLevel + SkillTreeData.MoreXP2.CurrentLevel) * XPGainBonus;
         }
 
         public static float GetSaleXPBonus()
@@ -74,17 +73,17 @@ namespace SkillTree.Core
 
         public static int GetInventoryStackSizeMultiplier()
         {
-            return 1 + (SkillTreeData.MoreStackItem.CurrentLevel * InventoryStackSizeBonus);
+            return 1 + SkillTreeData.MoreStackItem.CurrentLevel * InventoryStackSizeBonus;
         }
 
         public static float GetArrestTime()
         {
-            return BaseArrestTime * (1 + (SkillTreeData.Slippery.CurrentLevel * ArrestTimeIncreaseBonus));
+            return BaseArrestTime * (1 + SkillTreeData.Slippery.CurrentLevel * ArrestTimeIncreaseBonus);
         }
 
         public static float GetArrestRadius()
         {
-            return BaseArrestRadius * (1 - (SkillTreeData.Slippery.CurrentLevel * ArrestRadiusReductionBonus));
+            return BaseArrestRadius * (1 - SkillTreeData.Slippery.CurrentLevel * ArrestRadiusReductionBonus);
         }
 
         #endregion Stats
@@ -106,17 +105,17 @@ namespace SkillTree.Core
 
         public static int GetCauldronOutput()
         {
-            return CauldronBaseOutput * (1 + (SkillTreeData.MoreCauldronOutput.CurrentLevel * CauldronOutputBonus));
+            return CauldronBaseOutput * (1 + SkillTreeData.MoreCauldronOutput.CurrentLevel * CauldronOutputBonus);
         }
 
         public static int GetDryingRackCapacity()
         {
-            return BaseDryingRackCapacity * (1 + (SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel * MixDryOutputSizeBonus));
+            return BaseDryingRackCapacity * (1 + SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel * MixDryOutputSizeBonus);
         }
 
         public static int GetChemistStationSpeedMultiplier()
         {
-            return 1 + (SkillTreeData.ChemistStationQuick.CurrentLevel * ChemistStationSpeedBonus);
+            return 1 + SkillTreeData.ChemistStationQuick.CurrentLevel * ChemistStationSpeedBonus;
         }
 
         public static int GetMethCocaProductQualityBonus()
@@ -126,12 +125,12 @@ namespace SkillTree.Core
 
         public static int GetMixDryOutputMultiplier()
         {
-            return 1 + (SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel * MixDryOutputSizeBonus);
+            return 1 + SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel * MixDryOutputSizeBonus;
         }
 
         public static float GetGrowthSpeedMultiplier()
         {
-            return 1f + ((SkillTreeData.GrowthSpeed.CurrentLevel + SkillTreeData.GrowthSpeed2.CurrentLevel) * GrowthSpeedBonusPlants);
+            return 1f + (SkillTreeData.GrowthSpeed.CurrentLevel + SkillTreeData.GrowthSpeed2.CurrentLevel) * GrowthSpeedBonusPlants;
         }
 
         public static float GetGrowTentQualityBonus()
@@ -172,12 +171,12 @@ namespace SkillTree.Core
 
         public static float GetATMLimit()
         {
-            return BaseWeeklyDepositLimit + (SkillTreeData.MoreATMLimit.CurrentLevel * ATMDepositBonus);
+            return BaseWeeklyDepositLimit + SkillTreeData.MoreATMLimit.CurrentLevel * ATMDepositBonus;
         }
 
         public static int GetMaxCustomers()
         {
-            return BaseMaxCustomer + (SkillTreeData.DealerMoreCustomer.CurrentLevel * CustomerLimitBonus);
+            return BaseMaxCustomer + SkillTreeData.DealerMoreCustomer.CurrentLevel * CustomerLimitBonus;
         }
 
         public static float GetCustomerSampleBonus()
@@ -197,27 +196,27 @@ namespace SkillTree.Core
 
         public static float GetSupplierCashMultiplier()
         {
-            return 1f + (SkillTreeData.BetterSupplier.CurrentLevel * SupplierCashBonus);
+            return 1f + SkillTreeData.BetterSupplier.CurrentLevel * SupplierCashBonus;
         }
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(BaseDeadDropItemLimit * (1f + (SkillTreeData.BetterSupplier.CurrentLevel * SupplierItemBonus)));
+            return (int)(BaseDeadDropItemLimit * (1f + SkillTreeData.BetterSupplier.CurrentLevel * SupplierItemBonus));
         }
 
         public static float GetLaunderingCapacityMultiplier()
         {
-            return 1f + (SkillTreeData.BusinessEvolving.CurrentLevel * LaunderingBonus);
+            return 1f + SkillTreeData.BusinessEvolving.CurrentLevel * LaunderingBonus;
         }
 
         public static float GetCustomerCashMultiplier()
         {
-            return 1f + (SkillTreeData.CityEvolving.CurrentLevel * CustomerCashBonus);
+            return 1f + SkillTreeData.CityEvolving.CurrentLevel * CustomerCashBonus;
         }
 
         public static float GetDealerSpeedMultiplier()
         {
-            return 1f + (SkillTreeData.DealerSpeedUp.CurrentLevel * DealerSpeedBonus);
+            return 1f + SkillTreeData.DealerSpeedUp.CurrentLevel * DealerSpeedBonus;
         }
         #endregion Social
 
@@ -235,7 +234,7 @@ namespace SkillTree.Core
 
         public static float GetBotanistActionSpeedMultiplier()
         {
-            return Mathf.Clamp(1f - (SkillTreeData.BetterBotanists.CurrentLevel * BotanistActionSpeedBonus), 0.1f, 1f);
+            return Mathf.Clamp(1f - SkillTreeData.BetterBotanists.CurrentLevel * BotanistActionSpeedBonus, 0.1f, 1f);
         }
 
         public static int GetEmployeeStationBonus()

@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.UI.Phone.Messages;
 using MelonLoader;
+using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;

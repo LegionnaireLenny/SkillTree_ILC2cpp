@@ -11,21 +11,23 @@ using SkillTree.Core;
 using SkillTree.Core.App;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
+using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
+using SkillTree.Core.Skills;
 using System;
 using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.4", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.5", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.1.4";
+        private static readonly string version = "2.1.5";
         //private static Core Instance;
 
         private int skillPointValid = 0;
@@ -89,8 +91,8 @@ namespace SkillTree.Core
             ItemUnlocker.UnlockSpecificItems();
             ValidateSave();
             CalculateSkillPoints();
-            SkillTreeSaveManager.Save();
-            SkillTreeSaveManager.Load();
+            SaveManager.Save();
+            SaveManager.Load();
             SkillTreeData.ApplyAllSkills();
             setupComplete = true;
         }
@@ -145,19 +147,19 @@ namespace SkillTree.Core
 
                 AllowSleep.Reset();
                 SkillActive.Reset();
-                GameLifecycle.OnSaveComplete -= SkillTreeSaveManager.Save;
+                GameLifecycle.OnSaveComplete -= SaveManager.Save;
             }
 
             if (sceneName == "Main")
             {
-                GameLifecycle.OnSaveComplete += SkillTreeSaveManager.Save;
+                GameLifecycle.OnSaveComplete += SaveManager.Save;
 
                 SkillTreeData.AddChildren(SkillTreeData.StatsTree);
                 SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
                 SkillTreeData.AddChildren(SkillTreeData.SocialTree);
                 SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
 
-                SkillTreeSaveManager.Load();
+                SaveManager.Load();
             }
         }
 
@@ -280,10 +282,10 @@ namespace SkillTree.Core
 
             if (reset)
             {
-                SkillTreeSaveManager.SaveDefault();
+                SaveManager.SaveDefault();
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
-                SkillTreeSaveManager.Load();
+                SaveManager.Load();
             }
         }
 

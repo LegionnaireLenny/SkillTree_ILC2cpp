@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Persistence.Datas;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
+using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ using System.Text.Json;
 
 namespace SkillTree.Core.FileManagement
 {
-    public static class SkillTreeSaveManager
+    public static class SaveManager
     {
         public static string GetCurrentSaveID()
         {

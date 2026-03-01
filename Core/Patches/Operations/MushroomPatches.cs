@@ -3,7 +3,7 @@ using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using System.Collections.Generic;
 
 namespace SkillTree.Core.Patches.Operations

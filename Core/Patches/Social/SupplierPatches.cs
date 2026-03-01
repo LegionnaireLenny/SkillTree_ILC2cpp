@@ -2,7 +2,7 @@
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI.Phone;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Social

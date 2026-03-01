@@ -2,7 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Persistence;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Operations
 {

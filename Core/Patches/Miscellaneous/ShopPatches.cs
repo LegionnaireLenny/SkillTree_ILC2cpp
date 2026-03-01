@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SkillTree.Core
+namespace SkillTree.Core.Patches.Miscellaneous
 {
     /// <summary>
     /// ADD POINTS AT LEVEL UP

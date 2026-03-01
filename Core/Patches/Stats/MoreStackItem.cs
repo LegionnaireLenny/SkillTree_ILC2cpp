@@ -1,7 +1,7 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Stats
 {

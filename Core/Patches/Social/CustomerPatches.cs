@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using System.Linq;
 using UnityEngine;
 

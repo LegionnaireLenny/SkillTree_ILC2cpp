@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Operations
 {

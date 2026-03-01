@@ -3,7 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Operations
 {

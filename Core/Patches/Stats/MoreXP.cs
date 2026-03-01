@@ -2,7 +2,7 @@
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Quests;
 using MelonLoader;
-using SkillTree.Core.FileManagement;
+using SkillTree.Core.Skills;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
