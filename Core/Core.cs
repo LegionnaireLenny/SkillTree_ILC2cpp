@@ -88,9 +88,10 @@ namespace SkillTree.Core
             yield return new WaitForSeconds(delayTime);
             ItemUnlocker.UnlockSpecificItems();
             ValidateSave();
-            AttPoints();
+            CalculateSkillPoints();
             SkillTreeSaveManager.Save();
             SkillTreeSaveManager.Load();
+            SkillTreeData.ApplyAllSkills();
             setupComplete = true;
         }
 
@@ -112,7 +113,7 @@ namespace SkillTree.Core
             }
 
             if (lastProcessedTier != LevelManager.Instance.Tier)
-                AttPoints(true);
+                CalculateSkillPoints(true);
 
             ResetSkillsIfNewDay();
 
@@ -170,7 +171,7 @@ namespace SkillTree.Core
             }
         }
 
-        public void AttPoints(bool levelUp = false)
+        public void CalculateSkillPoints(bool levelUp = false)
         {
             int currentRank = (int)LevelManager.Instance.Rank;
             int currentTier = LevelManager.Instance.Tier - 1;
@@ -180,7 +181,6 @@ namespace SkillTree.Core
 
             if (levelUp && currentTier == lastProcessedTier - 1 && (int)LevelManager.Instance.Rank == (int)lastProcessedRank)
                 return;
-
             else if (levelUp)
                 MelonLogger.Msg("Level Up Detected! Skill points updated.");
 
@@ -280,13 +280,11 @@ namespace SkillTree.Core
 
             if (reset)
             {
-                //SkillTreeSaveManager.SaveDefault();
+                SkillTreeSaveManager.SaveDefault();
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
-                //SkillTreeSaveManager.Load();
+                SkillTreeSaveManager.Load();
             }
-
-            SkillSystem.ApplyAll();
         }
 
         private static bool IsVersionCompatible()

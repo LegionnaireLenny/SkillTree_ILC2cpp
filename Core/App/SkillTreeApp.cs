@@ -100,7 +100,6 @@ namespace SkillTree.Core.App
                 bool levelUpSucceeded = selectedSkill.IncreaseSkillLevel();
                 if (levelUpSucceeded)
                 {
-                    SkillSystem.ApplySkill(selectedSkill.Name);
                     skillLevel.text = $"Level {selectedSkill.CurrentLevel} / {selectedSkill.MaxLevel}";
                     UpdateText();
                     UpdateNodes();
