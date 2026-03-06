@@ -1,7 +1,6 @@
 ﻿using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
@@ -71,7 +70,7 @@ namespace SkillTree.Core.Patches.Special
                 if (InstanceFinder.IsServer)
                 {
                     NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
-                        $"Payment for {count} pieces of trash destroyed)",
+                        $"Payment for {count} pieces of trash destroyed",
                         total, 1f, string.Empty);
 
                     MelonLogger.Msg($"[Special] Payment of ${total} processed for destroying {count} piececs of trash");
@@ -121,19 +120,32 @@ namespace SkillTree.Core.Patches.Special
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             else
             {
-                float totalCash = 0;
+                float totalCash = 0f;
+                float totalOnlineBalance = 0f;
 
                 foreach (Dealer dealer in Dealer.AllPlayerDealers)
-                {             
-                    totalCash += dealer.Cash;
-                    MoneyManager.Instance.ChangeCashBalance(dealer.Cash, true, true);
+                {
+                    float amount = dealer.Cash * SkillModifiers.SiphonFundsOnlineBalanceMultiplier;
+                    totalCash += amount;
+                    totalOnlineBalance += amount;
 
                     dealer.SetCash(0f);
                 }
+
+                NetworkSingleton<MoneyManager>.Instance.ChangeCashBalance(totalCash, true, true);
+
+                if (InstanceFinder.IsServer)
+                {
+                    NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
+                        $"SiphonFunds",
+                        totalOnlineBalance, 1f, string.Empty);
+                }
+
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                                "Get Cash from Dealer",
-                                $"<color=#16F01C>{MoneyManager.FormatAmount(totalCash)}</color> cash earned",
+                                "Siphoned funds from dealers",
+                                $"<color=#54E717>{MoneyManager.FormatAmount(totalCash)}</color> and <color=#4CBFFF>{MoneyManager.FormatAmount(totalOnlineBalance)}</color>",
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+
                 getCashUsed = true;
             }
         }

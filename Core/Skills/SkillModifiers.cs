@@ -234,6 +234,7 @@ namespace SkillTree.Core.Skills
         public static readonly float BloodRushHealthBonusMultiplier = 2f;
         public static readonly float BloodRushHealthBonusCap = 30f;
         public static readonly float BloodRushDuration = 60f;
+        public static readonly float SiphonFundsOnlineBalanceMultiplier = 0.5f;
         public static readonly float BotanistActionSpeedBonus = 0.5f;
         public static readonly float EmployeeMoveSpeedBonus = 0.33f;
         public static readonly int EmployeeStationBonus = 2;
