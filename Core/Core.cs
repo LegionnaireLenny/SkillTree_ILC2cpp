@@ -8,7 +8,6 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using S1API.Lifecycle;
 using SkillTree.Core;
-using SkillTree.Core.App;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
@@ -18,17 +17,15 @@ using SkillTree.Core.Skills;
 using System;
 using System.Collections;
 using UnityEngine;
-using static SkillTree.Core.Patches.Special.SkillActive;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.5", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.6", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.1.5";
-        //private static Core Instance;
+        private static readonly string version = "2.1.6";
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -38,7 +35,6 @@ namespace SkillTree.Core
 
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
-        //private bool treeUiChange = false;
 
         private static MelonPreferences_Category Keybinds { get; set; }
         public static MelonPreferences_Entry MenuHotkey { get; set; }
@@ -52,7 +48,6 @@ namespace SkillTree.Core
 
         public override void OnInitializeMelon()
         {
-            //Instance = this;
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
             MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
@@ -117,18 +112,18 @@ namespace SkillTree.Core
             if (lastProcessedTier != LevelManager.Instance.Tier)
                 CalculateSkillPoints(true);
 
-            ResetSkillsIfNewDay();
+            SkillActive.ResetSkillsIfNewDay();
 
             if (Cursor.lockState != CursorLockMode.None)
             {
                 if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillTreeData.Special.CurrentLevel == 1)
-                    ClearTrash();
+                    SkillActive.ClearTrash();
 
                 if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillTreeData.Heal.CurrentLevel == 1)
-                    Heal();
+                    SkillActive.Heal();
 
                 if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
-                    GetCashDealer();
+                    SkillActive.GetCashDealer();
             }
         }
 

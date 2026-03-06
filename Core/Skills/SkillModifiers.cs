@@ -2,6 +2,9 @@
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
+using MelonLoader;
+using SkillTree.Core.Effects;
+using SkillTree.Core.Patches.Special;
 using System;
 using UnityEngine;
 
@@ -15,6 +18,7 @@ namespace SkillTree.Core.Skills
         public static readonly float PlayerBaseHealthRegen = 0.5f;
         public static readonly int HealthRegenBonus = 1;
         public static readonly float PlayerBaseHealthRegenDelay = 30f;
+        public static readonly float BattleScarredRegenDelayMultiplier = 0.5f;
         public static readonly float PlayerBaseStamina = PlayerMovement.StaminaReserveMax;
         public static readonly float StaminaBonus = 0.30f;
         public static readonly float PlayerBaseMoveSpeed = 1f;
@@ -33,7 +37,7 @@ namespace SkillTree.Core.Skills
 
         public static float GetPlayerMaxHealth()
         {
-            return PlayerBaseHealth + SkillTreeData.Stats.CurrentLevel * HealthBonus;
+            return PlayerBaseHealth + (SkillTreeData.Stats.CurrentLevel * HealthBonus) + GetBloodRushHealthBonus();
         }
 
         public static float GetPlayerHealthRegen()
@@ -43,7 +47,10 @@ namespace SkillTree.Core.Skills
 
         public static float GetPlayerHealthRegenDelay()
         {
-            return PlayerBaseHealthRegenDelay / (Math.Abs(SkillTreeData.BattleScarred.CurrentLevel) + 1);
+            float battleScarred = SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * BattleScarredRegenDelayMultiplier;
+            float bloodRush = BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier : 1f;
+            float delay = PlayerBaseHealthRegenDelay * battleScarred * bloodRush;
+            return delay;
         }
 
         public static float GetPlayerMaxStamina()
@@ -221,11 +228,31 @@ namespace SkillTree.Core.Skills
         #endregion Social
 
         #region Special
+        public static readonly float PoliceKilledBonus = 0.1f;
+        public static readonly float CartelKilledBonus = 0.1f;
+        public static readonly float BloodRushRegenDelayMultiplier = 0.2f;
+        public static readonly float BloodRushHealthBonusMultiplier = 2f;
+        public static readonly float BloodRushHealthBonusCap = 30f;
+        public static readonly float BloodRushDuration = 60f;
         public static readonly float BotanistActionSpeedBonus = 0.5f;
         public static readonly float EmployeeMoveSpeedBonus = 0.33f;
         public static readonly int EmployeeStationBonus = 2;
         public static readonly int MaxChemistStations = 4;
         public static readonly int MaxBotanistStations = 8;
+
+        public static float GetBloodRushHealthBonus()
+        {
+            if (SkillTreeData.Heal.CurrentLevel == 0)
+            {
+                return 0f;
+            }
+
+            float policeBonus = (NPCPatches.PoliceKilled / 2) * PoliceKilledBonus;
+            float cartelBonus = NPCPatches.CartelKilled * CartelKilledBonus;
+            float healthCap = BloodRushHealthBonusCap * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier : 1f);
+            float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
+            return bonus;
+        }
 
         public static float GetEmployeeMoveSpeedScale()
         {

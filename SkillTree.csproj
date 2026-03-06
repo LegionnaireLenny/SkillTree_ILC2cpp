@@ -6,7 +6,7 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.1.5</AssemblyVersion>
+		<AssemblyVersion>2.1.6</AssemblyVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
 		<Compile Include="Core\Patches\Operations\AbsorbentSoil.cs" />
 		<Compile Include="Core\Patches\Operations\CraftingSpeedPatches.cs" />
@@ -30,6 +31,7 @@
 		<Compile Include="Core\Patches\Social\DealerPatches.cs" />
 		<Compile Include="Core\Patches\Social\MoreATMLimit.cs" />
 		<Compile Include="Core\Patches\Special\BetterBotanists.cs" />
+		<Compile Include="Core\Patches\Special\NPCPatches.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
 		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
 		<Compile Include="Core\Patches\Stats\CrimePatches.cs" />

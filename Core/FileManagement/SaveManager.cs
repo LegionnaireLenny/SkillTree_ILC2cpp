@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Persistence.Datas;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
+using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
@@ -30,19 +31,22 @@ namespace SkillTree.Core.FileManagement
             return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
         }
 
+        private static void BuildSaveData(ref Dictionary<string, int> skillData, List<Dictionary<string, int>> sources)
+        {
+            foreach (Dictionary<string, int> dictionary in sources)
+            {
+                foreach(var item in dictionary)
+                {
+                    skillData.Add(item.Key, item.Value);
+                }
+            }
+        }
+
         public static void Save()
         {
             Dictionary<string, int> skillData = [];
 
-            foreach (var item in SkillPoints.GetSaveData())
-            {
-                skillData.Add(item.Key, item.Value);
-            }
-
-            foreach (var item in SkillTreeData.GetSaveData())
-            {
-                skillData.Add(item.Key, item.Value);
-            }
+            BuildSaveData(ref skillData, [SkillPoints.GetSaveData(), SkillTreeData.GetSaveData(), NPCPatches.GetSaveData()]);
 
             string path = GetSaveFilePath();
             string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
@@ -53,15 +57,7 @@ namespace SkillTree.Core.FileManagement
         {
             Dictionary<string, int> skillData = [];
 
-            foreach (var item in SkillPoints.GetDefaultSaveData())
-            {
-                skillData.Add(item.Key, item.Value);
-            }
-
-            foreach (var item in SkillTreeData.GetDefaultSaveData())
-            {
-                skillData.Add(item.Key, item.Value);
-            }
+            BuildSaveData(ref skillData, [SkillPoints.GetDefaultSaveData(), SkillTreeData.GetDefaultSaveData(), NPCPatches.GetDefaultSaveData()]);
 
             string path = GetSaveFilePath();
             string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
@@ -84,6 +80,7 @@ namespace SkillTree.Core.FileManagement
 
             SkillPoints.LoadFromFile(root);
             SkillTreeData.LoadFromFile(root);
+            NPCPatches.LoadFromFile(root);
         }
     }
 }

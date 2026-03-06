@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using MelonLoader;
+﻿using MelonLoader;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -43,7 +42,7 @@ namespace SkillTree.Core.Skills
         public static Skill DealerSpeedUp = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Social, 1, 0, DealerMoreCustomer, [], [Patches.Social.DealerPatches.SetDealerMoveSpeed]);
 
         public static Skill Special = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, 0, null, []);
-        public static Skill Heal = new("Fit as a Fiddle", "Once per day, heal to max health", SkillCategory.Special, 1, 0, Special, []);
+        public static Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain the Blood Rush effect for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\n While the Blood Rush effect is active, the cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, 0, Special, []);
         public static Skill GetCashDealer = new("Siphon Funds", "Once per day, instantly collect your cash from all dealers", SkillCategory.Special, 1, 0, Special, []);
         public static Skill Employees24h = new("Sweatshop", "Employees don't stop at 4 AM", SkillCategory.Special, 1, 0, Special, []);
         public static Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, 1, 0, Special, []);
@@ -52,19 +51,53 @@ namespace SkillTree.Core.Skills
 
 
         public static HashSet<Skill> StatsTree = [
-            Stats, BattleScarred, Slippery, MoreMovespeed, SpringHeeled, MoreStackItem, AllowSeeCounteroffChance, AllowSleepAthEne, SkipSchedule, MoreXP, MoreXP2, MoreXPWhenEarnMoney
+            Stats, 
+            BattleScarred,
+            Slippery, 
+            MoreMovespeed, 
+            SpringHeeled, 
+            MoreStackItem, 
+            AllowSeeCounteroffChance, 
+            AllowSleepAthEne, 
+            SkipSchedule, 
+            MoreXP, 
+            MoreXP2, 
+            MoreXPWhenEarnMoney
         ];
 
         public static HashSet<Skill> OperationsTree = [
-            Operations, MoreQuality, MoreQualityMethCoca, AbsorbentSoil, GrowthSpeed, GrowthSpeed2, ChemistStationQuick, MoreYield, MoreMixAndDryingRackOutput, MoreCauldronOutput
+            Operations, 
+            MoreQuality, 
+            MoreQualityMethCoca, 
+            AbsorbentSoil, 
+            GrowthSpeed, 
+            GrowthSpeed2, 
+            ChemistStationQuick, 
+            MoreYield, 
+            MoreMixAndDryingRackOutput, 
+            MoreCauldronOutput
         ];
 
         public static HashSet<Skill> SocialTree = [
-            Social, CityEvolving, MoreATMLimit, BusinessEvolving, BetterSupplier, BetterDelivery, DealerMoreCustomer, DealerCutLess, DealerSpeedUp
+            Social, 
+            CityEvolving, 
+            MoreATMLimit, 
+            BusinessEvolving, 
+            BetterSupplier, 
+            BetterDelivery, 
+            DealerMoreCustomer, 
+            DealerCutLess, 
+            DealerSpeedUp
         ];
 
         public static HashSet<Skill> SpecialTree = [
-            Special, Heal, GetCashDealer, Employees24h, BetterBotanists, EmployeeMovespeed, EmployeeMaxStation
+            Special, 
+            Heal, 
+            GetCashDealer, 
+            Employees24h, 
+            BetterBotanists, 
+            EmployeeMovespeed, 
+            EmployeeMaxStation
         ];
 
         public static void AddChildren(HashSet<Skill> tree)
@@ -129,7 +162,14 @@ namespace SkillTree.Core.Skills
 
             foreach (var field in fields)
             {
-                (field.GetValue(obj) as Skill).CurrentLevel = data.GetProperty(field.Name).GetInt32();
+                try
+                {
+                    (field.GetValue(obj) as Skill).CurrentLevel = data.GetProperty(field.Name).GetInt32();
+                }
+                catch (KeyNotFoundException e)
+                {
+                    MelonLogger.Warning($"Failed to load value for {field.Name} from file {e}");
+                }
             }
         }
     }

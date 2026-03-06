@@ -1,12 +1,17 @@
 ﻿using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
+using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using SkillTree.Core.Effects;
+using SkillTree.Core.Skills;
+using System.Collections;
+using UnityEngine;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -24,6 +29,13 @@ namespace SkillTree.Core.Patches.Special
             healUsed = false;
             getCashUsed = false;
             currentDay = -1;
+        }
+
+        private static IEnumerator RemoveBloodRush(float duration, BloodRush effect)
+        {
+            yield return new WaitForSeconds(duration);
+            MelonLogger.Msg($"Removing effect {effect}");
+            effect.ClearFromPlayer(Player.Local);
         }
 
         public static void ResetSkillsIfNewDay()
@@ -79,18 +91,22 @@ namespace SkillTree.Core.Patches.Special
         {
             if(healUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                                "Heal on Cooldown",
+                                "Blood Rush on Cooldown",
                                 $"<color=#FF0000>Wait one day</color>",
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
             else
             {
+                BloodRush bloodrush = new();
+                bloodrush.ApplyToPlayer(Player.Local);
+
                 float oldHp = Player.Local.Health.CurrentHealth;
-                Player.Local.Health.RecoverHealth(1000);
-                //Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
+                Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Heal",
                                 $"{oldHp} to {Player.Local.Health.CurrentHealth}",
                                 NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+
+                MelonCoroutines.Start(RemoveBloodRush(SkillModifiers.BloodRushDuration, bloodrush));
                 healUsed = true;
             }
 

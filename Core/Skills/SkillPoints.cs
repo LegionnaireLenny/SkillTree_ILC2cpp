@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using MelonLoader;
+using System.Collections.Generic;
 using System.Text.Json;
 
 namespace SkillTree.Core.Skills
 {
     public static class SkillPoints
     {
-        public static int StatsPoints = 0;
-        public static int OperationsPoints = 0;
-        public static int SocialPoints = 0;
-        public static int SpecialPoints = 0;
-        public static int UsedSkillPoints = 0;
+        public static int StatsPoints { get; private set; } = 0;
+        public static int OperationsPoints { get; private set; } = 0;
+        public static int SocialPoints { get; private set; } = 0;
+        public static int SpecialPoints { get; private set; } = 0;
+        public static int UsedSkillPoints { get; private set; } = 0;
 
         public static void ConsumeSkillPoint(SkillCategory category)
         {
@@ -87,11 +88,19 @@ namespace SkillTree.Core.Skills
 
         public static void LoadFromFile(JsonElement data)
         {
-            StatsPoints = data.GetProperty("StatsPoints").GetInt32();
-            OperationsPoints = data.GetProperty("OperationsPoints").GetInt32();
-            SocialPoints = data.GetProperty("SocialPoints").GetInt32();
-            SpecialPoints = data.GetProperty("SpecialPoints").GetInt32();
-            UsedSkillPoints = data.GetProperty("UsedSkillPoints").GetInt32();
+            try
+            {
+                StatsPoints = data.GetProperty("StatsPoints").GetInt32();
+                OperationsPoints = data.GetProperty("OperationsPoints").GetInt32();
+                SocialPoints = data.GetProperty("SocialPoints").GetInt32();
+                SpecialPoints = data.GetProperty("SpecialPoints").GetInt32();
+                UsedSkillPoints = data.GetProperty("UsedSkillPoints").GetInt32();
+
+            }
+            catch (KeyNotFoundException e) 
+            {
+                MelonLogger.Warning($"Failed loading skill points from file {e}");
+            }
         }
     }
 }
