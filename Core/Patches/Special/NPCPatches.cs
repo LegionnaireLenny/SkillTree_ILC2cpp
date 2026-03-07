@@ -1,12 +1,18 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Cartel;
+using Il2CppScheduleOne.DevUtilities;
+using Il2CppScheduleOne.Map;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Police;
 using MelonLoader;
+using S1API.Utils;
 using SkillTree.Core.Skills;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 using System.Text.Json;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -17,55 +23,167 @@ namespace SkillTree.Core.Patches.Special
         public static int CartelKilled { get; private set; } = 0;
         public static int CivilianKilled { get; private set; } = 0;
 
-        //private void SetupPoI()
-        //{
-        //    if (this.DealerPoI == null)
-        //    {
-        //        this.DealerPoI = global::UnityEngine.Object.Instantiate<NPCPoI>(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, base.transform);
-        //        this.DealerPoI.SetMainText(base.fullName + "\n(Dealer)");
-        //        this.DealerPoI.SetNPC(this);
-        //        this.DealerPoI.transform.localPosition = Vector3.zero;
-        //        this.DealerPoI.enabled = this.IsRecruited;
-        //    }
-        //    if (this.PotentialDealerPoI == null)
-        //    {
-        //        this.PotentialDealerPoI = global::UnityEngine.Object.Instantiate<NPCPoI>(NetworkSingleton<NPCManager>.Instance.PotentialDealerPoIPrefab, base.transform);
-        //        this.PotentialDealerPoI.SetMainText("Potential Dealer\n" + base.fullName);
-        //        this.PotentialDealerPoI.SetNPC(this);
-        //        float num = (float)(this.FirstName[0] % '$') * 10f;
-        //        float num2 = Mathf.Clamp((float)this.FirstName.Length * 1.5f, 1f, 10f);
-        //        Vector3 vector = base.transform.forward;
-        //        vector = Quaternion.Euler(0f, num, 0f) * vector;
-        //        this.PotentialDealerPoI.transform.localPosition = vector * num2;
-        //    }
-        //    this.UpdatePotentialDealerPoI();
-        //}
+        public static Dictionary<string, CustomPOI> CustomPOIManager = [];
+        public static string MugshotPolice = "SkillTree.Core.Images.Icon_PoliceOfficer.png";
+        public static string MugshotBenzieDealer = "SkillTree.Core.Images.Icon_BenziesDealer.png";
+        public static string MugshotBenzieGoon = "SkillTree.Core.Images.Icon_BenziesGoon.png";
+
+        public class CustomPOI
+        {
+            public string MugshotPath { get; set; }
+            public bool IsPolice {  get; set; }
+            public NPCPoI POI { get; set; }
+
+            public void SetNPC(NPC npc)
+            {
+                POI.NPC = npc;
+                SetSprite();
+            }
+
+            public void SetSprite()
+            {
+                if (POI.IconContainer != null && POI.NPC != null)
+                {
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), MugshotPath);
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
+                }
+            }
+
+            public void SetSprite(string spritePath)
+            {
+                if (POI.IconContainer != null && POI.NPC != null)
+                {
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), spritePath);
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
+                }
+            }
+
+            public void SetSprite(Sprite sprite)
+            {
+                if (POI.IconContainer != null && POI.NPC != null)
+                {
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = sprite;
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
+                }
+            }
+
+            public void UpdateVisibility()
+            {
+                SetVisibility(POI.NPC.IsCurrentlySightable());
+            }
+
+            public void SetVisibility(bool isVisible)
+            {
+                if (IsPolice)
+                {
+                    isVisible = isVisible && (SkillTreeData.Informant.CurrentLevel == 1);
+                }
+                else
+                {
+                    isVisible = isVisible && (SkillTreeData.Spymaster.CurrentLevel == 1);
+                }
+
+                POI.enabled = isVisible;
+                if (isVisible)
+                {
+                    SetSprite();
+                }
+            }
+        }
+
+        public static void UpdateVisibility()
+        {
+            foreach (var item in CustomPOIManager)
+            {
+                item.Value.UpdateVisibility();
+            }
+        }
+
+
+        private static IEnumerator SetupCustomPOI(NPC instance, string description, string mugshot, bool isPolice)
+        {
+            yield return new WaitForSeconds(5f);
+            if (!CustomPOIManager.ContainsKey(instance.ID))
+            {
+                CustomPOI customPOI = new CustomPOI
+                {
+                    MugshotPath = mugshot,
+                    IsPolice = isPolice,
+                    POI = Object.Instantiate(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, instance.transform)
+                };
+                customPOI.POI.SetMainText($"{instance.fullName}\n{(description)}");
+                customPOI.POI.SetNPC(instance);
+                customPOI.POI.transform.localPosition = Vector3.zero;
+                customPOI.SetVisibility(instance.IsCurrentlySightable());
+                CustomPOIManager[instance.ID] = customPOI;
+            }
+        }
+
+        [HarmonyPatch(typeof(NPC), "SetVisible")]
+        [HarmonyPostfix]
+        public static void Patch_NPC_SetVisible(NPC __instance)
+        {
+            if (CustomPOIManager.ContainsKey(__instance.ID))
+            {
+                CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
+            }
+        }
+
+        [HarmonyPatch(typeof(PoliceOfficer), "Start")]
+        [HarmonyPostfix]
+        public static void Patch_PoliceOfficer_Start(PoliceOfficer __instance)
+        {
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Police Officer", MugshotPolice, true));
+        }
+
+        [HarmonyPatch(typeof(CartelDealer), "Start")]
+        [HarmonyPostfix]
+        public static void Patch_CartelDealer_Start(CartelDealer __instance)
+        {
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Dealer", MugshotBenzieDealer, false));
+        }
+
+        [HarmonyPatch(typeof(CartelGoon), "Start")]
+        [HarmonyPostfix]
+        public static void Patch_CartelGoon_Start(CartelGoon __instance)
+        {
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", MugshotBenzieGoon, false));
+        }
 
         [HarmonyPatch(typeof(NPC), "OnDie")]
         [HarmonyPostfix]
         public static void Patch_NpcOnDie(NPC __instance)
         {
+            if (CustomPOIManager.ContainsKey(__instance.ID))
+            {
+                CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
+            }
+
             // OnDie is called twice for police, so PoliceKilled will increase by two every time a cop is killed
             if (__instance.TryCast<PoliceOfficer>() != null)
             {
                 PoliceKilled++;
-                //MelonLogger.Msg($"Killed police: {__instance.fullName} | Total police killed: {PoliceKilled}");
             }
             else if (__instance.TryCast<CartelGoon>() != null)
             {
                 CartelKilled++;
-                //MelonLogger.Msg($"Killed cartel goon: {__instance.fullName} | Total cartel killed: {CartelKilled}");
             }
             else if (__instance.TryCast<CartelDealer>() != null)
             {
                 CartelKilled++;
-                //MelonLogger.Msg($"Killed cartel dealer: {__instance.fullName} | Total cartel killed: {CartelKilled}");
             }
             else
             {
                 CivilianKilled++;
-                //MelonLogger.Msg($"Killed civilian: {__instance.fullName} | Total civilians killed: {CivilianKilled}");
             }
+        }
+
+        public static void Reset()
+        {
+            CustomPOIManager.Clear();
         }
 
         public static Dictionary<string, int> GetSaveData()
@@ -108,8 +226,16 @@ namespace SkillTree.Core.Patches.Special
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load value for {property.Name} from file {e}");
+                    throw new KeyNotFoundException($"Failed to load kill counts from file {e}");
                 }
+            }
+        }
+
+        public static void LoadDefaultValues()
+        {
+            foreach (var property in typeof(NPCPatches).GetProperties())
+            {
+                property.SetValue(new NPCPatches(), 0);
             }
         }
     }

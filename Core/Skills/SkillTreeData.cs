@@ -34,7 +34,9 @@ namespace SkillTree.Core.Skills
         public static Skill Social = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Social, 1, 0, null, []);
         public static Skill CityEvolving = new("Spread the Wealth", "Increase citizens' weekly spending limits by 10%", SkillCategory.Social, 2, 0, Social, [], [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
         public static Skill MoreATMLimit = new("Hoard the Wealth", "Increase ATM deposit limit by $2000", SkillCategory.Social, 2, 0, Social, []);
-        public static Skill BusinessEvolving = new("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, 3, 0, MoreATMLimit, [], [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
+        public static Skill BusinessEvolving = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Social, 2, 0, MoreATMLimit, [], [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
+        public static Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Social, 1, 0, Social, [], [Patches.Special.NPCPatches.UpdateVisibility]); 
+        public static Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Social, 1, 0, Informant, [], [Patches.Special.NPCPatches.UpdateVisibility]); 
         public static Skill BetterSupplier = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, 2, 0, Social, []);
         public static Skill BetterDelivery = new("Speed Dial", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours", SkillCategory.Social, 1, 0, BetterSupplier, []);
         public static Skill DealerMoreCustomer = new("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Social, 1, 0, Social, []);
@@ -84,7 +86,9 @@ namespace SkillTree.Core.Skills
             MoreATMLimit, 
             BusinessEvolving, 
             BetterSupplier, 
-            BetterDelivery, 
+            BetterDelivery,
+            Informant,
+            Spymaster,
             DealerMoreCustomer, 
             DealerCutLess, 
             DealerSpeedUp
@@ -168,8 +172,17 @@ namespace SkillTree.Core.Skills
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load value for {field.Name} from file {e}");
+                    throw new KeyNotFoundException($"Failed to load skills from file {e}");
                 }
+            }
+        }
+
+        public static void LoadDefaultValues()
+        {
+            SkillTreeData obj = new SkillTreeData();
+            foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
+            {
+                (field.GetValue(obj) as Skill).CurrentLevel = 0;
             }
         }
     }

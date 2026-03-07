@@ -42,7 +42,15 @@ namespace SkillTree.Core.FileManagement
             }
         }
 
-        public static void Save()
+        public static void DeleteFile()
+        {
+            if (File.Exists(GetSaveFilePath()))
+            {
+                File.Delete(GetSaveFilePath());
+            }
+        }
+
+        public static void SaveFile()
         {
             Dictionary<string, int> skillData = [];
 
@@ -53,7 +61,7 @@ namespace SkillTree.Core.FileManagement
             File.WriteAllText(path, json);
         }
 
-        public static void SaveDefault()
+        public static void SaveDefaultFile()
         {
             Dictionary<string, int> skillData = [];
 
@@ -64,23 +72,40 @@ namespace SkillTree.Core.FileManagement
             File.WriteAllText(path, json);
         }
 
-        public static void Load()
+        public static void LoadFile()
         {
             string path = GetSaveFilePath();
 
             if (!File.Exists(path))
             {
                 MelonLogger.Msg($"[SkillTree] Skill data file not found: {path}");
-                SaveDefault();
+                LoadDefaultValues();
+                return;
             }
 
-            using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-            using JsonDocument doc = JsonDocument.Parse(fs);
-            JsonElement root = doc.RootElement.Clone();
+            try
+            {
+                using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                using JsonDocument doc = JsonDocument.Parse(fs);
+                JsonElement root = doc.RootElement.Clone();
 
-            SkillPoints.LoadFromFile(root);
-            SkillTreeData.LoadFromFile(root);
-            NPCPatches.LoadFromFile(root);
+                SkillPoints.LoadFromFile(root);
+                SkillTreeData.LoadFromFile(root);
+                NPCPatches.LoadFromFile(root);
+            }
+            catch (Exception ex) 
+            {
+                MelonLogger.Warning($"Error loading save data {ex}");
+                DeleteFile();
+                LoadDefaultValues();
+            }
+        }
+
+        public static void LoadDefaultValues()
+        {
+            SkillPoints.LoadDefaultValues();
+            SkillTreeData.LoadDefaultValues();
+            NPCPatches.LoadDefaultValues();
         }
     }
 }

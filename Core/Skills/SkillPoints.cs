@@ -90,17 +90,25 @@ namespace SkillTree.Core.Skills
         {
             try
             {
-                StatsPoints = data.GetProperty("StatsPoints").GetInt32();
-                OperationsPoints = data.GetProperty("OperationsPoints").GetInt32();
-                SocialPoints = data.GetProperty("SocialPoints").GetInt32();
-                SpecialPoints = data.GetProperty("SpecialPoints").GetInt32();
-                UsedSkillPoints = data.GetProperty("UsedSkillPoints").GetInt32();
+                StatsPoints = data.GetProperty(nameof(StatsPoints)).GetInt32();
+                OperationsPoints = data.GetProperty(nameof(OperationsPoints)).GetInt32();
+                SocialPoints = data.GetProperty(nameof(SocialPoints)).GetInt32();
+                SpecialPoints = data.GetProperty(nameof(SpecialPoints)).GetInt32();
+                UsedSkillPoints = data.GetProperty(nameof(UsedSkillPoints)).GetInt32();
 
             }
             catch (KeyNotFoundException e) 
             {
-                MelonLogger.Warning($"Failed loading skill points from file {e}");
+                throw new KeyNotFoundException($"Failed to load skill points from file {e}");
             }
+        }
+        public static void LoadDefaultValues()
+        {
+            StatsPoints = 0;
+            OperationsPoints = 0;
+            SocialPoints = 0;
+            SpecialPoints = 0;
+            UsedSkillPoints = 0;
         }
     }
 }

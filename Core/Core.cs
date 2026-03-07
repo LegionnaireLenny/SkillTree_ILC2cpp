@@ -18,14 +18,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.1.6", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.2.0", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.1.6";
+        private static readonly string version = "2.2.0";
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -86,8 +86,8 @@ namespace SkillTree.Core
             ItemUnlocker.UnlockSpecificItems();
             ValidateSave();
             CalculateSkillPoints();
-            SaveManager.Save();
-            SaveManager.Load();
+            SaveManager.SaveFile();
+            SaveManager.LoadFile();
             SkillTreeData.ApplyAllSkills();
             setupComplete = true;
         }
@@ -142,19 +142,37 @@ namespace SkillTree.Core
 
                 AllowSleep.Reset();
                 SkillActive.Reset();
-                GameLifecycle.OnSaveComplete -= SaveManager.Save;
+                NPCPatches.Reset();
+                GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
             }
 
             if (sceneName == "Main")
             {
-                GameLifecycle.OnSaveComplete += SaveManager.Save;
+                GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
 
                 SkillTreeData.AddChildren(SkillTreeData.StatsTree);
                 SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
                 SkillTreeData.AddChildren(SkillTreeData.SocialTree);
                 SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
 
-                SaveManager.Load();
+                if ((bool)ResetSkills.BoxedValue)
+                {
+                    MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
+                    Version.BoxedValue = version;
+                    ResetSkills.BoxedValue = false;
+                    SaveManager.DeleteFile();
+                }
+                else if (!IsVersionCompatible())
+                {
+                    MelonLogger.Warning("Invalid or outdated skill tree version detected. Resetting skills.");
+                    Version.BoxedValue = version;
+                    ResetSkills.BoxedValue = false;
+                    SaveManager.DeleteFile();
+                }
+                else
+                {
+                    SaveManager.LoadFile();
+                }
             }
         }
 
@@ -249,38 +267,18 @@ namespace SkillTree.Core
             int maxPointsPossible = currentRank * 7 + currentTier;
             int maxPointsJson = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints;
 
-            bool reset = false;
-
-            if ((bool)ResetSkills.BoxedValue)
-            {
-                MelonLogger.Msg($"Reset skills option is enabled. This happens the first time loading a save with version 2.1.0.0 or when manually enabled by the player. Resetting skills.");
-                Version.BoxedValue = version;
-                ResetSkills.BoxedValue = false;
-                reset = true;
-            }
-            else if (!IsVersionCompatible())
-            {
-                MelonLogger.Msg("Invalid or outdated skill tree version detected. Resetting skills.");
-                Version.BoxedValue = version;
-                ResetSkills.BoxedValue = false;
-                reset = true;
-            }
-            else if (maxPointsPossible != maxPointsJson)
+            if (maxPointsPossible != maxPointsJson)
             {
                 MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
                 MelonLogger.Msg($"Max Points JSON: {SkillPoints.StatsPoints} + {SkillPoints.OperationsPoints} + " +
                     $"{SkillPoints.SocialPoints} + {SkillPoints.SpecialPoints} + {SkillPoints.UsedSkillPoints} = " +
                     $"{SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints}");
                 MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
-                reset = true;
-            }
-
-            if (reset)
-            {
-                SaveManager.SaveDefault();
+                
+                SaveManager.DeleteFile();
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
-                SaveManager.Load();
+                SaveManager.LoadDefaultValues();
             }
         }
 
