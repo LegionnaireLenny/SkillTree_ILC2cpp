@@ -21,7 +21,7 @@ namespace SkillTree.Core.Skills
         public static Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, 1, 0, MoreXP, []);
 
         public static Skill Operations = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, 1, 0, null, []);
-        public static Skill MoreQuality = new("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%. Bonus for plants in plastic pots and moisture pots capped at 15%. Mushrooms only affected at rank 2.", SkillCategory.Operations, 2, 0, Operations, []);
+        public static Skill MoreQuality = new("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%.\n\nBonus for plants in plastic pots and moisture pots capped at 15%.\n\nMushrooms only affected at rank 2.", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill MoreQualityMethCoca = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Operations, 1, 0, MoreQuality, []);
         public static Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Operations, 1, 0, Operations, []);
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
@@ -36,13 +36,13 @@ namespace SkillTree.Core.Skills
         public static Skill MoreATMLimit = new("Hoard the Wealth", "Increase ATM deposit limit by $2000", SkillCategory.Social, 2, 0, Social, []);
         public static Skill BusinessEvolving = new("Squeaky Clean", "Increase money laundering capacity by 20%", SkillCategory.Social, 3, 0, MoreATMLimit, [], [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
         public static Skill BetterSupplier = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Social, 2, 0, Social, []);
-        public static Skill BetterDelivery = new("Speed Dial", "Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours", SkillCategory.Social, 1, 0, BetterSupplier, []);
+        public static Skill BetterDelivery = new("Speed Dial", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours", SkillCategory.Social, 1, 0, BetterSupplier, []);
         public static Skill DealerMoreCustomer = new("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Social, 1, 0, Social, []);
         public static Skill DealerCutLess = new("Wage Garnishment", "Decrease dealer's cut by 5%", SkillCategory.Social, 2, 0, DealerMoreCustomer, [], [Patches.Social.DealerPatches.SetDealerCut]);
         public static Skill DealerSpeedUp = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Social, 1, 0, DealerMoreCustomer, [], [Patches.Social.DealerPatches.SetDealerMoveSpeed]);
 
         public static Skill Special = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, 0, null, []);
-        public static Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain the Blood Rush effect for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\n While the Blood Rush effect is active, the cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, 0, Special, []);
+        public static Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\n While Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, 0, Special, []);
         public static Skill GetCashDealer = new("Siphon Funds", "Once per day, instantly collect your money from all dealers. 50% of collected money is converted to online balance.", SkillCategory.Special, 1, 0, Special, []);
         public static Skill Employees24h = new("Sweatshop", "Employees don't stop at 4 AM", SkillCategory.Special, 1, 0, Special, []);
         public static Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, 1, 0, Special, []);
@@ -50,7 +50,7 @@ namespace SkillTree.Core.Skills
         public static Skill EmployeeMaxStation = new("Over Worked and Underpaid", "Increase station assignment limit for botanists and chemists by 2", SkillCategory.Special, 2, 0, BetterBotanists, []);
 
 
-        public static HashSet<Skill> StatsTree = [
+        public static readonly HashSet<Skill> StatsTree = [
             Stats, 
             BattleScarred,
             Slippery, 
@@ -65,7 +65,7 @@ namespace SkillTree.Core.Skills
             MoreXPWhenEarnMoney
         ];
 
-        public static HashSet<Skill> OperationsTree = [
+        public static readonly HashSet<Skill> OperationsTree = [
             Operations, 
             MoreQuality, 
             MoreQualityMethCoca, 
@@ -78,7 +78,7 @@ namespace SkillTree.Core.Skills
             MoreCauldronOutput
         ];
 
-        public static HashSet<Skill> SocialTree = [
+        public static readonly HashSet<Skill> SocialTree = [
             Social, 
             CityEvolving, 
             MoreATMLimit, 
@@ -90,7 +90,7 @@ namespace SkillTree.Core.Skills
             DealerSpeedUp
         ];
 
-        public static HashSet<Skill> SpecialTree = [
+        public static readonly HashSet<Skill> SpecialTree = [
             Special, 
             Heal, 
             GetCashDealer, 

@@ -11,64 +11,43 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Miscellaneous
 {
     /// <summary>
-    /// ADD POINTS AT LEVEL UP
-    /// </summary>
-    /*[HarmonyPatch(typeof(LevelManager), "IncreaseTier")]
-    public static class LevelUp_Patch
-    {
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            if (Core.Instance != null)
-                Core.Instance.AttPoints(true); 
-        }
-    }*/
-
-    /// <summary>
     /// CHANGE THE RANK NECESSARY TO UNLOCK
     /// </summary>
     public static class ItemUnlocker
     {
         private static readonly Dictionary<string, FullRank> TargetRanks = new Dictionary<string, FullRank>
         {
-            { "moisturepreservingpot",  new FullRank(ERank.Hoodlum, 5) },
-            { "ledgrowlight",           new FullRank(ERank.Hoodlum, 3) },
             { "plasticpot",             new FullRank(ERank.Street_Rat, 5) },
-            { "halogengrowlight",       new FullRank(ERank.Street_Rat, 5) },
             { "suspensionrack",         new FullRank(ERank.Street_Rat, 5) },
-            { "airpot",                 new FullRank(ERank.Peddler, 2) },
-            { "cauldron",               new FullRank(ERank.Bagman, 3) },
-            { "brickpress",             new FullRank(ERank.Bagman, 5) },
-            { "dryingrack",             new FullRank(ERank.Street_Rat, 5) }
+            { "halogengrowlight",       new FullRank(ERank.Street_Rat, 5) },
+            { "moisturepreservingpot",  new FullRank(ERank.Hoodlum, 3) },
+            { "ledgrowlight",           new FullRank(ERank.Hoodlum, 3) },
+            { "dryingrack",             new FullRank(ERank.Hoodlum, 5) },
+            { "airpot",                 new FullRank(ERank.Peddler, 5) },
+            { "brickpress",             new FullRank(ERank.Bagman, 1) }
         };
 
         public static void UnlockSpecificItems()
         {
-            var registry = Registry.Instance;
-            if (registry == null) return;
-
-            Il2CppSystem.Collections.Generic.List<ItemDefinition> allItems = registry.GetAllItems();
-            if (allItems == null) return;
+            Il2CppSystem.Collections.Generic.List<ItemDefinition> allItems = Registry.Instance?.GetAllItems();
 
             int patchedCount = 0;
-
             foreach (var def in allItems)
             {
-                if (def == null || string.IsNullOrEmpty(def.ID)) continue;
-
+                //MelonLogger.Msg($"[SkillTree Unlocker] Current item {def.Name} | {def.ID}");
                 string id = def.ID.ToLowerInvariant();
 
-                if (TargetRanks.TryGetValue(id, out FullRank rankAlvo))
+                if (TargetRanks.TryGetValue(id, out FullRank targetRank))
                 {
-                    var storable = def as StorableItemDefinition;
+                    MelonLogger.Msg($"[SkillTree Unlocker] Target item found {def.Name} | {def.ID}");
+                    var storable = def.TryCast<StorableItemDefinition>();
                     if (storable != null)
                     {
-                        storable.RequiredRank = rankAlvo;
-
+                        storable.RequiredRank = targetRank;
                         storable.RequiresLevelToPurchase = true;
 
                         patchedCount++;
-                        MelonLogger.Msg($"[SkillTree Unlocker] Item {id} updated to Rank: {rankAlvo.Rank}, Tier: {rankAlvo.Tier}");
+                        MelonLogger.Msg($"[SkillTree Unlocker] Item {id} updated to Rank: {targetRank.Rank}, Tier: {targetRank.Tier}");
                     }
                 }
             }

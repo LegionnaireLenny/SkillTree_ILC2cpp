@@ -234,6 +234,12 @@ Open Source: SkillTree (Forked) is open source and distributed with the same lic
 - Wolf's Business Improvements: NexusPage Wolf's Business﻿﻿
 - BetterCounterOffer: Github BetterCounterOffer﻿
 
+## Additional Credits
+Icons - https://iconify.design/
+- Benzies Dealer Icon - mdi:weed.png - License: MIT
+- Benzies Goon Icon - mdi:dagger.png - License: Apache 2
+- Police Officer Icon - mdi:police-badge-outline.png - License: Apache 2
+
 ## F.A.Q.
 
 **My points disappeared or my skills reset. Why?**

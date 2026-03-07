@@ -674,8 +674,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="SkillTree %28Forked%29.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+	  <EmbeddedResource Include="Core\Images\Icon_BenziesDealer.png" />
+	  <EmbeddedResource Include="Core\Images\Icon_BenziesGoon.png" />
+	  <EmbeddedResource Include="Core\Images\Icon_PoliceOfficer.png" />
 	</ItemGroup>
 </Project>

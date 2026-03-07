@@ -174,7 +174,7 @@ namespace SkillTree.Core.Skills
         public static readonly float DealerSpeedBonus = 1f;
         public static readonly float SupplierCashBonus = 0.675f;
         public static readonly float SupplierItemBonus = 0.50f;
-        public static readonly float LaunderingBonus = 0.20f;
+        public static readonly float LaunderingBonus = 0.30f;
 
         public static float GetATMLimit()
         {
