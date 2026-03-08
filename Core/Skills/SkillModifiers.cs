@@ -7,6 +7,7 @@ using SkillTree.Core.Effects;
 using SkillTree.Core.Patches.Special;
 using System;
 using UnityEngine;
+using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core.Skills
 {
@@ -109,6 +110,7 @@ namespace SkillTree.Core.Skills
         public static readonly int BaseYieldPlants = 12;
         public static readonly int YieldBonusPlants = 1;
         public static readonly float GrowthSpeedBonusPlants = 0.025f;
+        public static readonly float MoistureDrainBonus = 0.5f;
 
         public static int GetCauldronOutput()
         {
@@ -140,19 +142,34 @@ namespace SkillTree.Core.Skills
             return 1f + (SkillTreeData.GrowthSpeed.CurrentLevel + SkillTreeData.GrowthSpeed2.CurrentLevel) * GrowthSpeedBonusPlants;
         }
 
-        public static float GetGrowTentQualityBonus()
+        public static float GetMoistureDrainMultiplier()
         {
-            return SkillTreeData.Operations.CurrentLevel * QualityBonusGrowTent;
+            return SkillTreeData.WetAssPlants.CurrentLevel == 0 ? 1f : MoistureDrainBonus;
         }
 
-        public static float GetPlantQualityBonus(int maxSkillBonus = 2)
+        public static float GetPlantQualityBonus(string potName)
         {
-            return Math.Clamp(SkillTreeData.MoreQuality.CurrentLevel, 0, maxSkillBonus) * QualityBonusPlants;
+            float potBonus = 0f;
+            if (potName.Equals("Grow Tent"))
+            {
+                potBonus = SkillTreeData.Operations.CurrentLevel * QualityBonusGrowTent;
+            }
+            else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot"))
+            {
+                potBonus = SkillTreeData.MoreQuality.CurrentLevel > 0 ? QualityBonusPlants : 0;
+            }
+            else if (potName.Equals("Air Pot"))
+            {
+                potBonus = SkillTreeData.MoreQuality.CurrentLevel * QualityBonusPlants;
+                potBonus += SkillTreeData.MoreQuality.CurrentLevel == 2 ? 0.05f : 0f;
+            }
+
+            return potBonus;
         }
 
         public static float GetShroomQualityBonus()
         {
-            return SkillTreeData.MoreQuality.CurrentLevel * QualityBonusShrooms;
+            return SkillTreeData.Mushroomancer.CurrentLevel * QualityBonusShrooms;
         }
 
         public static int GetPlantYieldBonus()

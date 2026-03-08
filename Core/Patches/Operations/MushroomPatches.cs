@@ -27,7 +27,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_GetHarvestedShroom(ShroomColony __instance)
         {
-            if (SkillTreeData.MoreQuality.CurrentLevel < 2)
+            if (SkillTreeData.Mushroomancer.CurrentLevel == 0)
                 return;
 
             int id = __instance.GetInstanceID();

@@ -21,9 +21,11 @@ namespace SkillTree.Core.Skills
         public static Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, 1, 0, MoreXP, []);
 
         public static Skill Operations = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, 1, 0, null, []);
-        public static Skill MoreQuality = new("Advanced Pot Techniques", "Increase potted plant and mushroom quality by 15%.\n\nBonus for plants in plastic pots and moisture pots capped at 15%.\n\nMushrooms only affected at rank 2.", SkillCategory.Operations, 2, 0, Operations, []);
+        public static Skill MoreQuality = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill MoreQualityMethCoca = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Operations, 1, 0, MoreQuality, []);
-        public static Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Operations, 1, 0, Operations, []);
+        public static Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%", SkillCategory.Operations, 2, 0, MoreQuality, [], []);
+        public static Skill WetAssPlants = new("Wet-Ass Plants", "Moisture drains 50% slower for all grow containers", SkillCategory.Operations, 1, 0, Operations, [], []);
+        public static Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Operations, 1, 0, WetAssPlants, []);
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Operations, 2, 0, GrowthSpeed, []);
         public static Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, 1, 0, GrowthSpeed, []);
@@ -70,7 +72,9 @@ namespace SkillTree.Core.Skills
         public static readonly HashSet<Skill> OperationsTree = [
             Operations, 
             MoreQuality, 
-            MoreQualityMethCoca, 
+            MoreQualityMethCoca,
+            Mushroomancer,
+            WetAssPlants,
             AbsorbentSoil, 
             GrowthSpeed, 
             GrowthSpeed2, 

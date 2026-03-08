@@ -1,17 +1,56 @@
 ﻿using HarmonyLib;
 using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
+using Il2CppScheduleOne.GameTime;
+using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Variables;
+using MelonLoader;
 using SkillTree.Core.Skills;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
 namespace SkillTree.Core.Patches.Operations
 {
     [HarmonyPatch]
-    public static class AbsorbentSoil
+    public static class GrowContainerPatches
     {
+        [HarmonyPatch(typeof(GrowContainer), "OnMinPass")]
+        [HarmonyPrefix]
+
+        public static bool Patch_OnMinPass(GrowContainer __instance)
+        {
+            if (SkillTreeData.WetAssPlants.CurrentLevel == 0)
+                return true;
+
+
+            __instance.onMinPass?.Invoke();
+            if (NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
+            {
+                return false;
+            }
+
+            __instance.ChangeMoistureAmount(-((__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier()) / 60f) * 1f);
+
+            return false;
+        }
+
+        [HarmonyPatch(typeof(GrowContainer), "OnTimeSkipped")]
+        [HarmonyPrefix]
+        public static bool Patch_OnTimeSkipped(GrowContainer __instance, int minsSkipped)
+        {
+            if (SkillTreeData.WetAssPlants.CurrentLevel == 0)
+                return true;
+
+            if (!InstanceFinder.IsServer)
+            {
+                return false;
+            }
+            __instance.onTimeSkip?.Invoke(minsSkipped);
+            __instance.ChangeMoistureAmount(-((__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier()) / 60f) * (float)minsSkipped);
+            return false;
+        }
+
         [HarmonyPatch(typeof(Pot), "OnPlantFullyHarvested")]
         [HarmonyPrefix]
         public static bool Prefix(Pot __instance)

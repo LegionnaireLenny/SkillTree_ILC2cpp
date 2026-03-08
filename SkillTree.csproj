@@ -6,7 +6,7 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.2.0</AssemblyVersion>
+		<AssemblyVersion>2.3.0</AssemblyVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
@@ -18,7 +18,7 @@
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
-		<Compile Include="Core\Patches\Operations\AbsorbentSoil.cs" />
+		<Compile Include="Core\Patches\Operations\GrowContainerPatches.cs" />
 		<Compile Include="Core\Patches\Operations\CraftingSpeedPatches.cs" />
 		<Compile Include="Core\Patches\Operations\MushroomPatches.cs" />
 		<Compile Include="Core\Patches\Operations\QualityPatches.cs" />

@@ -38,6 +38,7 @@ namespace SkillTree.Core.App
         private static float buttonHeight = 125f;
         private static Color colorBackground = new Color(0.1f, 0.1f, 0.1f);
         private static Color colorButton = new Color(0.25f, 0.25f, 0.25f);
+        private static Color colorButtonSelected = new Color(0.35f, 0.35f, 0.35f);
         private static Color colorDetails = new Color(0.2f, 0.2f, 0.2f);
         private static Color colorMaxLevelSkill = new Color(0.25f, 0.4f, 0.25f);
         private static Color colorUnlockedSkill = new Color(0.25f, 0.25f, 0.25f);
@@ -62,6 +63,7 @@ namespace SkillTree.Core.App
             var buttonCategoryOperations = UIFactory.ButtonWithLabel("ButtonCategoryOperations", $"Operations ({SkillPoints.OperationsPoints})", categoryContainer.transform, colorButton, buttonWidth, buttonHeight);
             var buttonCategorySocial = UIFactory.ButtonWithLabel("ButtonCategorySocial", $"Social ({SkillPoints.SocialPoints})", categoryContainer.transform, colorButton, buttonWidth, buttonHeight);
             var buttonCategorySpecial = UIFactory.ButtonWithLabel("ButtonCategorySpecial", $"Special ({SkillPoints.SpecialPoints})", categoryContainer.transform, colorButton, buttonWidth, buttonHeight);
+            buttonCategoryStats.Item1.GetComponent<Image>().color = colorButtonSelected;
             buttonCategoryStats.Item3.color = colorText;
             buttonCategoryOperations.Item3.color = colorText;
             buttonCategorySocial.Item3.color = colorText;
@@ -97,7 +99,7 @@ namespace SkillTree.Core.App
 
             ButtonUtils.AddListener(buttonLevelUpSkill.Item2, () =>
             {
-                bool levelUpSucceeded = selectedSkill.IncreaseSkillLevel();
+                bool levelUpSucceeded = selectedSkill?.IncreaseSkillLevel() ?? false;
                 if (levelUpSucceeded)
                 {
                     skillLevel.text = $"Level {selectedSkill.CurrentLevel} / {selectedSkill.MaxLevel}";
@@ -112,6 +114,12 @@ namespace SkillTree.Core.App
                 operationsTreeContainer.SetActive(false);
                 socialTreeContainer.SetActive(false);
                 specialTreeContainer.SetActive(false);
+
+                buttonCategoryStats.Item1.GetComponent<Image>().color = colorButtonSelected;
+                buttonCategoryOperations.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySocial.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySpecial.Item1.GetComponent<Image>().color = colorButton;
+
                 UpdateText();
                 UpdateNodes();
             });
@@ -121,6 +129,12 @@ namespace SkillTree.Core.App
                 operationsTreeContainer.SetActive(true);
                 socialTreeContainer.SetActive(false);
                 specialTreeContainer.SetActive(false);
+
+                buttonCategoryStats.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategoryOperations.Item1.GetComponent<Image>().color = colorButtonSelected;
+                buttonCategorySocial.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySpecial.Item1.GetComponent<Image>().color = colorButton;
+
                 UpdateText();
                 UpdateNodes();
             });
@@ -130,6 +144,12 @@ namespace SkillTree.Core.App
                 operationsTreeContainer.SetActive(false);
                 socialTreeContainer.SetActive(true);
                 specialTreeContainer.SetActive(false);
+
+                buttonCategoryStats.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategoryOperations.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySocial.Item1.GetComponent<Image>().color = colorButtonSelected;
+                buttonCategorySpecial.Item1.GetComponent<Image>().color = colorButton;
+
                 UpdateText();
                 UpdateNodes();
             });
@@ -139,6 +159,12 @@ namespace SkillTree.Core.App
                 operationsTreeContainer.SetActive(false);
                 socialTreeContainer.SetActive(false);
                 specialTreeContainer.SetActive(true);
+
+                buttonCategoryStats.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategoryOperations.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySocial.Item1.GetComponent<Image>().color = colorButton;
+                buttonCategorySpecial.Item1.GetComponent<Image>().color = colorButtonSelected;
+
                 UpdateText();
                 UpdateNodes();
             });

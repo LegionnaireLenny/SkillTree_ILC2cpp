@@ -3,7 +3,10 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
+using Il2CppScheduleOne.ItemFramework;
+using MelonLoader;
 using SkillTree.Core.Skills;
+using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
 {
@@ -54,20 +57,13 @@ namespace SkillTree.Core.Patches.Operations
                 (SkillTreeData.Operations.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
                 return;
 
-            //float baseQuality = __instance.QualityLevel;
-            float potBonus = 0f;
-
-            if (__instance.Pot.Name.Equals("Grow Tent"))
-                potBonus = SkillModifiers.GetGrowTentQualityBonus();
-            else if (__instance.Pot.Name.Equals("Plastic Pot") || __instance.Pot.Name.Equals("Moisture-Preserving Pot"))
-                potBonus = SkillModifiers.GetPlantQualityBonus(1);
-            else if (__instance.Pot.Name.Equals("Air Pot"))
-                potBonus = 0.05f + SkillModifiers.GetPlantQualityBonus();
+            float baseQuality = __instance.QualityLevel;
+            float potBonus = SkillModifiers.GetPlantQualityBonus(__instance.Pot.Name);
 
             float finalQuality = __instance.QualityLevel + potBonus;
             __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
             __instance.QualityLevel = finalQuality;
-            //MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
+            MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
         }
     }
 }
