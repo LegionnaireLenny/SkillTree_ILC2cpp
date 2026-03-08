@@ -1,12 +1,14 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.UI.Phone;
 using MelonLoader.TinyJSON;
+using MelonLoader.Utils;
 using S1API.PhoneApp;
 using S1API.UI;
 using S1API.Utils;
 using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,7 +31,7 @@ namespace SkillTree.Core.App
         protected override string AppName => "SkillTreeApp";
         protected override string AppTitle => "Skills";
         protected override string IconLabel => "Skills";
-        protected override string IconFileName => "SkillTree (Forked).png";
+        protected override string IconFileName => Core.IconApp;
 
         private static Skill selectedSkill = null;
 

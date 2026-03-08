@@ -23,14 +23,11 @@ namespace SkillTree.Core.Patches.Special
         public static int CartelKilled { get; private set; } = 0;
         public static int CivilianKilled { get; private set; } = 0;
 
-        public static Dictionary<string, CustomPOI> CustomPOIManager = [];
-        public static string MugshotPolice = "SkillTree.Core.Images.Icon_PoliceOfficer.png";
-        public static string MugshotBenzieDealer = "SkillTree.Core.Images.Icon_BenziesDealer.png";
-        public static string MugshotBenzieGoon = "SkillTree.Core.Images.Icon_BenziesGoon.png";
+        public static readonly Dictionary<string, CustomPOI> CustomPOIManager = [];
 
         public class CustomPOI
         {
-            public string MugshotPath { get; set; }
+            public string IconPath { get; set; }
             public bool IsPolice {  get; set; }
             public NPCPoI POI { get; set; }
 
@@ -44,7 +41,7 @@ namespace SkillTree.Core.Patches.Special
             {
                 if (POI.IconContainer != null && POI.NPC != null)
                 {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), MugshotPath);
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImage(IconPath);
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
                 }
@@ -54,7 +51,7 @@ namespace SkillTree.Core.Patches.Special
             {
                 if (POI.IconContainer != null && POI.NPC != null)
                 {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), spritePath);
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImage(spritePath);
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
                 }
@@ -102,15 +99,14 @@ namespace SkillTree.Core.Patches.Special
             }
         }
 
-
-        private static IEnumerator SetupCustomPOI(NPC instance, string description, string mugshot, bool isPolice)
+        private static IEnumerator SetupCustomPOI(NPC instance, string description, string icon, bool isPolice)
         {
             yield return new WaitForSeconds(5f);
             if (!CustomPOIManager.ContainsKey(instance.ID))
             {
                 CustomPOI customPOI = new CustomPOI
                 {
-                    MugshotPath = mugshot,
+                    IconPath = icon,
                     IsPolice = isPolice,
                     POI = Object.Instantiate(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, instance.transform)
                 };
@@ -136,21 +132,21 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Patch_PoliceOfficer_Start(PoliceOfficer __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Police Officer", MugshotPolice, true));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Police Officer", Core.IconPolice, true));
         }
 
         [HarmonyPatch(typeof(CartelDealer), "Start")]
         [HarmonyPostfix]
         public static void Patch_CartelDealer_Start(CartelDealer __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Dealer", MugshotBenzieDealer, false));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Dealer", Core.IconBenzieDealer, false));
         }
 
         [HarmonyPatch(typeof(CartelGoon), "Start")]
         [HarmonyPostfix]
         public static void Patch_CartelGoon_Start(CartelGoon __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", MugshotBenzieGoon, false));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", Core.IconBenzieGoon, false));
         }
 
         [HarmonyPatch(typeof(NPC), "OnDie")]

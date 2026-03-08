@@ -6,6 +6,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using MelonLoader.Utils;
 using S1API.Lifecycle;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
@@ -16,6 +17,7 @@ using SkillTree.Core.Patches.Stats;
 using SkillTree.Core.Skills;
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.1", "CrazyReizor & VindicatedVendetta", null)]
@@ -26,6 +28,11 @@ namespace SkillTree.Core
     public class Core : MelonMod
     {
         private static readonly string version = "2.3.1";
+        public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
+        public static readonly string IconApp = Path.Combine(IconDirectory, "Icon_SkillTree_Forked.png");
+        public static readonly string IconPolice = Path.Combine(IconDirectory, "Icon_PoliceOfficer.png");
+        public static readonly string IconBenzieDealer = Path.Combine(IconDirectory, "Icon_BenziesDealer.png");
+        public static readonly string IconBenzieGoon = Path.Combine(IconDirectory, "Icon_BenziesGoon.png");
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -75,7 +82,31 @@ namespace SkillTree.Core
                 }
             }
 
+            ExtractIcons();
             LoggerInstance.Msg("SkillTree Initialized.");
+        }
+
+        public static void ExtractEmbeddedResource(string directoryName, string fileName)
+        {
+            string destination = Path.Combine(directoryName, fileName);
+            if (!File.Exists(destination))
+            {
+                using var resource = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.{fileName}");
+                using FileStream stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
+                resource.CopyTo(stream);
+            }
+        }
+
+        private static void ExtractIcons()
+        {
+            if (!Directory.Exists(IconDirectory))
+            {
+                Directory.CreateDirectory(IconDirectory);
+            }
+            ExtractEmbeddedResource(IconDirectory, IconApp);
+            ExtractEmbeddedResource(IconDirectory, IconPolice);
+            ExtractEmbeddedResource(IconDirectory, IconBenzieDealer);
+            ExtractEmbeddedResource(IconDirectory, IconBenzieGoon);
         }
 
         private IEnumerator DelayedSetup()

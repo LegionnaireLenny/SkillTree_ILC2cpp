@@ -677,5 +677,6 @@
 	  <EmbeddedResource Include="Core\Images\Icon_BenziesDealer.png" />
 	  <EmbeddedResource Include="Core\Images\Icon_BenziesGoon.png" />
 	  <EmbeddedResource Include="Core\Images\Icon_PoliceOfficer.png" />
+	  <EmbeddedResource Include="Core\Images\Icon_SkillTree_Forked.png" />
 	</ItemGroup>
 </Project>
