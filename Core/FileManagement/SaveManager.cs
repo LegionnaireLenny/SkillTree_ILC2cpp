@@ -1,6 +1,5 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Persistence;
-using Il2CppScheduleOne.Persistence.Datas;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
@@ -31,7 +30,7 @@ namespace SkillTree.Core.FileManagement
             return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
         }
 
-        private static void BuildSaveData(ref Dictionary<string, int> skillData, List<Dictionary<string, int>> sources)
+        private static void BuildSaveData(Dictionary<string, int> skillData, List<Dictionary<string, int>> sources)
         {
             foreach (Dictionary<string, int> dictionary in sources)
             {
@@ -44,9 +43,10 @@ namespace SkillTree.Core.FileManagement
 
         public static void DeleteFile()
         {
-            if (File.Exists(GetSaveFilePath()))
+            string path = GetSaveFilePath();
+            if (File.Exists(path))
             {
-                File.Delete(GetSaveFilePath());
+                File.Delete(path);
             }
         }
 
@@ -54,7 +54,7 @@ namespace SkillTree.Core.FileManagement
         {
             Dictionary<string, int> skillData = [];
 
-            BuildSaveData(ref skillData, [SkillPoints.GetSaveData(), SkillTreeData.GetSaveData(), NPCPatches.GetSaveData()]);
+            BuildSaveData(skillData, [SkillPoints.GetSaveData(), SkillTreeData.GetSaveData(), NPCPatches.GetSaveData()]);
 
             string path = GetSaveFilePath();
             string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
@@ -65,7 +65,7 @@ namespace SkillTree.Core.FileManagement
         {
             Dictionary<string, int> skillData = [];
 
-            BuildSaveData(ref skillData, [SkillPoints.GetDefaultSaveData(), SkillTreeData.GetDefaultSaveData(), NPCPatches.GetDefaultSaveData()]);
+            BuildSaveData(skillData, [SkillPoints.GetDefaultSaveData(), SkillTreeData.GetDefaultSaveData(), NPCPatches.GetDefaultSaveData()]);
 
             string path = GetSaveFilePath();
             string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
@@ -74,30 +74,35 @@ namespace SkillTree.Core.FileManagement
 
         public static void LoadFile()
         {
-            string path = GetSaveFilePath();
-
-            if (!File.Exists(path))
-            {
-                MelonLogger.Msg($"[SkillTree] Skill data file not found: {path}");
-                LoadDefaultValues();
-                return;
-            }
-
             try
             {
-                using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
-                using JsonDocument doc = JsonDocument.Parse(fs);
-                JsonElement root = doc.RootElement.Clone();
+                string path = GetSaveFilePath();
 
-                SkillPoints.LoadFromFile(root);
-                SkillTreeData.LoadFromFile(root);
-                NPCPatches.LoadFromFile(root);
+                if (!File.Exists(path))
+                {
+                    MelonLogger.Msg($"[SkillTree] Skill data file not found: {path}");
+                    LoadDefaultValues();
+                }
+                else
+                {
+                    using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+                    using JsonDocument doc = JsonDocument.Parse(fs);
+                    JsonElement root = doc.RootElement.Clone();
+
+                    SkillPoints.LoadFromFile(root);
+                    SkillTreeData.LoadFromFile(root);
+                    NPCPatches.LoadFromFile(root);
+                }
             }
             catch (Exception ex) 
             {
                 MelonLogger.Warning($"Error loading save data {ex}");
                 DeleteFile();
                 LoadDefaultValues();
+            }
+            finally
+            {
+                SkillTreeData.ValidateSkillTrees();
             }
         }
 

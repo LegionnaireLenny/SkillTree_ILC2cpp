@@ -12,25 +12,25 @@ namespace SkillTree.Core.Skills
         public static int SpecialPoints { get; private set; } = 0;
         public static int UsedSkillPoints { get; private set; } = 0;
 
-        public static void ConsumeSkillPoint(SkillCategory category)
+        public static void ConsumeSkillPoints(SkillCategory category, int amount)
         {
             switch (category)
             {
                 case SkillCategory.Stats:
-                    StatsPoints--;
+                    StatsPoints -= amount;
                     break;
                 case SkillCategory.Operations:
-                    OperationsPoints--;
+                    OperationsPoints -= amount;
                     break;
                 case SkillCategory.Social:
-                    SocialPoints--;
+                    SocialPoints -= amount;
                     break;
                 case SkillCategory.Special:
-                    SpecialPoints--;
+                    SpecialPoints -= amount;
                     break;
             }
 
-            UsedSkillPoints++;
+            UsedSkillPoints += amount;
         }
 
         public static void AddSkillPoints(int stats, int ops, int social, int special)

@@ -52,7 +52,12 @@ namespace SkillTree.Core.Skills
 
         public bool IsSkillMaxLevel()
         {
-            return CurrentLevel >= MaxLevel;
+            return CurrentLevel == MaxLevel;
+        }
+
+        public bool IsSkillOverLeveled()
+        {
+            return CurrentLevel > MaxLevel;
         }
 
         private bool IsLevelUpValid()
@@ -69,7 +74,7 @@ namespace SkillTree.Core.Skills
                 return false;
             }
                 
-            if (IsSkillMaxLevel())
+            if (IsSkillMaxLevel() || IsSkillOverLeveled())
             {
                 MelonLogger.Msg($"{Name} is already max level");
                 return false;
@@ -84,10 +89,53 @@ namespace SkillTree.Core.Skills
             if (isValid)
             {
                 CurrentLevel++;
-                SkillPoints.ConsumeSkillPoint(Category);
+                SkillPoints.ConsumeSkillPoints(Category, 1);
                 ApplySkillEffect();
             }
             return isValid;
+        }
+
+        public void FixOverleveledSkill()
+        {
+            if (IsSkillOverLeveled())
+            {
+                int difference = CurrentLevel - MaxLevel;
+                MelonLogger.Warning($"{Name} is overleveled {CurrentLevel}/{MaxLevel}. Reducing level and refuding {difference} {Category} points.");
+                CurrentLevel -= difference;
+                SkillPoints.ConsumeSkillPoints(Category, -difference);
+            }
+        }
+
+        public void RemoveAllLevels()
+        {
+            if (CurrentLevel > 0)
+            {
+                MelonLogger.Warning($"Setting {Name} to level 0. Refunding {CurrentLevel} {Category} points.");
+                SkillPoints.ConsumeSkillPoints(Category, -CurrentLevel);
+                CurrentLevel = 0;
+            }
+        }
+
+        public void FixSkills()
+        {
+            FixOverleveledSkill();
+            if (!IsSkillMaxLevel())
+            {
+                //MelonLogger.Msg($"{Name} is not max level. Validating children.");
+                foreach (Skill child in Children)
+                {
+                    child.RemoveAllLevels();
+                    child.FixSkills();
+                }
+            }
+            else
+            {
+                //MelonLogger.Msg($"{Name} is max level. Validating children.");
+                foreach (Skill child in Children)
+                {
+                    child.FixSkills();
+                }
+            }
         }
 
         public void ApplySkillEffect()

@@ -57,13 +57,13 @@ namespace SkillTree.Core.Patches.Operations
                 (SkillTreeData.Operations.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
                 return;
 
-            float baseQuality = __instance.QualityLevel;
+            //float baseQuality = __instance.QualityLevel;
             float potBonus = SkillModifiers.GetPlantQualityBonus(__instance.Pot.Name);
 
             float finalQuality = __instance.QualityLevel + potBonus;
             __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
             __instance.QualityLevel = finalQuality;
-            MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
+            //MelonLogger.Msg($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})");
         }
     }
 }

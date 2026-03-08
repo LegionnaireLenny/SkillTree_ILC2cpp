@@ -18,14 +18,14 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.0", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.1", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.3.0";
+        private static readonly string version = "2.3.1";
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -43,7 +43,6 @@ namespace SkillTree.Core
         public static MelonPreferences_Entry ActiveSkillThree { get; set; }
 
         private static MelonPreferences_Category ModInfo { get; set; }
-        public static MelonPreferences_Entry Version { get; set; }
         public static MelonPreferences_Entry ResetSkills { get; set; }
 
         public override void OnInitializeMelon()
@@ -56,7 +55,6 @@ namespace SkillTree.Core
             ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
 
             ModInfo = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Mod Version: {version}");
-            Version = ModInfo.CreateEntry<string>("SkillTree_01_Version", version, $"Skill Tree Version", "Do not modify. This is used to determine if the skill tree was changed in such a way that a reset is required");
             ResetSkills = ModInfo.CreateEntry<bool>("SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
             ModInfo.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
@@ -87,7 +85,7 @@ namespace SkillTree.Core
             ValidateSave();
             CalculateSkillPoints();
             SaveManager.SaveFile();
-            SaveManager.LoadFile();
+            //SaveManager.LoadFile();
             SkillTreeData.ApplyAllSkills();
             setupComplete = true;
         }
@@ -158,14 +156,6 @@ namespace SkillTree.Core
                 if ((bool)ResetSkills.BoxedValue)
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
-                    Version.BoxedValue = version;
-                    ResetSkills.BoxedValue = false;
-                    SaveManager.DeleteFile();
-                }
-                else if (!IsVersionCompatible())
-                {
-                    MelonLogger.Warning("Invalid or outdated skill tree version detected. Resetting skills.");
-                    Version.BoxedValue = version;
                     ResetSkills.BoxedValue = false;
                     SaveManager.DeleteFile();
                 }
@@ -275,32 +265,11 @@ namespace SkillTree.Core
                     $"{SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints}");
                 MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
                 
-                SaveManager.DeleteFile();
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
+                SaveManager.DeleteFile();
                 SaveManager.LoadDefaultValues();
             }
-        }
-
-        private static bool IsVersionCompatible()
-        {
-            string[] currentVersion = version.Split('.');
-            string[] fileVersion = ((string)Version.BoxedValue).Split('.');
-
-            for (int i = 0; i < 2; i++)
-            {
-                if (!int.TryParse(currentVersion[i], out int current) ||
-                    !int.TryParse(fileVersion[i], out int file))
-                {
-                    return false;
-                }
-
-                if (current > file)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
     }
 }

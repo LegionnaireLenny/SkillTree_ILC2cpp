@@ -124,6 +124,23 @@ namespace SkillTree.Core.Skills
             }
         }
 
+        public static void ApplyAllSkills()
+        {
+            SkillTreeData obj = new SkillTreeData();
+            foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
+            {
+                (field.GetValue(obj) as Skill).ApplySkillEffect();
+            }
+        }
+
+        public static void ValidateSkillTrees()
+        {
+            Stats.FixSkills();
+            Operations.FixSkills();
+            Social.FixSkills();
+            Special.FixSkills();
+        }
+
         public static Dictionary<string, int> GetSaveData()
         {
             Dictionary<string, int> skillData = [];
@@ -137,15 +154,6 @@ namespace SkillTree.Core.Skills
             }
 
             return skillData;
-        }
-
-        public static void ApplyAllSkills()
-        {
-            SkillTreeData obj = new SkillTreeData();
-            foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
-            {
-                (field.GetValue(obj) as Skill).ApplySkillEffect();
-            }
         }
 
         public static Dictionary<string, int> GetDefaultSaveData()
