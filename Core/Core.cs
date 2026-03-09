@@ -8,6 +8,7 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using MelonLoader.Utils;
 using S1API.Lifecycle;
+using S1API.Utils;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
@@ -18,6 +19,7 @@ using SkillTree.Core.Skills;
 using System;
 using System.Collections;
 using System.IO;
+using System.Reflection;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.2", "CrazyReizor & VindicatedVendetta", null)]
@@ -29,10 +31,10 @@ namespace SkillTree.Core
     {
         private static readonly string version = "2.3.2";
         public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
-        public static readonly string IconApp = Path.Combine(IconDirectory, "Icon_SkillTree_Forked.png");
-        public static readonly string IconPolice = Path.Combine(IconDirectory, "Icon_PoliceOfficer.png");
-        public static readonly string IconBenzieDealer = Path.Combine(IconDirectory, "Icon_BenziesDealer.png");
-        public static readonly string IconBenzieGoon = Path.Combine(IconDirectory, "Icon_BenziesGoon.png");
+        public static readonly string IconApp = "Icon_SkillTree_Forked.png";
+        public static readonly string IconPolice = "Icon_PoliceOfficer.png";
+        public static readonly string IconBenzieDealer = "Icon_BenziesDealer.png";
+        public static readonly string IconBenzieGoon = "Icon_BenziesGoon.png";
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -86,14 +88,34 @@ namespace SkillTree.Core
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
-        public static void ExtractEmbeddedResource(string directoryName, string fileName)
+        public static Sprite GetSprite(string directory, string filename)
         {
-            string destination = Path.Combine(directoryName, fileName);
-            if (!File.Exists(destination))
+            string path = Path.Combine(directory, filename);
+            if (File.Exists(path))
             {
-                using var resource = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.{fileName}");
-                using FileStream stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
-                resource.CopyTo(stream);
+                return ImageUtils.LoadImage(path);
+            }
+            else
+            {
+                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.{filename}");
+            }
+        }
+
+        public static void ExtractEmbeddedResource(string directory, string fileName)
+        {
+            try
+            {
+                string destination = Path.Combine(directory, fileName);
+                if (!File.Exists(destination))
+                {
+                    using var resource = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.{fileName}");
+                    using FileStream stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
+                    resource.CopyTo(stream);
+                }
+            }
+            catch (Exception e)
+            {
+                MelonLogger.Warning($"Error extracting {fileName} from assembly {e}");
             }
         }
 

@@ -9,7 +9,6 @@ using S1API.Utils;
 using SkillTree.Core.Skills;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text.Json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +26,7 @@ namespace SkillTree.Core.Patches.Special
 
         public class CustomPOI
         {
-            public string IconPath { get; set; }
+            public string IconName { get; set; }
             public bool IsPolice {  get; set; }
             public NPCPoI POI { get; set; }
 
@@ -41,7 +40,7 @@ namespace SkillTree.Core.Patches.Special
             {
                 if (POI.IconContainer != null && POI.NPC != null)
                 {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImage(IconPath);
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = Core.GetSprite(Core.IconDirectory, IconName);
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
                 }
@@ -99,14 +98,14 @@ namespace SkillTree.Core.Patches.Special
             }
         }
 
-        private static IEnumerator SetupCustomPOI(NPC instance, string description, string icon, bool isPolice)
+        private static IEnumerator SetupCustomPOI(NPC instance, string description, string iconName, bool isPolice)
         {
             yield return new WaitForSeconds(5f);
             if (!CustomPOIManager.ContainsKey(instance.ID))
             {
                 CustomPOI customPOI = new CustomPOI
                 {
-                    IconPath = icon,
+                    IconName = iconName,
                     IsPolice = isPolice,
                     POI = Object.Instantiate(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, instance.transform)
                 };

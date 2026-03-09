@@ -44,6 +44,7 @@ namespace SkillTree.Core.App
         protected override string AppTitle => "Skills";
         protected override string IconLabel => "Skills";
         protected override string IconFileName => Core.IconApp;
+        protected override Sprite IconSprite => Core.GetSprite(Core.IconDirectory, Core.IconApp);
 
         private static SkillNode previousSkill = null;
         private static SkillNode selectedSkill = null;
