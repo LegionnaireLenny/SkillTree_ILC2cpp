@@ -49,8 +49,8 @@ namespace SkillTree.Core.App
         private static SkillNode previousSkill = null;
         private static SkillNode selectedSkill = null;
 
-        private static readonly float buttonWidth = 125f;
-        private static readonly float buttonHeight = 50f;
+        private static readonly float buttonWidth = Core.IsS1APIPatchNeeded ? 50f : 125f;
+        private static readonly float buttonHeight = Core.IsS1APIPatchNeeded ? 125f : 50f;
         private static readonly Color colorBackground = new Color(0.1f, 0.1f, 0.1f);
         private static readonly Color colorButton = new Color(0.25f, 0.25f, 0.25f);
         private static readonly Color colorButtonSelected = new Color(0.35f, 0.35f, 0.35f);

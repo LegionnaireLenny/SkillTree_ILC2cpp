@@ -9,6 +9,7 @@ using MelonLoader;
 using MelonLoader.Utils;
 using S1API.Lifecycle;
 using S1API.Utils;
+using Semver;
 using SkillTree.Core;
 using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
@@ -19,17 +20,19 @@ using SkillTree.Core.Skills;
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.2", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.3", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.3.2";
+        private static readonly string version = "2.3.3";
+        public static bool IsS1APIPatchNeeded { get; private set; } = false;
         public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
         public static readonly string IconApp = "Icon_SkillTree_Forked.png";
         public static readonly string IconPolice = "Icon_PoliceOfficer.png";
@@ -82,6 +85,14 @@ namespace SkillTree.Core
                 {
                     LoggerInstance.Msg($"Empire 2.0 patch failed {e}");
                 }
+            }
+
+            var s1api = RegisteredMelons.FirstOrDefault(m => m.MelonAssembly.Assembly.GetName().Name.Equals("S1API"));
+            var s1apiVersion = s1api.Info.SemanticVersion;
+            if (s1apiVersion < new SemVersion(2, 9, 9))
+            {
+                IsS1APIPatchNeeded = true;
+                MelonLogger.Warning($"S1API version {s1apiVersion} older than 2.9.9, applying compatibility patches.");
             }
 
             ExtractIcons();
