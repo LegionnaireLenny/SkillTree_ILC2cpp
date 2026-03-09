@@ -16,7 +16,7 @@ namespace SkillTree.Core.Patches.Social
     {
         public static void SetDealerCut()
         {
-            Cache.FillCache(Dealer.AllPlayerDealers);
+            Cache.FillCache(Dealer.AllPlayerDealers.ToArray().ToList());
 
             foreach (Dealer dealer in Dealer.AllPlayerDealers)
             {
@@ -33,7 +33,7 @@ namespace SkillTree.Core.Patches.Social
 
         public static void SetDealerMoveSpeed()
         {
-            Cache.FillCache(Dealer.AllPlayerDealers);
+            Cache.FillCache(Dealer.AllPlayerDealers.ToArray().ToList());
 
             foreach (Dealer dealer in Dealer.AllPlayerDealers)
             {

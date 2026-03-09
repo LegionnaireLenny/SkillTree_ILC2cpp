@@ -2,6 +2,8 @@
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -12,7 +14,7 @@ namespace SkillTree.Core.Patches.Stats
             if (Registry.Instance == null || SkillTreeData.MoreStackItem.CurrentLevel == 0)
                 return;
 
-            Il2CppSystem.Collections.Generic.List<ItemDefinition> allItems = Registry.Instance.GetAllItems();
+            List<ItemDefinition> allItems = Registry.Instance.GetAllItems().ToArray().ToList();
             Cache.FillCache(allItems);
 
             MelonLogger.Msg($"[MoreStackItem] Increasing item stack by x{SkillModifiers.GetInventoryStackSizeMultiplier()}");

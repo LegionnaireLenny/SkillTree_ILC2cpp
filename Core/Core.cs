@@ -20,14 +20,14 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.1", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.2", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.3.1";
+        private static readonly string version = "2.3.2";
         public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
         public static readonly string IconApp = Path.Combine(IconDirectory, "Icon_SkillTree_Forked.png");
         public static readonly string IconPolice = Path.Combine(IconDirectory, "Icon_PoliceOfficer.png");
@@ -56,9 +56,9 @@ namespace SkillTree.Core
         {
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
-            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
-            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Streetsweeper", "Activate 'Streetsweeper' skill");
-            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Fit as a Fiddle", "Activate 'Fit as a Fiddle' skill");
+            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu", true);
+            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
+            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
             ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
 
             ModInfo = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Mod Version: {version}");

@@ -78,7 +78,7 @@ namespace SkillTree.Core
             MelonLogger.Msg("[Cache] Successfully cached orignal spending capacity for each customer!");
         }
 
-        public static void FillCache(Il2CppSystem.Collections.Generic.List<ItemDefinition> items)
+        public static void FillCache(List<ItemDefinition> items)
         {
             foreach (ItemDefinition item in items)
             {
@@ -90,7 +90,7 @@ namespace SkillTree.Core
             MelonLogger.Msg("[Cache] Successfully cached stack limits for each item!");
         }
 
-        public static void FillCache(Il2CppSystem.Collections.Generic.List<Dealer> dealers)
+        public static void FillCache(List<Dealer> dealers)
         {
             if (OriginalDealerCut.Count > 0)
             {
