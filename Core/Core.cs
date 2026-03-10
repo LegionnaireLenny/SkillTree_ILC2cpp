@@ -20,14 +20,14 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.3", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.4", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.3.3";
+        private static readonly string version = "2.3.4";
         public static bool IsS1APIPatchNeeded { get; private set; } = false;
 
         private int skillPointValid = 0;
