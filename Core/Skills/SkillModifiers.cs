@@ -3,11 +3,10 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
+using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Patches.Special;
-using System;
 using UnityEngine;
-using static MelonLoader.MelonLogger;
 
 namespace SkillTree.Core.Skills
 {
@@ -251,7 +250,8 @@ namespace SkillTree.Core.Skills
         public static readonly float BloodRushHealthBonusMultiplier = 2f;
         public static readonly float BloodRushHealthBonusCap = 30f;
         public static readonly float BloodRushDuration = 60f;
-        public static readonly float SiphonFundsOnlineBalanceMultiplier = 0.5f;
+        public static readonly float SiphonFundsBaseConversionRate = 0.1f;
+        public static readonly float SiphonFundsOwnedBusinessBonus = 0.05f;
         public static readonly float BotanistActionSpeedBonus = 0.5f;
         public static readonly float EmployeeMoveSpeedBonus = 0.33f;
         public static readonly int EmployeeStationBonus = 2;
@@ -270,6 +270,11 @@ namespace SkillTree.Core.Skills
             float healthCap = BloodRushHealthBonusCap * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier : 1f);
             float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
             return bonus;
+        }
+
+        public static float GetSiphonFundsConversionMultiplier()
+        {
+            return SkillTreeData.GetCashDealer.CurrentLevel * (SiphonFundsBaseConversionRate + SiphonFundsOwnedBusinessBonus * BusinessManager.GetOwnedBusinesses().Count);
         }
 
         public static float GetEmployeeMoveSpeedScale()

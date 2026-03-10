@@ -135,9 +135,10 @@ namespace SkillTree.Core.Patches.Special
 
                 foreach (Dealer dealer in Dealer.AllPlayerDealers)
                 {
-                    float amount = dealer.Cash * SkillModifiers.SiphonFundsOnlineBalanceMultiplier;
-                    totalCash += amount;
-                    totalOnlineBalance += amount;
+                    float amountConverted = dealer.Cash * SkillModifiers.GetSiphonFundsConversionMultiplier();
+                    totalCash += dealer.Cash - amountConverted;
+                    totalOnlineBalance += amountConverted;
+                    //MelonLogger.Msg($"Dealer Cash: {dealer.Cash} | Unconverted Amount: {dealer.Cash - amountConverted} | Converted Amount: {amountConverted} | Conversion Rate: {SkillModifiers.GetSiphonFundsConversionMultiplier()}");
 
                     dealer.SetCash(0f);
                 }
