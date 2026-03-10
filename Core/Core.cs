@@ -6,22 +6,18 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
-using MelonLoader.Utils;
 using S1API.Lifecycle;
-using S1API.Utils;
 using Semver;
 using SkillTree.Core;
-using SkillTree.Core.FileManagement;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System;
 using System.Collections;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 [assembly: MelonInfo(typeof(Core), "SkillTree", "2.3.3", "CrazyReizor & VindicatedVendetta", null)]
@@ -33,11 +29,6 @@ namespace SkillTree.Core
     {
         private static readonly string version = "2.3.3";
         public static bool IsS1APIPatchNeeded { get; private set; } = false;
-        public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
-        public static readonly string IconApp = "Icon_SkillTree_Forked.png";
-        public static readonly string IconPolice = "Icon_PoliceOfficer.png";
-        public static readonly string IconBenzieDealer = "Icon_BenziesDealer.png";
-        public static readonly string IconBenzieGoon = "Icon_BenziesGoon.png";
 
         private int skillPointValid = 0;
         private int specialSkillPointValid = 0;
@@ -95,52 +86,10 @@ namespace SkillTree.Core
                 MelonLogger.Warning($"S1API version {s1apiVersion} older than 2.9.9, applying compatibility patches.");
             }
 
-            ExtractIcons();
+            IconManager.ExtractIcons();
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
-        public static Sprite GetSprite(string directory, string filename)
-        {
-            string path = Path.Combine(directory, filename);
-            if (File.Exists(path))
-            {
-                return ImageUtils.LoadImage(path);
-            }
-            else
-            {
-                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.{filename}");
-            }
-        }
-
-        public static void ExtractEmbeddedResource(string directory, string fileName)
-        {
-            try
-            {
-                string destination = Path.Combine(directory, fileName);
-                if (!File.Exists(destination))
-                {
-                    using var resource = System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.{fileName}");
-                    using FileStream stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
-                    resource.CopyTo(stream);
-                }
-            }
-            catch (Exception e)
-            {
-                MelonLogger.Warning($"Error extracting {fileName} from assembly {e}");
-            }
-        }
-
-        private static void ExtractIcons()
-        {
-            if (!Directory.Exists(IconDirectory))
-            {
-                Directory.CreateDirectory(IconDirectory);
-            }
-            ExtractEmbeddedResource(IconDirectory, IconApp);
-            ExtractEmbeddedResource(IconDirectory, IconPolice);
-            ExtractEmbeddedResource(IconDirectory, IconBenzieDealer);
-            ExtractEmbeddedResource(IconDirectory, IconBenzieGoon);
-        }
 
         private IEnumerator DelayedSetup()
         {
@@ -149,7 +98,6 @@ namespace SkillTree.Core
             ValidateSave();
             CalculateSkillPoints();
             SaveManager.SaveFile();
-            //SaveManager.LoadFile();
             SkillTreeData.ApplyAllSkills();
             setupComplete = true;
         }
@@ -179,13 +127,13 @@ namespace SkillTree.Core
             if (Cursor.lockState != CursorLockMode.None)
             {
                 if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillTreeData.Special.CurrentLevel == 1)
-                    SkillActive.ClearTrash();
+                    SkillActive.GoodSamaritan();
 
                 if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillTreeData.Heal.CurrentLevel == 1)
-                    SkillActive.Heal();
+                    SkillActive.BloodRush();
 
                 if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
-                    SkillActive.GetCashDealer();
+                    SkillActive.SiphonFunds();
             }
         }
 
@@ -323,12 +271,12 @@ namespace SkillTree.Core
 
             if (maxPointsPossible != maxPointsJson)
             {
-                MelonLogger.Msg($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
-                MelonLogger.Msg($"Max Points JSON: {SkillPoints.StatsPoints} + {SkillPoints.OperationsPoints} + " +
+                MelonLogger.Warning($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
+                MelonLogger.Warning($"Max Points JSON: {SkillPoints.StatsPoints} + {SkillPoints.OperationsPoints} + " +
                     $"{SkillPoints.SocialPoints} + {SkillPoints.SpecialPoints} + {SkillPoints.UsedSkillPoints} = " +
                     $"{SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints}");
-                MelonLogger.Msg("Desync detected! Synchronizing points with saved XP in the game...");
-                
+                MelonLogger.Warning("Desync detected! Synchronizing points with saved XP in the game...");
+
                 skillPointValid = maxPointsPossible - currentRank;
                 specialSkillPointValid = currentRank;
                 SaveManager.DeleteFile();

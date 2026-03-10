@@ -9,6 +9,7 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 
@@ -48,19 +49,29 @@ namespace SkillTree.Core.Patches.Special
             }
         }
 
-        public static void ClearTrash()
+        public static void GoodSamaritan()
         {
-            if(clearTrashUsed)
+            if (clearTrashUsed)
             {
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Good Samaritan on Cooldown",
                                 $"<color=#FF0000>Wait one day</color>",
-                                NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                                IconManager.LoadSprite(IconManager.IconTrashcan));
             }
             else
             {
                 int total = 0;
                 int count = TrashManager.Instance.trashItems.Count;
+
+                if (count == 0)
+                {
+                    Singleton<NotificationsManager>.Instance.SendNotification(
+                        "Good Samaritan",
+                        "No trash found",
+                        IconManager.LoadSprite(IconManager.IconTrashcan));
+
+                    return;
+                }
 
                 foreach (var item in TrashManager.Instance.trashItems)
                 {
@@ -73,26 +84,26 @@ namespace SkillTree.Core.Patches.Special
                         $"Payment for {count} pieces of trash destroyed",
                         total, 1f, string.Empty);
 
-                    MelonLogger.Msg($"[Special] Payment of ${total} processed for destroying {count} piececs of trash");
+                    MelonLogger.Msg($"[Special] Payment of ${total} processed for destroying {count} pieces of trash");
                 }
 
                 TrashManager.Instance.DestroyAllTrash();
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Good Samaritan Payment",
-                    $"<color=#16F01C>{MoneyManager.FormatAmount(total)}</color>",
-                    NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                    "Good Samaritan",
+                    $"Earned <color=#4CBFFF>{MoneyManager.FormatAmount(total)}</color>",
+                    IconManager.LoadSprite(IconManager.IconTrashcan));
                 clearTrashUsed = true;
             }
 
         }
 
-        public static void Heal()
+        public static void BloodRush()
         {
-            if(healUsed)
+            if (healUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Blood Rush on Cooldown",
                                 $"<color=#FF0000>Wait one day</color>",
-                                NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                                IconManager.LoadSprite(IconManager.IconHeart));
             else
             {
                 BloodRush bloodrush = new();
@@ -101,23 +112,22 @@ namespace SkillTree.Core.Patches.Special
                 float oldHp = Player.Local.Health.CurrentHealth;
                 Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                                "Heal",
-                                $"{oldHp} to {Player.Local.Health.CurrentHealth}",
-                                NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                                "Blood Rush",
+                                $"<color=#FF0000>{oldHp}</color> to <color=#FF0000>{Player.Local.Health.CurrentHealth}</color>",
+                                IconManager.LoadSprite(IconManager.IconHeart));
 
                 MelonCoroutines.Start(RemoveBloodRush(SkillModifiers.BloodRushDuration, bloodrush));
                 healUsed = true;
             }
-
         }
 
-        public static void GetCashDealer()
+        public static void SiphonFunds()
         {
-            if(getCashUsed)
+            if (getCashUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                                "Get Cash Dealer on Cooldown",
-                                $"<color=#FF0000>Wait one day</color>",
-                                NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                                "Siphon Funds on Cooldown",
+                                "<color=#FF0000>Wait one day</color>",
+                                IconManager.LoadSprite(IconManager.IconCash));
             else
             {
                 float totalCash = 0f;
@@ -132,19 +142,28 @@ namespace SkillTree.Core.Patches.Special
                     dealer.SetCash(0f);
                 }
 
-                NetworkSingleton<MoneyManager>.Instance.ChangeCashBalance(totalCash, true, true);
-
-                if (InstanceFinder.IsServer)
+                if (!(totalCash > 0) && !(totalOnlineBalance > 0))
                 {
-                    NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
-                        $"SiphonFunds",
-                        totalOnlineBalance, 1f, string.Empty);
+                    Singleton<NotificationsManager>.Instance.SendNotification(
+                                   "Siphon Funds",
+                                   $"Dealers had no funds",
+                                   IconManager.LoadSprite(IconManager.IconCash));
+                    return;
                 }
 
+                NetworkSingleton<MoneyManager>.Instance.ChangeCashBalance(totalCash, true, true);
+
+                //if (InstanceFinder.IsServer)
+                //{
+                NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
+                    $"Siphon Funds",
+                    totalOnlineBalance, 1f, string.Empty);
+                //}
+
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                                "Siphoned funds from dealers",
+                                "Siphon Funds",
                                 $"<color=#54E717>{MoneyManager.FormatAmount(totalCash)}</color> and <color=#4CBFFF>{MoneyManager.FormatAmount(totalOnlineBalance)}</color>",
-                                NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                                IconManager.LoadSprite(IconManager.IconCash));
 
                 getCashUsed = true;
             }

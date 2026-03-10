@@ -2,6 +2,7 @@
 using S1API.UI;
 using S1API.Utils;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,8 +44,8 @@ namespace SkillTree.Core.App
         protected override string AppName => "SkillTreeApp";
         protected override string AppTitle => "Skills";
         protected override string IconLabel => "Skills";
-        protected override string IconFileName => Core.IconApp;
-        protected override Sprite IconSprite => Core.GetSprite(Core.IconDirectory, Core.IconApp);
+        protected override string IconFileName => IconManager.IconApp;
+        protected override Sprite IconSprite => IconManager.LoadSprite(IconManager.IconApp);
 
         private static SkillNode previousSkill = null;
         private static SkillNode selectedSkill = null;

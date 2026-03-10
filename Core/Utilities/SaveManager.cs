@@ -11,7 +11,7 @@ using System.IO;
 using System.Text.Json;
 
 
-namespace SkillTree.Core.FileManagement
+namespace SkillTree.Core.Utilities
 {
     public static class SaveManager
     {

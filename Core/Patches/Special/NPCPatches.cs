@@ -5,8 +5,8 @@ using Il2CppScheduleOne.Map;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Police;
 using MelonLoader;
-using S1API.Utils;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -27,7 +27,7 @@ namespace SkillTree.Core.Patches.Special
         public class CustomPOI
         {
             public string IconName { get; set; }
-            public bool IsPolice {  get; set; }
+            public bool IsPolice { get; set; }
             public NPCPoI POI { get; set; }
 
             public void SetNPC(NPC npc)
@@ -40,27 +40,7 @@ namespace SkillTree.Core.Patches.Special
             {
                 if (POI.IconContainer != null && POI.NPC != null)
                 {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = Core.GetSprite(Core.IconDirectory, IconName);
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
-                }
-            }
-
-            public void SetSprite(string spritePath)
-            {
-                if (POI.IconContainer != null && POI.NPC != null)
-                {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = ImageUtils.LoadImage(spritePath);
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
-                }
-            }
-
-            public void SetSprite(Sprite sprite)
-            {
-                if (POI.IconContainer != null && POI.NPC != null)
-                {
-                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = sprite;
+                    POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = IconManager.LoadSprite(IconName);
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMax = Vector2.zero;
                 }
@@ -131,21 +111,21 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Patch_PoliceOfficer_Start(PoliceOfficer __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Police Officer", Core.IconPolice, true));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Police Officer", IconManager.IconPolice, true));
         }
 
         [HarmonyPatch(typeof(CartelDealer), "Start")]
         [HarmonyPostfix]
         public static void Patch_CartelDealer_Start(CartelDealer __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Dealer", Core.IconBenzieDealer, false));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Dealer", IconManager.IconBenziesDealer, false));
         }
 
         [HarmonyPatch(typeof(CartelGoon), "Start")]
         [HarmonyPostfix]
         public static void Patch_CartelGoon_Start(CartelGoon __instance)
         {
-            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", Core.IconBenzieGoon, false));
+            MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", IconManager.IconBenziesGoon, false));
         }
 
         [HarmonyPatch(typeof(NPC), "OnDie")]

@@ -239,6 +239,9 @@ Icons - https://iconify.design/
 - Benzies Dealer Icon - mdi:weed.png - License: MIT
 - Benzies Goon Icon - mdi:dagger.png - License: Apache 2
 - Police Officer Icon - mdi:police-badge-outline.png - License: Apache 2
+- Heal Icon - material-symbols:heart-plus - License: Apache 2
+- Trashcan Icon - ix:trashcan - License: MIT
+- Cash Icon - bi:cash-coin - License: MIT
 
 ## F.A.Q.
 
