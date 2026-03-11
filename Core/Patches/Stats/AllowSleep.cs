@@ -58,11 +58,11 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix(ref bool __result)
             {
-                if (SkillTreeData.AllowSleepAthEne.CurrentLevel == 0)
+                if (SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
                 float currentTime = NetworkSingleton<TimeManager>.Instance.CurrentTime;
-                if (currentTime > 700 && currentTime < 1800 && SkillTreeData.SkipSchedule.CurrentLevel == 0)
+                if (currentTime > 700 && currentTime < 1800 && SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
                 __result = true;
@@ -76,7 +76,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix(Bed __instance)
             {
-                if (SkillTreeData.SkipSchedule.CurrentLevel == 0)
+                if (SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
                 if (Singleton<ManagementClipboard>.Instance.IsEquipped || __instance.AssignedEmployee != null)
@@ -108,7 +108,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix()
             {
-                if (SkillTreeData.SkipSchedule.CurrentLevel == 0)
+                if (SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
                 if (!CanUseBedSkill())

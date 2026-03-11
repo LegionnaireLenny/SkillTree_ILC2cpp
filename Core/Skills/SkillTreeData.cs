@@ -7,17 +7,16 @@ namespace SkillTree.Core.Skills
 {
     public class SkillTreeData
     {
-        public static Skill Stats = new("Hardy", "Increase max health by 20", SkillCategory.Stats, 1, 0, null, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
-        public static Skill BattleScarred = new("Battle-scarred", "Increase health regen by 100% and decrease health regen delay by 50%", SkillCategory.Stats, 1, 0, Stats, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
-        public static Skill Slippery = new("Slippery", "Reduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, BattleScarred, []);
-        public static Skill MoreMovespeed = new("Fleet Feet", "Increase movespeed by 15%", SkillCategory.Stats, 2, 0, Stats, [], [Patches.Stats.MovementPatches.SetPlayerSpeed]);
+        public static Skill Stats = new("Hardy", "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20", SkillCategory.Stats, 1, 0, null, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
+        public static Skill BattleScarred = new("Battle-scarred", "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%", SkillCategory.Stats, 1, 0, Stats, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
+        public static Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest of grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, BattleScarred, []);
+        public static Skill MoreMovespeed = new("Fleet Feet", "Increase movement speed by 15% per level", SkillCategory.Stats, 2, 0, Stats, [], [Patches.Stats.MovementPatches.SetPlayerSpeed]);
         public static Skill SpringHeeled = new("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Stats, 1, 0, MoreMovespeed, [], [Patches.Stats.MovementPatches.SetPlayerJumpHeight, Patches.Stats.MovementPatches.SetPlayerStamina]);
-        public static Skill MoreStackItem = new("Prison Wallet", "Double item stack size", SkillCategory.Stats, 1, 0, Stats, [], [Patches.Stats.MoreStackItem.SetItemStackSize]);
+        public static Skill MoreStackItem = new("Prison Wallet", "Increase item stack size by 100% per level", SkillCategory.Stats, 3, 0, Stats, [], [Patches.Stats.MoreStackItem.SetItemStackSize]);
         public static Skill AllowSeeCounteroffChance = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Stats, 1, 0, Stats, []);
-        public static Skill AllowSleepAthEne = new("Master Sleeper", "Allow sleeping while Athletic or Energizing effects are active", SkillCategory.Stats, 1, 0, Stats, []);
-        public static Skill SkipSchedule = new("Napping on the Job", "Can use a bed to skip to the next time period. Plants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, AllowSleepAthEne, []);
+        public static Skill CircadianMastery = new("Circadian Mastery", "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to nap until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, Stats, []);
         public static Skill MoreXP = new("Fast Learner", "Increase XP gain by 5%", SkillCategory.Stats, 2, 0, Stats, []);
-        public static Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 5%", SkillCategory.Stats, 4, 0, MoreXP, []);
+        public static Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Stats, 2, 0, MoreXP, []);
         public static Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, 1, 0, MoreXP, []);
 
         public static Skill Operations = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Operations, 1, 0, null, []);
@@ -29,6 +28,7 @@ namespace SkillTree.Core.Skills
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Operations, 2, 0, GrowthSpeed, []);
         public static Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, 1, 0, GrowthSpeed, []);
+        public static Skill SacarLaBasura = new("Sacar La Basura", "Trash sell value is increased by 100% per level", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill MoreYield = new("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Operations, 1, 0, Operations, []);
         public static Skill MoreMixAndDryingRackOutput = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Operations, 1, 0, MoreYield, []);
         public static Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Operations, 1, 0, MoreYield, []);
@@ -46,7 +46,7 @@ namespace SkillTree.Core.Skills
         public static Skill DealerSpeedUp = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Social, 1, 0, DealerMoreCustomer, [], [Patches.Social.DealerPatches.SetDealerMoveSpeed]);
 
         public static Skill Special = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, 0, null, []);
-        public static Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\n While Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, 0, Special, []);
+        public static Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, 0, Special, []);
         public static Skill GetCashDealer = new("Siphon Funds", "Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.", SkillCategory.Special, 1, 0, Special, []);
         public static Skill Employees24h = new("Sweatshop", "Employees don't stop at 4 AM", SkillCategory.Special, 1, 0, Special, []);
         public static Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Special, 1, 0, Special, []);
@@ -62,8 +62,7 @@ namespace SkillTree.Core.Skills
             SpringHeeled, 
             MoreStackItem, 
             AllowSeeCounteroffChance, 
-            AllowSleepAthEne, 
-            SkipSchedule, 
+            CircadianMastery, 
             MoreXP, 
             MoreXP2, 
             MoreXPWhenEarnMoney
@@ -78,7 +77,8 @@ namespace SkillTree.Core.Skills
             AbsorbentSoil, 
             GrowthSpeed, 
             GrowthSpeed2, 
-            ChemistStationQuick, 
+            ChemistStationQuick,
+            SacarLaBasura,
             MoreYield, 
             MoreMixAndDryingRackOutput, 
             MoreCauldronOutput
