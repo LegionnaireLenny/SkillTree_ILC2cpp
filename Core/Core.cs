@@ -87,6 +87,11 @@ namespace SkillTree.Core
             }
 
             IconManager.ExtractIcons();
+            SkillTreeData.AddChildren(SkillTreeData.StatsTree);
+            SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
+            SkillTreeData.AddChildren(SkillTreeData.SocialTree);
+            SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
+
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
@@ -95,7 +100,7 @@ namespace SkillTree.Core
         {
             yield return new WaitForSeconds(delayTime);
             ItemUnlocker.UnlockSpecificItems();
-            ValidateSave();
+            ValidateTotalSkillPoints();
             CalculateSkillPoints();
             SaveManager.SaveFile();
             SkillTreeData.ApplyAllSkills();
@@ -153,23 +158,19 @@ namespace SkillTree.Core
                 AllowSleep.Reset();
                 SkillActive.Reset();
                 NPCPatches.Reset();
+                SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
             }
 
             if (sceneName == "Main")
             {
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
-
-                SkillTreeData.AddChildren(SkillTreeData.StatsTree);
-                SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
-                SkillTreeData.AddChildren(SkillTreeData.SocialTree);
-                SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
-
                 if ((bool)ResetSkills.BoxedValue)
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
                     ResetSkills.BoxedValue = false;
                     SaveManager.DeleteFile();
+                    SaveManager.LoadDefaultValues();
                 }
                 else
                 {
@@ -261,27 +262,69 @@ namespace SkillTree.Core
             }
         }
 
-        private void ValidateSave()
+        public static (int, int, int, int) GetExpectedPointTotals()
         {
             int currentRank = (int)LevelManager.Instance.Rank;
             int currentTier = LevelManager.Instance.Tier - 1;
 
             int maxPointsPossible = currentRank * 7 + currentTier;
-            int maxPointsJson = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints;
+            int nonSpecialPoints = maxPointsPossible - currentRank;
 
-            if (maxPointsPossible != maxPointsJson)
+            int stats = 0; 
+            int operations = 0;
+            int social = 0;
+            int special = currentRank;
+
+            for (int i = 0; i < nonSpecialPoints; i++)
             {
-                MelonLogger.Warning($"Max Points: ({currentRank} * 7) + {currentTier} = {currentRank * 7 + currentTier}");
-                MelonLogger.Warning($"Max Points JSON: {SkillPoints.StatsPoints} + {SkillPoints.OperationsPoints} + " +
-                    $"{SkillPoints.SocialPoints} + {SkillPoints.SpecialPoints} + {SkillPoints.UsedSkillPoints} = " +
-                    $"{SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints + SkillPoints.UsedSkillPoints}");
-                MelonLogger.Warning("Desync detected! Synchronizing points with saved XP in the game...");
-
-                skillPointValid = maxPointsPossible - currentRank;
-                specialSkillPointValid = currentRank;
-                SaveManager.DeleteFile();
-                SaveManager.LoadDefaultValues();
+                int mod = (maxPointsPossible + i) % 3;
+                switch (mod)
+                {
+                    case 0:
+                        stats++;
+                        break;
+                    case 1:
+                        operations++;
+                        break;
+                    case 2:
+                        social++;
+                        break;
+                }
             }
+            return (stats, operations, social, special);
+        }
+
+        private static void ValidateTotalSkillPoints()
+        {
+            var (stats, operations, social, special) = GetExpectedPointTotals();
+            var (statsSpent, operationsSpent, socialSpent, specialSpent) = SkillTreeData.GetAllPointsSpent();
+
+            MelonLogger.Msg($"Expected: Stats {stats} | Operations {operations} | Social {social} | Special {special}");
+            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent}");
+            MelonLogger.Msg($"Left:     Stats {SkillPoints.StatsPoints} | Operations {SkillPoints.OperationsPoints} | Social {SkillPoints.SocialPoints} | Special {SkillPoints.SpecialPoints}");
+
+            int missingStats = stats - (statsSpent + SkillPoints.StatsPoints);
+            int missingOperations = operations - (operationsSpent + SkillPoints.OperationsPoints);
+            int missingSocial = social - (socialSpent + SkillPoints.SocialPoints);
+            int missingSpecial = special - (specialSpent + SkillPoints.SpecialPoints);
+
+            if (missingStats != 0)
+            {
+                MelonLogger.Warning($"Refunding {missingStats} missing Stats points");
+            }
+            if (missingOperations != 0)
+            {
+                MelonLogger.Warning($"Refunding {missingOperations} missing Operations points");
+            }
+            if (missingSocial != 0)
+            {
+                MelonLogger.Warning($"Refunding {missingSocial} missing Social points");
+            }
+            if (missingSpecial != 0)
+            {
+                MelonLogger.Warning($"Refunding {missingSpecial} missing Special points");
+            }
+            SkillPoints.AddSkillPoints(missingStats, missingOperations, missingSocial, missingSpecial);
         }
     }
 }

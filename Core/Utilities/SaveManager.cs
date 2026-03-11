@@ -94,6 +94,10 @@ namespace SkillTree.Core.Utilities
                     NPCPatches.LoadFromFile(root);
                 }
             }
+            catch (KeyNotFoundException ex)
+            {
+                MelonLogger.Warning(ex);
+            }
             catch (Exception ex) 
             {
                 MelonLogger.Warning($"Error loading save data {ex}");

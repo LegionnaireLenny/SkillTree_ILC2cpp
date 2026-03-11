@@ -141,6 +141,25 @@ namespace SkillTree.Core.Skills
             Special.FixSkills();
         }
 
+        public static int GetPointsSpent(HashSet<Skill> tree)
+        {
+            int points = 0;
+            foreach (Skill skill in tree)
+            {
+                points += skill.CurrentLevel;
+            }
+            return points;
+        }
+
+        public static (int, int, int, int) GetAllPointsSpent()
+        {
+            return (GetPointsSpent(StatsTree), 
+                    GetPointsSpent(OperationsTree), 
+                    GetPointsSpent(SocialTree), 
+                    GetPointsSpent(SpecialTree)
+            );
+        }
+
         public static Dictionary<string, int> GetSaveData()
         {
             Dictionary<string, int> skillData = [];
@@ -184,7 +203,7 @@ namespace SkillTree.Core.Skills
                 }
                 catch (KeyNotFoundException e)
                 {
-                    throw new KeyNotFoundException($"Failed to load skills from file {e}");
+                    MelonLogger.Warning($"Failed to load {field} from file {e}");
                 }
             }
         }
