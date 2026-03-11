@@ -28,7 +28,7 @@ namespace SkillTree.Core.Skills
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Operations, 2, 0, GrowthSpeed, []);
         public static Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, 1, 0, GrowthSpeed, []);
-        public static Skill SacarLaBasura = new("Sacar La Basura", "Trash sell value is increased by 100% per level", SkillCategory.Operations, 2, 0, Operations, []);
+        public static Skill SacarLaBasura = new("Sacar La Basura", "Trash sell value is increased by 100% per level", SkillCategory.Operations, 2, 0, Operations, [], [Patches.Operations.TrashPatches.IncreaseTrashValue]);
         public static Skill MoreYield = new("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Operations, 1, 0, Operations, []);
         public static Skill MoreMixAndDryingRackOutput = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Operations, 1, 0, MoreYield, []);
         public static Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Operations, 1, 0, MoreYield, []);

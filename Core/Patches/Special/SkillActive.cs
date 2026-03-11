@@ -61,7 +61,7 @@ namespace SkillTree.Core.Patches.Special
             else
             {
                 int total = 0;
-                int count = TrashManager.Instance.trashItems.Count;
+                int count = NetworkSingleton<TrashManager>.Instance.trashItems.Count;
 
                 if (count == 0)
                 {
@@ -73,7 +73,7 @@ namespace SkillTree.Core.Patches.Special
                     return;
                 }
 
-                foreach (var item in TrashManager.Instance.trashItems)
+                foreach (var item in NetworkSingleton<TrashManager>.Instance.trashItems)
                 {
                     total += item.SellValue;
                 }
@@ -87,7 +87,8 @@ namespace SkillTree.Core.Patches.Special
                     MelonLogger.Msg($"[Special] Payment of ${total} processed for destroying {count} pieces of trash");
                 }
 
-                TrashManager.Instance.DestroyAllTrash();
+                NetworkSingleton<TrashManager>.Instance.DestroyAllTrash();
+                //TrashManager.Instance.DestroyAllTrash();
                 Singleton<NotificationsManager>.Instance.SendNotification(
                     "Good Samaritan",
                     $"Earned <color=#4CBFFF>{MoneyManager.FormatAmount(total)}</color>",
