@@ -9,8 +9,8 @@ namespace SkillTree.Core.Skills
     {
         public static Skill Stats = new("Hardy", "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20", SkillCategory.Stats, 1, 0, null, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
         public static Skill BattleScarred = new("Battle-scarred", "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%", SkillCategory.Stats, 1, 0, Stats, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
-        public static Skill Ghost = new("Ghost", "You stay low-profile and keep a light touch.\n\nYour visibility is reduced by 25% and pickpocketing difficulty is reduced by 25%", SkillCategory.Stats, 1, 0, Stats, [], [Effects.Ghost.ApplyToPlayer]);
-        public static Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest of grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, Ghost, []);
+        public static Skill Ghost = new("Ghost", "You always stay low-profile and apply a light touch.\n\nYour visibility is reduced by 25% and pickpocketing items is much easier.", SkillCategory.Stats, 1, 0, Stats, [], [Effects.Ghost.ApplyToPlayer, Patches.Stats.PickpocketPatches.SetPickpockDifficulty]);
+        public static Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, Ghost, []);
         public static Skill MoreMovespeed = new("Fleet Feet", "Increase movement speed by 15% per level", SkillCategory.Stats, 2, 0, Stats, [], [Patches.Stats.MovementPatches.SetPlayerSpeed]);
         public static Skill SpringHeeled = new("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Stats, 1, 0, MoreMovespeed, [], [Patches.Stats.MovementPatches.SetPlayerJumpHeight, Patches.Stats.MovementPatches.SetPlayerStamina]);
         public static Skill MoreStackItem = new("Prison Wallet", "Increase item stack size by 100% per level", SkillCategory.Stats, 3, 0, Stats, [], [Patches.Stats.MoreStackItem.SetItemStackSize]);
@@ -131,7 +131,10 @@ namespace SkillTree.Core.Skills
             SkillTreeData obj = new SkillTreeData();
             foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
             {
-                (field.GetValue(obj) as Skill).ApplySkillEffect();
+                if ((field.GetValue(obj) as Skill).CurrentLevel > 0)
+                {
+                    (field.GetValue(obj) as Skill).ApplySkillEffect();
+                }
             }
         }
 

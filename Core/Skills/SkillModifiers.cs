@@ -28,6 +28,7 @@ namespace SkillTree.Core.Skills
         public static readonly float JumpHeightBonus = 0.35f;
         public static readonly float VisibilityMultiplier = 0.75f;
         public static readonly float PickpocketDifficultyMultiplier = 0.75f;
+        public static readonly float PickpocketMinimumSuccessWidth = 20f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
         public static readonly int InventoryStackSizeBonus = 1;
@@ -89,6 +90,16 @@ namespace SkillTree.Core.Skills
         {
             return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : PickpocketDifficultyMultiplier;
         }
+
+        public static float GetPickpocketMinimumWidth(float original)
+        {
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? original : PickpocketMinimumSuccessWidth;
+        }
+
+        //public static float GetPickpocketMinimumChanceMultiplier()
+        //{
+        //    return 1 + ((1 - GetPickpocketDifficultyMultiplier()) * 2);
+        //}
 
         public static int GetInventoryStackSizeMultiplier()
         {
