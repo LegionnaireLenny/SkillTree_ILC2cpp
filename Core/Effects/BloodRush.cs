@@ -1,34 +1,32 @@
-﻿using Il2CppScheduleOne.Effects;
-using Il2CppScheduleOne.NPCs;
-using Il2CppScheduleOne.PlayerScripts;
+﻿using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using System.Collections;
+using UnityEngine;
 
 namespace SkillTree.Core.Effects
 {
-    public class BloodRush : Effect
+    public class BloodRush
     {
         public static bool IsBloodRushActive { get; private set; } = false;
+        public static readonly float Duration = 60f;
 
-        public override void ApplyToNPC(NPC npc)
-        {
-            MelonLogger.Warning("Blood Rush has no effect on NPCs");
-        }
-
-        public override void ClearFromNPC(NPC npc)
-        {
-            MelonLogger.Warning("Blood Rush has no effect on NPCs");
-        }
-
-        public override void ApplyToPlayer(Player player)
+        public static void ApplyToPlayer(Player player)
         {
             IsBloodRushActive = true;
             MelonLogger.Msg($"Blood Rush effect applied");
+            MelonCoroutines.Start(RemoveBloodRush(player));
         }
 
-        public override void ClearFromPlayer(Player player)
+        public static void ClearFromPlayer(Player player)
         {
             IsBloodRushActive = false;
             MelonLogger.Msg($"Blood Rush effect removed");
+        }
+
+        private static IEnumerator RemoveBloodRush(Player player)
+        {
+            yield return new WaitForSeconds(Duration);
+            ClearFromPlayer(player);
         }
     }
 }

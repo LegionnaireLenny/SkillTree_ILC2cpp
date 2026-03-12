@@ -26,6 +26,8 @@ namespace SkillTree.Core.Skills
         public static readonly float PlayerBaseJumpHeight = PlayerMovement.JumpMultiplier;
         public static readonly float MoveSpeedBonus = 0.15f;
         public static readonly float JumpHeightBonus = 0.35f;
+        public static readonly float VisibilityMultiplier = 0.75f;
+        public static readonly float PickpocketDifficultyMultiplier = 0.75f;
         public static readonly float XPGainBonus = 0.05f;
         public static readonly float SaleXPBonus = 0.05f;
         public static readonly int InventoryStackSizeBonus = 1;
@@ -76,6 +78,16 @@ namespace SkillTree.Core.Skills
         public static float GetSaleXPBonus()
         {
             return SkillTreeData.MoreXPWhenEarnMoney.CurrentLevel * SaleXPBonus;
+        }
+
+        public static float GetVisbilityMultiplier()
+        {
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : VisibilityMultiplier;
+        }
+
+        public static float GetPickpocketDifficultyMultiplier()
+        {
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : PickpocketDifficultyMultiplier;
         }
 
         public static int GetInventoryStackSizeMultiplier()

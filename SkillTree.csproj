@@ -20,8 +20,10 @@
 	<ItemGroup>
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
+		<Compile Include="Core\Effects\Ghost.cs" />
 		<Compile Include="Core\Patches\Operations\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
+		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
 		<Compile Include="Core\Patches\Operations\GrowContainerPatches.cs" />

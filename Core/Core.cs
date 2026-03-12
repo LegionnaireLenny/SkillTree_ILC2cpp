@@ -9,6 +9,7 @@ using MelonLoader;
 using S1API.Lifecycle;
 using Semver;
 using SkillTree.Core;
+using SkillTree.Core.Effects;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
@@ -139,6 +140,11 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
+
+                //if (Input.GetKeyDown(KeyCode.O))
+                //{                  
+
+                //}
             }
         }
 

@@ -31,12 +31,7 @@ namespace SkillTree.Core.Patches.Special
             currentDay = -1;
         }
 
-        private static IEnumerator RemoveBloodRush(float duration, BloodRush effect)
-        {
-            yield return new WaitForSeconds(duration);
-            MelonLogger.Msg($"Removing effect {effect}");
-            effect.ClearFromPlayer(Player.Local);
-        }
+
 
         public static void ResetSkillsIfNewDay()
         {
@@ -107,17 +102,13 @@ namespace SkillTree.Core.Patches.Special
                                 IconManager.LoadSprite(IconManager.IconHeart));
             else
             {
-                BloodRush bloodrush = new();
-                bloodrush.ApplyToPlayer(Player.Local);
-
+                Effects.BloodRush.ApplyToPlayer(Player.Local);
                 float oldHp = Player.Local.Health.CurrentHealth;
                 Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Blood Rush",
                                 $"<color=#FF0000>{oldHp}</color> to <color=#FF0000>{Player.Local.Health.CurrentHealth}</color>",
                                 IconManager.LoadSprite(IconManager.IconHeart));
-
-                MelonCoroutines.Start(RemoveBloodRush(SkillModifiers.BloodRushDuration, bloodrush));
                 healUsed = true;
             }
         }

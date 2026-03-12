@@ -9,12 +9,13 @@ namespace SkillTree.Core.Skills
     {
         public static Skill Stats = new("Hardy", "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20", SkillCategory.Stats, 1, 0, null, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
         public static Skill BattleScarred = new("Battle-scarred", "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%", SkillCategory.Stats, 1, 0, Stats, [], [Patches.Stats.HealthPatches.SetPlayerHealth]);
-        public static Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest of grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, BattleScarred, []);
+        public static Skill Ghost = new("Ghost", "You stay low-profile and keep a light touch.\n\nYour visibility is reduced by 25% and pickpocketing difficulty is reduced by 25%", SkillCategory.Stats, 1, 0, Stats, [], [Effects.Ghost.ApplyToPlayer]);
+        public static Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest of grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Stats, 1, 0, Ghost, []);
         public static Skill MoreMovespeed = new("Fleet Feet", "Increase movement speed by 15% per level", SkillCategory.Stats, 2, 0, Stats, [], [Patches.Stats.MovementPatches.SetPlayerSpeed]);
         public static Skill SpringHeeled = new("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Stats, 1, 0, MoreMovespeed, [], [Patches.Stats.MovementPatches.SetPlayerJumpHeight, Patches.Stats.MovementPatches.SetPlayerStamina]);
         public static Skill MoreStackItem = new("Prison Wallet", "Increase item stack size by 100% per level", SkillCategory.Stats, 3, 0, Stats, [], [Patches.Stats.MoreStackItem.SetItemStackSize]);
         public static Skill AllowSeeCounteroffChance = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Stats, 1, 0, Stats, []);
-        public static Skill CircadianMastery = new("Circadian Mastery", "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to nap until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, Stats, []);
+        public static Skill CircadianMastery = new("Circadian Mastery", "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Stats, 1, 0, Stats, []);
         public static Skill MoreXP = new("Fast Learner", "Increase XP gain by 5%", SkillCategory.Stats, 2, 0, Stats, []);
         public static Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Stats, 2, 0, MoreXP, []);
         public static Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Stats, 1, 0, MoreXP, []);
@@ -57,6 +58,7 @@ namespace SkillTree.Core.Skills
         public static readonly HashSet<Skill> StatsTree = [
             Stats, 
             BattleScarred,
+            Ghost,
             Slippery, 
             MoreMovespeed, 
             SpringHeeled, 

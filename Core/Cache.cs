@@ -1,8 +1,8 @@
 ﻿using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Property;
-using System.Collections.Generic;
 using MelonLoader;
+using System.Collections.Generic;
 
 namespace SkillTree.Core
 {
@@ -75,7 +75,7 @@ namespace SkillTree.Core
                     //OriginalMaxSpend.Add(customer.CustomerData.name, customer.CustomerData.MaxOrdersPerWeek);
                 }
             }
-            MelonLogger.Msg("[Cache] Successfully cached orignal spending capacity for each customer!");
+            MelonLogger.Msg("[Cache] Successfully cached original spending capacity for each customer!");
         }
 
         public static void FillCache(List<ItemDefinition> items)
