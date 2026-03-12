@@ -83,6 +83,49 @@ namespace SkillTree.Core.Skills
             return true;
         }
 
+        public int GetPointsToLevelParents()
+        {
+            if (IsParentUnlocked())
+            {
+                return MaxLevel - CurrentLevel;
+            }
+            
+            return (MaxLevel - CurrentLevel) + Parent.GetPointsToLevelParents();
+        }
+
+        public void UnlockParents()
+        {
+            if (IsParentUnlocked())
+            {
+                LevelToMax();
+            }
+            else
+            {
+                Parent.UnlockParents();
+                LevelToMax();
+            }
+        }
+
+        public bool LevelAndUnlockParents()
+        {
+            int pointsNeeded = GetPointsToLevelParents() + 1;
+            int pointsAvailable = SkillPoints.GetPointsAvailable(Category);
+
+            //MelonLogger.Msg($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}");
+            if (pointsNeeded <= pointsAvailable)
+            {
+                Parent.UnlockParents();
+                IncreaseSkillLevel();
+                //MelonLogger.Msg($"Unlocked parents and leveled {Name}");
+                return true;
+            }
+            else
+            {
+                MelonLogger.Msg($"Not enough {Category} points to level branch. Needed: {pointsNeeded} | Available: {pointsAvailable}");
+                return false;
+            }
+        }
+
         public bool IncreaseSkillLevel()
         {
             bool isValid = IsLevelUpValid();
@@ -95,14 +138,12 @@ namespace SkillTree.Core.Skills
             return isValid;
         }
 
-        public void FixOverleveledSkill()
+        public void LevelToMax()
         {
-            if (IsSkillOverLeveled())
+            //MelonLogger.Msg($"Leveling {Name} to max.");
+            for (int i = 0; i <= MaxLevel - CurrentLevel; i++)
             {
-                int difference = CurrentLevel - MaxLevel;
-                MelonLogger.Warning($"{Name} is overleveled {CurrentLevel}/{MaxLevel}. Reducing level and refuding {difference} {Category} points.");
-                CurrentLevel -= difference;
-                SkillPoints.ConsumeSkillPoints(Category, -difference);
+                IncreaseSkillLevel();
             }
         }
 
@@ -113,6 +154,30 @@ namespace SkillTree.Core.Skills
                 MelonLogger.Warning($"Setting {Name} to level 0. Refunding {CurrentLevel} {Category} points.");
                 SkillPoints.ConsumeSkillPoints(Category, -CurrentLevel);
                 CurrentLevel = 0;
+            }
+        }
+
+        public void ApplySkillEffect()
+        {
+            if (OnLevelUp == null || CurrentLevel == 0)
+            {
+                return;
+            }
+
+            foreach (var action in OnLevelUp)
+            {
+                action();
+            }
+        }
+
+        public void FixOverleveledSkill()
+        {
+            if (IsSkillOverLeveled())
+            {
+                int difference = CurrentLevel - MaxLevel;
+                MelonLogger.Warning($"{Name} is overleveled {CurrentLevel}/{MaxLevel}. Reducing level and refuding {difference} {Category} points.");
+                CurrentLevel -= difference;
+                SkillPoints.ConsumeSkillPoints(Category, -difference);
             }
         }
 
@@ -135,19 +200,6 @@ namespace SkillTree.Core.Skills
                 {
                     child.FixSkills();
                 }
-            }
-        }
-
-        public void ApplySkillEffect()
-        {
-            if (OnLevelUp == null || CurrentLevel == 0)
-            {
-                return;
-            }
-
-            foreach (var action in OnLevelUp)
-            {
-                action();
             }
         }
 

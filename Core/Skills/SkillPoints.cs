@@ -58,6 +58,23 @@ namespace SkillTree.Core.Skills
             }
         }
 
+        public static int GetPointsAvailable(SkillCategory category)
+        {
+            switch (category)
+            {
+                case SkillCategory.Stats:
+                    return StatsPoints;
+                case SkillCategory.Operations:
+                    return OperationsPoints;
+                case SkillCategory.Social:
+                    return SocialPoints;
+                case SkillCategory.Special:
+                    return SpecialPoints;
+                default:
+                    return 0;
+            }
+        }
+
         public static Dictionary<string, int> GetSaveData()
         {
             Dictionary<string, int> skillData = new()

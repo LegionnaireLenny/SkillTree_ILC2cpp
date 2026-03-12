@@ -40,6 +40,9 @@ namespace SkillTree.Core
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
 
+        private static MelonPreferences_Category UserSettings { get; set; }
+        public static MelonPreferences_Entry AutoUnlockPrerequisites {  get; set; }
+
         private static MelonPreferences_Category Keybinds { get; set; }
         public static MelonPreferences_Entry MenuHotkey { get; set; }
         public static MelonPreferences_Entry ActiveSkillOne { get; set; }
@@ -51,12 +54,16 @@ namespace SkillTree.Core
 
         public override void OnInitializeMelon()
         {
+            UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
+            AutoUnlockPrerequisites = UserSettings.CreateEntry<bool>("SkillTree_Auto_Unlock_Prerequisites", true, "Auto Unlock Prerequisite Skills", description:"If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
+            UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
-            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
             MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu", true);
             ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
             ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
             ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
+            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             ModInfo = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Mod Version: {version}");
             ResetSkills = ModInfo.CreateEntry<bool>("SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");

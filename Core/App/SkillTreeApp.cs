@@ -121,13 +121,34 @@ namespace SkillTree.Core.App
 
             ButtonUtils.AddListener(detailsLevelUpSkill.Item2, () =>
             {
-                bool levelUpSucceeded = selectedSkill?.Skill.IncreaseSkillLevel() ?? false;
-                if (levelUpSucceeded)
+                if ((bool)Core.AutoUnlockPrerequisites.BoxedValue)
                 {
-                    detailsSkillLevel.text = $"Level {selectedSkill.Skill.CurrentLevel} / {selectedSkill.Skill.MaxLevel}";
-                    UpdateCategoryText();
-                    UpdateNodes();
+                    bool unlockBranchSucceeded = selectedSkill?.Skill.LevelAndUnlockParents() ?? false;
+                    bool updateNeeded = unlockBranchSucceeded;
+                    if (!unlockBranchSucceeded)
+                    {
+                        bool levelUpSucceeded = selectedSkill?.Skill.IncreaseSkillLevel() ?? false;
+                        updateNeeded = levelUpSucceeded;
+                    }
+
+                    if (updateNeeded)
+                    {
+                        detailsSkillLevel.text = $"Level {selectedSkill.Skill.CurrentLevel} / {selectedSkill.Skill.MaxLevel}";
+                        UpdateCategoryText();
+                        UpdateNodes();
+                    }
                 }
+                else
+                {
+                    bool levelUpSucceeded = selectedSkill?.Skill.IncreaseSkillLevel() ?? false;
+                    if (levelUpSucceeded)
+                    {
+                        detailsSkillLevel.text = $"Level {selectedSkill.Skill.CurrentLevel} / {selectedSkill.Skill.MaxLevel}";
+                        UpdateCategoryText();
+                        UpdateNodes();
+                    }
+                }
+
             });
 
             ButtonUtils.AddListener(categoryStats.Item2, () =>

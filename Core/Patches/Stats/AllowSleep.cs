@@ -62,7 +62,7 @@ namespace SkillTree.Core.Patches.Stats
                     return true;
 
                 float currentTime = NetworkSingleton<TimeManager>.Instance.CurrentTime;
-                if (currentTime > 700 && currentTime < 1800 && SkillTreeData.CircadianMastery.CurrentLevel == 0)
+                if (currentTime > 700 && currentTime < 1800)
                     return true;
 
                 __result = true;
