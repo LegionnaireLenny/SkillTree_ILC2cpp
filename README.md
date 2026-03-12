@@ -242,6 +242,8 @@ Icons - https://iconify.design/
 - Heal Icon - material-symbols:heart-plus - License: Apache 2
 - Trashcan Icon - ix:trashcan - License: MIT
 - Cash Icon - bi:cash-coin - License: MIT
+- App Icon Tree - si:flow-tree-duotone - License: MIT
+- App Icon Fork - hugeicons:fork - License: MIT
 
 ## F.A.Q.
 
