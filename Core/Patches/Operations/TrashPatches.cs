@@ -23,7 +23,7 @@ namespace SkillTree.Core.Patches.Operations
             }
 
             //int original = __instance.SellValue;
-            __instance.SellValue = Mathf.RoundToInt(__instance.SellValue * SkillModifiers.GetTrashValueMultiplier());
+            __instance.SellValue += SkillModifiers.GetTrashValueBonus();
             ProcessedTrash.Add(__instance.GUID);
             //MelonLogger.Msg($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}");
         }
@@ -38,7 +38,7 @@ namespace SkillTree.Core.Patches.Operations
                 }
 
                 //int original = item.SellValue;
-                item.SellValue = Mathf.RoundToInt(item.SellValue * SkillModifiers.GetTrashValueMultiplier());
+                item.SellValue += SkillModifiers.GetTrashValueBonus();
                 ProcessedTrash.Add(item.GUID);
                 //MelonLogger.Msg($"IncreaseTrashValue {item.GUID} {original} -> {item.SellValue}");
             }

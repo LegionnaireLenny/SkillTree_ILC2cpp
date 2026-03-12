@@ -28,14 +28,14 @@ namespace SkillTree.Core.Skills
         public static Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Operations, 2, 0, Operations, []);
         public static Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Operations, 2, 0, GrowthSpeed, []);
         public static Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Operations, 1, 0, GrowthSpeed, []);
-        public static Skill SacarLaBasura = new("Sacar La Basura", "Trash sell value is increased by 100% per level", SkillCategory.Operations, 2, 0, Operations, [], [Patches.Operations.TrashPatches.IncreaseTrashValue]);
         public static Skill MoreYield = new("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Operations, 1, 0, Operations, []);
         public static Skill MoreMixAndDryingRackOutput = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Operations, 1, 0, MoreYield, []);
         public static Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Operations, 1, 0, MoreYield, []);
 
         public static Skill Social = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Social, 1, 0, null, []);
-        public static Skill CityEvolving = new("Spread the Wealth", "Increase citizens' weekly spending limits by 10%", SkillCategory.Social, 2, 0, Social, [], [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
-        public static Skill MoreATMLimit = new("Hoard the Wealth", "Increase ATM deposit limit by $2000", SkillCategory.Social, 2, 0, Social, []);
+        public static Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Social, 2, 0, Social, [], [Patches.Operations.TrashPatches.IncreaseTrashValue]);
+        public static Skill CityEvolving = new("Spread the Wealth", "Increase citizens' weekly spending limits by 10% per level", SkillCategory.Social, 2, 0, Social, [], [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
+        public static Skill MoreATMLimit = new("Hoard the Wealth", "Increase ATM deposit limit by $2000 per level", SkillCategory.Social, 2, 0, Social, []);
         public static Skill BusinessEvolving = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Social, 2, 0, MoreATMLimit, [], [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
         public static Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Social, 1, 0, Social, [], [Patches.Special.NPCPatches.UpdateVisibility]); 
         public static Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Social, 1, 0, Informant, [], [Patches.Special.NPCPatches.UpdateVisibility]); 
@@ -78,7 +78,6 @@ namespace SkillTree.Core.Skills
             GrowthSpeed, 
             GrowthSpeed2, 
             ChemistStationQuick,
-            SacarLaBasura,
             MoreYield, 
             MoreMixAndDryingRackOutput, 
             MoreCauldronOutput
@@ -86,6 +85,7 @@ namespace SkillTree.Core.Skills
 
         public static readonly HashSet<Skill> SocialTree = [
             Social, 
+            SacarLaBasura,
             CityEvolving, 
             MoreATMLimit, 
             BusinessEvolving, 

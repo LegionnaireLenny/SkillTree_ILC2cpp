@@ -99,7 +99,6 @@ namespace SkillTree.Core.Skills
         public static readonly int BaseDryingRackCapacity = 20;
         public static readonly int CauldronBaseOutput = 10;
         public static readonly int CauldronOutputBonus = 1;
-        public static readonly float TrashValueBonus = 1f;
         //public static readonly int StackSizeMultiplier = 2;
         public static readonly int MixDryOutputSizeBonus = 1;
         public static readonly int ChemistStationSpeedBonus = 1;
@@ -120,11 +119,6 @@ namespace SkillTree.Core.Skills
         public static int GetDryingRackCapacity()
         {
             return BaseDryingRackCapacity * (1 + SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel * MixDryOutputSizeBonus);
-        }
-
-        public static float GetTrashValueMultiplier()
-        {
-            return 1 + (SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus);
         }
 
         public static int GetChemistStationSpeedMultiplier()
@@ -185,6 +179,8 @@ namespace SkillTree.Core.Skills
 
         #region Social
         public static readonly float BaseWeeklyDepositLimit = ATM.WEEKLY_DEPOSIT_LIMIT;
+        public static readonly int TrashValueBonus = 1;
+        public static readonly float PawnPriceBonus = 0.25f;
         public static readonly int BaseMaxCustomer = Dealer.MAX_CUSTOMERS;
         public static readonly float BaseDealerCut = 0.20f;
         public static readonly int BaseDeadDropItemLimit = Supplier.DEADDROP_ITEM_LIMIT;
@@ -218,10 +214,15 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.DealerCutLess.CurrentLevel * DealerCutReduction;
         }
 
-        //public static float GetDealerCut()
-        //{
-        //    return BaseDealerCut - Core.SkillData.DealerCutLess * DealerCutReduction;
-        //}
+        public static float GetPawnPriceMultiplier()
+        {
+            return 1 + (SkillTreeData.SacarLaBasura.CurrentLevel * PawnPriceBonus);
+        }
+
+        public static int GetTrashValueBonus()
+        {
+            return SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus;
+        }
 
         public static float GetSupplierCashMultiplier()
         {
