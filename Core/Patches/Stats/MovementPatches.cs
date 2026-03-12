@@ -87,5 +87,19 @@ namespace SkillTree.Core.Patches.Stats
         {
             PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
         }
+
+        [HarmonyPatch(typeof(Sneaky), "ApplyToPlayer")]
+        [HarmonyPostfix]
+        public static void Sneaky_Apply_Postfix()
+        {
+            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Sneaky.SPEED_MULTIPLIER - 1f);
+        }
+
+        [HarmonyPatch(typeof(Sneaky), "ClearFromPlayer")]
+        [HarmonyPostfix]
+        public static void Sneaky_Clear_Postfix()
+        {
+            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
+        }
     }
 }

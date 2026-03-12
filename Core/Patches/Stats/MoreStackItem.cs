@@ -23,7 +23,7 @@ namespace SkillTree.Core.Patches.Stats
                 if (Cache.OriginalItemStackSize.TryGetValue(item.name, out int baseStackLimit))
                 {
                     item.StackLimit = baseStackLimit * SkillModifiers.GetInventoryStackSizeMultiplier();
-                    MelonLogger.Msg($"[MoreStackItem] {item.name}: {baseStackLimit} -> {item.StackLimit}");
+                    //MelonLogger.Msg($"[MoreStackItem] {item.name}: {baseStackLimit} -> {item.StackLimit}");
                 }
             }
         }
