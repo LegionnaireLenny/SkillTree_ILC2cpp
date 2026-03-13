@@ -114,7 +114,7 @@ namespace SkillTree.Core.Skills
             //MelonLogger.Msg($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}");
             if (pointsNeeded <= pointsAvailable)
             {
-                Parent.UnlockParents();
+                Parent?.UnlockParents();
                 IncreaseSkillLevel();
                 //MelonLogger.Msg($"Unlocked parents and leveled {Name}");
                 return true;

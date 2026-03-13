@@ -21,14 +21,14 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.4.0", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.4.2", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.4.0";
+        private static readonly string version = "2.4.2";
         public static bool IsS1APIPatchNeeded { get; private set; } = false;
 
         private int skillPointValid = 0;
@@ -312,9 +312,20 @@ namespace SkillTree.Core
             var (stats, operations, social, special) = GetExpectedPointTotals();
             var (statsSpent, operationsSpent, socialSpent, specialSpent) = SkillTreeData.GetAllPointsSpent();
 
-            MelonLogger.Msg($"Expected: Stats {stats} | Operations {operations} | Social {social} | Special {special}");
-            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent}");
-            MelonLogger.Msg($"Left:     Stats {SkillPoints.StatsPoints} | Operations {SkillPoints.OperationsPoints} | Social {SkillPoints.SocialPoints} | Special {SkillPoints.SpecialPoints}");
+            int expectedTotal = stats + operations + social + special;
+            int pointsSpent = statsSpent + operationsSpent + socialSpent + specialSpent;
+            int pointsRemaining = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints;
+
+            MelonLogger.Msg($"Expected: Stats {stats} | Operations {operations} | Social {social} | Special {special} | Total {expectedTotal}");
+            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent} | Total {pointsSpent}");
+            MelonLogger.Msg($"Left:     Stats {SkillPoints.StatsPoints} | Operations {SkillPoints.OperationsPoints} | Social {SkillPoints.SocialPoints} | Special {SkillPoints.SpecialPoints} | Total {pointsRemaining}");
+
+            if (expectedTotal < pointsSpent + pointsRemaining)
+            {
+                MelonLogger.Warning($"Current character is below the expected level for this save file or save file is corrupt, resetting save data. Expected Total: {expectedTotal} | Actual Total: {pointsSpent + pointsRemaining}.");
+                SaveManager.LoadDefaultValues();
+                return;
+            }
 
             int missingStats = stats - (statsSpent + SkillPoints.StatsPoints);
             int missingOperations = operations - (operationsSpent + SkillPoints.OperationsPoints);
