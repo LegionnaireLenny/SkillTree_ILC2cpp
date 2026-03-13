@@ -68,615 +68,615 @@
 
 	<ItemGroup>
 	  <Reference Include="0Harmony">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\0Harmony.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\0Harmony.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Assembly-CSharp">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Assembly-CSharp.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppAeLa.EasyFeedback">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppAeLa.EasyFeedback.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAeLa.EasyFeedback.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppAeLa.EasyFeedback.InputSystemSupport">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppAeLa.EasyFeedback.InputSystemSupport.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAeLa.EasyFeedback.InputSystemSupport.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppAmplifyImpostors">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppAmplifyImpostors.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAmplifyImpostors.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppAmplifyImpostors.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppAmplifyImpostors.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAmplifyImpostors.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppAstarPathfindingProject">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppAstarPathfindingProject.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAstarPathfindingProject.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppBoxophobic.Utils.Scripts">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppBoxophobic.Utils.Scripts.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppBoxophobic.Utils.Scripts.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppCinemachine">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppCinemachine.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppCinemachine.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2Cppcom.rlabrecque.steamworks.net">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2Cppcom.rlabrecque.steamworks.net.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2Cppcom.rlabrecque.steamworks.net.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppCorgiGodRays">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppCorgiGodRays.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppCorgiGodRays.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppEasyButtons">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppEasyButtons.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppEasyButtons.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppEdgegap">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppEdgegap.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppEdgegap.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppFishNet.Demos">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppFishNet.Demos.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppFishNet.Demos.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppFishNet.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppFishNet.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppFishNet.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppGameKit.Dependencies">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppGameKit.Dependencies.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppGameKit.Dependencies.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppGameKit.Utilities">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppGameKit.Utilities.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppGameKit.Utilities.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppHBAO.Demo.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppHBAO.Demo.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppHBAO.Demo.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppHBAO.Demo.Universal.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppHBAO.Demo.Universal.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppHBAO.Demo.Universal.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppHBAO.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppHBAO.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppHBAO.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppHBAO.Universal.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppHBAO.Universal.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppHBAO.Universal.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppHSVPicker">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppHSVPicker.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppHSVPicker.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppInterop.Common">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\Il2CppInterop.Common.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppInterop.Generator">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\Il2CppInterop.Generator.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\Il2CppInterop.Generator.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppInterop.HarmonySupport">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\Il2CppInterop.HarmonySupport.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\Il2CppInterop.HarmonySupport.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppInterop.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\Il2CppInterop.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppLokoSolo.PinchableScrollRect">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppLokoSolo.PinchableScrollRect.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppLokoSolo.PinchableScrollRect.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppMono.Posix">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppMono.Posix.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppMono.Posix.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppMono.Security">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppMono.Security.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppMono.Security.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2Cppmscorlib">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2Cppmscorlib.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppNewtonsoft.Json">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppNewtonsoft.Json.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppNewtonsoft.Json.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppOokii.Dialogs">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppOokii.Dialogs.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppOokii.Dialogs.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppPathfinding.ClipperLib">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppPathfinding.ClipperLib.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppPathfinding.ClipperLib.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppPathfinding.Ionic.Zip.Reduced">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppPathfinding.Ionic.Zip.Reduced.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppPathfinding.Ionic.Zip.Reduced.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppPathfinding.Poly2Tri">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppPathfinding.Poly2Tri.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppPathfinding.Poly2Tri.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppRadiantGI">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppRadiantGI.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppRadiantGI.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppRootMotion">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppRootMotion.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppRootMotion.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppRuntimePreviewGenerator.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppRuntimePreviewGenerator.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppRuntimePreviewGenerator.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2Cppsc.stylizedgrass.runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2Cppsc.stylizedgrass.runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2Cppsc.stylizedgrass.runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2Cppsc.stylizedwater2.runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2Cppsc.stylizedwater2.runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2Cppsc.stylizedwater2.runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppStylizedWaterForURP">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppStylizedWaterForURP.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppStylizedWaterForURP.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Configuration">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Configuration.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Configuration.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Core">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Core.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Core.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Data">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Data.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Data.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Design">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Design.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Design.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Drawing">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Drawing.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Drawing.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.IO.Compression">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.IO.Compression.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.IO.Compression.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.IO.Compression.FileSystem">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.IO.Compression.FileSystem.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.IO.Compression.FileSystem.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Net.Http">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Net.Http.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Net.Http.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Numerics">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Numerics.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Numerics.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Runtime.Serialization">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Runtime.Serialization.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Runtime.Serialization.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Security">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Security.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Security.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Windows.Forms">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Windows.Forms.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Windows.Forms.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Xml">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Xml.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Xml.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppSystem.Xml.Linq">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppSystem.Xml.Linq.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppSystem.Xml.Linq.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppVisualDesignCafe.Nature">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppVisualDesignCafe.Nature.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppVisualDesignCafe.Nature.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppVisualDesignCafe.Packages">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppVisualDesignCafe.Packages.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppVisualDesignCafe.Packages.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppVisualDesignCafe.ShaderX">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2CppVisualDesignCafe.ShaderX.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppVisualDesignCafe.ShaderX.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2Cpp__Generated">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Il2Cpp__Generated.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Il2Cpp__Generated.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="MelonLoader">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\net6\MelonLoader.dll</HintPath>
+	    <HintPath>$(MelonLoaderNet6Dir)\MelonLoader.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="S1API">
-	    <HintPath>dependencies\S1API.Il2Cpp.MelonLoader.dll</HintPath>
+	    <HintPath>$(S1APIDir)\Mods\S1API.Il2Cpp.MelonLoader.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="S1APILoader">
-	    <HintPath>dependencies\S1APILoader.MelonLoader.dll</HintPath>
+	    <HintPath>$(S1APIDir)\Plugins\S1APILoader.MelonLoader.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.AI.Navigation">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.AI.Navigation.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.AI.Navigation.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Burst">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Burst.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Burst.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Burst.Unsafe">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Burst.Unsafe.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Burst.Unsafe.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Collections">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Collections.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Collections.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Collections.LowLevel.ILSupport">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.InputSystem">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.InputSystem.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.InputSystem.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.InputSystem.ForUI">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.InputSystem.ForUI.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Mathematics">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Mathematics.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Mathematics.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.MemoryProfiler">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.MemoryProfiler.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.MemoryProfiler.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Postprocessing.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Postprocessing.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Postprocessing.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.RenderPipelines.Core.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.RenderPipelines.Universal.Runtime">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Analytics">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Analytics.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Analytics.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Configuration">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Configuration.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Configuration.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Device">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Device.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Device.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Environments.Internal">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Environments.Internal.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Environments.Internal.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Internal">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Internal.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Internal.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Registration">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Registration.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Registration.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Scheduler">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Scheduler.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Scheduler.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Telemetry">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Telemetry.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Telemetry.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Services.Core.Threading">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Services.Core.Threading.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Services.Core.Threading.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.TextMeshPro">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.TextMeshPro.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.TextMeshPro.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Unity.Timeline">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\Unity.Timeline.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\Unity.Timeline.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AccessibilityModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AccessibilityModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AccessibilityModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AIModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AIModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AIModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AndroidJNIModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AndroidJNIModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AndroidJNIModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AnimationModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AnimationModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AnimationModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ARModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ARModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ARModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AssetBundleModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AssetBundleModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AssetBundleModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.AudioModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.AudioModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.AudioModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ClothModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ClothModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ClothModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ContentLoadModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ContentLoadModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ContentLoadModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.CoreModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.CoreModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.CoreModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.CrashReportingModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.CrashReportingModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.CrashReportingModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.DirectorModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.DirectorModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.DirectorModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.DSPGraphModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.DSPGraphModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.DSPGraphModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.GameCenterModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.GameCenterModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.GameCenterModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.GIModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.GIModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.GIModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.GridModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.GridModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.GridModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.HotReloadModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.HotReloadModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.HotReloadModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ImageConversionModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ImageConversionModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ImageConversionModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.IMGUIModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.IMGUIModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.IMGUIModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.InputLegacyModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.InputLegacyModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.InputLegacyModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.InputModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.InputModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.InputModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.JSONSerializeModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.JSONSerializeModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.JSONSerializeModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.LocalizationModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.LocalizationModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.LocalizationModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ParticleSystemModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ParticleSystemModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ParticleSystemModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.PerformanceReportingModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.PerformanceReportingModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.PerformanceReportingModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.Physics2DModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.Physics2DModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.Physics2DModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.PhysicsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.PhysicsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.PhysicsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ProfilerModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ProfilerModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ProfilerModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.PropertiesModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.PropertiesModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.PropertiesModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.ScreenCaptureModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.ScreenCaptureModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.ScreenCaptureModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.SharedInternalsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.SharedInternalsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.SharedInternalsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.SpriteMaskModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.SpriteMaskModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.SpriteMaskModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.SpriteShapeModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.SpriteShapeModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.SpriteShapeModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.StreamingModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.StreamingModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.StreamingModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.SubstanceModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.SubstanceModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.SubstanceModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.SubsystemsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.SubsystemsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.SubsystemsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TerrainModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TerrainModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TerrainModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TerrainPhysicsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TerrainPhysicsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TerrainPhysicsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TextCoreFontEngineModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TextCoreTextEngineModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TextRenderingModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TextRenderingModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TextRenderingModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TilemapModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TilemapModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TilemapModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.TLSModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.TLSModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.TLSModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UI">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UI.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UIElementsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UIElementsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UIElementsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UIModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UIModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UIModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UmbraModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UmbraModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UmbraModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityAnalyticsCommonModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityAnalyticsCommonModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityAnalyticsModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityAnalyticsModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityAnalyticsModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityConnectModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityConnectModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityConnectModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityCurlModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityCurlModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityCurlModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityTestProtocolModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityTestProtocolModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityTestProtocolModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityWebRequestModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityWebRequestModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityWebRequestTextureModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.UnityWebRequestWWWModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.VehiclesModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.VehiclesModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.VehiclesModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.VFXModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.VFXModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.VFXModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.VideoModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.VideoModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.VideoModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.VRModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.VRModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.VRModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.WindModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.WindModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.WindModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="UnityEngine.XRModule">
-	    <HintPath>..\..\..\..\SteamLibrary\steamapps\common\Schedule I\MelonLoader\Il2CppAssemblies\UnityEngine.XRModule.dll</HintPath>
+	    <HintPath>$(Il2CppAssembliesDir)\UnityEngine.XRModule.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>

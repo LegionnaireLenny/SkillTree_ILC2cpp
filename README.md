@@ -188,6 +188,33 @@ Laundering Changes:
 - MelonLoader: Install from MelonDownload﻿.
 - Plugin: Drop SkillTree.dll into the Schedule I/Mods folder.
 
+## Development Setup
+
+To build this project from source, you need **Schedule I** with **MelonLoader** installed and the **S1API Forked** mod.
+
+### Prerequisites
+
+1. .NET 6 SDK
+2. Schedule I with MelonLoader installed (the game must have been launched at least once with MelonLoader so the Il2Cpp assemblies are generated)
+3. [S1API Forked](https://github.com/ifBars/S1API) mod installed
+
+### Setup Steps
+
+1. Clone the repository
+2. Copy `Directory.Build.props.example` to `Directory.Build.props`
+3. Open `Directory.Build.props` and update the paths to match your system:
+   - `MelonLoaderDir` — Path to your MelonLoader folder (contains `Il2CppAssemblies` and `net6` subfolders)
+   - `S1APIDir` — Path to the S1API Forked mod folder (contains `Mods` and `Plugins` subfolders)
+   - `ModOutputDir` — Where the built DLL should be copied after each build (your game's Mods folder or r2modman profile)
+4. Build the project:
+   ```
+   dotnet build
+   ```
+
+The built DLL will automatically be copied to your `ModOutputDir` after a successful build.
+
+> **Note:** `Directory.Build.props` is gitignored since it contains paths specific to your machine. Do not commit it.
+
 ## Notes
 
 Multiplayer: I haven't tested multiplayer at all. There will be bugs and probably very few fixes for them.
