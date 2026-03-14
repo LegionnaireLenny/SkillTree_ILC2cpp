@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Include="Core\App\SkillTreeApp.cs" />
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
@@ -47,7 +48,6 @@
 		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
 		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
 		<Compile Include="Core\Patches\Stats\HealthPatches.cs" />
-		<Compile Include="Core\App\SkillTreeApp.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ShopPatches.cs" />
 		<Compile Include="Core\Skills\Skill.cs" />
 		<Compile Include="Core\Skills\SkillCategory.cs" />
