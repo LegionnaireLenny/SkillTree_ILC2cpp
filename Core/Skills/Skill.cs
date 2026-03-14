@@ -83,14 +83,14 @@ namespace SkillTree.Core.Skills
             return true;
         }
 
-        public int GetPointsToLevelParents()
+        public int GetPointsToLevelBranch()
         {
             if (IsParentMaxLevel())
             {
                 return MaxLevel - CurrentLevel;
             }
             
-            return (MaxLevel - CurrentLevel) + Parent.GetPointsToLevelParents();
+            return (MaxLevel - CurrentLevel) + Parent.GetPointsToLevelBranch();
         }
 
         public void UnlockParents()
@@ -108,7 +108,7 @@ namespace SkillTree.Core.Skills
 
         public bool LevelAndUnlockParents()
         {
-            int pointsNeeded = GetPointsToLevelParents() + 1;
+            int pointsNeeded = GetPointsToLevelBranch();
             int pointsAvailable = SkillPoints.GetPointsAvailable(Category);
 
             //MelonLogger.Msg($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}");
@@ -141,7 +141,7 @@ namespace SkillTree.Core.Skills
         public void LevelToMax()
         {
             //MelonLogger.Msg($"Leveling {Name} to max.");
-            for (int i = 0; i <= MaxLevel - CurrentLevel; i++)
+            for (int i = CurrentLevel; i < MaxLevel; i++)
             {
                 IncreaseLevel();
             }

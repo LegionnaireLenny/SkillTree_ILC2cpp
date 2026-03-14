@@ -46,10 +46,9 @@ namespace SkillTree.Core.App
         private static SkillNode _selectedSkill;
 
         // Layout constants — horizontal tree (root left, children right)
-        //private const float NodeWidth = 240f;
-        private const float NodeWidth = 180f;
+        private const float NodeWidth = 280f;
         private const float NodeHeight = 36f;
-        private const float HSpacing = 230f;
+        private const float HSpacing = 330f;
         private const float VSpacing = 46f;
         private const float Padding = 20f;
         private const float LineWidth = 2f;
@@ -136,11 +135,41 @@ namespace SkillTree.Core.App
             var mapPanelRect = mapPanel.GetComponent<RectTransform>();
             mapPanelRect.offsetMin = new Vector2(5f, 5f);
             mapPanelRect.offsetMax = new Vector2(0f, -2f);
+            var scrollRect = mapPanel.AddComponent<PinchableScrollRect>();
+            scrollRect.inertia = true;
+            scrollRect.initScale = new Vector3(0.8f, 0.8f, 0.8f);
+            scrollRect.lowerScale = new Vector3(0.8f, 0.8f, 0.8f);
+            scrollRect.upperScale = new Vector3(1f, 1f, 1f);
+            scrollRect.decelerationRate = 0.001f;
+            scrollRect.elasticity = 0.1f;
+            scrollRect.zoomMaxSpeed = 0.05f;
 
-            var statsContainer = CreateCategoryContainer("StatsContainer", mapPanel.transform);
-            var opsContainer = CreateCategoryContainer("OpsContainer", mapPanel.transform);
-            var socialContainer = CreateCategoryContainer("SocialContainer", mapPanel.transform);
-            var specialContainer = CreateCategoryContainer("SpecialContainer", mapPanel.transform);
+            var viewport = new GameObject("MapViewPort");
+            viewport.transform.SetParent(mapPanel.transform, false);
+            var viewportRect = viewport.AddComponent<RectTransform>();
+            viewportRect.anchorMin = new Vector2(0f, 0f);
+            viewportRect.anchorMax = new Vector2(1f, 1f);
+            viewportRect.offsetMin = Vector2.zero;
+            viewportRect.offsetMax = new Vector2(0, -50f);
+            var viewImage = viewport.AddComponent<Image>().color = ColorBackground;
+            viewport.AddComponent<Mask>().showMaskGraphic = false;
+
+            var treeContent = new GameObject("TreeContent");
+            treeContent.transform.SetParent(viewport.transform, false);
+            var treeRect = treeContent.AddComponent<RectTransform>();
+            treeRect.anchorMin = new Vector2(0f, 0.3f);
+            treeRect.anchorMax = new Vector2(1.25f, 1.1f);
+            treeRect.offsetMin = Vector2.zero;
+            treeRect.offsetMax = Vector2.zero;
+            //treeRect.pivot = new Vector2(0.5f, 0.5f);
+
+            scrollRect.viewport = viewportRect;
+            scrollRect.content = treeRect;
+
+            var statsContainer = CreateCategoryContainer("StatsContainer", treeContent.transform);
+            var opsContainer = CreateCategoryContainer("OpsContainer", treeContent.transform);
+            var socialContainer = CreateCategoryContainer("SocialContainer", treeContent.transform);
+            var specialContainer = CreateCategoryContainer("SpecialContainer", treeContent.transform);
 
             var pointsOverlay = CreateTMPText("SkillPointsOverlay", mapPanel.transform, "",
                 BodySize, ColorPointsText, TextAlignmentOptions.TopLeft);
@@ -244,12 +273,7 @@ namespace SkillTree.Core.App
                 bool updateNeeded = false;
                 if ((bool)Core.AutoUnlockPrerequisites.BoxedValue)
                 {
-                    bool unlockBranchSucceeded = _selectedSkill.Skill.LevelAndUnlockParents();
-                    updateNeeded = unlockBranchSucceeded;
-                    if (!unlockBranchSucceeded)
-                    {
-                        updateNeeded = _selectedSkill.Skill.IncreaseLevel();
-                    }
+                    updateNeeded = _selectedSkill.Skill.LevelAndUnlockParents();
                 }
                 else
                 {
