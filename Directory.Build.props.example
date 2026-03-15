@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <!-- Path to your MelonLoader installation (contains Il2CppAssemblies and net6 subfolders) -->
+    <MelonLoaderDir>C:\Program Files (x86)\Steam\steamapps\common\Schedule I\MelonLoader</MelonLoaderDir>
+    <Il2CppAssembliesDir>$(MelonLoaderDir)\Il2CppAssemblies</Il2CppAssembliesDir>
+    <MelonLoaderNet6Dir>$(MelonLoaderDir)\net6</MelonLoaderNet6Dir>
+
+    <!-- Path to S1API mod folder (contains Mods and Plugins subfolders) -->
+    <S1APIDir>C:\Program Files (x86)\Steam\steamapps\common\Schedule I\Mods\ifBars-S1API_Forked</S1APIDir>
+
+    <!-- Where to copy the built DLL after build (your game's Mods folder or r2modman profile) -->
+    <ModOutputDir>C:\Program Files (x86)\Steam\steamapps\common\Schedule I\Mods\CrazyTeam-SkillTree_IL2cpp</ModOutputDir>
+  </PropertyGroup>
+
+  <Target Name="CopyToMods" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModOutputDir)" />
+    <Message Importance="high" Text="Copied $(TargetFileName) to $(ModOutputDir)" />
+  </Target>
+</Project>
