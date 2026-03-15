@@ -3,10 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
-using Il2CppScheduleOne.ItemFramework;
-using MelonLoader;
 using SkillTree.Core.Skills;
-using UnityEngine;
 
 namespace SkillTree.Core.Patches.Operations
 {

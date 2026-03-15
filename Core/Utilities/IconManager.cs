@@ -2,7 +2,6 @@
 using MelonLoader.Utils;
 using S1API.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;

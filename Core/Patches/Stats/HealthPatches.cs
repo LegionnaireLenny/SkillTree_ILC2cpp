@@ -4,6 +4,7 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats
@@ -97,7 +98,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            if (Mathf.Approximately(health, SkillModifiers.PlayerBaseHealth))
+            if (Mathf.Approximately(health, ConfigManager.BaseHealth.GetValue()))
             {
                 health = SkillModifiers.GetPlayerMaxHealth();
             }

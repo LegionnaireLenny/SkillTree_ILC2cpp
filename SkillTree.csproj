@@ -6,7 +6,7 @@
 		<RootNamespace>SkillTree</RootNamespace>
 		<LangVersion>default</LangVersion>
 		<IsPackable>false</IsPackable>
-		<AssemblyVersion>2.4.2</AssemblyVersion>
+		<AssemblyVersion>2.5.0</AssemblyVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AssemblyName>SkillTree_IL2cpp</AssemblyName>
 		<LangVersion>latest</LangVersion>
@@ -25,6 +25,7 @@
 		<Compile Include="Core\Patches\Operations\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
+		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
 		<Compile Include="Core\Patches\Operations\GrowContainerPatches.cs" />

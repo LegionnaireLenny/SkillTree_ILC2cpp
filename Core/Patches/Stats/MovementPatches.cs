@@ -4,8 +4,8 @@ using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -29,16 +29,16 @@ namespace SkillTree.Core.Patches.Stats
             PlayerMovement.JumpMultiplier = SkillModifiers.GetPlayerJumpHeight();
             if (!Mathf.Approximately(original, PlayerMovement.JumpMultiplier))
             {
-                MelonLogger.Msg($"Player jump multiplier changed from x{SkillModifiers.PlayerBaseJumpHeight} to x{PlayerMovement.JumpMultiplier}");
+                MelonLogger.Msg($"Player jump multiplier changed from x{ConfigManager.BaseJumpHeight.GetValue()} to x{PlayerMovement.JumpMultiplier}");
             }
         }
 
         public static void SetPlayerStamina()
         {
             PlayerMovement.StaminaReserveMax = SkillModifiers.GetPlayerMaxStamina();
-            if (!Mathf.Approximately(SkillModifiers.PlayerBaseStamina, PlayerMovement.StaminaReserveMax))
+            if (!Mathf.Approximately(ConfigManager.BaseStamina.GetValue(), PlayerMovement.StaminaReserveMax))
             {
-                MelonLogger.Msg($"Player max stamina changed from {SkillModifiers.PlayerBaseStamina} to {PlayerMovement.StaminaReserveMax}");
+                MelonLogger.Msg($"Player max stamina changed from {ConfigManager.BaseStamina.GetValue()} to {PlayerMovement.StaminaReserveMax}");
             }
 
         }

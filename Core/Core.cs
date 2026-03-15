@@ -9,7 +9,6 @@ using MelonLoader;
 using S1API.Lifecycle;
 using Semver;
 using SkillTree.Core;
-using SkillTree.Core.Effects;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
@@ -21,14 +20,13 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.4.2", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.5.0", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
 {
     public class Core : MelonMod
     {
-        private static readonly string version = "2.4.2";
         public static bool IsS1APIPatchNeeded { get; private set; } = false;
 
         private int skillPointValid = 0;
@@ -40,35 +38,9 @@ namespace SkillTree.Core
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
 
-        private static MelonPreferences_Category UserSettings { get; set; }
-        public static MelonPreferences_Entry AutoUnlockPrerequisites {  get; set; }
-
-        private static MelonPreferences_Category Keybinds { get; set; }
-        public static MelonPreferences_Entry MenuHotkey { get; set; }
-        public static MelonPreferences_Entry ActiveSkillOne { get; set; }
-        public static MelonPreferences_Entry ActiveSkillTwo { get; set; }
-        public static MelonPreferences_Entry ActiveSkillThree { get; set; }
-
-        private static MelonPreferences_Category ModInfo { get; set; }
-        public static MelonPreferences_Entry ResetSkills { get; set; }
 
         public override void OnInitializeMelon()
         {
-            UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
-            AutoUnlockPrerequisites = UserSettings.CreateEntry<bool>("SkillTree_Auto_Unlock_Prerequisites", true, "Auto Unlock Prerequisite Skills", description:"If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
-            UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
-
-            Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
-            MenuHotkey = Keybinds.CreateEntry<KeyCode>($"SkillTree_01_Menu Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu", true);
-            ActiveSkillOne = Keybinds.CreateEntry<KeyCode>("SkillTree_02_Skill One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
-            ActiveSkillTwo = Keybinds.CreateEntry<KeyCode>("SkillTree_03_Skill Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
-            ActiveSkillThree = Keybinds.CreateEntry<KeyCode>("SkillTree_04_Skill Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
-            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
-
-            ModInfo = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Mod Version: {version}");
-            ResetSkills = ModInfo.CreateEntry<bool>("SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
-            ModInfo.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
-
             if (MelonBase.RegisteredMelons.Contains(FindMelon("Empire (Forked by Kaen01)", "Aracor")))
             {
                 try
@@ -94,6 +66,7 @@ namespace SkillTree.Core
                 MelonLogger.Warning($"S1API version {s1apiVersion} older than 2.9.9, applying compatibility patches.");
             }
 
+            ConfigManager.Initialize();
             IconManager.ExtractIcons();
             SkillTreeData.AddChildren(SkillTreeData.StatsTree);
             SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
@@ -139,13 +112,13 @@ namespace SkillTree.Core
 
             if (Cursor.lockState != CursorLockMode.None)
             {
-                if (Input.GetKeyDown((KeyCode)ActiveSkillOne.BoxedValue) && SkillTreeData.Special.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillOne.GetValue()) && SkillTreeData.Special.CurrentLevel == 1)
                     SkillActive.GoodSamaritan();
 
-                if (Input.GetKeyDown((KeyCode)ActiveSkillTwo.BoxedValue) && SkillTreeData.Heal.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillTwo.GetValue()) && SkillTreeData.Heal.CurrentLevel == 1)
                     SkillActive.BloodRush();
 
-                if (Input.GetKeyDown((KeyCode)ActiveSkillThree.BoxedValue) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
 
                 //if (Input.GetKeyDown(KeyCode.O))
@@ -178,10 +151,10 @@ namespace SkillTree.Core
             if (sceneName == "Main")
             {
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
-                if ((bool)ResetSkills.BoxedValue)
+                if (ConfigManager.ResetSkills.GetValue())
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
-                    ResetSkills.BoxedValue = false;
+                    ConfigManager.ResetSkills.SetValue(false);
                     SaveManager.DeleteFile();
                     SaveManager.LoadDefaultValues();
                 }
