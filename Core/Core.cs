@@ -9,6 +9,7 @@ using MelonLoader;
 using S1API.Lifecycle;
 using Semver;
 using SkillTree.Core;
+using SkillTree.Core.App;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
@@ -110,6 +111,11 @@ namespace SkillTree.Core
 
             SkillActive.ResetSkillsIfNewDay();
 
+            if (Input.GetKeyDown(ConfigManager.MenuHotkey.GetValue()))
+            {
+                SkillTreeApp.OnOpenKeyPressed.Invoke();
+            }
+
             if (Cursor.lockState != CursorLockMode.None)
             {
                 if (Input.GetKeyDown(ConfigManager.ActiveSkillOne.GetValue()) && SkillTreeData.Special.CurrentLevel == 1)
@@ -120,11 +126,6 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
-
-                //if (Input.GetKeyDown(KeyCode.O))
-                //{                  
-
-                //}
             }
         }
 

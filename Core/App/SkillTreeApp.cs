@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using Il2CppScheduleOne.UI.MainMenu;
+using Il2CppScheduleOne.UI;
+using Il2CppScheduleOne.DevUtilities;
 
 namespace SkillTree.Core.App
 {
@@ -83,9 +87,29 @@ namespace SkillTree.Core.App
 
         private static TMP_FontAsset _cachedFont;
 
+        public static Action OnOpenKeyPressed;
+
+        public void Open()
+        {
+            if (!GameplayMenu.instance.IsOpen)
+            {
+                GameplayMenu.instance.SetIsOpen(true);
+                GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
+                OpenApp();
+
+            }
+            else
+            {
+                GameplayMenu.instance.SetIsOpen(false);
+                GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Character);
+                CloseApp();
+            }
+        }
+
         protected override void OnCreatedUI(GameObject container)
         {
             AcquireFont();
+            OnOpenKeyPressed += Open;
 
             var mainPanel = CreatePanel("MainPanel", container.transform, ColorBackground,
                 Vector2.zero, Vector2.one);
