@@ -263,14 +263,22 @@ Open Source: SkillTree (Forked) is open source and distributed with the same lic
 
 ## Additional Credits
 Icons - https://iconify.design/
-- Benzies Dealer Icon - mdi:weed.png - License: MIT
-- Benzies Goon Icon - mdi:dagger.png - License: Apache 2
-- Police Officer Icon - mdi:police-badge-outline.png - License: Apache 2
-- Heal Icon - material-symbols:heart-plus - License: Apache 2
-- Trashcan Icon - ix:trashcan - License: MIT
-- Cash Icon - bi:cash-coin - License: MIT
-- App Icon Tree - si:flow-tree-duotone - License: MIT
-- App Icon Fork - hugeicons:fork - License: MIT
+  - License: MIT
+    - Benzies Dealer Icon - mdi:weed.png
+    - Trashcan Icon - ix:trashcan
+    - Cash Icon - bi:cash-coin
+    - App Icon Tree - si:flow-tree-duotone
+    - App Icon Fork - hugeicons:fork
+  - License: Apache 2
+    - Benzies Goon Icon - mdi:dagger.png
+    - Police Officer Icon - mdi:police-badge-outline.png
+    - Heart Icon - material-symbols:heart-plus
+    - Arm Icon - mdi:arm-flex
+    - Clock Icon - mdi:clock-outline
+    - Gear Icon - mdi:gear
+    - Star Icon - material-symbols:star
+  - GPL 2.0
+    - Chat Bubble Icon - gridicons:chat
 
 ## F.A.Q.
 

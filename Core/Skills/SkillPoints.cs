@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using S1API.Leveling;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -48,32 +49,32 @@ namespace SkillTree.Core.Skills
             {
                 case SkillCategory.Stats:
                     StatsPoints++;
-                    MelonLogger.Msg("Gained 1 Stats point");
+                    MelonLogger.Msg("+1 Stats point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>Gained 1 Stats point</color>", NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                    $"<color=#16F01C>+1 Stats point</color>", IconManager.LoadSprite(IconManager.IconStats));
 
                     break;
                 case SkillCategory.Operations:
                     OperationsPoints++;
-                    MelonLogger.Msg("Gained 1 Operations point");
+                    MelonLogger.Msg("+1 Operations point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>Gained 1 Operations point</color>", NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                    $"<color=#16F01C>+1 Operations point</color>", IconManager.LoadSprite(IconManager.IconOperations));
                     break;
                 case SkillCategory.Social:
                     SocialPoints++;
-                    MelonLogger.Msg("Gained 1 Social point");
+                    MelonLogger.Msg("+1 Social point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>Gained 1 Social point</color>", NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                    $"<color=#16F01C>+1 Social point</color>", IconManager.LoadSprite(IconManager.IconSocial));
                     break;
                 case SkillCategory.Special:
                     SpecialPoints++;
-                    MelonLogger.Msg("Gained 1 Special point");
+                    MelonLogger.Msg("+1 Special point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>Gained 1 Special point</color>", NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
+                    $"<color=#16F01C>+1 Special point</color>", IconManager.LoadSprite(IconManager.IconSpecial));
                     break;
             }
         }

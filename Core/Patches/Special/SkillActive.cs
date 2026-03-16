@@ -1,17 +1,13 @@
 ﻿using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
-using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
-using SkillTree.Core.Effects;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
-using System.Collections;
-using UnityEngine;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -26,6 +22,10 @@ namespace SkillTree.Core.Patches.Special
             GoodSamaritanUsed = false;
             BloodRushUsed = false;
             SiphonFundsUsed = false;
+            Singleton<NotificationsManager>.Instance?.SendNotification(
+                "A New Day Dawns",
+                "Cooldowns Reset",
+                IconManager.LoadSprite(IconManager.IconClock));
         }
 
         public static void GoodSamaritan()

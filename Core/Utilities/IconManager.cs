@@ -10,11 +10,16 @@ namespace SkillTree.Core.Utilities
 {
     public class IconManager
     {
-        public static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
+        private static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
         public static readonly string IconApp = "Icon_SkillTree_Forked.png";
-        public static readonly string IconHeart = "Icon_Heal.png";
+        public static readonly string IconClock = "Icon_Clock.png";
+        public static readonly string IconHeart = "Icon_Heart.png";
         public static readonly string IconTrashcan = "Icon_Trashcan.png";
         public static readonly string IconCash = "Icon_Cash.png";
+        public static readonly string IconStats = "Icon_Stats.png";
+        public static readonly string IconOperations = "Icon_Operations.png";
+        public static readonly string IconSocial = "Icon_Social.png";
+        public static readonly string IconSpecial = "Icon_Special.png";
         public static readonly string IconPolice = "Icon_PoliceOfficer.png";
         public static readonly string IconBenziesDealer = "Icon_BenziesDealer.png";
         public static readonly string IconBenziesGoon = "Icon_BenziesGoon.png";
@@ -28,7 +33,7 @@ namespace SkillTree.Core.Utilities
             }
             else
             {
-                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.{filename}");
+                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.Icons.{filename}");
             }
         }
 
@@ -41,7 +46,7 @@ namespace SkillTree.Core.Utilities
             }
             else
             {
-                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.{filename}");
+                return ImageUtils.LoadImageFromResource(Assembly.GetExecutingAssembly(), $"SkillTree.Core.Images.Icons.{filename}");
             }
         }
 
@@ -52,7 +57,7 @@ namespace SkillTree.Core.Utilities
                 string destination = Path.Combine(directory, fileName);
                 if (!File.Exists(destination))
                 {
-                    using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.{fileName}");
+                    using var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream($"SkillTree.Core.Images.Icons.{fileName}");
                     using FileStream stream = new FileStream(destination, FileMode.Create, FileAccess.Write);
                     resource.CopyTo(stream);
                 }
@@ -71,9 +76,14 @@ namespace SkillTree.Core.Utilities
             }
 
             ExtractEmbeddedResource(IconDirectory, IconApp);
+            ExtractEmbeddedResource(IconDirectory, IconClock);
             ExtractEmbeddedResource(IconDirectory, IconHeart);
             ExtractEmbeddedResource(IconDirectory, IconTrashcan);
             ExtractEmbeddedResource(IconDirectory, IconCash);
+            ExtractEmbeddedResource(IconDirectory, IconStats);
+            ExtractEmbeddedResource(IconDirectory, IconOperations);
+            ExtractEmbeddedResource(IconDirectory, IconSocial);
+            ExtractEmbeddedResource(IconDirectory, IconSpecial);
             ExtractEmbeddedResource(IconDirectory, IconPolice);
             ExtractEmbeddedResource(IconDirectory, IconBenziesDealer);
             ExtractEmbeddedResource(IconDirectory, IconBenziesGoon);

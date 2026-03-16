@@ -310,6 +310,10 @@ namespace SkillTree.Core.App
                 if (ConfigManager.AutoUnlockPrerequisites.GetValue())
                 {
                     updateNeeded = _selectedSkill.Skill.LevelAndUnlockParents();
+                    if (!updateNeeded)
+                    {
+                        updateNeeded = _selectedSkill.Skill.IncreaseLevel();
+                    }
                 }
                 else
                 {

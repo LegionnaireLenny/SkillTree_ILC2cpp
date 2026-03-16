@@ -13,9 +13,6 @@
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
-	<ItemGroup>
-	  <None Remove="Core\Images\Icon_Cash.png" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="Core\App\SkillTreeApp.cs" />
@@ -683,12 +680,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Core\Images\Icon_BenziesDealer.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_BenziesGoon.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_Cash.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_Heal.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_PoliceOfficer.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_SkillTree_Forked.png" />
-	  <EmbeddedResource Include="Core\Images\Icon_Trashcan.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_BenziesDealer.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_BenziesGoon.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Cash.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Clock.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Heart.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Operations.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_PoliceOfficer.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_SkillTree_Forked.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Social.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Special.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Stats.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
 	</ItemGroup>
 </Project>
