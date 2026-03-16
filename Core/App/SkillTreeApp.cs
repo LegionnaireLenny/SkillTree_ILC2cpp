@@ -1,16 +1,15 @@
+using Il2CppScheduleOne.UI;
+using Il2CppScheduleOne.UI.Phone;
+using Il2CppTMPro;
 using S1API.PhoneApp;
 using S1API.Utils;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
-using Il2CppTMPro;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using Il2CppScheduleOne.UI.MainMenu;
-using Il2CppScheduleOne.UI;
-using Il2CppScheduleOne.DevUtilities;
 
 namespace SkillTree.Core.App
 {
@@ -91,18 +90,30 @@ namespace SkillTree.Core.App
 
         public void Open()
         {
-            if (!GameplayMenu.instance.IsOpen)
+            if (PauseMenu.instance.IsPaused) return;
+
+            if (!GameplayMenu.instance.IsOpen && Cursor.lockState != CursorLockMode.None)
             {
                 GameplayMenu.instance.SetIsOpen(true);
                 GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
                 OpenApp();
-
             }
-            else
+            else if (GameplayMenu.instance.IsOpen)
             {
-                GameplayMenu.instance.SetIsOpen(false);
-                GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Character);
-                CloseApp();
+                if (GameplayMenu.instance.CurrentScreen == GameplayMenu.EGameplayScreen.Character)
+                {
+                    GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
+                }
+
+                if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
+                {
+                    OpenApp();
+                }
+                else
+                {
+                    GameplayMenu.instance.SetIsOpen(false);
+                    CloseApp();
+                }
             }
         }
 
@@ -149,7 +160,7 @@ namespace SkillTree.Core.App
             var (catSocialGO, catSocialBtn, catSocialTMP) = CreateTabButton("SocialTab",
                 catRow.transform, $"Social ({SkillPoints.SocialPoints})");
             var (catSpecialGO, catSpecialBtn, catSpecialTMP) = CreateTabButton("SpecialTab",
-                catRow.transform, $"Spec ({SkillPoints.SpecialPoints})");
+                catRow.transform, $"Special ({SkillPoints.SpecialPoints})");
 
             catStatsGO.GetComponent<Image>().color = ColorButtonSelected;
 

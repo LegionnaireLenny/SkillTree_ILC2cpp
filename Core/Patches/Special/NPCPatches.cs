@@ -38,7 +38,7 @@ namespace SkillTree.Core.Patches.Special
 
             public void SetSprite()
             {
-                if (POI.IconContainer != null && POI.NPC != null)
+                if (POI?.IconContainer != null && POI?.NPC != null)
                 {
                     POI.IconContainer.Find("Outline/Icon").GetComponent<Image>().sprite = IconManager.LoadSprite(IconName);
                     POI.IconContainer.Find("Outline/Icon").GetComponent<RectTransform>().offsetMin = Vector2.zero;
@@ -48,11 +48,15 @@ namespace SkillTree.Core.Patches.Special
 
             public void UpdateVisibility()
             {
+                if (POI?.NPC == null) return;
+
                 SetVisibility(POI.NPC.IsCurrentlySightable());
             }
 
             public void SetVisibility(bool isVisible)
             {
+                if (POI == null) return;
+
                 if (IsPolice)
                 {
                     isVisible = isVisible && (SkillTreeData.Informant.CurrentLevel == 1);
@@ -74,7 +78,7 @@ namespace SkillTree.Core.Patches.Special
         {
             foreach (var item in CustomPOIManager)
             {
-                item.Value.UpdateVisibility();
+                item.Value?.UpdateVisibility();
             }
         }
 
@@ -128,14 +132,30 @@ namespace SkillTree.Core.Patches.Special
             MelonCoroutines.Start(SetupCustomPOI(__instance, "Cartel Goon", IconManager.IconBenziesGoon, false));
         }
 
+        [HarmonyPatch(typeof(NPC), "OnDestroy")]
+        [HarmonyPrefix]
+        public static void Patch_NPC_OnDestroy(NPC __instance)
+        {
+            if (__instance.TryCast<PoliceOfficer>() == null &&
+                __instance.TryCast<CartelGoon>() == null && 
+                __instance.TryCast<CartelDealer>() == null)
+            {
+                return;
+            }
+
+            CustomPOIManager.Remove(__instance.ID);
+        }
+
         [HarmonyPatch(typeof(NPC), "OnDie")]
         [HarmonyPostfix]
-        public static void Patch_NpcOnDie(NPC __instance)
+        public static void Patch_Npc_OnDie(NPC __instance)
         {
             if (CustomPOIManager.ContainsKey(__instance.ID))
             {
                 CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
             }
+
+            if (SkillTreeData.Heal.CurrentLevel == 0) return;
 
             // OnDie is called twice for police, so PoliceKilled will increase by two every time a cop is killed
             if (__instance.TryCast<PoliceOfficer>() != null)
