@@ -1,6 +1,8 @@
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Phone;
 using Il2CppTMPro;
+using MelonLoader;
+using S1API.Leveling;
 using S1API.PhoneApp;
 using S1API.Utils;
 using SkillTree.Core.Skills;
@@ -120,7 +122,6 @@ namespace SkillTree.Core.App
         protected override void OnCreatedUI(GameObject container)
         {
             AcquireFont();
-            OnOpenKeyPressed += Open;
 
             var mainPanel = CreatePanel("MainPanel", container.transform, ColorBackground,
                 Vector2.zero, Vector2.one);
@@ -350,6 +351,10 @@ namespace SkillTree.Core.App
             ButtonUtils.AddListener(catSpecialBtn, () =>
                 SwitchCategory(nodesSpecial, specialContainer, catSpecialGO, SkillCategory.Special));
 
+            OnOpenKeyPressed += Open;
+            OnOpenKeyPressed += UpdateCategoryText;
+            LevelManager.OnRankUp += UpdateOnRankUp;
+
             // === LOCAL FUNCTIONS ===
 
             void UpdateDetails()
@@ -371,7 +376,13 @@ namespace SkillTree.Core.App
                 catStatsTMP.text = $"Stats ({SkillPoints.StatsPoints})";
                 catOpsTMP.text = $"Operations ({SkillPoints.OperationsPoints})";
                 catSocialTMP.text = $"Social ({SkillPoints.SocialPoints})";
-                catSpecialTMP.text = $"Spec ({SkillPoints.SpecialPoints})";
+                catSpecialTMP.text = $"Special ({SkillPoints.SpecialPoints})";
+            }
+
+            void UpdateOnRankUp(FullRank _1, FullRank _2)
+            {
+                UpdateCategoryText();
+                UpdatePointsOverlay();
             }
 
             void UpdatePointsOverlay()

@@ -17,36 +17,20 @@ namespace SkillTree.Core.Patches.Special
 {
     public static class SkillActive
     {
-        private static int currentDay = -1;
+        private static bool GoodSamaritanUsed = false;
+        private static bool BloodRushUsed = false;
+        private static bool SiphonFundsUsed = false;
 
-        private static bool clearTrashUsed = false;
-        private static bool healUsed = false;
-        private static bool getCashUsed = false;
-
-        public static void Reset()
+        public static void ResetSkillCooldowns()
         {
-            clearTrashUsed = false;
-            healUsed = false;
-            getCashUsed = false;
-            currentDay = -1;
-        }
-
-
-
-        public static void ResetSkillsIfNewDay()
-        {
-            if (currentDay != (int)TimeManager.Instance.CurrentDay)
-            {
-                clearTrashUsed = false;
-                healUsed = false;
-                getCashUsed = false;
-                currentDay = (int)TimeManager.Instance.CurrentDay;
-            }
+            GoodSamaritanUsed = false;
+            BloodRushUsed = false;
+            SiphonFundsUsed = false;
         }
 
         public static void GoodSamaritan()
         {
-            if (clearTrashUsed)
+            if (GoodSamaritanUsed)
             {
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Good Samaritan on Cooldown",
@@ -88,14 +72,14 @@ namespace SkillTree.Core.Patches.Special
                     "Good Samaritan",
                     $"Earned <color=#4CBFFF>{MoneyManager.FormatAmount(total)}</color>",
                     IconManager.LoadSprite(IconManager.IconTrashcan));
-                clearTrashUsed = true;
+                GoodSamaritanUsed = true;
             }
 
         }
 
         public static void BloodRush()
         {
-            if (healUsed)
+            if (BloodRushUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Blood Rush on Cooldown",
                                 $"<color=#FF0000>Wait one day</color>",
@@ -109,13 +93,13 @@ namespace SkillTree.Core.Patches.Special
                                 "Blood Rush",
                                 $"<color=#FF0000>{oldHp}</color> to <color=#FF0000>{Player.Local.Health.CurrentHealth}</color>",
                                 IconManager.LoadSprite(IconManager.IconHeart));
-                healUsed = true;
+                BloodRushUsed = true;
             }
         }
 
         public static void SiphonFunds()
         {
-            if (getCashUsed)
+            if (SiphonFundsUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
                                 "Siphon Funds on Cooldown",
                                 "<color=#FF0000>Wait one day</color>",
@@ -158,7 +142,7 @@ namespace SkillTree.Core.Patches.Special
                                 $"<color=#54E717>{MoneyManager.FormatAmount(totalCash)}</color> and <color=#4CBFFF>{MoneyManager.FormatAmount(totalOnlineBalance)}</color>",
                                 IconManager.LoadSprite(IconManager.IconCash));
 
-                getCashUsed = true;
+                SiphonFundsUsed = true;
             }
         }
     }

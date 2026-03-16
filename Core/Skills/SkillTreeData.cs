@@ -156,13 +156,18 @@ namespace SkillTree.Core.Skills
             return points;
         }
 
-        public static (int, int, int, int) GetAllPointsSpent()
+        public static (int, int, int, int) GetCategoryPointsSpent()
         {
             return (GetPointsSpent(StatsTree), 
                     GetPointsSpent(OperationsTree), 
                     GetPointsSpent(SocialTree), 
                     GetPointsSpent(SpecialTree)
             );
+        }
+
+        public static int GetAllPointsSpent()
+        {
+            return GetPointsSpent(StatsTree) + GetPointsSpent(OperationsTree) + GetPointsSpent(SocialTree) + GetPointsSpent(SpecialTree);
         }
 
         public static Dictionary<string, int> GetSaveData()
