@@ -1,13 +1,10 @@
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Phone;
 using Il2CppTMPro;
-using MelonLoader;
-using S1API.Leveling;
 using S1API.PhoneApp;
 using S1API.Utils;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -350,7 +347,9 @@ namespace SkillTree.Core.App
 
             Core.OnOpenKeyPressed += Open;
             Core.OnOpenKeyPressed += UpdateCategoryText;
-            LevelManager.OnRankUp += UpdateOnRankUp;
+            Core.OnOpenKeyPressed += UpdatePointsOverlay;
+            SkillPoints.OnSkillPointsChanged += UpdateCategoryText;
+            SkillPoints.OnSkillPointsChanged += UpdatePointsOverlay;
 
             // === LOCAL FUNCTIONS ===
 
@@ -374,12 +373,6 @@ namespace SkillTree.Core.App
                 catOpsTMP.text = $"Operations ({SkillPoints.OperationsPoints})";
                 catSocialTMP.text = $"Social ({SkillPoints.SocialPoints})";
                 catSpecialTMP.text = $"Special ({SkillPoints.SpecialPoints})";
-            }
-
-            void UpdateOnRankUp(FullRank _1, FullRank _2)
-            {
-                UpdateCategoryText();
-                UpdatePointsOverlay();
             }
 
             void UpdatePointsOverlay()

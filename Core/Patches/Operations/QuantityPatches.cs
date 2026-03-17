@@ -40,7 +40,7 @@ namespace SkillTree.Core.Patches.Operations
                     __instance.CauldronFillable.ResetContents();
                     if (__instance.onCookEnd != null)
                     {
-                        __instance.onCookEnd.Invoke();
+                        __instance.onCookEnd?.Invoke();
                     }
 
                     return false;

@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne.GameTime;
-using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using S1API.Lifecycle;
+using S1API.Leveling;
+using S1API.GameTime;
 using SkillTree.Core;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
@@ -15,7 +15,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.5.2", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.5.3", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
@@ -60,7 +60,7 @@ namespace SkillTree.Core
         {
             yield return new WaitForSeconds(delayTime);
             ItemUnlocker.UnlockSpecificItems();
-            ValidateTotalSkillPoints();
+            SkillPoints.ValidateTotalSkillPoints();
             SaveManager.SaveFile();
             SkillTreeData.ApplyAllSkills();
             setupComplete = true;
@@ -68,15 +68,12 @@ namespace SkillTree.Core
 
         public override void OnUpdate()
         {
-            if (TimeManager.Instance == null ||
-                LevelManager.Instance == null ||
-                PlayerMovement.Instance == null || 
+            if (PlayerMovement.Instance == null || 
                 PlayerCamera.Instance == null ||
                 PlayerInventory.Instance == null ||
                 PlayerManager.Instance == null ||
                 Player.Local == null)
                 return;
-
 
             if (!setupComplete)
             {
@@ -85,7 +82,7 @@ namespace SkillTree.Core
 
             if (Input.GetKeyDown(ConfigManager.MenuHotkey.GetValue()))
             {
-                OnOpenKeyPressed.Invoke();
+                OnOpenKeyPressed?.Invoke();
             }
 
             if (Cursor.lockState != CursorLockMode.None)
@@ -113,16 +110,17 @@ namespace SkillTree.Core
                 NPCPatches.Reset();
                 SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
-                S1API.Leveling.LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
-                S1API.GameTime.TimeManager.OnDayPass -= SkillActive.ResetSkillCooldowns;
+                LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
+                TimeManager.OnDayPass -= SkillActive.ResetSkillCooldowns;
                 OnOpenKeyPressed = null;
+                SkillPoints.OnSkillPointsChanged = null;
             }
 
             if (sceneName == "Main")
             {
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
-                S1API.Leveling.LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
-                S1API.GameTime.TimeManager.OnDayPass += SkillActive.ResetSkillCooldowns;
+                LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
+                TimeManager.OnDayPass += SkillActive.ResetSkillCooldowns;
                 if (ConfigManager.ResetSkills.GetValue())
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
@@ -145,82 +143,6 @@ namespace SkillTree.Core
             {
                 MelonCoroutines.Start(DelayedSetup());
             }
-        }
-
-        public static (int, int, int, int) GetExpectedPointTotals()
-        {
-            int currentRank = (int)LevelManager.Instance.Rank;
-            int currentTier = LevelManager.Instance.Tier - 1;
-
-            int maxPointsPossible = currentRank * 7 + currentTier;
-            int nonSpecialPoints = maxPointsPossible - currentRank;
-
-            int stats = 0; 
-            int operations = 0;
-            int social = 0;
-            int special = currentRank;
-
-            for (int i = 0; i < nonSpecialPoints; i++)
-            {
-                int mod = i % 3;
-                switch (mod)
-                {
-                    case 0:
-                        stats++;
-                        break;
-                    case 1:
-                        operations++;
-                        break;
-                    case 2:
-                        social++;
-                        break;
-                }
-            }
-            return (stats, operations, social, special);
-        }
-
-        private static void ValidateTotalSkillPoints()
-        {
-            var (statsExpected, operationsExpected, socialExpected, specialExpected) = GetExpectedPointTotals();
-            var (statsSpent, operationsSpent, socialSpent, specialSpent) = SkillTreeData.GetCategoryPointsSpent();
-
-            int expectedTotal = statsExpected + operationsExpected + socialExpected + specialExpected;
-            int pointsSpent = statsSpent + operationsSpent + socialSpent + specialSpent;
-            int pointsRemaining = SkillPoints.StatsPoints + SkillPoints.OperationsPoints + SkillPoints.SocialPoints + SkillPoints.SpecialPoints;
-
-            MelonLogger.Msg($"Expected: Stats {statsExpected} | Operations {operationsExpected} | Social {socialExpected} | Special {specialExpected} | Total {expectedTotal}");
-            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent} | Total {pointsSpent}");
-            MelonLogger.Msg($"Left:     Stats {SkillPoints.StatsPoints} | Operations {SkillPoints.OperationsPoints} | Social {SkillPoints.SocialPoints} | Special {SkillPoints.SpecialPoints} | Total {pointsRemaining}");
-
-            if (expectedTotal < pointsSpent + pointsRemaining)
-            {
-                MelonLogger.Warning($"Current character is below the expected level for this save file or save file is corrupt, resetting save data. Expected Total: {expectedTotal} | Actual Total: {pointsSpent + pointsRemaining}.");
-                SaveManager.LoadDefaultValues();
-                return;
-            }
-
-            int missingStats = statsExpected - (statsSpent + SkillPoints.StatsPoints);
-            int missingOperations = operationsExpected - (operationsSpent + SkillPoints.OperationsPoints);
-            int missingSocial = socialExpected - (socialSpent + SkillPoints.SocialPoints);
-            int missingSpecial = specialExpected - (specialSpent + SkillPoints.SpecialPoints);
-
-            if (missingStats != 0)
-            {
-                MelonLogger.Warning($"Adjusting Stats points by {missingStats}");
-            }
-            if (missingOperations != 0)
-            {
-                MelonLogger.Warning($"Adjusting Operations points by {missingOperations}");
-            }
-            if (missingSocial != 0)
-            {
-                MelonLogger.Warning($"Adjusting Social points by {missingSocial}");
-            }
-            if (missingSpecial != 0)
-            {
-                MelonLogger.Warning($"Adjusting Special points by {missingSpecial}");
-            }
-            SkillPoints.AddSkillPoints(missingStats, missingOperations, missingSocial, missingSpecial);
         }
     }
 }

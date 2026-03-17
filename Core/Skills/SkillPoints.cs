@@ -1,9 +1,9 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using S1API.Leveling;
 using SkillTree.Core.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -15,6 +15,7 @@ namespace SkillTree.Core.Skills
         public static int OperationsPoints { get; private set; } = 0;
         public static int SocialPoints { get; private set; } = 0;
         public static int SpecialPoints { get; private set; } = 0;
+        public static Action OnSkillPointsChanged;
 
         public static void ConsumeSkillPoints(SkillCategory category, int amount)
         {
@@ -33,6 +34,7 @@ namespace SkillTree.Core.Skills
                     SpecialPoints -= amount;
                     break;
             }
+            OnSkillPointsChanged?.Invoke();
         }
 
         public static void AddSkillPoints(int stats, int ops, int social, int special)
@@ -41,6 +43,7 @@ namespace SkillTree.Core.Skills
             OperationsPoints += ops;
             SocialPoints += social;
             SpecialPoints += special;
+            OnSkillPointsChanged?.Invoke();
         }
 
         public static void AddSkillPoint(SkillCategory category)
@@ -77,6 +80,7 @@ namespace SkillTree.Core.Skills
                     $"<color=#16F01C>+1 Special point</color>", IconManager.LoadSprite(IconManager.IconSpecial));
                     break;
             }
+            OnSkillPointsChanged?.Invoke();
         }
 
         public static void ProcessLevelUp(FullRank previousRank, FullRank currentRank)
@@ -150,6 +154,83 @@ namespace SkillTree.Core.Skills
                 default:
                     return 0;
             }
+        }
+
+        public static (int, int, int, int) GetExpectedPointTotals()
+        {
+            int currentRank = (int)LevelManager.Rank;
+            int currentTier = LevelManager.Tier - 1;
+
+            int maxPointsPossible = currentRank * 7 + currentTier;
+            int nonSpecialPoints = maxPointsPossible - currentRank;
+
+            int stats = 0;
+            int operations = 0;
+            int social = 0;
+            int special = currentRank;
+
+            for (int i = 0; i < nonSpecialPoints; i++)
+            {
+                int mod = i % 3;
+                switch (mod)
+                {
+                    case 0:
+                        stats++;
+                        break;
+                    case 1:
+                        operations++;
+                        break;
+                    case 2:
+                        social++;
+                        break;
+                }
+            }
+            return (stats, operations, social, special);
+        }
+
+        public static void ValidateTotalSkillPoints()
+        {
+            var (statsExpected, operationsExpected, socialExpected, specialExpected) = GetExpectedPointTotals();
+            var (statsSpent, operationsSpent, socialSpent, specialSpent) = SkillTreeData.GetCategoryPointsSpent();
+
+            int expectedTotal = statsExpected + operationsExpected + socialExpected + specialExpected;
+            int pointsSpent = statsSpent + operationsSpent + socialSpent + specialSpent;
+            int pointsRemaining = StatsPoints + OperationsPoints + SocialPoints + SpecialPoints;
+
+            MelonLogger.Msg($"Expected: Stats {statsExpected} | Operations {operationsExpected} | Social {socialExpected} | Special {specialExpected} | Total {expectedTotal}");
+            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent} | Total {pointsSpent}");
+            MelonLogger.Msg($"Left:     Stats {StatsPoints} | Operations {OperationsPoints} | Social {SocialPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
+
+            if (expectedTotal < pointsSpent + pointsRemaining)
+            {
+                MelonLogger.Warning($"Current character is below the expected level for this save file or save file is corrupt, resetting save data. Expected Total: {expectedTotal} | Actual Total: {pointsSpent + pointsRemaining}.");
+                SaveManager.LoadDefaultValues();
+                ValidateTotalSkillPoints();
+                return;
+            }
+
+            int missingStats = statsExpected - (statsSpent + StatsPoints);
+            int missingOperations = operationsExpected - (operationsSpent + OperationsPoints);
+            int missingSocial = socialExpected - (socialSpent + SocialPoints);
+            int missingSpecial = specialExpected - (specialSpent + SpecialPoints);
+
+            if (missingStats != 0)
+            {
+                MelonLogger.Warning($"Adjusting Stats points by {missingStats}");
+            }
+            if (missingOperations != 0)
+            {
+                MelonLogger.Warning($"Adjusting Operations points by {missingOperations}");
+            }
+            if (missingSocial != 0)
+            {
+                MelonLogger.Warning($"Adjusting Social points by {missingSocial}");
+            }
+            if (missingSpecial != 0)
+            {
+                MelonLogger.Warning($"Adjusting Special points by {missingSpecial}");
+            }
+            AddSkillPoints(missingStats, missingOperations, missingSocial, missingSpecial);
         }
 
         public static Dictionary<string, int> GetSaveData()

@@ -80,7 +80,7 @@ namespace SkillTree.Core.Utilities
 
                 if (!File.Exists(path))
                 {
-                    MelonLogger.Msg($"[SkillTree] Skill data file not found: {path}");
+                    MelonLogger.Warning($"[SkillTree] Skill data file not found: {path}");
                     LoadDefaultValues();
                 }
                 else
