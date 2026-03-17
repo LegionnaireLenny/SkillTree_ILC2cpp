@@ -35,7 +35,7 @@ namespace SkillTree.Core.Skills
             OnLevelUp = onLevelUp;
         }
 
-        public bool IsParentMaxLevel()
+        public bool IsParentNullOrMaxLevel()
         {
             if (Parent == null)
             {
@@ -62,7 +62,7 @@ namespace SkillTree.Core.Skills
 
         private bool IsLevelUpValid()
         {
-            if (!IsParentMaxLevel())
+            if (!IsParentNullOrMaxLevel())
             {
                 MelonLogger.Msg($"Parent skill {Parent.Name} is not unlocked");
                 return false;
@@ -85,7 +85,7 @@ namespace SkillTree.Core.Skills
 
         public int GetPointsToLevelBranch()
         {
-            if (IsParentMaxLevel())
+            if (IsParentNullOrMaxLevel())
             {
                 return MaxLevel - CurrentLevel;
             }
@@ -95,7 +95,7 @@ namespace SkillTree.Core.Skills
 
         public void UnlockParents()
         {
-            if (IsParentMaxLevel())
+            if (IsParentNullOrMaxLevel())
             {
                 LevelToMax();
             }
@@ -108,15 +108,21 @@ namespace SkillTree.Core.Skills
 
         public bool LevelAndUnlockParents()
         {
-            int pointsNeeded = GetPointsToLevelBranch();
+            if (IsParentNullOrMaxLevel())
+            {
+                //MelonLogger.Msg($"Parent: {Parent?.Name} {Parent?.CurrentLevel}/{Parent?.MaxLevel} | Current: {Name} {CurrentLevel}/{MaxLevel}");
+                IncreaseLevel();
+                return true;
+            }
+
+            int pointsNeeded = Parent.GetPointsToLevelBranch() + 1;
             int pointsAvailable = SkillPoints.GetPointsAvailable(Category);
 
             //MelonLogger.Msg($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}");
             if (pointsNeeded <= pointsAvailable)
             {
-                Parent?.UnlockParents();
+                Parent.UnlockParents();
                 IncreaseLevel();
-                //MelonLogger.Msg($"Unlocked parents and leveled {Name}");
                 return true;
             }
             else

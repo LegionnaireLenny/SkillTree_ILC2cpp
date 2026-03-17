@@ -307,10 +307,6 @@ namespace SkillTree.Core.App
                 if (ConfigManager.AutoUnlockPrerequisites.GetValue())
                 {
                     updateNeeded = _selectedSkill.Skill.LevelAndUnlockParents();
-                    if (!updateNeeded)
-                    {
-                        updateNeeded = _selectedSkill.Skill.IncreaseLevel();
-                    }
                 }
                 else
                 {
@@ -402,7 +398,7 @@ namespace SkillTree.Core.App
             {
                 // Build the set of edges that would be auto-unlocked if the selected skill is leveled
                 var highlightEdges = new HashSet<(Skill, Skill)>();
-                if (_selectedSkill != null && !_selectedSkill.Skill.IsParentMaxLevel() &&
+                if (_selectedSkill != null && !_selectedSkill.Skill.IsParentNullOrMaxLevel() &&
                     ConfigManager.AutoUnlockPrerequisites.GetValue())
                 {
                     var current = _selectedSkill.Skill;
@@ -445,7 +441,7 @@ namespace SkillTree.Core.App
         {
             if (skill == null) return null;
             if (!ConfigManager.AutoUnlockPrerequisites.GetValue()) return null;
-            if (skill.IsParentMaxLevel()) return null;
+            if (skill.IsParentNullOrMaxLevel()) return null;
             if (skill.IsMaxLevel()) return null;
 
             var chain = new List<string>();
@@ -813,13 +809,13 @@ namespace SkillTree.Core.App
             if (isSelected)
             {
                 if (skill.IsMaxLevel()) return ColorMaxLevelSkillSelected;
-                if (skill.IsParentMaxLevel()) return ColorUnlockedSkillSelected;
+                if (skill.IsParentNullOrMaxLevel()) return ColorUnlockedSkillSelected;
                 return ColorLockedSkillSelected;
             }
             else
             {
                 if (skill.IsMaxLevel()) return ColorMaxLevelSkill;
-                if (skill.IsParentMaxLevel()) return ColorUnlockedSkill;
+                if (skill.IsParentNullOrMaxLevel()) return ColorUnlockedSkill;
                 return ColorLockedSkill;
             }
         }
