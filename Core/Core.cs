@@ -25,7 +25,7 @@ namespace SkillTree.Core
     {
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
-
+        public static Action OnOpenKeyPressed;
 
         public override void OnInitializeMelon()
         {
@@ -86,7 +86,7 @@ namespace SkillTree.Core
 
             if (Input.GetKeyDown(ConfigManager.MenuHotkey.GetValue()))
             {
-                SkillTreeApp.OnOpenKeyPressed.Invoke();
+                OnOpenKeyPressed.Invoke();
             }
 
             if (Cursor.lockState != CursorLockMode.None)
@@ -116,6 +116,7 @@ namespace SkillTree.Core
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 S1API.Leveling.LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
                 S1API.GameTime.TimeManager.OnDayPass -= SkillActive.ResetSkillCooldowns;
+                OnOpenKeyPressed = null;
             }
 
             if (sceneName == "Main")

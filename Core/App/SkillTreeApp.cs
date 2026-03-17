@@ -88,8 +88,6 @@ namespace SkillTree.Core.App
 
         private static TMP_FontAsset _cachedFont;
 
-        public static Action OnOpenKeyPressed;
-
         public void Open()
         {
             if (PauseMenu.instance.IsPaused) return;
@@ -122,7 +120,6 @@ namespace SkillTree.Core.App
         protected override void OnCreatedUI(GameObject container)
         {
             AcquireFont();
-
             var mainPanel = CreatePanel("MainPanel", container.transform, ColorBackground,
                 Vector2.zero, Vector2.one);
 
@@ -355,8 +352,8 @@ namespace SkillTree.Core.App
             ButtonUtils.AddListener(catSpecialBtn, () =>
                 SwitchCategory(nodesSpecial, specialContainer, catSpecialGO, SkillCategory.Special));
 
-            OnOpenKeyPressed += Open;
-            OnOpenKeyPressed += UpdateCategoryText;
+            Core.OnOpenKeyPressed += Open;
+            Core.OnOpenKeyPressed += UpdateCategoryText;
             LevelManager.OnRankUp += UpdateOnRankUp;
 
             // === LOCAL FUNCTIONS ===
