@@ -5,7 +5,6 @@ using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using S1API.Lifecycle;
 using SkillTree.Core;
-using SkillTree.Core.App;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
@@ -16,7 +15,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.5.1", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.5.2", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
