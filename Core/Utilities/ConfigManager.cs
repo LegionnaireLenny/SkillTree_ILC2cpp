@@ -77,21 +77,25 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> BaseWeeklyDepositLimit { get; set; }
         public static ConfigEntry<int>   BaseMaxCustomer { get; set; }
         public static ConfigEntry<int>   BaseDeadDropItemLimit { get; set; }
+        public static ConfigEntry<int>   BaseTrashGrabberBinSize { get; set; }
+        public static ConfigEntry<float> TrashGrabberBinSizeBonus { get; set; }
+        public static ConfigEntry<float> TrashPickupRadius { get; set; }
+        public static ConfigEntry<float> TrashPickupRadiusBonus { get; set; }
+        public static ConfigEntry<int>   TrashValueBonus { get; set; }
+        public static ConfigEntry<float> PawnPriceBonus { get; set; }
         public static ConfigEntry<float> ATMDepositBonus { get; set; }
         public static ConfigEntry<float> CustomerSampleAcceptBonus { get; set; }
         public static ConfigEntry<float> CustomerCashBonus { get; set; }
         public static ConfigEntry<int>   DealerCustomerLimitBonus { get; set; }
         public static ConfigEntry<float> DealerCutReduction { get; set; }
         public static ConfigEntry<float> DealerSpeedBonus { get; set; }
-        public static ConfigEntry<int>   TrashValueBonus { get; set; }
-        public static ConfigEntry<float> PawnPriceBonus { get; set; }
         public static ConfigEntry<float> SupplierCashBonus { get; set; }
         public static ConfigEntry<float> SupplierItemBonus { get; set; }
         public static ConfigEntry<float> LaunderingBonus { get; set; }
 
         private static MelonPreferences_Category Special { get; set; }
-        public static ConfigEntry<int> BaseMaxChemistStations { get; set; }
-        public static ConfigEntry<int> BaseMaxBotanistStations { get; set; }
+        public static ConfigEntry<int>   BaseMaxChemistStations { get; set; }
+        public static ConfigEntry<int>   BaseMaxBotanistStations { get; set; }
         public static ConfigEntry<float> PoliceKilledBonus { get; set; }
         public static ConfigEntry<float> CartelKilledBonus { get; set; }
         public static ConfigEntry<float> BloodRushRegenDelayMultiplier { get; set; }
@@ -102,7 +106,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> SiphonFundsOwnedBusinessBonus { get; set; }
         public static ConfigEntry<float> BotanistActionSpeedBonus { get; set; }
         public static ConfigEntry<float> EmployeeMoveSpeedBonus { get; set; }
-        public static ConfigEntry<int> EmployeeStationBonus { get; set; }
+        public static ConfigEntry<int>   EmployeeStationBonus { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -164,6 +168,10 @@ namespace SkillTree.Core.Utilities
             BaseWeeklyDepositLimit = new ConfigEntry<float>(Social, "SkillTree_BaseWeeklyDepositLimit", ATM.WEEKLY_DEPOSIT_LIMIT, "Base Weekly ATM Deposit Limit");
             BaseMaxCustomer = new ConfigEntry<int>(Social, "SkillTree_BaseMaxCustomer", Dealer.MAX_CUSTOMERS, "Base Max Customers for Dealers");
             BaseDeadDropItemLimit = new ConfigEntry<int>(Social, "SkillTree_BaseDeadDropItemLimit", Supplier.DEADDROP_ITEM_LIMIT, "Base Deaddrop Item Limit");
+            BaseTrashGrabberBinSize = new ConfigEntry<int>(Social, "SkillTree_BaseTrashGrabberBinSize", 20, "Base Trash Grabber Bin Size");
+            TrashGrabberBinSizeBonus = new ConfigEntry<float>(Social, "SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service - Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier");
+            TrashPickupRadius = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadius", 0.45f, "Community Service - Trash Grabber Pickup Radius");
+            TrashPickupRadiusBonus = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadiusBonus", 1f, "Community Service - Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
             TrashValueBonus = new ConfigEntry<int>(Social, "SkillTree_TrashValueBonus", 1, "Sacar La Basura - Trash Value Bonus");
             PawnPriceBonus = new ConfigEntry<float>(Social, "SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura - Pawn Price Bonus");
             ATMDepositBonus = new ConfigEntry<float>(Social, "SkillTree_ATMDepositBonus", 2000f, "Hoard the Wealth - ATM Deposit Limit Bonus");

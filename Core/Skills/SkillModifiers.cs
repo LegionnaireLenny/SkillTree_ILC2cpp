@@ -172,6 +172,21 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.DealerCutLess.CurrentLevel * DealerCutReduction.GetValue();
         }
 
+        public static int GetGrabberBinSize()
+        {
+            return Mathf.RoundToInt(BaseTrashGrabberBinSize.GetValue() * (1 + SkillTreeData.CommunityService.CurrentLevel * TrashGrabberBinSizeBonus.GetValue()));
+        }
+
+        public static float GetGrabberPickupRadius()
+        {
+            return TrashPickupRadius.GetValue() * GetGrabberPickupRadiusMultiplier();
+        }
+
+        public static float GetGrabberPickupRadiusMultiplier()
+        {
+            return (1 + SkillTreeData.CommunityService.CurrentLevel * TrashPickupRadiusBonus.GetValue());
+        }
+
         public static float GetPawnPriceMultiplier()
         {
             return 1 + (SkillTreeData.SacarLaBasura.CurrentLevel * PawnPriceBonus.GetValue());

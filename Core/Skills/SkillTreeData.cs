@@ -34,7 +34,8 @@ namespace SkillTree.Core.Skills
         public static Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Operations, 1, 0, MoreYield, []);
 
         public static Skill Social = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Social, 1, 0, null, []);
-        public static Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Social, 2, 0, Social, [], [Patches.Operations.TrashPatches.IncreaseTrashValue]);
+        public static Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items", SkillCategory.Social, 1, 0, Social, [], []);
+        public static Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Social, 2, 0, CommunityService, [], [Patches.Operations.TrashPatches.IncreaseTrashValue]);
         public static Skill CityEvolving = new("Spread the Wealth", "Increase citizens' weekly spending limits by 10% per level", SkillCategory.Social, 2, 0, Social, [], [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
         public static Skill MoreATMLimit = new("Hoard the Wealth", "Increase ATM deposit limit by $2000 per level", SkillCategory.Social, 2, 0, Social, []);
         public static Skill BusinessEvolving = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Social, 2, 0, MoreATMLimit, [], [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
@@ -87,6 +88,7 @@ namespace SkillTree.Core.Skills
 
         public static readonly HashSet<Skill> SocialTree = [
             Social, 
+            CommunityService,
             SacarLaBasura,
             CityEvolving, 
             MoreATMLimit, 
