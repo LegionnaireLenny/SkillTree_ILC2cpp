@@ -10,7 +10,7 @@ namespace SkillTree.Core.Skills
         public string Description;
         public SkillCategory Category;
         public int MaxLevel;
-        public int CurrentLevel;
+        public int CurrentLevel = 0;
         public Skill Parent;
         public List<Skill> Children;
         public Action[] OnLevelUp;
@@ -20,18 +20,14 @@ namespace SkillTree.Core.Skills
             string description,
             SkillCategory category,
             int maxLevel,
-            int currentLevel,
             Skill parent,
-            List<Skill> children,
             Action[] onLevelUp = null)
         {
             Name = name;
             Description = description;
             Category = category;
             MaxLevel = maxLevel;
-            CurrentLevel = currentLevel;
             Parent = parent;
-            Children = children;
             OnLevelUp = onLevelUp;
         }
 
