@@ -25,7 +25,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
             }
 
             int payoutInterval = ConfigManager.TrickleDownPayoutInterval.GetValue() * 60;
-            float payoutPercentage = ConfigManager.TrickleDownPayoutInterval.GetValue() / 24;
+            float payoutPercentage = (float)ConfigManager.TrickleDownPayoutInterval.GetValue() / 24f;
 
             for (int i = 0; i < __instance.LaunderingOperations.Count; i++)
             {
