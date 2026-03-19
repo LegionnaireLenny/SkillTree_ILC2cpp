@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
+using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Miscellaneous
@@ -11,51 +14,57 @@ namespace SkillTree.Core.Patches.Miscellaneous
     [HarmonyPatch]
     public static class BusinessPatchesBase
     {
-        // Handles the progression of minutes and partial payments every 4 hours (240 mins)
+        // Handles the progression of minutes and partial payments every user-defined interval (default 6 hours)
         [HarmonyPatch(typeof(Business), "MinsPass")]
         [HarmonyPrefix]
         public static bool Prefix_MinsPass(Business __instance, int mins)
         {
-            string pName = __instance.propertyName;
+            if (SkillTreeData.TrickleDown.CurrentLevel == 0)
+            {
+                return true;
+            }
+
+            int payoutInterval = ConfigManager.TrickleDownPayoutInterval.GetValue() * 60;
+            float payoutPercentage = ConfigManager.TrickleDownPayoutInterval.GetValue() / 24;
 
             for (int i = 0; i < __instance.LaunderingOperations.Count; i++)
             {
-                var op = __instance.LaunderingOperations[i];
-                int oldMins = op.minutesSinceStarted;
-                op.minutesSinceStarted += mins;
+                var operation = __instance.LaunderingOperations[i];
+                int oldMins = operation.minutesSinceStarted;
+                operation.minutesSinceStarted += mins;
 
-                if (op.minutesSinceStarted < op.completionTime_Minutes)
+                if (operation.minutesSinceStarted < operation.completionTime_Minutes)
                 {
-                    int oldInterval = oldMins / 240;
-                    int newInterval = op.minutesSinceStarted / 240;
+                    int oldInterval = oldMins / payoutInterval;
+                    int newInterval = operation.minutesSinceStarted / payoutInterval;
 
                     if (newInterval > oldInterval)
                     {
-                        float installment = Mathf.Ceil(op.amount / 6f);
+                        float installment = Mathf.Ceil(operation.amount * payoutPercentage);
 
-                        if (Il2CppFishNet.InstanceFinder.IsServer)
+                        if (InstanceFinder.IsServer)
                         {
                             NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
-                                $"Partial Laundering ({pName})",
+                                $"Partial Laundering ({__instance.propertyName})",
                                 installment, 1f, string.Empty);
 
-                            MelonLogger.Msg($"[LaunderingMod] Partial payout of {installment} processed for {pName}");
+                            MelonLogger.Msg($"[LaunderingMod] Partial payout of {installment} processed for {__instance.propertyName}");
                         }
 
                         Singleton<NotificationsManager>.Instance.SendNotification(
-                            pName,
+                            __instance.propertyName,
                             $"<color=#16F01C>{MoneyManager.FormatAmount(installment)}</color> Laundered (Partial)",
                             NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
                     }
                 }
 
-                if (op.minutesSinceStarted >= op.completionTime_Minutes)
+                if (operation.minutesSinceStarted >= operation.completionTime_Minutes)
                 {
-                    op.amount = op.amount / 6f;
+                    operation.amount *= payoutPercentage;
 
-                    __instance.CompleteOperation(op);
+                    __instance.CompleteOperation(operation);
 
-                    MelonLogger.Msg($"[LaunderingMod] Operation completed for {pName}. Final installment paid.");
+                    MelonLogger.Msg($"[LaunderingMod] Operation completed for {__instance.propertyName}. Final installment paid.");
                     i--;
                 }
             }

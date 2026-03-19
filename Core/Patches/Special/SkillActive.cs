@@ -16,12 +16,14 @@ namespace SkillTree.Core.Patches.Special
         private static bool GoodSamaritanUsed = false;
         private static bool BloodRushUsed = false;
         private static bool SiphonFundsUsed = false;
+        private static bool TrickleDownUsed = false;
 
         public static void ResetSkillCooldowns()
         {
             GoodSamaritanUsed = false;
             BloodRushUsed = false;
             SiphonFundsUsed = false;
+            TrickleDownUsed = false;
             Singleton<NotificationsManager>.Instance?.SendNotification(
                 "A New Day Dawns",
                 "Cooldowns Reset",
@@ -141,8 +143,48 @@ namespace SkillTree.Core.Patches.Special
                                 "Siphon Funds",
                                 $"<color=#54E717>{MoneyManager.FormatAmount(totalCash)}</color> and <color=#4CBFFF>{MoneyManager.FormatAmount(totalOnlineBalance)}</color>",
                                 IconManager.LoadSprite(IconManager.IconCash));
-
                 SiphonFundsUsed = true;
+            }
+        }
+
+        public static void TrickleDownEconomics()
+        {
+            if (TrickleDownUsed)
+                Singleton<NotificationsManager>.Instance.SendNotification(
+                                "Trickle-Down on Cooldown",
+                                "<color=#FF0000>Wait one day</color>",
+                                IconManager.LoadSprite(IconManager.IconWashingMachine));
+            else
+            {
+                float moneyToLaunder = S1API.Money.Money.GetCashBalance() - ConfigManager.TrickleDownCashReserve.GetValue();
+
+                if (moneyToLaunder <= 0)
+                {
+                    Singleton<NotificationsManager>.Instance.SendNotification(
+                                    "Trickle-Down Economics",
+                                    $"<color=#FF0000>Cash does not exceed {MoneyManager.FormatAmount(ConfigManager.TrickleDownCashReserve.GetValue())} reserve</color>",
+                                    IconManager.LoadSprite(IconManager.IconWashingMachine));
+                    return;
+                }
+
+                foreach (var business in S1API.Property.BusinessManager.GetOwnedBusinesses())
+                {
+                    if (moneyToLaunder <= 0) break;
+
+                    if (business.AppliedLaunderLimit > 0)
+                    {
+                        float amount = business.AppliedLaunderLimit <= moneyToLaunder ? business.AppliedLaunderLimit : moneyToLaunder;
+                        business.AddLaunderingOperation(amount, 0);
+                        moneyToLaunder -= business.AppliedLaunderLimit;
+
+                        Singleton<NotificationsManager>.Instance.SendNotification(
+                                "Trickle-Down Economics",
+                                $"<color=#54E717>{MoneyManager.FormatAmount(amount)}</color> to {business.PropertyName}",
+                                IconManager.LoadSprite(IconManager.IconWashingMachine));
+                        MelonLogger.Msg($"Sent {MoneyManager.FormatAmount(amount)} to {business.PropertyName}");
+                        TrickleDownUsed = true;
+                    }
+                }
             }
         }
     }

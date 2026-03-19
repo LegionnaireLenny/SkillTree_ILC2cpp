@@ -692,5 +692,6 @@
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Special.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Stats.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_WashingMachine.png" />
 	</ItemGroup>
 </Project>

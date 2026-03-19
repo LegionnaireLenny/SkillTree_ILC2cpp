@@ -15,6 +15,7 @@ namespace SkillTree.Core.Utilities
         public static readonly string IconClock = "Icon_Clock.png";
         public static readonly string IconHeart = "Icon_Heart.png";
         public static readonly string IconTrashcan = "Icon_Trashcan.png";
+        public static readonly string IconWashingMachine = "Icon_WashingMachine.png";
         public static readonly string IconCash = "Icon_Cash.png";
         public static readonly string IconStats = "Icon_Stats.png";
         public static readonly string IconOperations = "Icon_Operations.png";
@@ -79,6 +80,7 @@ namespace SkillTree.Core.Utilities
             ExtractEmbeddedResource(IconDirectory, IconClock);
             ExtractEmbeddedResource(IconDirectory, IconHeart);
             ExtractEmbeddedResource(IconDirectory, IconTrashcan);
+            ExtractEmbeddedResource(IconDirectory, IconWashingMachine);
             ExtractEmbeddedResource(IconDirectory, IconCash);
             ExtractEmbeddedResource(IconDirectory, IconStats);
             ExtractEmbeddedResource(IconDirectory, IconOperations);

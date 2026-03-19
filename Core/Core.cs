@@ -95,6 +95,9 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
+
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillFour.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
+                    SkillActive.TrickleDownEconomics();
             }
         }
 

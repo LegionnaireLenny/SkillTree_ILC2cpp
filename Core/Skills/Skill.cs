@@ -12,7 +12,7 @@ namespace SkillTree.Core.Skills
         public int MaxLevel;
         public int CurrentLevel = 0;
         public Skill Parent;
-        public List<Skill> Children;
+        public List<Skill> Children = [];
         public Action[] OnLevelUp;
 
         public Skill(
