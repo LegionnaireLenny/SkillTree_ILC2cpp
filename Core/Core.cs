@@ -60,7 +60,7 @@ namespace SkillTree.Core
         private IEnumerator DelayedSetup()
         {
             yield return new WaitForSeconds(delayTime);
-            ItemUnlocker.UnlockSpecificItems();
+            ShopPatches.ChangeItemRankRequirements();
             SkillPoints.ValidateTotalSkillPoints();
             SaveManager.SaveFile();
             SkillTreeData.ApplyAllSkills();

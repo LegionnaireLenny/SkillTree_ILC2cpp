@@ -19,6 +19,7 @@
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
+		<Compile Include="Core\Patches\Miscellaneous\ContractPatches.cs" />
 		<Compile Include="Core\Patches\Social\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
@@ -31,7 +32,7 @@
 		<Compile Include="Core\Patches\Operations\QualityPatches.cs" />
 		<Compile Include="Core\Patches\Operations\QuantityPatches.cs" />
 		<Compile Include="Core\Patches\Operations\PlantPatches.cs" />
-		<Compile Include="Core\Patches\Miscellaneous\LaunderingPatch.cs" />
+		<Compile Include="Core\Patches\Special\LaunderingPatches.cs" />
 		<Compile Include="Core\Patches\Social\SupplierPatches.cs" />
 		<Compile Include="Core\Cache.cs" />
 		<Compile Include="Core\Patches\Social\BusinessPatches.cs" />

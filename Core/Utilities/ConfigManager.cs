@@ -118,6 +118,8 @@ namespace SkillTree.Core.Utilities
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
+        public static ConfigEntry<Color> ContractColorReady { get; set; }
+        public static ConfigEntry<Color> ContractColorNotReady { get; set; }
 
         private static MelonPreferences_Category Keybinds { get; set; }
         public static ConfigEntry<KeyCode> MenuHotkey { get; set; }
@@ -215,6 +217,8 @@ namespace SkillTree.Core.Utilities
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_00_UserSettings", "User Settings");
             AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_Auto_Unlock_Prerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
+            ContractColorReady = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReady_Color", new(0.2984f, 0.6226f, 0.2673f, 1f), "Contract Color: Ready", "Icon color for items that are within their deal time window");
+            ContractColorNotReady = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractNotReady_Color", new(0.6984f, 0.6226f, 0.4673f, 1f), "Contract Color: Not Ready", "Icon color for contracts that are outside their deal time window");
             UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             Keybinds = MelonPreferences.CreateCategory("SkillTree_01_Keybinds", "Keybindings");

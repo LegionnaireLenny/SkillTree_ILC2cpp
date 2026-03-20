@@ -1,0 +1,319 @@
+[b][color=#3d85c6][size=5]Credits and Source Code[/size][/color][/b]
+
+Original Author: reizor153 aka CrazyReizor
+Original Mod Page: [url=https://www.nexusmods.com/schedule1/mods/1420]https://www.nexusmods.com/schedule1/mods/1420[/url]
+Original IL2CPP Source Code: [url=https://github.com/AugustoCesarAC/SkillTree_ILC2cpp]https://github.com/AugustoCesarAC/SkillTree_ILC2cpp[/url]
+Forked Source Code: [url=https://github.com/LegionnaireLenny/SkillTree_ILC2cpp]https://github.com/LegionnaireLenny/SkillTree_ILC2cpp[/url]
+
+[b][center][color=#ff0000][size=5]Currently only the default version (IL2CPP) of the game is supported. 
+Mono is not supported and I do not have plans to implement support at the moment.[/size][/color][/center][/b]
+[size=5][b][color=#3d85c6]What's New in This Version[/color][/b][/size]
+
+Changes and Additions
+
+[list]
+[*]Significant parts of the code have been changed to be more compatible with future changes to the base game
+[*]The mod now supports reloading a save without restarting the game
+[*]Active skill keybinds are now user configurable
+[*]Switched user configuration to use MelonPreferences, meaning [url=https://www.nexusmods.com/schedule1/mods/1222?tab=files]ModsApp[/url]﻿ (recommended) and [url=https://www.nexusmods.com/schedule1/mods/397]Mod Manager - Phone App[/url]﻿ (potential conflict with older versions of S1API) are supported
+[*]Removed some restrictions on skills that were not mentioned in the tooltip
+[*]Gave all skills unique names related to their function and updated the tooltips for increased clarity/accuracy
+[*]Rearranged the skill tree a bit for a better sense of progression
+[/list]
+
+Bug Fixes
+
+[list]
+[*]Drying rack capacity now updates correctly (updates when rack is placed and when opening the rack, just in case)
+[*]The player no longer loses their move speed skill bonus when Energizing and Athletic effects wear off 
+[*]The skill menu now blocks player input while open. No more punching people by accident while picking skills
+[*]The skill menu can't be opened and active skills can't be used while other menus are open
+[*]Fixed crafting speed patches
+[*]Fixed (hopefully) cauldron patches
+[*]Fixed meth/cocaine quality patch
+[*]Employees no longer incorrectly state their shift is over when the player has the Employees24h skill
+[*]Probably some things I forgot. I made [i]a lot[/i] of changes.
+[/list]
+
+[b][color=#3d85c6][size=5]Leveling[/size][/color][/b]
+
+Skill points are earned every time a player levels up, and are divided into four categories: Stats, Operations, Social, and Special. 
+[b]Every level up[/b]: The player earns a skill point alternating between the Stats, Operations, and Social trees, in that order. 
+[b]Every rank up[/b]: The player earns a skill point in the Special tree and a bonus skill point in the Stats, Operations, or Social tree.
+
+[b]Stats[/b]: Grants bonuses to the player's base attributes, such as maximum health, increased XP gain, and movement speed.
+[b]Operations[/b]: Grants bonuses to crop cultivation and drug production.
+[b]Social[/b]: Grants bonuses to NPC interactions, player status, and financial transactions.
+[b]Special[/b]: Grants active skills and bonuses to employees
+
+[size=5][b][color=#3d85c6]Skill Trees[/color][/b][/size]
+
+All skill parameters are user configurable via [url=https://www.nexusmods.com/schedule1/mods/1222?tab=files]ModsApp[/url]﻿ (recommended) and [url=https://www.nexusmods.com/schedule1/mods/397]Mod Manager - Phone App[/url]﻿, or the [i]SkillTree_Config.cfg[/i] located at [i]Schedule 1\User Data\SkillTree_Config.cfg[/i]. Most settings don't have any limits, aside from the few that are much more likely to break things. Reload the save after making changes for them to apply.
+
+Category: Stats
+[list]
+[*][b]Hardy[/b]: You can survive injuries that would kill lesser people. Your maximum health is increased by 20
+[list]
+[*][b]Battle-scarred[/b]: Not even the most greivous wounds have kept you down for long. You regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%
+[*][b]Ghost[/b]: You always stay low-profile and apply a light touch. Your visibility is reduced by 25% and pickpocketing items is much easier.
+[list]
+[*][b]Slippery[/b]: You're an expert at keeping out of reach and breaking the tightest grips. Reduces police arrest radius by 25% and increases time until arrested by 100%
+[/list]
+[*][b]Fleet Feet[/b]: Increase movespeed by 15%
+[list]
+[*][b]Spring-Heeled[/b]: Increase max stamina by 30% and jump height by 35%
+[/list]
+[*][b]Prison Wallet[/b]: Double item stack size
+[*][b]Crystal Ball[/b]: See the chance of a customer accepting a counteroffer
+[*][b]Circadian Mastery[/b]: You have achieved complete mastery of your sleep cycle. You are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period. Plants only grow at 33% of their normal speed when time is skipped.
+[*][b]Fast Learner[/b]: Increase XP gain by 5%
+[list]
+[*][b]Turbo Nerdo[/b]: Increase XP gain by an additional 5%
+[*][b]Kingpin[/b]: Gain 5% of a drug sale's value as bonus XP
+[/list]
+[/list]
+[/list]
+
+Category: Operations
+[list]
+[*][b]Pitchin' a Tent[/b]: Increase quality of plants in grow tents by 16%
+[list]
+[*][b]Advanced Pot Techniques[/b]: Rank 1: Increase plant quality for all pots by 15%. Rank 2: Increase plant quality for air pots by an additional 20%
+[list]
+[*][b]Harder and Stronger[/b]: Meth and cocaine quality increased by 1
+[*][b]Mushroomancer[/b]: Increase mushroom quality by 15%
+[/list]
+[*][b]Wet-Ass Plants[/b]: Moisture drains 50% slower for all grow containers
+[list]
+[*][b]Absorbent Soil[/b]: Soil additives last until the soil is depleted
+[/list]
+[*][b]Green Thumb[/b]: Increase plant and mushroom growth speed 2.5%
+[list]
+[*][b]Plant Whisperer[/b]: Increase plant and mushroom growth speed by an additional 2.5%
+[*][b]Quick Crafter[/b]: Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations
+[/list]
+[*][b]Bountiful Harvest[/b]: Increase base yield of plants by 1
+[list]
+[*][b]Crankin' One Out[/b]: Double the production capacity of mixing stations and drying racks
+[*][b]Witch's Brew[/b]: Double the cauldron's output
+[/list]
+[/list]
+[/list]
+
+Category: Social
+[list]
+[*][b]Silver Tongued Devil[/b]: Increase chance a potential customer will accept a free sample by 5%
+[list]
+[*][b]Community Service[/b]: Through your experience in gathering trash, you've become more adept at picking up and storing trash. Trash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items
+[list]
+[*][b]Sacar La Basura[/b]: You have the uncanny ability to convince people that your trash is their treasure. Trash is worth $1 more per level and pawned items are worth 25% more per level
+[/list]
+[*][b]Spread the Wealth[/b]: Increase citizens' weekly spending limits by 10%
+[*][b]Hoard the Wealth[/b]: Increase ATM deposit limit by $2000
+[list]
+[*][b]Squeaky Clean[/b]: Increase money laundering capacity by 30%
+[/list]
+[*][b]Informant[/b]: Police are shown on the map
+[list]
+[*][b]Spymaster[/b]: Benzies are shown on the map
+[/list]
+[*][b] Reliable Business Partner[/b]: Increase dead drop order limit by 67.5% and item limit by 50%
+[list]
+[*][b]Speed Dial[/b]: Reduces delivery time. Minimum: 60 minutes -> 30 minutes | Maximum: 6 hours -> 2 hours
+[/list]
+[*][b] Expansive Empire[/b]: Increase dealer's customer limit by 2
+[list]
+[*][b]Wage Garnishment[/b]: Decrease dealer's cut by 5%
+[*][b]Motivational Leader[/b]: Double the movespeed of dealers
+[/list]
+[/list]
+[/list]
+
+Category: Special
+[list]
+[*][b]Good Samaritan[/b]: Once per day, destroy all trash on the map and gain 100% of the sell value as online balance
+[list]
+[*][b]Blood Rush[/b]: Active ability: Once per day, fully restore health and gain the Blood Rush effect for 60 seconds. Passive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health. While the Blood Rush effect is active, the cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)
+[*][b]Siphon Funds[/b]: Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.
+[*][b]Trickle-down Economics[/b]: Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve. Laundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours
+[*][b]Fast Farmers[/b]: Botanists perform all actions twice as fast
+[*][b]Sweatshop[/b]: Employees don't stop at 4 AM
+[list]
+[*][b]RUN BITCH RUN![/b]: Employees move 3 times faster
+[*][b]Over Worked and Underpaid[/b]: Increase station assignment limit for botanists and chemists by 2
+[/list]
+[/list]
+[/list]
+
+[color=#3d85c6][size=5][b]Base Feature Changes[/b][/size][/color]
+
+Hardware Store Additions (with increased price):
+[list]
+[*]Plastic Pot ($50)
+[*]Moisture Preserving Pot ($125)
+[*]Air Pot ($300)
+[*]Suspension Rack ($100)
+[*]Halogen Grow Light ($100)
+[*]LED Grow Light ($200)
+[*]Drying Rack ($400)
+[/list]
+New Rank Requirements
+[list]
+[*]Plastic Pot: Street Rat V
+[*]Moisture Preserving Pot: Hoodlum III
+[*]Air Pot: Peddler V
+[*]Suspension Rack: Street Rat V
+[*]Halogen Grow Light: Street Rat V
+[*]LED Grow Light: Hoodlum III
+[*]Drying Rack: Hoodlum V
+[*]Brick Press: Bagman I
+[/list]
+Laundering Changes:
+[list]
+[*]Payments are now sent every 4 hours. (e.g., Laundering 2,000 pays out 334 six times a day).
+[/list]
+
+[color=#3d85c6][size=5][b]Default Keybinds[/b][/size][/color]
+[list]
+[*]Open Skill Tree Menu: Backquote (the ` ~ key most likely by your 1 key)
+[*]Level Selected Skill Hotkey: Space
+[*]Activate Skill One "Good Samaritan": F1
+[*]Activate Skill Two "Blood Rush": F2
+[*]Activate Skill Three "Siphon Funds": F3
+[/list]
+
+[b][color=#3d85c6][size=5]Installation[/size][/color][/b][list]
+[*]Install [url=https://melonwiki.xyz/]MelonLoader[/url]﻿﻿ version 0.7.0 or 0.7.2
+[*](Version 2.1.5 and later) Install the latest version of [url=https://www.nexusmods.com/schedule1/mods/1194?tab=files]S1API (Forked)[/url]﻿
+[*]Place [i]SkillTree_IL2cpp.dll[/i] in the [i]Schedule I/Mods[/i] folder
+[/list]
+
+[size=5][b][color=#3d85c6]Plans[/color][/b][/size]
+
+These are only ideas I'm considering, no guarantees they'll be added
+[b]New Skills[/b]
+
+Stats
+[list]
+[*]Taser resistance
+[*]More melee damage
+[/list]
+Operations
+Social
+[list]
+[*]Increase customers' minimum and maximum orders per week
+[/list]
+Special
+[list]
+[*]Bullet-time
+[/list]
+
+[b]Other Changes[/b]
+[list]
+[*]Tweak/remove shop injection patches
+[*]Tweak gradual laundering patch for compatibility
+[*]Tweak ATM patches for compatibility
+[/list]
+
+[b][color=#3d85c6][size=5]Compatibility[/size][/color][/b]
+
+[b][color=#ff0000]Incompatible[/color][/b] - Core functionality will break
+[list]
+[*][url=https://www.nexusmods.com/schedule1/mods/1367]No More ATM Limits[/url]﻿ (and other mods that disable ATM deposit limits)
+[/list]
+
+[b][color=#ff7700]Partially Incompatible[/color][/b] - Overlapping mod functionality causes unexpected issues
+[list]
+[*][url=https://www.nexusmods.com/schedule1/mods/1028]ProduceMore[/url]
+[*][url=https://thunderstore.io/c/schedule-i/p/XO_WithSauce/NACops_IL2CPP/]NACops[/url]﻿
+[list]
+[*][b]To fix the Slippery skill[/b]: In [i]Mods\NACops\officer.json﻿[/i], change [b]"OverrideArresting": true[/b] to [b]"OverrideArresting": false[/b], then in the SkillTree mod options change [b]Base Arrest Time[/b] to [b]1.25[/b] and [b]Base Arrest Radius[/b] to [b]3.50[/b]
+[/list]
+[*]Mods that instantly launder money - Conflicting launder-over-time harmony patch has been made part of the Trickle-down Economics skill. Don't level that skill and instant laundering mods should work.
+[/list]
+
+[b][color=#00ff00]Compatible[/color][/b] - No issues I've noticed
+[list]
+[*][url=https://www.nexusmods.com/schedule1/mods/1387?tab=description]BetterFlashlight[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1224?tab=description]Bigger Trees[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1437?tab=description]Empire 2.0 - Resurrected[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1544?tab=description]Enhanced Vehicle Storage[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1545?tab=description]Expanded Storage[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1375?tab=description]EZInventory[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1455?tab=description]Laundry App[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1222?tab=description]ModsApp[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1546?tab=description]OG Backpack(Remade)[/url]
+[*][url=https://www.nexusmods.com/schedule1/mods/1553?tab=description]OverTheCounter[/url]
+[/list]
+
+[b][color=#ff7700]Multiplayer[/color][/b]
+[list]
+[*]Not officially supported, but I will try to fix issues as they're reported. I've heard that it works for the host but clients experience minor issues.
+[/list]
+If you run into a compatibility issue, provide the name of the mod and a link to the page, and I'll look into it
+
+[color=#3d85c6][size=5][b]Known Issues[/b][/size][/color]
+[list]
+[*][b]Multiplayer:[/b] Good Samaritan does not remove trash from the world when used by non-host players
+[*][b]Multiplayer:[/b] Skill data is not saving/loading correctly for non-host players, so skills must be reselected after joining a game 
+[/list]
+
+[b][color=#3d85c6][size=5]Notes[/size][/color][/b]
+[list]
+[*][b]Multiplayer[/b]: I haven't tested multiplayer at all. There will be bugs and probably very few fixes for them.
+[*][b]Feedback[/b]: If you encounter bugs, have balance suggestions, or new ideas, please notify me on the mod page.
+[*][b]Open Source[/b]: SkillTree (Forked) is open source and distributed with the same licenses as the original: non-commercial use only, accepting donations is fine, and you must credit the original authors. Feel free to fork, modify, and learn from it.
+[*][b]AI Usage[/b]: The original mod used AI code for the Harmony patches, and I've gutted most of it.
+[/list]
+
+[size=5][b][color=#3d85c6]Inspirations[/color][/b][/size]
+[list]
+[*]S1API (Fork): [url=https://github.com/ifBars/S1API]Github S1API Fork[/url]﻿
+[*]QualityPlantsMod: [url=https://github.com/Soul-Da-Sythe/QualityPlantsMod]Github QualityPlants[/url]﻿
+[*]ScheduleOneNewGamePlus: [url=https://github.com/regularberry/ScheduleOneNewGamePlus]Github New Game Plus[/url]﻿
+[*]ProduceMore: [url=https://github.com/lasersquid/Sched1ProduceMoreMod/tree/master]Github Product More[/url]﻿
+[*]Absorbent Soil: [url=https://www.nexusmods.com/schedule1/mods/843]Github Absorbent Soil[/url]﻿
+[*]Wolf's Business Improvements: [url=https://www.nexusmods.com/schedule1/mods/526]NexusPage Wolf's Business[/url]﻿﻿
+[*]BetterCounterOffer: [url=https://github.com/OvrwghtUnicorn/BetterCounterOffer/tree/main]Github BetterCounterOffer[/url]﻿
+[/list]
+
+[size=5][b][color=#3d85c6]Additional Credits[/color][/b][/size]
+Icons - https://iconify.design/
+[list]
+[*]License: MIT
+[list]
+[*]Benzies Dealer Icon - mdi:weed.png
+[*]Trashcan Icon - ix:trashcan
+[*]Cash Icon - bi:cash-coin
+[*]App Icon Tree - si:flow-tree-duotone
+[*]App Icon Fork - hugeicons:fork
+[/list]
+[*]License: Apache 2
+[list]
+[*]Benzies Goon Icon - mdi:dagger.png
+[*]Police Officer Icon - mdi:police-badge-outline.png
+[*]Heart Icon - material-symbols:heart-plus
+[*]Arm Icon - mdi:arm-flex
+[*]Clock Icon - mdi:clock-outline
+[*]Gear Icon - mdi:gear
+[*]Star Icon - material-symbols:star
+[/list]
+[*]GPL 2.0
+[list]
+[*]Chat Bubble Icon - gridicons:chat
+[/list]
+[/list]
+
+[size=5][b][color=#3d85c6]F.A.Q.[/color][/b][/size]
+Q: [b]My points disappeared or my skills reset. Why?[/b]
+A: (Versions before 2.1.5) The mod reads a JSON file in UserData which syncs with your save. If you level up and spend points but close the game without saving, the JSON and your save file will be out of sync. In this case, the mod resets your skills and returns the points to you for relocation.
+
+A. (Versions 2.1.0 to 2.3.0) Version 2.1.0 introduced a version checking system for validating compatibility between updates. Changes to the major or minor version (e.g. 2.1.0.0 = major version 2, minor version 1, patch version 0) indicate that changes were made that require resetting the skill tree to avoid issues. Such changes include changing a skill's parent node or a skill's max level.
+
+A. (Version 2.3.1 and later) Version 2.3.1 introduced a system to more selectively fix invalid skill nodes and their children without resetting all skills. Any invalid skill nodes should refund their allocated points without resetting the entire tree.
+
+Q: [b]Will skills get unique images?[/b]
+A: The skill tree will probably remain text boxes for the foreseeable future.
+
+Q: [b]If I have an idea for the progression system, will you add it?[/b]
+A: I'm open to ideas, make a suggestion in the comments and I'll consider it. I'm trying to avoid anything blatantly overpowered, even though the current balance of skills might be a bit questionable.

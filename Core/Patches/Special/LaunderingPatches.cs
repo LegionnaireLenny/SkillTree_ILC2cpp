@@ -9,7 +9,7 @@ using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Miscellaneous
+namespace SkillTree.Core.Patches.Special
 {
     [HarmonyPatch]
     public static class BusinessPatchesBase
@@ -25,7 +25,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
             }
 
             int payoutInterval = ConfigManager.TrickleDownPayoutInterval.GetValue() * 60;
-            float payoutPercentage = (float)ConfigManager.TrickleDownPayoutInterval.GetValue() / 24f;
+            float payoutPercentage = ConfigManager.TrickleDownPayoutInterval.GetValue() / 24f;
 
             for (int i = 0; i < __instance.LaunderingOperations.Count; i++)
             {
