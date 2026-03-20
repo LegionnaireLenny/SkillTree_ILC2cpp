@@ -25,6 +25,7 @@ namespace SkillTree.Core
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
         public static Action OnOpenKeyPressed;
+        public static Action OnLevelSkillKeyPressed;
 
         public override void OnInitializeMelon()
         {
@@ -81,9 +82,9 @@ namespace SkillTree.Core
             }
 
             if (Input.GetKeyDown(ConfigManager.MenuHotkey.GetValue()))
-            {
                 OnOpenKeyPressed?.Invoke();
-            }
+            if (Input.GetKeyDown(ConfigManager.LevelSkillHotkey.GetValue()))
+                OnLevelSkillKeyPressed?.Invoke();
 
             if (Cursor.lockState != CursorLockMode.None)
             {
@@ -98,6 +99,7 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown(ConfigManager.ActiveSkillFour.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
                     SkillActive.TrickleDownEconomics();
+
             }
         }
 
@@ -116,6 +118,7 @@ namespace SkillTree.Core
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
                 TimeManager.OnDayPass -= SkillActive.ResetSkillCooldowns;
                 OnOpenKeyPressed = null;
+                OnLevelSkillKeyPressed = null;
                 SkillPoints.OnSkillPointsChanged = null;
             }
 

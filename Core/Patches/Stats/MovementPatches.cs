@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.PlayerScripts;
+using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
@@ -15,7 +14,8 @@ namespace SkillTree.Core.Patches.Stats
         public static void SetPlayerSpeed()
         {
             float original = PlayerMovement.Instance.MoveSpeedMultiplier;
-            PlayerMovement.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
+            PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_FleetFeet");
+            PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_FleetFeet", SkillModifiers.GetPlayerMoveSpeedMultiplier(), FloatStack.EStackMode.Multiplicative, 5));
 
             if (!Mathf.Approximately(original, PlayerMovement.Instance.MoveSpeedMultiplier))
             {
@@ -59,47 +59,5 @@ namespace SkillTree.Core.Patches.Stats
         //        __instance.ChangeStamina(25f * Time.deltaTime, true);
         //    }
         //}
-
-        [HarmonyPatch(typeof(Athletic), "ApplyToPlayer")]
-        [HarmonyPostfix]
-        public static void Athletic_Apply_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Athletic.SPEED_MULTIPLIER - 1f);
-        }
-
-        [HarmonyPatch(typeof(Athletic), "ClearFromPlayer")]
-        [HarmonyPostfix]
-        public static void Athletic_Clear_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-        }
-
-        [HarmonyPatch(typeof(Energizing), "ApplyToPlayer")]
-        [HarmonyPostfix]
-        public static void Energizing_Apply_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Energizing.SPEED_MULTIPLIER - 1f);
-        }
-
-        [HarmonyPatch(typeof(Energizing), "ClearFromPlayer")]
-        [HarmonyPostfix]
-        public static void Energizing_Clear_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-        }
-
-        [HarmonyPatch(typeof(Sneaky), "ApplyToPlayer")]
-        [HarmonyPostfix]
-        public static void Sneaky_Apply_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed() + (Sneaky.SPEED_MULTIPLIER - 1f);
-        }
-
-        [HarmonyPatch(typeof(Sneaky), "ClearFromPlayer")]
-        [HarmonyPostfix]
-        public static void Sneaky_Clear_Postfix()
-        {
-            PlayerSingleton<PlayerMovement>.Instance.MoveSpeedMultiplier = SkillModifiers.GetPlayerMoveSpeed();
-        }
     }
 }

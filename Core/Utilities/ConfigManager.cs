@@ -121,6 +121,7 @@ namespace SkillTree.Core.Utilities
 
         private static MelonPreferences_Category Keybinds { get; set; }
         public static ConfigEntry<KeyCode> MenuHotkey { get; set; }
+        public static ConfigEntry<KeyCode> LevelSkillHotkey { get; set; }
         public static ConfigEntry<KeyCode> ActiveSkillOne { get; set; }
         public static ConfigEntry<KeyCode> ActiveSkillTwo { get; set; }
         public static ConfigEntry<KeyCode> ActiveSkillThree { get; set; }
@@ -180,7 +181,7 @@ namespace SkillTree.Core.Utilities
             BaseTrashGrabberBinSize = new ConfigEntry<int>(Social, "SkillTree_BaseTrashGrabberBinSize", 20, "Base Trash Grabber Bin Size");
             TrashGrabberBinSizeBonus = new ConfigEntry<float>(Social, "SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier");
             TrashPickupRadius = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius");
-            TrashPickupRadiusBonus = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadiusBonus", 1f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
+            TrashPickupRadiusBonus = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
             TrashValueBonus = new ConfigEntry<int>(Social, "SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus");
             PawnPriceBonus = new ConfigEntry<float>(Social, "SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus");
             ATMDepositBonus = new ConfigEntry<float>(Social, "SkillTree_ATMDepositBonus", 2000f, "Hoard the Wealth: ATM Deposit Limit Bonus");
@@ -218,6 +219,7 @@ namespace SkillTree.Core.Utilities
 
             Keybinds = MelonPreferences.CreateCategory("SkillTree_01_Keybinds", "Keybindings");
             MenuHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_01_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
+            LevelSkillHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_01_LevelSkill_Hotkey", KeyCode.Space, "Level Skill Hotkey", "While the skill tree is open, levels the currently selected skill");
             ActiveSkillOne = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_02_Skill_One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
             ActiveSkillTwo = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_03_Skill_Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
             ActiveSkillThree = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");

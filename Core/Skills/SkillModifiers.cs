@@ -32,9 +32,9 @@ namespace SkillTree.Core.Skills
             return BaseStamina.GetValue() * (1 + SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus.GetValue());
         }
 
-        public static float GetPlayerMoveSpeed()
+        public static float GetPlayerMoveSpeedMultiplier()
         {
-            return BaseMoveSpeed.GetValue() * (1 + SkillTreeData.MoreMovespeed.CurrentLevel * MoveSpeedBonus.GetValue());
+            return 1 + SkillTreeData.MoreMovespeed.CurrentLevel * MoveSpeedBonus.GetValue();
         }
 
         public static float GetPlayerJumpHeight()

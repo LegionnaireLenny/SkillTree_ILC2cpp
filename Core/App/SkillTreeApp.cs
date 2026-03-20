@@ -296,9 +296,17 @@ namespace SkillTree.Core.App
             }
 
             // === WIRE UP LEVEL-UP BUTTON ===
-            ButtonUtils.AddListener(levelBtn, () =>
+            ButtonUtils.AddListener(levelBtn, LevelSkill);
+
+            void LevelSkill()
             {
-                if (_selectedSkill == null) return;
+                if (_selectedSkill == null || 
+                    GameplayMenu.instance.CurrentScreen != GameplayMenu.EGameplayScreen.Phone ||
+                    Phone.ActiveApp == null ||
+                    !Phone.ActiveApp.name.Equals("SkillTreeApp"))
+                {
+                    return;
+                }
 
                 bool updateNeeded = false;
                 if (ConfigManager.AutoUnlockPrerequisites.GetValue())
@@ -318,7 +326,7 @@ namespace SkillTree.Core.App
                     UpdateAllLines();
                     UpdatePointsOverlay();
                 }
-            });
+            }
 
             // === WIRE UP CATEGORY TABS ===
             void SwitchCategory(List<SkillNode> nodes, GameObject activeContainer,
@@ -348,6 +356,7 @@ namespace SkillTree.Core.App
             Core.OnOpenKeyPressed += Open;
             Core.OnOpenKeyPressed += UpdateCategoryText;
             Core.OnOpenKeyPressed += UpdatePointsOverlay;
+            Core.OnLevelSkillKeyPressed += LevelSkill;
             SkillPoints.OnSkillPointsChanged += UpdateCategoryText;
             SkillPoints.OnSkillPointsChanged += UpdatePointsOverlay;
 

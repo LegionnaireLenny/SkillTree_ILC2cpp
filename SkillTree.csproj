@@ -73,6 +73,10 @@
 	    <HintPath>$(Il2CppAssembliesDir)\Assembly-CSharp.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
+	  <Reference Include="Il2CppScheduleOne.Core">
+	    <HintPath>$(Il2CppAssembliesDir)\Il2CppScheduleOne.Core.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
 	  <Reference Include="Il2CppAeLa.EasyFeedback">
 	    <HintPath>$(Il2CppAssembliesDir)\Il2CppAeLa.EasyFeedback.dll</HintPath>
 	    <Private>False</Private>
@@ -109,16 +113,8 @@
 	    <HintPath>$(Il2CppAssembliesDir)\Il2CppCorgiGodRays.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
-	  <Reference Include="Il2CppEasyButtons">
-	    <HintPath>$(Il2CppAssembliesDir)\Il2CppEasyButtons.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
 	  <Reference Include="Il2CppEdgegap">
 	    <HintPath>$(Il2CppAssembliesDir)\Il2CppEdgegap.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="Il2CppFishNet.Demos">
-	    <HintPath>$(Il2CppAssembliesDir)\Il2CppFishNet.Demos.dll</HintPath>
 	    <Private>False</Private>
 	  </Reference>
 	  <Reference Include="Il2CppFishNet.Runtime">
