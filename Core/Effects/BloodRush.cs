@@ -1,5 +1,6 @@
 ﻿using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 
@@ -8,7 +9,6 @@ namespace SkillTree.Core.Effects
     public class BloodRush
     {
         public static bool IsBloodRushActive { get; private set; } = false;
-        public static readonly float Duration = 60f;
 
         public static void ApplyToPlayer(Player player)
         {
@@ -25,7 +25,7 @@ namespace SkillTree.Core.Effects
 
         private static IEnumerator RemoveBloodRush(Player player)
         {
-            yield return new WaitForSeconds(Duration);
+            yield return new WaitForSeconds(ConfigManager.BloodRushDuration.GetValue());
             ClearFromPlayer(player);
         }
     }
