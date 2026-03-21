@@ -13,15 +13,6 @@ namespace SkillTree.Core.Patches.Miscellaneous
     [HarmonyPatch]
     public class ContractPatches
     {
-        //public static readonly string ColorContractReady = "ContractReady";
-        //public static readonly string ColorContractNotReady = "ContractNotReady";
-
-        //public static readonly Dictionary<string, Color> Colors = new()
-        //{
-        //    {ColorContractReady, new(0.2984f, 0.6226f, 0.2673f, 1f)},
-        //    {ColorContractNotReady, new(0.6984f, 0.6226f, 0.4673f, 1f)}
-        //};
-
         public static string GetTimeWindow(float time)
         {
             string window = "";
@@ -36,62 +27,28 @@ namespace SkillTree.Core.Patches.Miscellaneous
             return window;
         }
 
-        //[HarmonyPatch(typeof(ColorFont), "GetColour")]
-        //[HarmonyPostfix]
-        //public static void Patch_ColorFont_GetColor(string name, ref Color __result)
-        //{
-        //    if (Colors.ContainsKey(name))
-        //    {
-        //        __result = Colors[name];
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(FontSetter), "SetColour")]
-        //[HarmonyPrefix]
-        //public static bool SetColour(FontSetter __instance, string componentName, string ColourName)
-        //{
-        //    FontSetter.ImageItem imageItem = new();
-        //    foreach (var item in __instance._imageItems)
-        //    {
-        //        if (item.Name == componentName)
-        //        {
-        //            imageItem = item;
-        //            break;
-        //        }
-        //    }
-        //    if (__instance._colourFont == null || imageItem == null)
-        //    {
-        //        return false;
-        //    }
-        //    Color colour = __instance._colourFont.GetColour(ColourName);
-        //    if (imageItem.Image != null)
-        //    {
-        //        imageItem.Image.color = colour;
-        //    }
-        //    return false;
-        //}
-
         [HarmonyPatch(typeof(Contract), "UpdatePoI")]
         [HarmonyPostfix]
         public static void Patch_Contract_UpdatePoI(Contract __instance)
         {
+            if (!ConfigManager.EnableContractColors.GetValue()) return;
+
             string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
             string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
-            Color color = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractColorReady.GetValue() : ConfigManager.ContractColorNotReady.GetValue();
+            Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyBackgroundColor.GetValue() : ConfigManager.ContractNotReadyBackgroundColor.GetValue();
+            Color fillColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyFillColor.GetValue() : ConfigManager.ContractNotReadyFillColor.GetValue();
 
-            //var entry = __instance.Entries[0];
             if (__instance.Entries[0].PoI != null)
             {
                 try
                 {
-                    __instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = color;
-                    __instance.Entries[0].compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = color;
-                    __instance.Entries[0].PoI.IconContainer.FindChild("ContractIcon").FindChild("Background").GetComponent<Image>().color = color;
-                    //entry.compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = Colors[color];
-                    //__instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = Colors[color];
-                    //entry.PoI.IconContainer.FindChild("ContractIcon").FindChild("Background").GetComponent<Image>().color = Colors[color];
-                    //__instance.Entries[0].SetPoIColor("Background", color);
-                    //MelonLogger.Msg(entry.PoI.transform.name);
+                    __instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = backgroundColor;
+                    __instance.Entries[0].compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = backgroundColor;
+                    __instance.Entries[0].PoI.IconContainer.FindChild("ContractIcon").FindChild("Background").GetComponent<Image>().color = backgroundColor;
+
+                    __instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Fill").GetComponent<Image>().color = fillColor;
+                    __instance.Entries[0].compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Fill").GetComponent<Image>().color = fillColor;
+                    __instance.Entries[0].PoI.IconContainer.FindChild("ContractIcon").FindChild("Fill").GetComponent<Image>().color = fillColor;
                 }
                 catch { }
             }
