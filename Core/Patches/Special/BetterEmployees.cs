@@ -21,12 +21,18 @@ namespace SkillTree.Core.Patches.Special
         {
             if (__instance == null || SkillTreeData.Employees24h.CurrentLevel == 0) return;
 
-            foreach (Employee.NoWorkReason reason in __instance.WorkIssues)
+            List<Employee.NoWorkReason> bogusReasons = [];
+            foreach (var reason in __instance.WorkIssues)
             {
                 if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
                 {
-                    __instance.WorkIssues.Remove(reason);
+                    bogusReasons.Add(reason);
                 }
+            }
+
+            foreach (var reason in bogusReasons)
+            {
+                __instance.WorkIssues.Remove(reason);
             }
             __result = __instance.GetHome() != null && __instance.PaidForToday;
         }
@@ -35,36 +41,47 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Patch_Employee_UpdateBehaviour(Employee __instance)
         {
-            if (__instance == null || __instance.Fired || SkillTreeData.EmployeeMovespeed.CurrentLevel == 0)
+            if (__instance == null || __instance.Fired)
                 return;
 
-            if (InstanceFinder.IsServer && (__instance.Behaviour.activeBehaviour == null || __instance.Behaviour.activeBehaviour == __instance.WaitOutside))
+            if (SkillTreeData.Employees24h.CurrentLevel > 0 &&
+                InstanceFinder.IsServer &&
+                (__instance.Behaviour.activeBehaviour == null || __instance.Behaviour.activeBehaviour == __instance.WaitOutside) &&
+                __instance.GetHome() != null &&
+                !__instance.PaidForToday &&
+                __instance.IsPayAvailable())
             {
-                if (__instance.GetHome() != null && !__instance.PaidForToday && __instance.IsPayAvailable())
-                {
-                    __instance.SetWaitOutside(false);
-                    __instance.RemoveDailyWage();
-                    __instance.SetIsPaid();
+                __instance.SetWaitOutside(false);
+                __instance.RemoveDailyWage();
+                __instance.SetIsPaid();
 
-                    foreach (Employee.NoWorkReason reason in __instance.WorkIssues)
+                List<Employee.NoWorkReason> bogusReasons = [];
+                foreach (var reason in __instance.WorkIssues)
+                {
+                    if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
                     {
-                        if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
-                        {
-                            __instance.WorkIssues.Remove(reason);
-                        }
-                        if (reason.Reason.Equals("I haven't been paid yet"))
-                        {
-                            __instance.WorkIssues.Remove(reason);
-                        }
+                        bogusReasons.Add(reason);
                     }
+                    if (reason.Reason.Equals("I haven't been paid yet"))
+                    {
+                        bogusReasons.Add(reason);
+                    }
+                }
+
+                foreach (var reason in bogusReasons)
+                {
+                    __instance.WorkIssues.Remove(reason);
                 }
             }
 
-            __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
-            if (!processedEmployees.Contains(__instance.GUID))
+            if (SkillTreeData.EmployeeMovespeed.CurrentLevel > 0)
             {
-                MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
-                processedEmployees.Add(__instance.GUID);
+                __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
+                if (!processedEmployees.Contains(__instance.GUID))
+                {
+                    MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
+                    processedEmployees.Add(__instance.GUID);
+                }
             }
         }
 
@@ -106,7 +123,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPrefix]
         public static void Patch_Employee_OnDestroy(Employee __instance)
         {
-            if (processedEmployees.Contains(__instance.GUID) || 
+            if (processedEmployees.Contains(__instance.GUID) ||
                 processedBotanists.Contains(__instance.GUID) ||
                 processedChemists.Contains(__instance.GUID))
             {
