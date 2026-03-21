@@ -20,6 +20,7 @@
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ContractPatches.cs" />
+		<Compile Include="Core\Patches\Miscellaneous\CrossHairPatches.cs" />
 		<Compile Include="Core\Patches\Social\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
