@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne.DevUtilities;
+using Il2CppFishNet;
 using Il2CppScheduleOne.Employees;
-using Il2CppScheduleOne.GameTime;
+using Il2CppSystem;
 using MelonLoader;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
@@ -11,41 +11,54 @@ namespace SkillTree.Core.Patches.Special
     [HarmonyPatch]
     public class BetterEmployees
     {
+        private static readonly HashSet<Guid> processedEmployees = [];
+        private static readonly HashSet<Guid> processedBotanists = [];
+        private static readonly HashSet<Guid> processedChemists = [];
+
         [HarmonyPatch(typeof(Employee), "CanWork")]
         [HarmonyPostfix]
         public static void Postfix(Employee __instance, ref bool __result)
         {
-            if (__instance == null || SkillTreeData.Employees24h.CurrentLevel == 0)
-                return;
+            if (__instance == null || SkillTreeData.Employees24h.CurrentLevel == 0) return;
 
-
-            Employee.NoWorkReason bogusReason = null;
             foreach (Employee.NoWorkReason reason in __instance.WorkIssues)
             {
                 if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
                 {
-                    bogusReason = reason;
+                    __instance.WorkIssues.Remove(reason);
                 }
             }
-
-            if (bogusReason != null)
-            {
-                __instance.WorkIssues.Remove(bogusReason);
-            }
-
-            __result = __instance.GetHome() != null &&
-                       __instance.PaidForToday &&
-                       (!NetworkSingleton<TimeManager>.Instance.IsEndOfDay || SkillTreeData.Employees24h.CurrentLevel == 1);
+            __result = __instance.GetHome() != null && __instance.PaidForToday;
         }
-
-        private static readonly HashSet<Il2CppSystem.Guid> processedEmployees = [];
 
         [HarmonyPatch(typeof(Employee), "UpdateBehaviour")]
         [HarmonyPostfix]
-        public static void Postfix(Employee __instance)
+        public static void Patch_Employee_UpdateBehaviour(Employee __instance)
         {
-            if (__instance == null || SkillTreeData.EmployeeMovespeed.CurrentLevel == 0)
+            if (__instance == null || __instance.Fired || SkillTreeData.EmployeeMovespeed.CurrentLevel == 0)
                 return;
+
+            if (InstanceFinder.IsServer && (__instance.Behaviour.activeBehaviour == null || __instance.Behaviour.activeBehaviour == __instance.WaitOutside))
+            {
+                if (__instance.GetHome() != null && !__instance.PaidForToday && __instance.IsPayAvailable())
+                {
+                    __instance.SetWaitOutside(false);
+                    __instance.RemoveDailyWage();
+                    __instance.SetIsPaid();
+
+                    foreach (Employee.NoWorkReason reason in __instance.WorkIssues)
+                    {
+                        if (reason.Reason.Equals("Sorry boss, my shift ends at 4AM."))
+                        {
+                            __instance.WorkIssues.Remove(reason);
+                        }
+                        if (reason.Reason.Equals("I haven't been paid yet"))
+                        {
+                            __instance.WorkIssues.Remove(reason);
+                        }
+                    }
+                }
+            }
 
             __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
             if (!processedEmployees.Contains(__instance.GUID))
@@ -54,8 +67,6 @@ namespace SkillTree.Core.Patches.Special
                 processedEmployees.Add(__instance.GUID);
             }
         }
-
-        private static readonly HashSet<Il2CppSystem.Guid> processedBotanists = [];
 
         [HarmonyPatch(typeof(Botanist), "UpdateBehaviour")]
         [HarmonyPostfix]
@@ -74,8 +85,6 @@ namespace SkillTree.Core.Patches.Special
             }
         }
 
-        private static readonly HashSet<Il2CppSystem.Guid> processedChemists = [];
-
         [HarmonyPatch(typeof(Chemist), "UpdateBehaviour")]
         [HarmonyPostfix]
         public static void Postfix(Chemist __instance)
@@ -90,6 +99,21 @@ namespace SkillTree.Core.Patches.Special
             {
                 MelonLogger.Msg($"[EmployeeMaxStation] Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
                 processedChemists.Add(__instance.GUID);
+            }
+        }
+
+        [HarmonyPatch(typeof(Employee), "OnDestroy")]
+        [HarmonyPrefix]
+        public static void Patch_Employee_OnDestroy(Employee __instance)
+        {
+            if (processedEmployees.Contains(__instance.GUID) || 
+                processedBotanists.Contains(__instance.GUID) ||
+                processedChemists.Contains(__instance.GUID))
+            {
+                processedEmployees.Remove(__instance.GUID);
+                processedBotanists.Remove(__instance.GUID);
+                processedChemists.Remove(__instance.GUID);
+                MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName} removed from cache");
             }
         }
     }
