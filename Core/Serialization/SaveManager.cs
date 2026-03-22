@@ -4,14 +4,13 @@ using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
 using SkillTree.Core.Patches.Special;
-using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
 
-namespace SkillTree.Core.Utilities
+namespace SkillTree.Core.Serialization
 {
     public static class SaveManager
     {
@@ -30,9 +29,9 @@ namespace SkillTree.Core.Utilities
             return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
         }
 
-        private static void BuildSaveData(Dictionary<string, int> skillData, List<Dictionary<string, int>> sources)
+        private static void BuildSaveData(Dictionary<string, string> skillData, List<Dictionary<string, string>> sources)
         {
-            foreach (Dictionary<string, int> dictionary in sources)
+            foreach (Dictionary<string, string> dictionary in sources)
             {
                 foreach(var item in dictionary)
                 {
@@ -50,22 +49,23 @@ namespace SkillTree.Core.Utilities
             }
         }
 
-        public static void SaveFile()
+        public static Dictionary<string, string> GetSaveDataProperties<T>() where T : new()
         {
-            Dictionary<string, int> skillData = [];
+            Dictionary<string, string> data = [];
+            var properties = typeof(T).GetProperties();
+            foreach (var property in properties)
+            {
+                data[property.Name] = property.GetValue(new T()).ToString();
+            }
 
-            BuildSaveData(skillData, [SkillPoints.GetSaveData(), SkillTreeData.GetSaveData(), NPCPatches.GetSaveData()]);
-
-            string path = GetSaveFilePath();
-            string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
-            File.WriteAllText(path, json);
+            return data;
         }
 
-        public static void SaveDefaultFile()
+        public static void SaveFile()
         {
-            Dictionary<string, int> skillData = [];
+            Dictionary<string, string> skillData = [];
 
-            BuildSaveData(skillData, [SkillPoints.GetDefaultSaveData(), SkillTreeData.GetDefaultSaveData(), NPCPatches.GetDefaultSaveData()]);
+            BuildSaveData(skillData, [GetSaveDataProperties<SkillPoints>(), SkillTreeData.GetSaveData(), GetSaveDataProperties<KillCounts>(), GetSaveDataProperties<Cooldowns>()]);
 
             string path = GetSaveFilePath();
             string json = JsonConvert.SerializeObject(skillData, Formatting.Indented);
@@ -91,7 +91,8 @@ namespace SkillTree.Core.Utilities
 
                     SkillPoints.LoadFromFile(root);
                     SkillTreeData.LoadFromFile(root);
-                    NPCPatches.LoadFromFile(root);
+                    KillCounts.LoadFromFile(root);
+                    Cooldowns.LoadFromFile(root);
                 }
             }
             catch (KeyNotFoundException ex)
@@ -114,7 +115,8 @@ namespace SkillTree.Core.Utilities
         {
             SkillPoints.LoadDefaultValues();
             SkillTreeData.LoadDefaultValues();
-            NPCPatches.LoadDefaultValues();
+            KillCounts.LoadDefaultValues();
+            Cooldowns.LoadDefaultValues();
         }
     }
 }

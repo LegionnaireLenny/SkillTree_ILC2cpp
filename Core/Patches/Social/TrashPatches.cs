@@ -9,6 +9,7 @@ using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Items;
 using Il2CppSystem;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Patch_Start(TrashItem __instance)
         {
-            if (SkillTreeData.SacarLaBasura.CurrentLevel == 0 || ProcessedTrash.Contains(__instance.GUID))
+            if (__instance == null || SkillTreeData.SacarLaBasura.CurrentLevel == 0 || ProcessedTrash.Contains(__instance.GUID))
             {
                 return;
             }
@@ -43,7 +44,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool Patch_TrashGrabber_GetCapacity(Equippable_TrashGrabber __instance, ref int __result)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0)
             {
                 return true;
             }
@@ -55,7 +56,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool Patch_TrashGrabber_RefreshVisuals(Equippable_TrashGrabber __instance)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0)
             {
                 return true;
             }
@@ -72,7 +73,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool Patch_TrashGrabberItemUI_UpdateUI(TrashGrabberItemUI __instance)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0) return true;
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0) return true;
 
             if (__instance.Destroyed) return false;
 
@@ -87,7 +88,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Patch_TrashGrabber_Equip(Equippable_TrashGrabber __instance, ItemInstance item)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0) return;
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0) return;
 
             if (PickupAreaProjector == null)
             {
@@ -106,7 +107,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Patch_TrashGrabber_Unequip(Equippable_TrashGrabber __instance)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0) return;
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0) return;
 
             Singleton<TrashBagCanvas>.Instance?.Close();
             UnityEngine.Object.Destroy(PickupAreaProjector.gameObject);
@@ -117,7 +118,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Patch_TrashGrabber_Update(Equippable_TrashGrabber __instance)
         {
-            if (SkillTreeData.CommunityService.CurrentLevel == 0 || PickupAreaProjector == null) return;
+            if (__instance == null || SkillTreeData.CommunityService.CurrentLevel == 0 || PickupAreaProjector == null) return;
 
             Singleton<TrashBagCanvas>.Instance.InputPrompt.gameObject.SetActive(false);
             PickupAreaProjector.gameObject.SetActive(false);

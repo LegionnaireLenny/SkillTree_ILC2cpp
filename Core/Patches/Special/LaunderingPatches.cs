@@ -5,7 +5,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPrefix]
         public static bool Prefix_MinsPass(Business __instance, int mins)
         {
-            if (SkillTreeData.TrickleDown.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.TrickleDown.CurrentLevel == 0)
             {
                 return true;
             }

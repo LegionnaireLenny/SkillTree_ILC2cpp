@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Persistence;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Operations
@@ -11,9 +12,9 @@ namespace SkillTree.Core.Patches.Operations
     {
         [HarmonyPatch(typeof(ChemistryStation), "OnTimePass")]
         [HarmonyPrefix]
-        public static void Prefix(ChemistryStation __instance, ref int minutes)
+        public static void Patch_ChemistryStation_OnTimePass(ref int minutes)
         {
-            if (__instance.CurrentCookOperation == null || SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
+            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -21,9 +22,9 @@ namespace SkillTree.Core.Patches.Operations
 
         [HarmonyPatch(typeof(MixingStation), "OnTimePass")]
         [HarmonyPrefix]
-        public static void Prefix(MixingStation __instance, ref int minutes)
+        public static void Patch_MixingStation_OnTimePass(ref int minutes)
         {
-            if (__instance.CurrentMixOperation == null || SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
+            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -31,7 +32,7 @@ namespace SkillTree.Core.Patches.Operations
 
         [HarmonyPatch(typeof(LabOven), "OnUncappedMinPass")]
         [HarmonyPrefix]
-        public static bool Prefix(LabOven __instance)
+        public static bool Patch_LabOven_OnUncappedMinPass(LabOven __instance)
         {
             if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return true;

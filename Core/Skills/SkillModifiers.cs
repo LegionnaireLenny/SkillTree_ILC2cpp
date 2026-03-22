@@ -1,6 +1,6 @@
 ﻿using S1API.Property;
 using SkillTree.Core.Effects;
-using SkillTree.Core.Patches.Special;
+using SkillTree.Core.Serialization;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -231,8 +231,8 @@ namespace SkillTree.Core.Skills
                 return 0f;
             }
 
-            float policeBonus = (NPCPatches.PoliceKilled / 2) * PoliceKilledBonus.GetValue();
-            float cartelBonus = NPCPatches.CartelKilled * CartelKilledBonus.GetValue();
+            float policeBonus = (KillCounts.PoliceKilled / 2) * PoliceKilledBonus.GetValue();
+            float cartelBonus = KillCounts.CartelKilled * CartelKilledBonus.GetValue();
             float healthCap = BloodRushHealthBonusCap.GetValue() * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier.GetValue() : 1f);
             float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
             return bonus;

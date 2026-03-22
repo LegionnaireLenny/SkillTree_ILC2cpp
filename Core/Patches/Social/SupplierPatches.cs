@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI.Phone;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool Patch_CartChanged(PhoneShopInterface __instance)
         {
-            if (SkillTreeData.BetterSupplier.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.BetterSupplier.CurrentLevel == 0)
                 return true;
 
             int itemCount;

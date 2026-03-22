@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Quests;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 

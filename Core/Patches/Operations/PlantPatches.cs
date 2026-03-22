@@ -3,6 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 
 namespace SkillTree.Core.Patches.Operations
@@ -14,7 +15,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(Plant __instance, int mins)
         {
-            if (__instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
+            if (__instance == null || __instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true;
 
             float num = 1f / (__instance.GrowthTime * 60f) * mins;
@@ -50,7 +51,9 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_GrowthDone(Plant __instance)
         {
-            if (!InstanceFinder.IsServer || !__instance.Pot.IsSpawned || 
+            if (!InstanceFinder.IsServer || 
+                __instance == null || 
+                !__instance.Pot.IsSpawned || 
                 (SkillTreeData.Operations.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
                 return;
 

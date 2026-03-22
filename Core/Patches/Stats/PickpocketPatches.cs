@@ -4,6 +4,7 @@ using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPostfix]
         public static void Patch_Open(PickpocketScreen __instance, NPC _npc)
         {
-            if (SkillTreeData.Ghost.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.Ghost.CurrentLevel == 0)
             {
                 return;
             }

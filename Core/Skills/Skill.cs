@@ -1,4 +1,5 @@
 ﻿using MelonLoader;
+using SkillTree.Core.Serialization;
 using System;
 using System.Collections.Generic;
 

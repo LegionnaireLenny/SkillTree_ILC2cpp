@@ -5,7 +5,7 @@ using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Product;
 using Il2CppScheduleOne.UI.Phone;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 

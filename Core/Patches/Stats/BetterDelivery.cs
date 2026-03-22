@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Delivery;
 using MelonLoader;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Stats

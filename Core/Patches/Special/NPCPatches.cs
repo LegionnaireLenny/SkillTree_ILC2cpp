@@ -5,23 +5,19 @@ using Il2CppScheduleOne.Map;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Police;
 using MelonLoader;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using static SkillTree.Core.Serialization.KillCounts;
 
 namespace SkillTree.Core.Patches.Special
 {
     [HarmonyPatch]
     public class NPCPatches
     {
-        public static int PoliceKilled { get; private set; } = 0;
-        public static int CartelKilled { get; private set; } = 0;
-        public static int CivilianKilled { get; private set; } = 0;
-
         public static readonly Dictionary<string, CustomPOI> CustomPOIManager = [];
 
         public class CustomPOI
@@ -105,6 +101,8 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Patch_NPC_SetVisible(NPC __instance)
         {
+            if (__instance == null) return;
+
             if (CustomPOIManager.ContainsKey(__instance.ID))
             {
                 CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
@@ -136,9 +134,9 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPrefix]
         public static void Patch_NPC_OnDestroy(NPC __instance)
         {
-            if (__instance.TryCast<PoliceOfficer>() == null &&
-                __instance.TryCast<CartelGoon>() == null && 
-                __instance.TryCast<CartelDealer>() == null)
+            if (__instance?.TryCast<PoliceOfficer>() == null &&
+                __instance?.TryCast<CartelGoon>() == null &&
+                __instance?.TryCast<CartelDealer>() == null)
             {
                 return;
             }
@@ -150,6 +148,8 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Patch_Npc_OnDie(NPC __instance)
         {
+            if (__instance == null) return;
+
             if (CustomPOIManager.ContainsKey(__instance.ID))
             {
                 CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
@@ -179,59 +179,6 @@ namespace SkillTree.Core.Patches.Special
         public static void Reset()
         {
             CustomPOIManager.Clear();
-        }
-
-        public static Dictionary<string, int> GetSaveData()
-        {
-            Dictionary<string, int> skillData = [];
-
-            var properties = typeof(NPCPatches).GetProperties();
-
-            foreach (var property in properties)
-            {
-                skillData[property.Name] = (int)property.GetValue(new NPCPatches());
-            }
-
-            return skillData;
-        }
-
-        public static Dictionary<string, int> GetDefaultSaveData()
-        {
-            Dictionary<string, int> skillData = [];
-
-            var properties = typeof(NPCPatches).GetProperties();
-
-            foreach (var property in properties)
-            {
-                skillData[property.Name] = 0;
-            }
-
-            return skillData;
-        }
-
-        public static void LoadFromFile(JsonElement data)
-        {
-            var properties = typeof(NPCPatches).GetProperties();
-
-            foreach (var property in properties)
-            {
-                try
-                {
-                    property.SetValue(new NPCPatches(), data.GetProperty(property.Name).GetInt32());
-                }
-                catch (KeyNotFoundException e)
-                {
-                    throw new KeyNotFoundException($"Failed to load kill counts from file {e}");
-                }
-            }
-        }
-
-        public static void LoadDefaultValues()
-        {
-            foreach (var property in typeof(NPCPatches).GetProperties())
-            {
-                property.SetValue(new NPCPatches(), 0);
-            }
         }
     }
 }

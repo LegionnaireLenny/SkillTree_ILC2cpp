@@ -235,7 +235,7 @@ namespace SkillTree.Core.Utilities
             ActiveSkillOne = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_02_Skill_One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
             ActiveSkillTwo = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_03_Skill_Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
             ActiveSkillThree = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
-            ActiveSkillFour = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Four", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-Down Economics' skill");
+            ActiveSkillFour = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Four", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-down Economics' skill");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             DebugOptions = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Debug Options");

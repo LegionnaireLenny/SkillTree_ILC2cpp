@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.ObjectScripts;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 
@@ -27,7 +28,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_GetHarvestedShroom(ShroomColony __instance)
         {
-            if (SkillTreeData.Mushroomancer.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.Mushroomancer.CurrentLevel == 0)
                 return;
 
             int id = __instance.GetInstanceID();
@@ -44,6 +45,8 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_OnColonyFullyHarvested(MushroomBed __instance)
         {
+            if (__instance == null) return;
+
             int id = __instance.CurrentColony.GetInstanceID();
             if (processedIds.Remove(id))
             {

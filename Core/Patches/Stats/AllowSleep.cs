@@ -5,7 +5,7 @@ using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 
 namespace SkillTree.Core.Patches.Stats
 {
@@ -76,7 +76,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPrefix]
             public static bool Prefix(Bed __instance)
             {
-                if (SkillTreeData.CircadianMastery.CurrentLevel == 0)
+                if (__instance == null || SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
                 if (Singleton<ManagementClipboard>.Instance.IsEquipped || __instance.AssignedEmployee != null)

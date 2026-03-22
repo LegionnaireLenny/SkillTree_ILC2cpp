@@ -1,15 +1,15 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
-using S1API.Lifecycle;
-using S1API.Leveling;
 using S1API.GameTime;
+using S1API.Leveling;
+using S1API.Lifecycle;
 using SkillTree.Core;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Patches.Stats;
-using SkillTree.Core.Skills;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using System;
 using System.Collections;
@@ -111,12 +111,11 @@ namespace SkillTree.Core
                 setupComplete = false;
 
                 AllowSleep.Reset();
-                SkillActive.ResetSkillCooldowns();
                 NPCPatches.Reset();
                 SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
-                TimeManager.OnDayPass -= SkillActive.ResetSkillCooldowns;
+                TimeManager.OnDayPass -= Cooldowns.ResetSkillCooldowns;
                 OnOpenKeyPressed = null;
                 OnLevelSkillKeyPressed = null;
                 SkillPoints.OnSkillPointsChanged = null;
@@ -126,7 +125,7 @@ namespace SkillTree.Core
             {
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
                 LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
-                TimeManager.OnDayPass += SkillActive.ResetSkillCooldowns;
+                TimeManager.OnDayPass += Cooldowns.ResetSkillCooldowns;
                 if (ConfigManager.ResetSkills.GetValue())
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");

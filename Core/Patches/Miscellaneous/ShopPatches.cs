@@ -67,6 +67,8 @@ namespace SkillTree.Core.Patches.Miscellaneous
         [HarmonyPostfix]
         public static void Patch_ShopInterface_Awake(ShopInterface __instance)
         {
+            if (__instance == null) return;
+
             if (__instance.ShopCode.ToLower().Contains("hardware") || __instance.ShopCode.ToLower().Contains("handy_hanks"))
             {
                 StorableItemDefinition[] allItems = Resources.FindObjectsOfTypeAll<StorableItemDefinition>();

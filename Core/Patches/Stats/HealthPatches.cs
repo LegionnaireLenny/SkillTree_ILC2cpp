@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using UnityEngine;

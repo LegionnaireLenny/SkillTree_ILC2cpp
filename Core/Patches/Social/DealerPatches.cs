@@ -48,11 +48,11 @@ namespace SkillTree.Core.Patches.Social
             }
         }
 
-        private static void CheckAndExpandUI(DealerManagementApp __instance)
+        private static void CheckAndExpandUI(DealerManagementApp instance)
         {
-            if (__instance.CustomerEntries.Length < SkillModifiers.GetMaxCustomers())
+            if (instance.CustomerEntries.Length < SkillModifiers.GetMaxCustomers())
             {
-                List<RectTransform> entriesList = __instance.CustomerEntries.ToList();
+                List<RectTransform> entriesList = instance.CustomerEntries.ToList();
                 RectTransform template = entriesList[0];
                 Transform listParent = template.parent;
 
@@ -63,8 +63,8 @@ namespace SkillTree.Core.Patches.Social
                     entriesList.Add(newSlot);
                 }
 
-                __instance.CustomerEntries = entriesList.ToArray();
-                LayoutRebuilder.ForceRebuildLayoutImmediate(__instance.Content);
+                instance.CustomerEntries = entriesList.ToArray();
+                LayoutRebuilder.ForceRebuildLayoutImmediate(instance.Content);
             }
         }
 
@@ -72,6 +72,8 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Awake_Postfix(DealerManagementApp __instance)
         {
+            if (__instance == null) return;
+
             CheckAndExpandUI(__instance);
 
             if (__instance.AssignCustomerButton != null)
@@ -91,6 +93,8 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void SetDisplayedDealer_Postfix(DealerManagementApp __instance, Dealer dealer)
         {
+            if (__instance == null) return;
+
             CheckAndExpandUI(__instance);
 
             if (__instance.CustomerTitleLabel != null)

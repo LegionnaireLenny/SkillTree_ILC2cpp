@@ -1,6 +1,7 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;

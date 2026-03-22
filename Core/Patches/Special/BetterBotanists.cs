@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.NPCs.Behaviour;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,6 +27,8 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPrefix]
         public static bool Prefix(ref float __result, Il2CppSystem.Object __instance)
         {
+            if (__instance == null || SkillTreeData.BetterBotanists.CurrentLevel == 0) return true;
+
             if (__instance.TryCast<AddSoilToGrowContainerBehaviour>() != null)
             {
                 __result = 10f * SkillModifiers.GetBotanistActionSpeedMultiplier();

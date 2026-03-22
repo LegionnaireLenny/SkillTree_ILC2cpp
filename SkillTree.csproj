@@ -25,6 +25,7 @@
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
+		<Compile Include="Core\Serialization\Cooldowns.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
 		<Compile Include="Core\Patches\Operations\GrowContainerPatches.cs" />
@@ -54,12 +55,13 @@
 		<Compile Include="Core\Skills\SkillModifiers.cs" />
 		<Compile Include="Core\Patches\Social\CustomerPatches.cs" />
 		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
-		<Compile Include="Core\Skills\SkillTreeData.cs" />
-		<Compile Include="Core\Utilities\SaveManager.cs" />
+		<Compile Include="Core\Serialization\SkillTreeData.cs" />
+		<Compile Include="Core\Serialization\KillCounts.cs" />
+		<Compile Include="Core\Serialization\SaveManager.cs" />
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\BetterEmployees.cs" />
 		<Compile Include="Core\Patches\Stats\MovementPatches.cs" />
-		<Compile Include="Core\Skills\SkillPoints.cs" />
+		<Compile Include="Core\Serialization\SkillPoints.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

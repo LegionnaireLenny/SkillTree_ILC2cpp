@@ -3,6 +3,7 @@ using Il2CppScheduleOne.UI.Phone;
 using Il2CppTMPro;
 using S1API.PhoneApp;
 using S1API.Utils;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using System.Collections.Generic;

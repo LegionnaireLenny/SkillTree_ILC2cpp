@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Property;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Linq;
 using UnityEngine;

@@ -6,6 +6,7 @@ using Il2CppScheduleOne.Growing;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Variables;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
@@ -19,7 +20,7 @@ namespace SkillTree.Core.Patches.Operations
 
         public static bool Patch_OnMinPass(GrowContainer __instance)
         {
-            if (SkillTreeData.WetAssPlants.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.WetAssPlants.CurrentLevel == 0)
                 return true;
 
 
@@ -41,7 +42,7 @@ namespace SkillTree.Core.Patches.Operations
             if (SkillTreeData.WetAssPlants.CurrentLevel == 0)
                 return true;
 
-            if (!InstanceFinder.IsServer)
+            if (__instance == null || !InstanceFinder.IsServer)
             {
                 return false;
             }
@@ -57,7 +58,7 @@ namespace SkillTree.Core.Patches.Operations
             if (SkillTreeData.AbsorbentSoil.CurrentLevel == 0)
                 return true;
 
-            if (__instance.Plant == null)
+            if (__instance?.Plant == null)
                 return false;
 
             if (InstanceFinder.IsServer)

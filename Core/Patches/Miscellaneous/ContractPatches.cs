@@ -31,7 +31,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
         [HarmonyPostfix]
         public static void Patch_Contract_UpdatePoI(Contract __instance)
         {
-            if (!ConfigManager.EnableContractColors.GetValue()) return;
+            if (__instance == null || !ConfigManager.EnableContractColors.GetValue()) return;
 
             string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
             string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);

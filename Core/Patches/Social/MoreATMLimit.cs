@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI.ATM;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
@@ -43,6 +44,8 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool PrefixSetSelected(ATMInterface __instance, float amount)
         {
+            if (__instance == null || SkillTreeData.MoreATMLimit.CurrentLevel == 0) return true;
+
             float remaining = Mathf.Max(0f, SkillModifiers.GetATMLimit() - ATM.WeeklyDepositSum);
 
             float onlineBalance = NetworkSingleton<MoneyManager>.Instance.sync___get_value_onlineBalance();
@@ -66,7 +69,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void PostfixUpdate(ATMInterface __instance)
         {
-            if (!__instance.isOpen) return;
+            if (__instance == null || !__instance.isOpen || SkillTreeData.MoreATMLimit.CurrentLevel == 0) return;
 
             bool limitReached = ATM.WeeklyDepositSum >= SkillModifiers.GetATMLimit();
 
@@ -84,6 +87,8 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPrefix]
         public static bool PrefixUpdateAmounts(ATMInterface __instance)
         {
+            if (__instance == null || SkillTreeData.MoreATMLimit.CurrentLevel == 0) return true;
+
             if (__instance.depositing)
             {
                 float cash = NetworkSingleton<MoneyManager>.Instance.cashBalance;

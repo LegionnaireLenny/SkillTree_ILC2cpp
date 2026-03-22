@@ -3,6 +3,7 @@ using Il2CppFishNet;
 using Il2CppScheduleOne.Employees;
 using Il2CppSystem;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 
@@ -123,6 +124,8 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPrefix]
         public static void Patch_Employee_OnDestroy(Employee __instance)
         {
+            if (__instance == null) return;
+
             if (processedEmployees.Contains(__instance.GUID) ||
                 processedBotanists.Contains(__instance.GUID) ||
                 processedChemists.Contains(__instance.GUID))

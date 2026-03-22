@@ -1,9 +1,10 @@
 ﻿using MelonLoader;
+using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-namespace SkillTree.Core.Skills
+namespace SkillTree.Core.Serialization
 {
     public class SkillTreeData
     {
@@ -174,31 +175,14 @@ namespace SkillTree.Core.Skills
             return GetPointsSpent(StatsTree) + GetPointsSpent(OperationsTree) + GetPointsSpent(SocialTree) + GetPointsSpent(SpecialTree);
         }
 
-        public static Dictionary<string, int> GetSaveData()
+        public static Dictionary<string, string> GetSaveData()
         {
-            Dictionary<string, int> skillData = [];
+            Dictionary<string, string> skillData = [];
 
-            SkillTreeData obj = new SkillTreeData();
             var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
-
             foreach (var field in fields)
             {
-                skillData[field.Name] = (field.GetValue(obj) as Skill).CurrentLevel;
-            }
-
-            return skillData;
-        }
-
-        public static Dictionary<string, int> GetDefaultSaveData()
-        {
-            Dictionary<string, int> skillData = [];
-
-            SkillTreeData obj = new SkillTreeData();
-            var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
-
-            foreach (var field in fields)
-            {
-                skillData[field.Name] = 0;
+                skillData[field.Name] = (field.GetValue(new SkillTreeData()) as Skill).CurrentLevel.ToString();
             }
 
             return skillData;
@@ -206,14 +190,13 @@ namespace SkillTree.Core.Skills
 
         public static void LoadFromFile(JsonElement data)
         {
-            SkillTreeData obj = new SkillTreeData();
             var fields = typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill));
-
             foreach (var field in fields)
             {
                 try
                 {
-                    (field.GetValue(obj) as Skill).CurrentLevel = data.GetProperty(field.Name).GetInt32();
+                    int value = data.GetProperty(field.Name).ValueKind == JsonValueKind.String ? int.Parse(data.GetProperty(field.Name).GetString()) : data.GetProperty(field.Name).GetInt32();
+                    (field.GetValue(new SkillTreeData()) as Skill).CurrentLevel = value;
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -224,10 +207,9 @@ namespace SkillTree.Core.Skills
 
         public static void LoadDefaultValues()
         {
-            SkillTreeData obj = new SkillTreeData();
             foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
             {
-                (field.GetValue(obj) as Skill).CurrentLevel = 0;
+                (field.GetValue(new SkillTreeData()) as Skill).CurrentLevel = 0;
             }
         }
     }

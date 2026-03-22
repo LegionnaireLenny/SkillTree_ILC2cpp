@@ -2,14 +2,15 @@
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using S1API.Leveling;
+using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace SkillTree.Core.Skills
+namespace SkillTree.Core.Serialization
 {
-    public static class SkillPoints
+    public class SkillPoints
     {
         public static int StatsPoints { get; private set; } = 0;
         public static int OperationsPoints { get; private set; } = 0;
@@ -233,53 +234,32 @@ namespace SkillTree.Core.Skills
             AddSkillPoints(missingStats, missingOperations, missingSocial, missingSpecial);
         }
 
-        public static Dictionary<string, int> GetSaveData()
-        {
-            Dictionary<string, int> skillData = new()
-            {
-                ["StatsPoints"] = StatsPoints,
-                ["OperationsPoints"] = OperationsPoints,
-                ["SocialPoints"] = SocialPoints,
-                ["SpecialPoints"] = SpecialPoints
-            };
-
-            return skillData;
-        }
-
-        public static Dictionary<string, int> GetDefaultSaveData()
-        {
-            Dictionary<string, int> skillData = new()
-            {
-                ["StatsPoints"] = 0,
-                ["OperationsPoints"] = 0,
-                ["SocialPoints"] = 0,
-                ["SpecialPoints"] = 0,
-                ["UsedSkillPoints"] = 0
-            };
-
-            return skillData;
-        }
-
         public static void LoadFromFile(JsonElement data)
         {
-            try
+            var properties = typeof(SkillPoints).GetProperties();
+
+            foreach (var property in properties)
             {
-                StatsPoints = data.GetProperty(nameof(StatsPoints)).GetInt32();
-                OperationsPoints = data.GetProperty(nameof(OperationsPoints)).GetInt32();
-                SocialPoints = data.GetProperty(nameof(SocialPoints)).GetInt32();
-                SpecialPoints = data.GetProperty(nameof(SpecialPoints)).GetInt32();
-            }
-            catch (KeyNotFoundException e) 
-            {
-                throw new KeyNotFoundException($"Failed to load skill points from file {e}");
+                try
+                {
+                    int value = data.GetProperty(property.Name).ValueKind == JsonValueKind.String ? int.Parse(data.GetProperty(property.Name).GetString()) : data.GetProperty(property.Name).GetInt32();
+                    property.SetValue(new SkillPoints(), value);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    MelonLogger.Warning($"Failed to load {property.Name} from file {e}");
+                    property.SetValue(new SkillPoints(), 0);
+                }
             }
         }
+
         public static void LoadDefaultValues()
         {
-            StatsPoints = 0;
-            OperationsPoints = 0;
-            SocialPoints = 0;
-            SpecialPoints = 0;
+            foreach (var property in typeof(SkillPoints).GetProperties())
+            {
+                property.SetValue(new SkillPoints(), 0);
+            }
+
         }
     }
 }
