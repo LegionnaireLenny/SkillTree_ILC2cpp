@@ -6,26 +6,12 @@ using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Serialization;
+using static SkillTree.Core.Serialization.Cooldowns;
 
 namespace SkillTree.Core.Patches.Stats
 {
     public class AllowSleep
     {
-        private static int lastDayUsed = -1;
-
-        // Skipping a schedule and then loading another save prevents resting until the next day because the state isn't tracked through saves properly
-        // I don't care enough about this restriction to track state properly or implement something more robust, so reset it on scene change
-        public static void Reset()
-        {
-            lastDayUsed = -1;
-        }
-
-        public static bool CanUseBedSkill()
-        {
-            int currentDay = (int)NetworkSingleton<TimeManager>.Instance.CurrentDay;
-            return currentDay != lastDayUsed;
-        }
-
         public static string GetTimeRemaining(float currentTime)
         {
             int next = GetNextSchedule();
@@ -86,11 +72,11 @@ namespace SkillTree.Core.Patches.Stats
                 if (currentTime >= 0 && currentTime < 700)
                     return true;
 
-                if (!CanUseBedSkill() && currentTime <= 1800)
+                if (CircadianMasteryUsed && currentTime <= 1800)
                 {
                     __instance.intObj.SetMessage("Sleep. Schedule has already been skipped today.");
                 }
-                else if (CanUseBedSkill() && currentTime < 2357)
+                else if (!CircadianMasteryUsed && currentTime < 2357)
                 {
                     string remaining = GetTimeRemaining(currentTime);
                     __instance.intObj.SetMessage($"Next Shift in: {remaining}");
@@ -111,7 +97,7 @@ namespace SkillTree.Core.Patches.Stats
                 if (SkillTreeData.CircadianMastery.CurrentLevel == 0)
                     return true;
 
-                if (!CanUseBedSkill())
+                if (CircadianMasteryUsed)
                 {
                     MelonLogger.Msg("[BedSkill] You've already rested today! You can't use it until tomorrow.");
                     return true;
@@ -134,8 +120,7 @@ namespace SkillTree.Core.Patches.Stats
                         }
                     }
 
-                    lastDayUsed = (int)NetworkSingleton<TimeManager>.Instance.CurrentDay;
-
+                    CircadianMasteryUsed = true;
                     NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
                     MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
                     return false;

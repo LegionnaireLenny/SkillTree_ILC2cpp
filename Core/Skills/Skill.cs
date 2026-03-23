@@ -162,7 +162,7 @@ namespace SkillTree.Core.Skills
 
         public void ApplySkillEffect()
         {
-            if (OnLevelUp == null || CurrentLevel == 0)
+            if (OnLevelUp == null)
             {
                 return;
             }

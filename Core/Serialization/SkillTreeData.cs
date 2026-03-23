@@ -133,13 +133,12 @@ namespace SkillTree.Core.Serialization
 
         public static void ApplyAllSkills()
         {
+            MelonLogger.Msg($"ApplyAllSkills");
+
             SkillTreeData obj = new SkillTreeData();
             foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
             {
-                if ((field.GetValue(obj) as Skill).CurrentLevel > 0)
-                {
-                    (field.GetValue(obj) as Skill).ApplySkillEffect();
-                }
+                (field.GetValue(obj) as Skill).ApplySkillEffect();
             }
         }
 

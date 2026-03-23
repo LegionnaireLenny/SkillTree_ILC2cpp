@@ -1,7 +1,6 @@
 ﻿using Il2CppScheduleOne;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
-using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +11,13 @@ namespace SkillTree.Core.Patches.Stats
     {
         public static void SetItemStackSize()
         {
-            if (Registry.Instance == null || SkillTreeData.MoreStackItem.CurrentLevel == 0)
+            if (Registry.Instance == null)
                 return;
 
             List<ItemDefinition> allItems = Registry.Instance.GetAllItems().ToArray().ToList();
             Cache.FillCache(allItems);
 
-            MelonLogger.Msg($"[MoreStackItem] Increasing item stack by x{SkillModifiers.GetInventoryStackSizeMultiplier()}");
+            MelonLogger.Msg($"[MoreStackItem] Stack limit multiplier x{SkillModifiers.GetInventoryStackSizeMultiplier()}");
             foreach (ItemDefinition item in allItems)
             {
                 if (Cache.OriginalItemStackSize.TryGetValue(item.name, out int baseStackLimit))

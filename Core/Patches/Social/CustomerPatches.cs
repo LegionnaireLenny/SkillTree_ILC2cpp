@@ -26,7 +26,7 @@ namespace SkillTree.Core.Patches.Social
 
         public static void SetCustomerSpendLimits()
         {
-            Customer[] customerList = UnityEngine.Object.FindObjectsOfType<Customer>();
+            Customer[] customerList = Object.FindObjectsOfType<Customer>();
             Cache.FillCache(customerList.ToList());
 
             if (SkillTreeData.CityEvolving.CurrentLevel != 0)

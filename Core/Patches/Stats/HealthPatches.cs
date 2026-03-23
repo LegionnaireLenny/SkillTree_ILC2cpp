@@ -3,7 +3,6 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
-using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using UnityEngine;
@@ -15,11 +14,6 @@ namespace SkillTree.Core.Patches.Stats
     {
         public static void SetPlayerHealth()
         {
-            if (SkillTreeData.Stats.CurrentLevel == 0)
-            {
-                return;
-            }
-
             float original = Player.Local.Health.CurrentHealth;
             Player.Local.Health.SetHealth(SkillModifiers.GetPlayerMaxHealth());
             MelonLogger.Msg($"[Stats] Player max health changed from {original} to {Player.Local.Health.CurrentHealth} ");
@@ -29,8 +23,8 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static bool Prefix_MinPass(PlayerHealth __instance)
         {
-            if (__instance.IsAlive && 
-                __instance.CurrentHealth < SkillModifiers.GetPlayerMaxHealth() && 
+            if (__instance.IsAlive &&
+                __instance.CurrentHealth < SkillModifiers.GetPlayerMaxHealth() &&
                 __instance.TimeSinceLastDamage > SkillModifiers.GetPlayerHealthRegenDelay())
             {
                 float recoveredHealth = SkillModifiers.GetPlayerHealthRegen();
@@ -106,7 +100,7 @@ namespace SkillTree.Core.Patches.Stats
 
             __instance.CurrentHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            MelonLogger.Msg($"[Stats] Trying to set health to {health}. Health after {__instance.CurrentHealth}. Max health {SkillModifiers.GetPlayerMaxHealth()}");
+            MelonLogger.Msg($"[Stats] Player health set to {__instance.CurrentHealth}. Maximum health {SkillModifiers.GetPlayerMaxHealth()}");
             if (__instance.CurrentHealth <= 0f)
             {
                 __instance.SendDie();

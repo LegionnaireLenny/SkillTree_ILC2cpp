@@ -17,6 +17,7 @@ namespace SkillTree.Core.Serialization
         public static bool BloodRushUsed { get; set; } = false;
         public static bool SiphonFundsUsed { get; set; } = false;
         public static bool TrickleDownUsed { get; set; } = false;
+        public static bool CircadianMasteryUsed { get; set; } = false;
 
         public static void ResetSkillCooldowns()
         {
@@ -24,6 +25,7 @@ namespace SkillTree.Core.Serialization
             BloodRushUsed = false;
             SiphonFundsUsed = false;
             TrickleDownUsed = false;
+            CircadianMasteryUsed = false;
             Singleton<NotificationsManager>.Instance?.SendNotification(
                 "A New Day Dawns",
                 "Cooldowns Reset",

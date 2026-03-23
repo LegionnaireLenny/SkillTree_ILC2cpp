@@ -4,6 +4,7 @@ using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Quests;
 using MelonLoader;
 using SkillTree.Core.Utilities;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,14 +33,13 @@ namespace SkillTree.Core.Patches.Miscellaneous
         public static void Patch_Contract_UpdatePoI(Contract __instance)
         {
             if (__instance == null || !ConfigManager.EnableContractColors.GetValue()) return;
-
-            string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
-            string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
-            Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyBackgroundColor.GetValue() : ConfigManager.ContractNotReadyBackgroundColor.GetValue();
-            Color fillColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyFillColor.GetValue() : ConfigManager.ContractNotReadyFillColor.GetValue();
-
             if (__instance.Entries[0].PoI != null)
             {
+                string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
+                string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
+                Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyBackgroundColor.GetValue() : ConfigManager.ContractNotReadyBackgroundColor.GetValue();
+                Color fillColor = currentWindow.Equals(deliveryWindow) ? ConfigManager.ContractReadyFillColor.GetValue() : ConfigManager.ContractNotReadyFillColor.GetValue();
+
                 try
                 {
                     __instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = backgroundColor;
@@ -50,7 +50,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
                     __instance.Entries[0].compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Fill").GetComponent<Image>().color = fillColor;
                     __instance.Entries[0].PoI.IconContainer.FindChild("ContractIcon").FindChild("Fill").GetComponent<Image>().color = fillColor;
                 }
-                catch { }
+                catch (Exception) { }
             }
         }
     }

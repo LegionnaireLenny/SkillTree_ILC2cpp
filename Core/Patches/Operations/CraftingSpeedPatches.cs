@@ -37,6 +37,8 @@ namespace SkillTree.Core.Patches.Operations
             if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
                 return true;
 
+            if (__instance == null) return false;
+
             if (__instance.CurrentOperation != null && !__instance.CurrentOperation.IsComplete())
             {
                 __instance.CurrentOperation.UpdateCookProgress(1 * SkillModifiers.GetChemistStationSpeedMultiplier());

@@ -18,7 +18,7 @@ namespace SkillTree.Core.Patches.Social
                 MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             }
 
-            Business[] businessList = UnityEngine.Object.FindObjectsOfType<Business>();
+            Business[] businessList = Object.FindObjectsOfType<Business>();
             Cache.FillCache(businessList.ToList());
             foreach (Business business in businessList)
             {
