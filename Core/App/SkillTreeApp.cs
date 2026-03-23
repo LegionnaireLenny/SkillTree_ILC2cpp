@@ -264,10 +264,10 @@ namespace SkillTree.Core.App
             // === BUILD SKILL TREES ===
             var connectionLines = new Dictionary<(Skill, Skill), List<Image>>();
 
-            List<SkillNode> nodesStats = BuildCategoryTree(SkillTreeData.StatsTree, statsContainer, connectionLines);
-            List<SkillNode> nodesOps = BuildCategoryTree(SkillTreeData.OperationsTree, opsContainer, connectionLines);
-            List<SkillNode> nodesSocial = BuildCategoryTree(SkillTreeData.SocialTree, socialContainer, connectionLines);
-            List<SkillNode> nodesSpecial = BuildCategoryTree(SkillTreeData.SpecialTree, specialContainer, connectionLines);
+            List<SkillNode> nodesStats = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Stats], statsContainer, connectionLines);
+            List<SkillNode> nodesOps = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Operations], opsContainer, connectionLines);
+            List<SkillNode> nodesSocial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Social], socialContainer, connectionLines);
+            List<SkillNode> nodesSpecial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Special], specialContainer, connectionLines);
 
             List<SkillNode> allNodes = [.. nodesStats, .. nodesOps, .. nodesSocial, .. nodesSpecial];
 

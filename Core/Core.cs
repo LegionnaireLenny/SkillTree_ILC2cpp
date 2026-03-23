@@ -47,10 +47,7 @@ namespace SkillTree.Core
 
             ConfigManager.Initialize();
             IconManager.ExtractIcons();
-            SkillTreeData.AddChildren(SkillTreeData.StatsTree);
-            SkillTreeData.AddChildren(SkillTreeData.OperationsTree);
-            SkillTreeData.AddChildren(SkillTreeData.SocialTree);
-            SkillTreeData.AddChildren(SkillTreeData.SpecialTree);
+            SkillTreeData.CreateTrees();
 
             LoggerInstance.Msg("SkillTree Initialized.");
         }

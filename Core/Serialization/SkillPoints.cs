@@ -192,7 +192,11 @@ namespace SkillTree.Core.Serialization
         public static void ValidateTotalSkillPoints()
         {
             var (statsExpected, operationsExpected, socialExpected, specialExpected) = GetExpectedPointTotals();
-            var (statsSpent, operationsSpent, socialSpent, specialSpent) = SkillTreeData.GetCategoryPointsSpent();
+            var points = SkillTreeData.GetCategoryPointsSpent();
+            int statsSpent = points[SkillCategory.Stats];
+            int operationsSpent = points[SkillCategory.Operations];
+            int socialSpent = points[SkillCategory.Social];
+            int specialSpent = points[SkillCategory.Special];
 
             int expectedTotal = statsExpected + operationsExpected + socialExpected + specialExpected;
             int pointsSpent = statsSpent + operationsSpent + socialSpent + specialSpent;
