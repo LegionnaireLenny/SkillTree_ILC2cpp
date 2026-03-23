@@ -6,7 +6,7 @@ using SkillTree.Core.Skills;
 using System.Linq;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Social
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public static class BusinessPatches

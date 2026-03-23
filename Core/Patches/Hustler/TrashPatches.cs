@@ -16,7 +16,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace SkillTree.Core.Patches.Social
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public class TrashPatches

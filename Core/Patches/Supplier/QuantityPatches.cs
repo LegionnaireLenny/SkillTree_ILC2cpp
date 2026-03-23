@@ -7,7 +7,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Operations
+namespace SkillTree.Core.Patches.Supplier
 {
     [HarmonyPatch]
     public static class QuantityPatches
@@ -17,7 +17,7 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static bool Prefix(Cauldron __instance, int minutes)
         {
-            if (__instance == null || (SkillTreeData.MoreCauldronOutput.CurrentLevel == 0 && SkillTreeData.MoreQualityMethCoca.CurrentLevel == 0))
+            if (__instance == null || SkillTreeData.MoreCauldronOutput.CurrentLevel == 0 && SkillTreeData.MoreQualityMethCoca.CurrentLevel == 0)
                 return true;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();

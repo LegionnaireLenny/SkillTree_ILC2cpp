@@ -10,7 +10,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
-namespace SkillTree.Core.Patches.Operations
+namespace SkillTree.Core.Patches.Supplier
 {
     [HarmonyPatch]
     public static class GrowContainerPatches
@@ -30,7 +30,7 @@ namespace SkillTree.Core.Patches.Operations
                 return false;
             }
 
-            __instance.ChangeMoistureAmount(-((__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier()) / 60f) * 1f);
+            __instance.ChangeMoistureAmount(-(__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier() / 60f) * 1f);
 
             return false;
         }
@@ -47,7 +47,7 @@ namespace SkillTree.Core.Patches.Operations
                 return false;
             }
             __instance.onTimeSkip?.Invoke(minsSkipped);
-            __instance.ChangeMoistureAmount(-((__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier()) / 60f) * (float)minsSkipped);
+            __instance.ChangeMoistureAmount(-(__instance._moistureDrainPerHour * SkillModifiers.GetMoistureDrainMultiplier() / 60f) * minsSkipped);
             return false;
         }
 

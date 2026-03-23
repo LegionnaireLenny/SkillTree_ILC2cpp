@@ -4,7 +4,7 @@ using Il2CppScheduleOne.ObjectScripts;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 
-namespace SkillTree.Core.Patches.Operations
+namespace SkillTree.Core.Patches.Supplier
 {
     [HarmonyPatch]
     public class QualityPatches

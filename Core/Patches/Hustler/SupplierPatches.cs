@@ -6,7 +6,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Social
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public class SupplierPatches

@@ -6,7 +6,7 @@ using Il2CppScheduleOne.Growing;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 
-namespace SkillTree.Core.Patches.Operations
+namespace SkillTree.Core.Patches.Supplier
 {
     [HarmonyPatch]
     public class PlantPatches
@@ -54,7 +54,7 @@ namespace SkillTree.Core.Patches.Operations
             if (!InstanceFinder.IsServer ||
                 __instance == null ||
                 !__instance.Pot.IsSpawned ||
-                (SkillTreeData.Supplier.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
+                SkillTreeData.Supplier.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0)
                 return;
 
             //float baseQuality = __instance.QualityLevel;

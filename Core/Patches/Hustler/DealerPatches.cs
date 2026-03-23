@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace SkillTree.Core.Patches.Social
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public class DealerPatches
@@ -58,7 +58,7 @@ namespace SkillTree.Core.Patches.Social
 
                 while (entriesList.Count < SkillModifiers.GetMaxCustomers())
                 {
-                    RectTransform newSlot = UnityEngine.Object.Instantiate(template, listParent);
+                    RectTransform newSlot = Object.Instantiate(template, listParent);
                     newSlot.name = "CustomerEntry_Mod_Slot_" + entriesList.Count;
                     entriesList.Add(newSlot);
                 }

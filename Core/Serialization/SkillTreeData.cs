@@ -1,4 +1,5 @@
 ﻿using MelonLoader;
+using SkillTree.Core.Patches.Hustler;
 using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
@@ -37,8 +38,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill Logistician = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Logistician, 2, null);
         public static readonly Skill RushDelivery = new("Rush Delivery", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours", SkillCategory.Logistician, 1, Logistician);
         public static readonly Skill ExpansiveEmpire = new("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Logistician, 1, Logistician);
-        public static readonly Skill WageGarnishment = new("Wage Garnishment", "Decrease dealer's cut by 5%", SkillCategory.Logistician, 2, ExpansiveEmpire, [Patches.Social.DealerPatches.SetDealerCut]);
-        public static readonly Skill MotivationalLeader = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Logistician, 1, ExpansiveEmpire, [Patches.Social.DealerPatches.SetDealerMoveSpeed]);
+        public static readonly Skill WageGarnishment = new("Wage Garnishment", "Decrease dealer's cut by 5%", SkillCategory.Logistician, 2, ExpansiveEmpire, [DealerPatches.SetDealerCut]);
+        public static readonly Skill MotivationalLeader = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Logistician, 1, ExpansiveEmpire, [DealerPatches.SetDealerMoveSpeed]);
         public static readonly Skill NightShift = new("Night Shift", "Employees don't stop at 4 AM", SkillCategory.Logistician, 1, Logistician);
         public static readonly Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Logistician, 1, NightShift);
         public static readonly Skill EmployeeMovespeed = new("RUN BITCH RUN!", "Employees move 3 times faster", SkillCategory.Logistician, 1, NightShift);
@@ -46,11 +47,11 @@ namespace SkillTree.Core.Serialization
 
         public static readonly Skill Hustler = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Hustler, 1, null);
         public static readonly Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items", SkillCategory.Hustler, 1, Hustler);
-        public static readonly Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Hustler, 2, CommunityService, [Patches.Social.TrashPatches.IncreaseTrashValue]);
-        public static readonly Skill SpreadTheWealth = new("Spread the Wealth", "Increase citizens' weekly spending limits by 25% per level", SkillCategory.Hustler, 2, Hustler, [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
+        public static readonly Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Hustler, 2, CommunityService, [TrashPatches.IncreaseTrashValue]);
+        public static readonly Skill SpreadTheWealth = new("Spread the Wealth", "Increase citizens' weekly spending limits by 25% per level", SkillCategory.Hustler, 2, Hustler, [CustomerPatches.SetCustomerSpendLimits]);
         //public static readonly Skill CaptiveMarket = new("Captive Market", "Increase citizens' weekly order limits by 3 per level and 1 per rank", SkillCategory.Hustler, 2, Hustler, [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
         public static readonly Skill HoardTheWealth = new("Hoard the Wealth", "Increase ATM deposit limit by $2500 per level", SkillCategory.Hustler, 2, Hustler);
-        public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [Patches.Social.BusinessPatches.SetLaunderingCapacity]);
+        public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [BusinessPatches.SetLaunderingCapacity]);
         public static readonly Skill CrystalBall = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Hustler, 1, Hustler);
         public static readonly Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [Patches.Special.NPCPatches.UpdateVisibility]);
         public static readonly Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [Patches.Special.NPCPatches.UpdateVisibility]);

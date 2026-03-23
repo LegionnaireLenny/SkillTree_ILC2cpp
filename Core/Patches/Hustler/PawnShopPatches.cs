@@ -2,7 +2,7 @@
 using Il2CppScheduleOne.UI;
 using SkillTree.Core.Skills;
 
-namespace SkillTree.Core.Patches.Social
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public class PawnShopPatches
