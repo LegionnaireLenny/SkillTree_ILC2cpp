@@ -14,7 +14,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "2.6.4", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "2.6.5", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core

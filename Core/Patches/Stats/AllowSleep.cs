@@ -6,6 +6,8 @@ using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
+using UnityEngine;
 using static SkillTree.Core.Serialization.Cooldowns;
 
 namespace SkillTree.Core.Patches.Stats
@@ -36,6 +38,21 @@ namespace SkillTree.Core.Patches.Stats
             if (time >= 1803 && time < 2357) return 2357;
 
             return (int)time;
+        }
+
+        private static int CalculateMinutesBetween(float start, float end)
+        {
+            if (end == 0) end = 2400;
+
+            int startHours = (int)start / 100;
+            int startMins = (int)start % 100;
+            int endHours = (int)end / 100;
+            int endMins = (int)end % 100;
+
+            int startTotal = startHours * 60 + startMins;
+            int endTotal = endHours * 60 + endMins;
+
+            return endTotal - startTotal;
         }
 
         [HarmonyPatch(typeof(Bed), "CanSleep")]
@@ -112,36 +129,21 @@ namespace SkillTree.Core.Patches.Stats
 
                     if (totalMinutesPassed > 0)
                     {
-                        foreach (GrowContainer container in UnityEngine.Object.FindObjectsOfType<GrowContainer>())
+                        foreach (GrowContainer container in Object.FindObjectsOfType<GrowContainer>())
                         {
-                            container.DrainMoisture(totalMinutesPassed);
-                            container.TryCast<Pot>()?.OnTimeSkipped(totalMinutesPassed / 3);
-                            container.TryCast<MushroomBed>()?.OnTimeSkipped(totalMinutesPassed / 3);
+                            container.OnTimeSkipped(totalMinutesPassed);
+                            container.TryCast<Pot>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * ConfigManager.TimeSkipGrowthMultiplier.GetValue()));
+                            container.TryCast<MushroomBed>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * ConfigManager.TimeSkipGrowthMultiplier.GetValue()));
                         }
-                    }
 
-                    CircadianMasteryUsed = true;
-                    NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
-                    MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
-                    return false;
+                        CircadianMasteryUsed = true;
+                        NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
+                        MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
+                        return false;
+                    }
                 }
                 return true;
             }
-        }
-
-        private static int CalculateMinutesBetween(float start, float end)
-        {
-            if (end == 0) end = 2400;
-
-            int startHours = (int)start / 100;
-            int startMins = (int)start % 100;
-            int endHours = (int)end / 100;
-            int endMins = (int)end % 100;
-
-            int startTotal = startHours * 60 + startMins;
-            int endTotal = endHours * 60 + endMins;
-
-            return endTotal - startTotal;
         }
     }
 }

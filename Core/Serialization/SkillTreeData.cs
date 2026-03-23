@@ -133,8 +133,6 @@ namespace SkillTree.Core.Serialization
 
         public static void ApplyAllSkills()
         {
-            MelonLogger.Msg($"ApplyAllSkills");
-
             SkillTreeData obj = new SkillTreeData();
             foreach (var field in typeof(SkillTreeData).GetFields().Where(x => x.FieldType == typeof(Skill)))
             {

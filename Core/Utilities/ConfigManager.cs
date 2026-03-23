@@ -53,6 +53,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> VisibilityMultiplier { get; set; }
         public static ConfigEntry<float> PickpocketDifficultyMultiplier { get; set; }
         public static ConfigEntry<float> PickpocketMinimumSuccessWidth { get; set; }
+        public static ConfigEntry<float> TimeSkipGrowthMultiplier { get; set; }
         public static ConfigEntry<float> XPGainBonus { get; set; }
         public static ConfigEntry<float> XPGainBonus2 { get; set; }
         public static ConfigEntry<float> SaleXPBonus { get; set; }
@@ -156,6 +157,7 @@ namespace SkillTree.Core.Utilities
             VisibilityMultiplier = new ConfigEntry<float>(Stats, "SkillTree_VisibilityMultiplier", 0.75f, "Ghost: Visibility Multiplier");
             PickpocketDifficultyMultiplier = new ConfigEntry<float>(Stats, "SkillTree_PickpocketDifficultyMultiplier", 0.75f, "Ghost: Pickpocket Difficulty Multiplier");
             PickpocketMinimumSuccessWidth = new ConfigEntry<float>(Stats, "SkillTree_PickpocketMinimumSuccessWidth", 20f, "Ghost: Minimum Width of Pickpocket Green Area");
+            TimeSkipGrowthMultiplier = new ConfigEntry<float>(Stats, "SkillTree_TimeSkipGrowthMultiplier", 0.33f, "Circadian Mastery: Time Skip Plant Growth Progress Multiplier", "By default, plants grow at one-third (0.33) of their normal speed when time is skipped.", new ValueRange<float>(0.1f, 2f));
             XPGainBonus = new ConfigEntry<float>(Stats, "SkillTree_XPGainBonus", 0.05f, "Fast Learner: XP Bonus");
             XPGainBonus2 = new ConfigEntry<float>(Stats, "SkillTree_XPGainBonus2", 0.1f, "Turbo Nerdo: XP Bonus");
             SaleXPBonus = new ConfigEntry<float>(Stats, "SkillTree_SalesXPBonus", 0.05f, "Kingpin: Sales XP Bonus");
