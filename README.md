@@ -269,6 +269,7 @@ Icons - https://iconify.design/
     - Cash Icon - bi:cash-coin
     - App Icon Tree - si:flow-tree-duotone
     - App Icon Fork - hugeicons:fork
+    - Truck Icon - glyphs:truck-bold
   - License: Apache 2
     - Benzies Goon Icon - mdi:dagger.png
     - Police Officer Icon - mdi:police-badge-outline.png

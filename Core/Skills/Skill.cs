@@ -70,7 +70,7 @@ namespace SkillTree.Core.Skills
                 MelonLogger.Msg($"Not enough {Category} points");
                 return false;
             }
-                
+
             if (IsMaxLevel() || IsOverLeveled())
             {
                 MelonLogger.Msg($"{Name} is already max level");
@@ -86,7 +86,7 @@ namespace SkillTree.Core.Skills
             {
                 return MaxLevel - CurrentLevel;
             }
-            
+
             return (MaxLevel - CurrentLevel) + Parent.GetPointsToLevelBranch();
         }
 

@@ -12,7 +12,7 @@ namespace SkillTree.Core.Patches.Operations
     [HarmonyPatch]
     public static class QuantityPatches
     {
-        
+
         [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
         [HarmonyPrefix]
         public static bool Prefix(Cauldron __instance, int minutes)
@@ -32,8 +32,8 @@ namespace SkillTree.Core.Patches.Operations
                     if (InstanceFinder.IsServer)
                     {
                         QualityItemInstance qualityItemInstance = new QualityItemInstance(
-                            __instance.CocaineBaseDefinition, 
-                            SkillModifiers.GetCauldronOutput(), 
+                            __instance.CocaineBaseDefinition,
+                            SkillModifiers.GetCauldronOutput(),
                             ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
                         __instance.OutputSlot.InsertItem(qualityItemInstance);
                     }

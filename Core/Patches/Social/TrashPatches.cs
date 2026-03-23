@@ -148,7 +148,7 @@ namespace SkillTree.Core.Patches.Social
                         HashSet<Guid> processedTrash = [];
                         for (int i = 0; i < list.Count; i++)
                         {
-                            if (Equippable_TrashGrabber.IsEquipped && 
+                            if (Equippable_TrashGrabber.IsEquipped &&
                                 list[i].CanGoInContainer &&
                                 !processedTrash.Contains(list[i].GUID) &&
                                 Equippable_TrashGrabber.Instance.GetCapacity() > 0)

@@ -3,7 +3,6 @@ using Il2CppScheduleOne.Persistence;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
-using SkillTree.Core.Patches.Special;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +32,7 @@ namespace SkillTree.Core.Serialization
         {
             foreach (Dictionary<string, string> dictionary in sources)
             {
-                foreach(var item in dictionary)
+                foreach (var item in dictionary)
                 {
                     skillData.Add(item.Key, item.Value);
                 }
@@ -99,7 +98,7 @@ namespace SkillTree.Core.Serialization
             {
                 MelonLogger.Warning(ex);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 MelonLogger.Warning($"Error loading save data {ex}");
                 DeleteFile();

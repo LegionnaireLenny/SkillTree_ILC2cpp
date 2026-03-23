@@ -20,7 +20,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void Postfix(Employee __instance, ref bool __result)
         {
-            if (__instance == null || SkillTreeData.Employees24h.CurrentLevel == 0) return;
+            if (__instance == null || SkillTreeData.NightShift.CurrentLevel == 0) return;
 
             List<Employee.NoWorkReason> bogusReasons = [];
             foreach (var reason in __instance.WorkIssues)
@@ -45,7 +45,7 @@ namespace SkillTree.Core.Patches.Special
             if (__instance == null || __instance.Fired)
                 return;
 
-            if (SkillTreeData.Employees24h.CurrentLevel > 0 &&
+            if (SkillTreeData.NightShift.CurrentLevel > 0 &&
                 InstanceFinder.IsServer &&
                 (__instance.Behaviour.activeBehaviour == null || __instance.Behaviour.activeBehaviour == __instance.WaitOutside) &&
                 __instance.GetHome() != null &&

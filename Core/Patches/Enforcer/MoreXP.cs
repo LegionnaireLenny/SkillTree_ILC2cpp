@@ -6,7 +6,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch(typeof(LevelManager), "AddXP")]
     public class MoreXP

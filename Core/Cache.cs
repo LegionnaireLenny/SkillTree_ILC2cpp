@@ -29,7 +29,7 @@ namespace SkillTree.Core
         {
             if (OriginalLaunderCapacity.Count > 0)
             {
-                return; 
+                return;
             }
 
             foreach (Business business in businesses)
@@ -96,7 +96,7 @@ namespace SkillTree.Core
             {
                 return;
             }
-            
+
             foreach (Dealer dealer in dealers)
             {
                 if (!OriginalDealerCut.ContainsKey(dealer.name))

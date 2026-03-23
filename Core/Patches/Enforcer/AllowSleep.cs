@@ -10,7 +10,7 @@ using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Serialization.Cooldowns;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     public class AllowSleep
     {

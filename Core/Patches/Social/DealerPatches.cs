@@ -120,7 +120,8 @@ namespace SkillTree.Core.Patches.Social
 
                     Button removeBtn = entry.Find("Remove").GetComponent<Button>();
                     removeBtn.onClick.RemoveAllListeners();
-                    removeBtn.onClick.AddListener((UnityAction)(() => {
+                    removeBtn.onClick.AddListener((UnityAction)(() =>
+                    {
                         dealer.SendRemoveCustomer(customer.NPC.ID);
                         __instance.SetDisplayedDealer(dealer);
                     }));

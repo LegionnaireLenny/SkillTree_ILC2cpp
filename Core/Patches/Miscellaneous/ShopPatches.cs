@@ -7,7 +7,6 @@ using Il2CppScheduleOne.UI.Shop;
 using MelonLoader;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Miscellaneous

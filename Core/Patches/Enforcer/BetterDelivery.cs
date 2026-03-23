@@ -4,7 +4,7 @@ using MelonLoader;
 using SkillTree.Core.Serialization;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch(typeof(DeliveryManager), "SendDelivery")]
     public class BetterDelivery
@@ -12,7 +12,7 @@ namespace SkillTree.Core.Patches.Stats
         [HarmonyPrefix]
         public static void Prefix(ref DeliveryInstance delivery)
         {
-            if (delivery == null || delivery.TimeUntilArrival <= 120 || SkillTreeData.BetterDelivery.CurrentLevel == 0)
+            if (delivery == null || delivery.TimeUntilArrival <= 120 || SkillTreeData.RushDelivery.CurrentLevel == 0)
                 return;
 
             int originalTime = delivery.TimeUntilArrival;

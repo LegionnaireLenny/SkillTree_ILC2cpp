@@ -12,9 +12,10 @@ namespace SkillTree.Core.Serialization
 {
     public class SkillPoints
     {
-        public static int StatsPoints { get; private set; } = 0;
-        public static int OperationsPoints { get; private set; } = 0;
-        public static int SocialPoints { get; private set; } = 0;
+        public static int EnforcerPoints { get; private set; } = 0;
+        public static int SupplierPoints { get; private set; } = 0;
+        public static int HustlerPoints { get; private set; } = 0;
+        public static int LogisticianPoints { get; private set; } = 0;
         public static int SpecialPoints { get; private set; } = 0;
         public static Action OnSkillPointsChanged;
 
@@ -22,14 +23,17 @@ namespace SkillTree.Core.Serialization
         {
             switch (category)
             {
-                case SkillCategory.Stats:
-                    StatsPoints -= amount;
+                case SkillCategory.Enforcer:
+                    EnforcerPoints -= amount;
                     break;
-                case SkillCategory.Operations:
-                    OperationsPoints -= amount;
+                case SkillCategory.Supplier:
+                    SupplierPoints -= amount;
                     break;
-                case SkillCategory.Social:
-                    SocialPoints -= amount;
+                case SkillCategory.Hustler:
+                    HustlerPoints -= amount;
+                    break;
+                case SkillCategory.Logistician:
+                    LogisticianPoints -= amount;
                     break;
                 case SkillCategory.Special:
                     SpecialPoints -= amount;
@@ -38,11 +42,12 @@ namespace SkillTree.Core.Serialization
             OnSkillPointsChanged?.Invoke();
         }
 
-        public static void AddSkillPoints(int stats, int ops, int social, int special)
+        public static void AddSkillPoints(int stats, int ops, int social, int logistician, int special)
         {
-            StatsPoints += stats;
-            OperationsPoints += ops;
-            SocialPoints += social;
+            EnforcerPoints += stats;
+            SupplierPoints += ops;
+            HustlerPoints += social;
+            LogisticianPoints += logistician;
             SpecialPoints += special;
             OnSkillPointsChanged?.Invoke();
         }
@@ -51,27 +56,34 @@ namespace SkillTree.Core.Serialization
         {
             switch (category)
             {
-                case SkillCategory.Stats:
-                    StatsPoints++;
-                    MelonLogger.Msg("+1 Stats point");
+                case SkillCategory.Enforcer:
+                    EnforcerPoints++;
+                    MelonLogger.Msg("+1 Enforcer point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>+1 Stats point</color>", IconManager.LoadSprite(IconManager.IconStats));
+                    $"<color=#16F01C>+1 Enforcer point</color>", IconManager.LoadSprite(IconManager.IconEnforcer));
 
                     break;
-                case SkillCategory.Operations:
-                    OperationsPoints++;
-                    MelonLogger.Msg("+1 Operations point");
+                case SkillCategory.Supplier:
+                    SupplierPoints++;
+                    MelonLogger.Msg("+1 Supplier point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>+1 Operations point</color>", IconManager.LoadSprite(IconManager.IconOperations));
+                    $"<color=#16F01C>+1 Supplier point</color>", IconManager.LoadSprite(IconManager.IconSupplier));
                     break;
-                case SkillCategory.Social:
-                    SocialPoints++;
-                    MelonLogger.Msg("+1 Social point");
+                case SkillCategory.Hustler:
+                    HustlerPoints++;
+                    MelonLogger.Msg("+1 Hustler point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
-                    $"<color=#16F01C>+1 Social point</color>", IconManager.LoadSprite(IconManager.IconSocial));
+                    $"<color=#16F01C>+1 Hustler point</color>", IconManager.LoadSprite(IconManager.IconHustler));
+                    break;
+                case SkillCategory.Logistician:
+                    LogisticianPoints++;
+                    MelonLogger.Msg("+1 Logistician point");
+                    Singleton<NotificationsManager>.Instance.SendNotification(
+                    "Level Up",
+                    $"<color=#16F01C>+1 Logistician point</color>", IconManager.LoadSprite(IconManager.IconLogistician));
                     break;
                 case SkillCategory.Special:
                     SpecialPoints++;
@@ -101,18 +113,21 @@ namespace SkillTree.Core.Serialization
 
             for (int i = 0; i < nonSpecialPointsGained; i++)
             {
-                int mod = (previousNonSpecialPoints + i) % 3;
+                int mod = (previousNonSpecialPoints + i) % 4;
                 //MelonLogger.Msg($"Mod {mod}");
                 switch (mod)
                 {
                     case 0:
-                        AddSkillPoint(SkillCategory.Stats);
+                        AddSkillPoint(SkillCategory.Enforcer);
                         break;
                     case 1:
-                        AddSkillPoint(SkillCategory.Operations);
+                        AddSkillPoint(SkillCategory.Supplier);
                         break;
                     case 2:
-                        AddSkillPoint(SkillCategory.Social);
+                        AddSkillPoint(SkillCategory.Hustler);
+                        break;
+                    case 3:
+                        AddSkillPoint(SkillCategory.Logistician);
                         break;
                 }
             }
@@ -127,12 +142,14 @@ namespace SkillTree.Core.Serialization
         {
             switch (category)
             {
-                case SkillCategory.Stats:
-                    return StatsPoints > 0;
-                case SkillCategory.Operations:
-                    return OperationsPoints > 0;
-                case SkillCategory.Social:
-                    return SocialPoints > 0;
+                case SkillCategory.Enforcer:
+                    return EnforcerPoints > 0;
+                case SkillCategory.Supplier:
+                    return SupplierPoints > 0;
+                case SkillCategory.Hustler:
+                    return HustlerPoints > 0;
+                case SkillCategory.Logistician:
+                    return LogisticianPoints > 0;
                 case SkillCategory.Special:
                     return SpecialPoints > 0;
                 default:
@@ -144,12 +161,14 @@ namespace SkillTree.Core.Serialization
         {
             switch (category)
             {
-                case SkillCategory.Stats:
-                    return StatsPoints;
-                case SkillCategory.Operations:
-                    return OperationsPoints;
-                case SkillCategory.Social:
-                    return SocialPoints;
+                case SkillCategory.Enforcer:
+                    return EnforcerPoints;
+                case SkillCategory.Supplier:
+                    return SupplierPoints;
+                case SkillCategory.Hustler:
+                    return HustlerPoints;
+                case SkillCategory.Logistician:
+                    return LogisticianPoints;
                 case SkillCategory.Special:
                     return SpecialPoints;
                 default:
@@ -157,7 +176,7 @@ namespace SkillTree.Core.Serialization
             }
         }
 
-        public static (int, int, int, int) GetExpectedPointTotals()
+        public static (int, int, int, int, int) GetExpectedPointTotals()
         {
             int currentRank = (int)LevelManager.Rank;
             int currentTier = LevelManager.Tier - 1;
@@ -168,11 +187,12 @@ namespace SkillTree.Core.Serialization
             int stats = 0;
             int operations = 0;
             int social = 0;
+            int logistician = 0;
             int special = currentRank;
 
             for (int i = 0; i < nonSpecialPoints; i++)
             {
-                int mod = i % 3;
+                int mod = i % 4;
                 switch (mod)
                 {
                     case 0:
@@ -184,27 +204,31 @@ namespace SkillTree.Core.Serialization
                     case 2:
                         social++;
                         break;
+                    case 3:
+                        logistician++;
+                        break;
                 }
             }
-            return (stats, operations, social, special);
+            return (stats, operations, social, logistician, special);
         }
 
         public static void ValidateTotalSkillPoints()
         {
-            var (statsExpected, operationsExpected, socialExpected, specialExpected) = GetExpectedPointTotals();
+            var (enforcerExpected, supplierExpected, hustlerExpected, logisticianExpected, specialExpected) = GetExpectedPointTotals();
             var points = SkillTreeData.GetCategoryPointsSpent();
-            int statsSpent = points[SkillCategory.Stats];
-            int operationsSpent = points[SkillCategory.Operations];
-            int socialSpent = points[SkillCategory.Social];
+            int enforcerSpent = points[SkillCategory.Enforcer];
+            int supplierSpent = points[SkillCategory.Supplier];
+            int hustlerSpent = points[SkillCategory.Hustler];
+            int logisticianSpent = points[SkillCategory.Logistician];
             int specialSpent = points[SkillCategory.Special];
 
-            int expectedTotal = statsExpected + operationsExpected + socialExpected + specialExpected;
-            int pointsSpent = statsSpent + operationsSpent + socialSpent + specialSpent;
-            int pointsRemaining = StatsPoints + OperationsPoints + SocialPoints + SpecialPoints;
+            int expectedTotal = enforcerExpected + supplierExpected + hustlerExpected + logisticianExpected + specialExpected;
+            int pointsSpent = enforcerSpent + supplierSpent + hustlerSpent + logisticianSpent + specialSpent;
+            int pointsRemaining = EnforcerPoints + SupplierPoints + HustlerPoints + LogisticianPoints + SpecialPoints;
 
-            MelonLogger.Msg($"Expected: Stats {statsExpected} | Operations {operationsExpected} | Social {socialExpected} | Special {specialExpected} | Total {expectedTotal}");
-            MelonLogger.Msg($"Spent:    Stats {statsSpent} | Operations {operationsSpent} | Social {socialSpent} | Special {specialSpent} | Total {pointsSpent}");
-            MelonLogger.Msg($"Left:     Stats {StatsPoints} | Operations {OperationsPoints} | Social {SocialPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
+            MelonLogger.Msg($"Expected: Enforcer {enforcerExpected} | Supplier {supplierExpected} | Hustler {hustlerExpected} | Logistician {logisticianExpected} | Special {specialExpected} | Total {expectedTotal}");
+            MelonLogger.Msg($"Spent:    Enforcer {enforcerSpent} | Supplier {supplierSpent} | Hustler {hustlerSpent} | Logistician {logisticianSpent} | Special {specialSpent} | Total {pointsSpent}");
+            MelonLogger.Msg($"Left:     Enforcer {EnforcerPoints} | Supplier {SupplierPoints} | Hustler {HustlerPoints} | Logistician {LogisticianPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
 
             if (expectedTotal < pointsSpent + pointsRemaining)
             {
@@ -214,28 +238,33 @@ namespace SkillTree.Core.Serialization
                 return;
             }
 
-            int missingStats = statsExpected - (statsSpent + StatsPoints);
-            int missingOperations = operationsExpected - (operationsSpent + OperationsPoints);
-            int missingSocial = socialExpected - (socialSpent + SocialPoints);
+            int missingEnforcer = enforcerExpected - (enforcerSpent + EnforcerPoints);
+            int missingSupplier = supplierExpected - (supplierSpent + SupplierPoints);
+            int missingHustler = hustlerExpected - (hustlerSpent + HustlerPoints);
+            int missingLogistician = logisticianExpected - (logisticianSpent + LogisticianPoints);
             int missingSpecial = specialExpected - (specialSpent + SpecialPoints);
 
-            if (missingStats != 0)
+            if (missingEnforcer != 0)
             {
-                MelonLogger.Warning($"Adjusting Stats points by {missingStats}");
+                MelonLogger.Warning($"Adjusting Enforcer points by {missingEnforcer}");
             }
-            if (missingOperations != 0)
+            if (missingSupplier != 0)
             {
-                MelonLogger.Warning($"Adjusting Operations points by {missingOperations}");
+                MelonLogger.Warning($"Adjusting Supplier points by {missingSupplier}");
             }
-            if (missingSocial != 0)
+            if (missingHustler != 0)
             {
-                MelonLogger.Warning($"Adjusting Social points by {missingSocial}");
+                MelonLogger.Warning($"Adjusting Hustler points by {missingHustler}");
+            }
+            if (missingLogistician != 0)
+            {
+                MelonLogger.Warning($"Adjusting Logistician points by {missingLogistician}");
             }
             if (missingSpecial != 0)
             {
                 MelonLogger.Warning($"Adjusting Special points by {missingSpecial}");
             }
-            AddSkillPoints(missingStats, missingOperations, missingSocial, missingSpecial);
+            AddSkillPoints(missingEnforcer, missingSupplier, missingHustler, missingLogistician, missingSpecial);
         }
 
         public static void LoadFromFile(JsonElement data)

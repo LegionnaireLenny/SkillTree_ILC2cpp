@@ -4,11 +4,6 @@ using Il2CppScheduleOne.Equipping;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.UI;
 using SkillTree.Core.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SkillTree.Core.Patches.Miscellaneous
 {

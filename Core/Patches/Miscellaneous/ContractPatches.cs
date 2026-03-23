@@ -2,10 +2,8 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Quests;
-using MelonLoader;
 using SkillTree.Core.Utilities;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -15,7 +15,7 @@ namespace SkillTree.Core.Patches.Social
         [HarmonyPostfix]
         public static void Postfix(ref float __result)
         {
-            if (SkillTreeData.Social.CurrentLevel == 0) 
+            if (SkillTreeData.Hustler.CurrentLevel == 0)
                 return;
 
             float origin = __result;
@@ -29,7 +29,7 @@ namespace SkillTree.Core.Patches.Social
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             Cache.FillCache(customerList.ToList());
 
-            if (SkillTreeData.CityEvolving.CurrentLevel != 0)
+            if (SkillTreeData.SpreadTheWealth.CurrentLevel != 0)
             {
                 MelonLogger.Msg($"[CityEvolving] Increasing customer weekly spending limit by {(int)(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
             }

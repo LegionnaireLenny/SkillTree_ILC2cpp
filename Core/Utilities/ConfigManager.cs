@@ -176,9 +176,9 @@ namespace SkillTree.Core.Utilities
             ChemistStationSpeedBonus = new ConfigEntry<int>(Operations, "SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier");
             QualityBonusGrowTent = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusGrowTent", 0.16f, "Pitchin' a Tent: Quality Bonus for Grow Tents");
             QualityBonusPlants = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots");
-            QualityBonusShrooms = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusShrooms",  0.15f, "Mushroomancer: Quality Bonus for Mushrooms");
+            QualityBonusShrooms = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms");
             YieldBonusPlants = new ConfigEntry<int>(Operations, "SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants");
-            GrowthSpeedBonusPlants = new ConfigEntry<float>(Operations, "SkillTree_GrowthSpeedBonusPlants",  0.025f, "Green Thumb/Plant Whisperer: Plant Growth Speed Bonus");
+            GrowthSpeedBonusPlants = new ConfigEntry<float>(Operations, "SkillTree_GrowthSpeedBonusPlants", 0.025f, "Green Thumb/Plant Whisperer: Plant Growth Speed Bonus");
             MoistureDrainBonus = new ConfigEntry<float>(Operations, "SkillTree_MoistureDrainBonus", 0.5f, "Wet-Ass Plants: Moisture Drain Multiplier");
             Operations.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
@@ -192,10 +192,10 @@ namespace SkillTree.Core.Utilities
             TrashPickupRadiusBonus = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
             TrashValueBonus = new ConfigEntry<int>(Social, "SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus");
             PawnPriceBonus = new ConfigEntry<float>(Social, "SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus");
-            ATMDepositBonus = new ConfigEntry<float>(Social, "SkillTree_ATMDepositBonus", 2000f, "Hoard the Wealth: ATM Deposit Limit Bonus");
+            ATMDepositBonus = new ConfigEntry<float>(Social, "SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus");
             DealerCustomerLimitBonus = new ConfigEntry<int>(Social, "SkillTree_CustomerLimitBonus", 2, "Expansive Empire: Customer Limit Bonus");
             CustomerSampleAcceptBonus = new ConfigEntry<float>(Social, "SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus");
-            CustomerCashBonus = new ConfigEntry<float>(Social, "SkillTree_CustomerCashBonus", 0.10f, "Spread the Wealth: Customer Weekly Spend Limit Bonus");
+            CustomerCashBonus = new ConfigEntry<float>(Social, "SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus");
             DealerCutReduction = new ConfigEntry<float>(Social, "SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction");
             DealerSpeedBonus = new ConfigEntry<float>(Social, "SkillTree_DealerSpeedBonus", 1f, "Motivational Leader: Dealer Speed Bonus", "Increases the speed multiplier");
             SupplierCashBonus = new ConfigEntry<float>(Social, "SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus");

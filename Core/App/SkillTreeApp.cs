@@ -140,7 +140,7 @@ namespace SkillTree.Core.App
             catRow.transform.SetParent(topBar.transform, false);
             var catRowRect = catRow.AddComponent<RectTransform>();
             catRowRect.anchorMin = new Vector2(0.13f, 0.08f);
-            catRowRect.anchorMax = new Vector2(0.65f, 0.92f);
+            catRowRect.anchorMax = new Vector2(1f, 0.92f);
             catRowRect.offsetMin = Vector2.zero;
             catRowRect.offsetMax = Vector2.zero;
             var catLayout = catRow.AddComponent<HorizontalLayoutGroup>();
@@ -149,16 +149,18 @@ namespace SkillTree.Core.App
             catLayout.childForceExpandHeight = true;
             catLayout.childAlignment = TextAnchor.MiddleCenter;
 
-            var (catStatsGO, catStatsBtn, catStatsTMP) = CreateTabButton("StatsTab",
-                catRow.transform, $"Stats ({SkillPoints.StatsPoints})");
-            var (catOpsGO, catOpsBtn, catOpsTMP) = CreateTabButton("OpsTab",
-                catRow.transform, $"Operations ({SkillPoints.OperationsPoints})");
-            var (catSocialGO, catSocialBtn, catSocialTMP) = CreateTabButton("SocialTab",
-                catRow.transform, $"Social ({SkillPoints.SocialPoints})");
+            var (catEnforcerGO, catEnforcerBtn, catEnforcerTMP) = CreateTabButton("EnforcerTab",
+                catRow.transform, $"Enforcer ({SkillPoints.EnforcerPoints})");
+            var (catSupplierGO, catSupplierBtn, catSupplierTMP) = CreateTabButton("SupplierTab",
+                catRow.transform, $"Supplier ({SkillPoints.SupplierPoints})");
+            var (catHustlerGO, catHustlerBtn, catHustlerTMP) = CreateTabButton("HustlerTab",
+                catRow.transform, $"Hustler ({SkillPoints.HustlerPoints})");
+            var (catLogisticianGO, catLogisticianBtn, catLogisticianTMP) = CreateTabButton("LogisticianTab",
+                catRow.transform, $"Logistician ({SkillPoints.LogisticianPoints})");
             var (catSpecialGO, catSpecialBtn, catSpecialTMP) = CreateTabButton("SpecialTab",
                 catRow.transform, $"Special ({SkillPoints.SpecialPoints})");
 
-            catStatsGO.GetComponent<Image>().color = ColorButtonSelected;
+            catEnforcerGO.GetComponent<Image>().color = ColorButtonSelected;
 
             // === MAP PANEL (skill tree area) ===
             var mapPanel = CreatePanel("MapPanel", mainPanel.transform, ColorBackground,
@@ -197,9 +199,10 @@ namespace SkillTree.Core.App
             scrollRect.viewport = viewportRect;
             scrollRect.content = treeRect;
 
-            var statsContainer = CreateCategoryContainer("StatsContainer", treeContent.transform);
-            var opsContainer = CreateCategoryContainer("OpsContainer", treeContent.transform);
-            var socialContainer = CreateCategoryContainer("SocialContainer", treeContent.transform);
+            var enforcerContainer = CreateCategoryContainer("EnforcerContainer", treeContent.transform);
+            var supplierContainer = CreateCategoryContainer("SupplierContainer", treeContent.transform);
+            var hustlerContainer = CreateCategoryContainer("HustlerContainer", treeContent.transform);
+            var logisticianContainer = CreateCategoryContainer("LogisticianContainer", treeContent.transform);
             var specialContainer = CreateCategoryContainer("SpecialContainer", treeContent.transform);
 
             var pointsOverlay = CreateTMPText("SkillPointsOverlay", mapPanel.transform, "",
@@ -264,19 +267,20 @@ namespace SkillTree.Core.App
             // === BUILD SKILL TREES ===
             var connectionLines = new Dictionary<(Skill, Skill), List<Image>>();
 
-            List<SkillNode> nodesStats = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Stats], statsContainer, connectionLines);
-            List<SkillNode> nodesOps = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Operations], opsContainer, connectionLines);
-            List<SkillNode> nodesSocial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Social], socialContainer, connectionLines);
+            List<SkillNode> nodesEnforcer = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Enforcer], enforcerContainer, connectionLines);
+            List<SkillNode> nodesSupplier = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Supplier], supplierContainer, connectionLines);
+            List<SkillNode> nodesHustler = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Hustler], hustlerContainer, connectionLines);
+            List<SkillNode> nodesLogistician = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Logistician], logisticianContainer, connectionLines);
             List<SkillNode> nodesSpecial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Special], specialContainer, connectionLines);
 
-            List<SkillNode> allNodes = [.. nodesStats, .. nodesOps, .. nodesSocial, .. nodesSpecial];
+            List<SkillNode> allNodes = [.. nodesEnforcer, .. nodesSupplier, .. nodesHustler, .. nodesLogistician, .. nodesSpecial];
 
-            SkillCategory activeCategory = SkillCategory.Stats;
+            SkillCategory activeCategory = SkillCategory.Enforcer;
 
             // === INITIAL STATE ===
-            _selectedSkill = nodesStats.Count > 0 ? nodesStats[0] : null;
+            _selectedSkill = nodesEnforcer.Count > 0 ? nodesEnforcer.First(x => x.Skill.Parent == null) : null;
             UpdateDetails();
-            SetActiveCategory(statsContainer, opsContainer, socialContainer, specialContainer, statsContainer);
+            SetActiveCategory(enforcerContainer, supplierContainer, hustlerContainer, logisticianContainer, specialContainer, enforcerContainer);
             UpdateAllNodes(allNodes);
             UpdateAllLines();
             UpdatePointsOverlay();
@@ -301,7 +305,7 @@ namespace SkillTree.Core.App
 
             void LevelSkill()
             {
-                if (_selectedSkill == null || 
+                if (_selectedSkill == null ||
                     GameplayMenu.instance.CurrentScreen != GameplayMenu.EGameplayScreen.Phone ||
                     Phone.ActiveApp == null ||
                     !Phone.ActiveApp.name.Equals("SkillTreeApp"))
@@ -334,10 +338,10 @@ namespace SkillTree.Core.App
                 GameObject activeTab, SkillCategory category)
             {
                 activeCategory = category;
-                _selectedSkill = nodes.Count > 0 ? nodes[0] : null;
-                SetActiveCategory(statsContainer, opsContainer, socialContainer,
+                _selectedSkill = nodes.Count > 0 ? nodes.First(x => x.Skill.Parent == null) : null;
+                SetActiveCategory(enforcerContainer, supplierContainer, hustlerContainer, logisticianContainer,
                     specialContainer, activeContainer);
-                SetTabColors(catStatsGO, catOpsGO, catSocialGO, catSpecialGO, activeTab);
+                SetTabColors(catEnforcerGO, catSupplierGO, catHustlerGO, catLogisticianGO, catSpecialGO, activeTab);
                 UpdateDetails();
                 UpdateCategoryText();
                 UpdateAllNodes(allNodes);
@@ -345,12 +349,14 @@ namespace SkillTree.Core.App
                 UpdatePointsOverlay();
             }
 
-            ButtonUtils.AddListener(catStatsBtn, () =>
-                SwitchCategory(nodesStats, statsContainer, catStatsGO, SkillCategory.Stats));
-            ButtonUtils.AddListener(catOpsBtn, () =>
-                SwitchCategory(nodesOps, opsContainer, catOpsGO, SkillCategory.Operations));
-            ButtonUtils.AddListener(catSocialBtn, () =>
-                SwitchCategory(nodesSocial, socialContainer, catSocialGO, SkillCategory.Social));
+            ButtonUtils.AddListener(catEnforcerBtn, () =>
+                SwitchCategory(nodesEnforcer, enforcerContainer, catEnforcerGO, SkillCategory.Enforcer));
+            ButtonUtils.AddListener(catSupplierBtn, () =>
+                SwitchCategory(nodesSupplier, supplierContainer, catSupplierGO, SkillCategory.Supplier));
+            ButtonUtils.AddListener(catHustlerBtn, () =>
+                SwitchCategory(nodesHustler, hustlerContainer, catHustlerGO, SkillCategory.Hustler));
+            ButtonUtils.AddListener(catLogisticianBtn, () =>
+                SwitchCategory(nodesLogistician, logisticianContainer, catLogisticianGO, SkillCategory.Logistician));
             ButtonUtils.AddListener(catSpecialBtn, () =>
                 SwitchCategory(nodesSpecial, specialContainer, catSpecialGO, SkillCategory.Special));
 
@@ -379,9 +385,10 @@ namespace SkillTree.Core.App
 
             void UpdateCategoryText()
             {
-                catStatsTMP.text = $"Stats ({SkillPoints.StatsPoints})";
-                catOpsTMP.text = $"Operations ({SkillPoints.OperationsPoints})";
-                catSocialTMP.text = $"Social ({SkillPoints.SocialPoints})";
+                catEnforcerTMP.text = $"Enforcer ({SkillPoints.EnforcerPoints})";
+                catSupplierTMP.text = $"Supplier ({SkillPoints.SupplierPoints})";
+                catHustlerTMP.text = $"Hustler ({SkillPoints.HustlerPoints})";
+                catLogisticianTMP.text = $"Logistician ({SkillPoints.LogisticianPoints})";
                 catSpecialTMP.text = $"Special ({SkillPoints.SpecialPoints})";
             }
 
@@ -766,24 +773,27 @@ namespace SkillTree.Core.App
         }
 
         /// <summary>Shows only the active category container, hides the rest.</summary>
-        private static void SetActiveCategory(GameObject stats, GameObject ops,
-            GameObject social, GameObject special, GameObject active)
+        private static void SetActiveCategory(GameObject enforcer, GameObject supplier,
+            GameObject hustler, GameObject logistician, GameObject special, GameObject active)
         {
-            stats.SetActive(stats == active);
-            ops.SetActive(ops == active);
-            social.SetActive(social == active);
+            enforcer.SetActive(enforcer == active);
+            supplier.SetActive(supplier == active);
+            hustler.SetActive(hustler == active);
+            logistician.SetActive(logistician == active);
             special.SetActive(special == active);
         }
 
         /// <summary>Highlights the active tab and resets the others to default color.</summary>
-        private static void SetTabColors(GameObject statsTab, GameObject opsTab,
-            GameObject socialTab, GameObject specialTab, GameObject activeTab)
+        private static void SetTabColors(GameObject enforcerTab, GameObject supplierTab,
+            GameObject hustlerTab, GameObject logisticianTab, GameObject specialTab, GameObject activeTab)
         {
-            statsTab.GetComponent<Image>().color = statsTab == activeTab
+            enforcerTab.GetComponent<Image>().color = enforcerTab == activeTab
                 ? ColorButtonSelected : ColorButton;
-            opsTab.GetComponent<Image>().color = opsTab == activeTab
+            supplierTab.GetComponent<Image>().color = supplierTab == activeTab
                 ? ColorButtonSelected : ColorButton;
-            socialTab.GetComponent<Image>().color = socialTab == activeTab
+            hustlerTab.GetComponent<Image>().color = hustlerTab == activeTab
+                ? ColorButtonSelected : ColorButton;
+            logisticianTab.GetComponent<Image>().color = logisticianTab == activeTab
                 ? ColorButtonSelected : ColorButton;
             specialTab.GetComponent<Image>().color = specialTab == activeTab
                 ? ColorButtonSelected : ColorButton;

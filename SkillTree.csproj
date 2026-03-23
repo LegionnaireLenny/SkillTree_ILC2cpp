@@ -23,7 +23,7 @@
 		<Compile Include="Core\Patches\Miscellaneous\CrossHairPatches.cs" />
 		<Compile Include="Core\Patches\Social\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Social\PawnShopPatches.cs" />
-		<Compile Include="Core\Patches\Stats\PickpocketPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
@@ -42,25 +42,25 @@
 		<Compile Include="Core\Patches\Social\MoreATMLimit.cs" />
 		<Compile Include="Core\Patches\Special\BetterBotanists.cs" />
 		<Compile Include="Core\Patches\Special\NPCPatches.cs" />
-		<Compile Include="Core\Patches\Stats\AllowSeeCounteroffChance.cs" />
-		<Compile Include="Core\Patches\Stats\BetterDelivery.cs" />
-		<Compile Include="Core\Patches\Stats\CrimePatches.cs" />
-		<Compile Include="Core\Patches\Stats\PlayerPatches.cs" />
-		<Compile Include="Core\Patches\Stats\MoreXP.cs" />
-		<Compile Include="Core\Patches\Stats\MoreStackItem.cs" />
-		<Compile Include="Core\Patches\Stats\HealthPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\CounterOfferPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\BetterDelivery.cs" />
+		<Compile Include="Core\Patches\Enforcer\CrimePatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\PlayerPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\MoreXP.cs" />
+		<Compile Include="Core\Patches\Enforcer\MoreStackItem.cs" />
+		<Compile Include="Core\Patches\Enforcer\HealthPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ShopPatches.cs" />
 		<Compile Include="Core\Skills\Skill.cs" />
 		<Compile Include="Core\Skills\SkillCategory.cs" />
 		<Compile Include="Core\Skills\SkillModifiers.cs" />
 		<Compile Include="Core\Patches\Social\CustomerPatches.cs" />
-		<Compile Include="Core\Patches\Stats\AllowSleep.cs" />
+		<Compile Include="Core\Patches\Enforcer\AllowSleep.cs" />
 		<Compile Include="Core\Serialization\SkillTreeData.cs" />
 		<Compile Include="Core\Serialization\KillCounts.cs" />
 		<Compile Include="Core\Serialization\SaveManager.cs" />
 		<Compile Include="Core\Patches\Special\SkillActive.cs" />
 		<Compile Include="Core\Patches\Special\BetterEmployees.cs" />
-		<Compile Include="Core\Patches\Stats\MovementPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\MovementPatches.cs" />
 		<Compile Include="Core\Serialization\SkillPoints.cs" />
 	</ItemGroup>
 
@@ -684,13 +684,14 @@
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_BenziesGoon.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Cash.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Clock.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Enforcer.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Heart.png" />
-	  <EmbeddedResource Include="Core\Images\Icons\Icon_Operations.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Hustler.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Logistician.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_PoliceOfficer.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_SkillTree_Forked.png" />
-	  <EmbeddedResource Include="Core\Images\Icons\Icon_Social.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Special.png" />
-	  <EmbeddedResource Include="Core\Images\Icons\Icon_Stats.png" />
+	  <EmbeddedResource Include="Core\Images\Icons\Icon_Supplier.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_WashingMachine.png" />
 	</ItemGroup>

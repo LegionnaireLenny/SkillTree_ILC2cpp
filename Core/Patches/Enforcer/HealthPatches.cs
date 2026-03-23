@@ -7,7 +7,7 @@ using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch(typeof(PlayerHealth))]
     public class HealthPatches

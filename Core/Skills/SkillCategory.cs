@@ -2,9 +2,10 @@
 {
     public enum SkillCategory
     {
-        Stats,
-        Operations,
-        Social,
+        Enforcer,
+        Supplier,
+        Hustler,
+        Logistician,
         Special
     }
 }

@@ -65,7 +65,7 @@ namespace SkillTree.Core
 
         public override void OnUpdate()
         {
-            if (PlayerMovement.Instance == null || 
+            if (PlayerMovement.Instance == null ||
                 PlayerCamera.Instance == null ||
                 PlayerInventory.Instance == null ||
                 PlayerManager.Instance == null ||

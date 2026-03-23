@@ -1,5 +1,4 @@
-﻿using Il2CppFishNet;
-using Il2CppScheduleOne.DevUtilities;
+﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.PlayerScripts;

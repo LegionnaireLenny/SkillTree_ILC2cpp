@@ -9,9 +9,9 @@ using SkillTree.Core.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
-    public static class AllowSeeCounteroffChance
+    public static class CounterOfferPatches
     {
         private static Text SuccessLabel;
 
@@ -22,8 +22,8 @@ namespace SkillTree.Core.Patches.Stats
             var product = instance.selectedProduct;
             var quantity = instance.quantity;
 
-            Customer customer = conversation.sender.GetComponent<Customer>(); 
-            CustomerData customerData = customer.CustomerData; 
+            Customer customer = conversation.sender.GetComponent<Customer>();
+            CustomerData customerData = customer.CustomerData;
             NPC NPC = customer.NPC;
 
             float adjustedWeeklySpend = customerData.GetAdjustedWeeklySpend(NPC.RelationData.RelationDelta / 5f);
@@ -31,10 +31,10 @@ namespace SkillTree.Core.Patches.Stats
             Il2CppSystem.Collections.Generic.List<EDay> orderDays = customerData.GetOrderDays(customer.CurrentAddiction, NPC.RelationData.RelationDelta / 5f);
             float num = adjustedWeeklySpend / orderDays.Count;
 
-            if (price >= num * 3f) 
+            if (price >= num * 3f)
                 return 0f;
 
-            float valueProposition = Customer.GetValueProposition(Registry.GetItem<ProductDefinition>(customer.OfferedContractInfo.Products.entries[0].ProductID), 
+            float valueProposition = Customer.GetValueProposition(Registry.GetItem<ProductDefinition>(customer.OfferedContractInfo.Products.entries[0].ProductID),
                                     customer.OfferedContractInfo.Payment / customer.OfferedContractInfo.Products.entries[0].Quantity);
 
             float productEnjoyment = customer.GetProductEnjoyment(product, customerData.Standards.GetCorrespondingQuality());
@@ -50,23 +50,23 @@ namespace SkillTree.Core.Patches.Stats
             if (valueProposition2 * num5 > valueProposition)
                 return 1f;
 
-            if (valueProposition2 < 0.12f) 
+            if (valueProposition2 < 0.12f)
                 return 0f;
 
             float num6 = productEnjoyment * valueProposition;
             float num7 = num2 * num5 * valueProposition2;
-            if (num7 > num6) 
-              return 1f;
+            if (num7 > num6)
+                return 1f;
 
             float num8 = num6 - num7;
             float num9 = Mathf.Lerp(0f, 1f, num8 / 0.2f);
             float t = Mathf.Max(customer.CurrentAddiction, NPC.RelationData.NormalizedRelationDelta);
             float num10 = Mathf.Lerp(0f, 0.2f, t);
 
-            if (num9 <= num10) 
+            if (num9 <= num10)
                 return 1f;
 
-            if (num9 - num10 >= 0.9f) 
+            if (num9 - num10 >= 0.9f)
                 return 0f;
 
             float probability = (0.9f + num10 - num9) / 0.9f;
@@ -81,7 +81,7 @@ namespace SkillTree.Core.Patches.Stats
                 return;
             }
 
-            var go = UnityEngine.Object.Instantiate(
+            var go = Object.Instantiate(
                 instance.FairPriceLabel.gameObject,
                 instance.FairPriceLabel.transform.parent
             );
@@ -108,7 +108,7 @@ namespace SkillTree.Core.Patches.Stats
             rt.anchorMax = fairRT.anchorMax;
             rt.pivot = fairRT.pivot;
             rt.sizeDelta = fairRT.sizeDelta;
-            
+
 
             rt.anchoredPosition = fairRT.anchoredPosition + new Vector2(0f, -23f);
 
@@ -140,7 +140,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
+                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                     return;
 
                 CreateSuccessLabel(__instance);
@@ -154,7 +154,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
+                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);
@@ -167,7 +167,7 @@ namespace SkillTree.Core.Patches.Stats
             [HarmonyPostfix]
             public static void Postfix(CounterofferInterface __instance)
             {
-                if (SkillTreeData.AllowSeeCounteroffChance.CurrentLevel == 0)
+                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                     return;
 
                 UpdateSuccessLabel(__instance);

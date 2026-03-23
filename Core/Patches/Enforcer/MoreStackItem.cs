@@ -5,7 +5,7 @@ using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     public static class MoreStackItem
     {

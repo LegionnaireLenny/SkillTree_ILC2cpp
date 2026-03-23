@@ -8,7 +8,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch]
     public class PickpocketPatches
@@ -34,9 +34,9 @@ namespace SkillTree.Core.Patches.Stats
                 {
                     //MelonLogger.Msg($"Inventory Difficulty: {Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2)} | Item Difficulty: {itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier}");
                     float num = itemSlotUI.assignedSlot.ItemInstance.GetMonetaryValue() * itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier;
-                    float num2 = Mathf.Lerp(__instance.GreenAreaMaxWidth, 
-                                            __instance.GreenAreaMinWidth, 
-                                            Mathf.Pow(Mathf.Clamp01(num / __instance.ValueDivisor), 0.3f)) / 
+                    float num2 = Mathf.Lerp(__instance.GreenAreaMaxWidth,
+                                            __instance.GreenAreaMinWidth,
+                                            Mathf.Pow(Mathf.Clamp01(num / __instance.ValueDivisor), 0.3f)) /
                                         (Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2) * SkillModifiers.GetPickpocketDifficultyMultiplier());
                     RectTransform rectTransform = __instance.GreenAreas[j];
                     rectTransform.sizeDelta = new Vector2(num2, rectTransform.sizeDelta.y);

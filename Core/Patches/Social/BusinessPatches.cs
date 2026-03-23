@@ -13,7 +13,7 @@ namespace SkillTree.Core.Patches.Social
     {
         public static void SetLaunderingCapacity()
         {
-            if (SkillTreeData.BusinessEvolving.CurrentLevel != 0)
+            if (SkillTreeData.SqueakyClean.CurrentLevel != 0)
             {
                 MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             }

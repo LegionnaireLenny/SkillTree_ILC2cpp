@@ -51,10 +51,10 @@ namespace SkillTree.Core.Patches.Operations
         [HarmonyPrefix]
         public static void Patch_GrowthDone(Plant __instance)
         {
-            if (!InstanceFinder.IsServer || 
-                __instance == null || 
-                !__instance.Pot.IsSpawned || 
-                (SkillTreeData.Operations.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
+            if (!InstanceFinder.IsServer ||
+                __instance == null ||
+                !__instance.Pot.IsSpawned ||
+                (SkillTreeData.Supplier.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0))
                 return;
 
             //float baseQuality = __instance.QualityLevel;

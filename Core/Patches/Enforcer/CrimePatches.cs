@@ -1,15 +1,10 @@
 ﻿using HarmonyLib;
-using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.NPCs.Behaviour;
-using Il2CppScheduleOne.NPCs.CharacterClasses;
-using Il2CppScheduleOne.PlayerScripts;
-using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
-using System.Collections;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Stats
+namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch(typeof(PursuitBehaviour))]
     public class CrimePatches
@@ -91,8 +86,8 @@ namespace SkillTree.Core.Patches.Stats
             }
             if (num < __instance.ArrestCircle_MaxVisibleDistance)
             {
-                float num2 = Mathf.Lerp(__instance.ArrestCircle_MaxOpacity, 
-                    0f, 
+                float num2 = Mathf.Lerp(__instance.ArrestCircle_MaxOpacity,
+                    0f,
                     (num - SkillModifiers.GetArrestRadius()) / (__instance.ArrestCircle_MaxVisibleDistance - SkillModifiers.GetArrestRadius()));
                 __instance.SetArrestCircleAlpha(num2);
                 __instance.SetArrestCircleColor(Color.white);

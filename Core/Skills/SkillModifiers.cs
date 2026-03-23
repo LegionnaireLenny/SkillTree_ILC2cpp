@@ -11,7 +11,7 @@ namespace SkillTree.Core.Skills
         #region Stats
         public static float GetPlayerMaxHealth()
         {
-            return BaseHealth.GetValue() + (SkillTreeData.Stats.CurrentLevel * HealthBonus.GetValue()) + GetBloodRushHealthBonus();
+            return BaseHealth.GetValue() + (SkillTreeData.Enforcer.CurrentLevel * HealthBonus.GetValue()) + GetBloodRushHealthBonus();
         }
 
         public static float GetPlayerHealthRegen()
@@ -125,7 +125,7 @@ namespace SkillTree.Core.Skills
             float potBonus = 0f;
             if (potName.Equals("Grow Tent"))
             {
-                potBonus = SkillTreeData.Operations.CurrentLevel * QualityBonusGrowTent.GetValue();
+                potBonus = SkillTreeData.Supplier.CurrentLevel * QualityBonusGrowTent.GetValue();
             }
             else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot"))
             {
@@ -154,22 +154,22 @@ namespace SkillTree.Core.Skills
         #region Social
         public static float GetATMLimit()
         {
-            return BaseWeeklyDepositLimit.GetValue() + SkillTreeData.MoreATMLimit.CurrentLevel * ATMDepositBonus.GetValue();
+            return BaseWeeklyDepositLimit.GetValue() + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue();
         }
 
         public static int GetMaxCustomers()
         {
-            return BaseMaxCustomer.GetValue() + SkillTreeData.DealerMoreCustomer.CurrentLevel * DealerCustomerLimitBonus.GetValue();
+            return BaseMaxCustomer.GetValue() + SkillTreeData.ExpansiveEmpire.CurrentLevel * DealerCustomerLimitBonus.GetValue();
         }
 
         public static float GetCustomerSampleBonus()
         {
-            return SkillTreeData.Social.CurrentLevel * CustomerSampleAcceptBonus.GetValue();
+            return SkillTreeData.Hustler.CurrentLevel * CustomerSampleAcceptBonus.GetValue();
         }
 
         public static float GetDealerCutReduction()
         {
-            return SkillTreeData.DealerCutLess.CurrentLevel * DealerCutReduction.GetValue();
+            return SkillTreeData.WageGarnishment.CurrentLevel * DealerCutReduction.GetValue();
         }
 
         public static int GetGrabberBinSize()
@@ -199,27 +199,27 @@ namespace SkillTree.Core.Skills
 
         public static float GetSupplierCashMultiplier()
         {
-            return 1f + SkillTreeData.BetterSupplier.CurrentLevel * SupplierCashBonus.GetValue();
+            return 1f + SkillTreeData.Logistician.CurrentLevel * SupplierCashBonus.GetValue();
         }
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(BaseDeadDropItemLimit.GetValue() * (1f + SkillTreeData.BetterSupplier.CurrentLevel * SupplierItemBonus.GetValue()));
+            return (int)(BaseDeadDropItemLimit.GetValue() * (1f + SkillTreeData.Logistician.CurrentLevel * SupplierItemBonus.GetValue()));
         }
 
         public static float GetLaunderingCapacityMultiplier()
         {
-            return 1f + SkillTreeData.BusinessEvolving.CurrentLevel * LaunderingBonus.GetValue();
+            return 1f + SkillTreeData.SqueakyClean.CurrentLevel * LaunderingBonus.GetValue();
         }
 
         public static float GetCustomerCashMultiplier()
         {
-            return 1f + SkillTreeData.CityEvolving.CurrentLevel * CustomerCashBonus.GetValue();
+            return 1f + SkillTreeData.SpreadTheWealth.CurrentLevel * CustomerCashBonus.GetValue();
         }
 
         public static float GetDealerSpeedMultiplier()
         {
-            return 1f + SkillTreeData.DealerSpeedUp.CurrentLevel * DealerSpeedBonus.GetValue();
+            return 1f + SkillTreeData.MotivationalLeader.CurrentLevel * DealerSpeedBonus.GetValue();
         }
         #endregion Social
 
