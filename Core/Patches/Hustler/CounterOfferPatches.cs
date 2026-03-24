@@ -9,7 +9,7 @@ using SkillTree.Core.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SkillTree.Core.Patches.Enforcer
+namespace SkillTree.Core.Patches.Hustler
 {
     public static class CounterOfferPatches
     {

@@ -4,7 +4,7 @@ using MelonLoader;
 using SkillTree.Core.Serialization;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Enforcer
+namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch(typeof(DeliveryManager), "SendDelivery")]
     public class BetterDelivery

@@ -4,7 +4,7 @@ using SkillTree.Core.Skills;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace SkillTree.Core.Patches.Special
+namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
     public class BetterBotanists

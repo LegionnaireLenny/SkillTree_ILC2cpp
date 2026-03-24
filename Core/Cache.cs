@@ -50,7 +50,7 @@ namespace SkillTree.Core
             if (!OriginalLaunderCapacity.ContainsKey(business.PropertyName))
             {
                 OriginalLaunderCapacity.Add(business.PropertyName, business.LaunderCapacity);
-                MelonLogger.Msg($"[Cache] Cached original laundering capacity {business.PropertyName}");
+                //MelonLogger.Msg($"[Cache] Cached original laundering capacity {business.PropertyName}");
             }
         }
 
@@ -66,7 +66,7 @@ namespace SkillTree.Core
                     MinOrdersPerWeek = customer.CustomerData.MinOrdersPerWeek,
                     MaxOrdersPerWeek = customer.CustomerData.MaxOrdersPerWeek
                 });
-                MelonLogger.Msg($"[Cache] Cached original customer data for {customer.name}");
+                //MelonLogger.Msg($"[Cache] Cached original customer data for {customer.name}");
             }
         }
 
@@ -80,7 +80,7 @@ namespace SkillTree.Core
                     Cut = dealer.Cut,
                     MoveSpeedMultiplier = dealer.Movement.MoveSpeedMultiplier
                 });
-                MelonLogger.Msg($"[Cache] Cached original dealer data for {dealer.name}");
+                //MelonLogger.Msg($"[Cache] Cached original dealer data for {dealer.name}");
             }
         }
     }

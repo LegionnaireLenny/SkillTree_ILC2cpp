@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static SkillTree.Core.Serialization.KillCounts;
 
-namespace SkillTree.Core.Patches.Special
+namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch]
     public class NPCPatches
@@ -55,11 +55,11 @@ namespace SkillTree.Core.Patches.Special
 
                 if (IsPolice)
                 {
-                    isVisible = isVisible && (SkillTreeData.Informant.CurrentLevel == 1);
+                    isVisible = isVisible && SkillTreeData.Informant.CurrentLevel == 1;
                 }
                 else
                 {
-                    isVisible = isVisible && (SkillTreeData.Spymaster.CurrentLevel == 1);
+                    isVisible = isVisible && SkillTreeData.Spymaster.CurrentLevel == 1;
                 }
 
                 POI.enabled = isVisible;
@@ -89,7 +89,7 @@ namespace SkillTree.Core.Patches.Special
                     IsPolice = isPolice,
                     POI = Object.Instantiate(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, instance.transform)
                 };
-                customPOI.POI.SetMainText($"{instance.fullName}\n{(description)}");
+                customPOI.POI.SetMainText($"{instance.fullName}\n{description}");
                 customPOI.POI.SetNPC(instance);
                 customPOI.POI.transform.localPosition = Vector3.zero;
                 customPOI.SetVisibility(instance.IsCurrentlySightable());

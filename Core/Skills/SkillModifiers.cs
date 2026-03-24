@@ -1,5 +1,4 @@
-﻿using MelonLoader;
-using S1API.Property;
+﻿using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Serialization;
 using UnityEngine;

@@ -7,7 +7,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 
-namespace SkillTree.Core.Patches.Special
+namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
     public class BetterEmployees

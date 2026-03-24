@@ -1,5 +1,6 @@
 ﻿using MelonLoader;
 using SkillTree.Core.Patches.Hustler;
+using SkillTree.Core.Patches.Logistician;
 using SkillTree.Core.Skills;
 using System;
 using System.Collections.Generic;
@@ -53,8 +54,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill HoardTheWealth = new("Hoard the Wealth", "Increase ATM deposit limit by $2500 per level", SkillCategory.Hustler, 2, Hustler);
         public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [BusinessPatches.SetLaunderingCapacity]);
         public static readonly Skill CrystalBall = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Hustler, 1, Hustler);
-        public static readonly Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [Patches.Special.NPCPatches.UpdateVisibility]);
-        public static readonly Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [Patches.Special.NPCPatches.UpdateVisibility]);
+        public static readonly Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
+        public static readonly Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
 
         public static readonly Skill Special = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, null);
         public static readonly Skill Heal = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, Special);

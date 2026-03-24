@@ -11,17 +11,17 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetLaunderingCapacity()
         {
-            MelonLogger.Msg($"Adjusting business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
+            MelonLogger.Msg($"Increasing business laundering capacity by {Mathf.RoundToInt(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             Business[] businessList = Object.FindObjectsOfType<Business>();
             foreach (Business business in businessList)
             {
                 if (Cache.OriginalLaunderCapacity.TryGetValue(business.PropertyName, out float original))
                 {
                     business.LaunderCapacity = original * SkillModifiers.GetLaunderingCapacityMultiplier();
-                    if (!Mathf.Approximately(original, business.LaunderCapacity))
-                    {
-                        MelonLogger.Msg($"[BusinessEvolving] {business.PropertyName}: ${original} -> ${business.LaunderCapacity}");
-                    }
+                    //if (!Mathf.Approximately(original, business.LaunderCapacity))
+                    //{
+                    //    MelonLogger.Msg($"{business.PropertyName}: ${original} -> ${business.LaunderCapacity}");
+                    //}
                 }
             }
         }

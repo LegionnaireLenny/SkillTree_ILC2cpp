@@ -1,10 +1,8 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
 using MelonLoader;
-using SkillTree.Core;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
-using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Hustler
@@ -14,7 +12,7 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetCustomerSpendLimits()
         {
-            MelonLogger.Msg($"Adjusting customer weekly spending limits to {(int)(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
+            MelonLogger.Msg($"Increasing customer weekly spending limits by {Mathf.RoundToInt(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             foreach (Customer customer in customerList)
             {
@@ -25,14 +23,14 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
                     customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                    MelonLogger.Msg($"{customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
+                    //MelonLogger.Msg($"{customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
                 }
             }
         }
 
         public static void SetCustomerOrderLimits()
         {
-            MelonLogger.Msg($"Adjusting customer order limits");
+            MelonLogger.Msg($"Increasing customer order limits by {SkillModifiers.GetCustomerOrderLimitBonus()}");
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             foreach (Customer customer in customerList)
             {
@@ -44,7 +42,7 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinOrdersPerWeek = baseMin + SkillModifiers.GetCustomerOrderLimitBonus();
                     customer.CustomerData.MaxOrdersPerWeek = baseMax + SkillModifiers.GetCustomerOrderLimitBonus();
 
-                    MelonLogger.Msg($"{customer.NPC.fullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}");
+                    //MelonLogger.Msg($"{customer.NPC.fullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}");
                 }
             }
         }

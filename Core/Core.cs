@@ -6,6 +6,7 @@ using S1API.Leveling;
 using S1API.Lifecycle;
 using SkillTree.Core;
 using SkillTree.Core.Patches.Compatibility;
+using SkillTree.Core.Patches.Hustler;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Serialization;

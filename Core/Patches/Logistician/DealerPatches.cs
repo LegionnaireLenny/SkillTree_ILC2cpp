@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace SkillTree.Core.Patches.Hustler
+namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
     public class DealerPatches
