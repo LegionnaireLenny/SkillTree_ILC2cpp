@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SkillTree.Core.Patches.Enforcer
 {
-    public static class MoreStackItem
+    public static class ItemStackPatches
     {
         public static void SetItemStackSize()
         {

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch(typeof(DeliveryManager), "SendDelivery")]
-    public class BetterDelivery
+    public class DeliveryPatches
     {
         [HarmonyPrefix]
         public static void Prefix(ref DeliveryInstance delivery)

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
-    public class BetterEmployees
+    public class EmployeePatches
     {
         private static readonly HashSet<Guid> processedEmployees = [];
         private static readonly HashSet<Guid> processedBotanists = [];

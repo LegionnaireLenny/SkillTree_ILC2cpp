@@ -12,7 +12,7 @@ using static SkillTree.Core.Serialization.Cooldowns;
 
 namespace SkillTree.Core.Patches.Enforcer
 {
-    public class AllowSleep
+    public class BedPatches
     {
         public static string GetTimeRemaining(float currentTime)
         {

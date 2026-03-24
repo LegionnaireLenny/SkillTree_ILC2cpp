@@ -9,7 +9,7 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Hustler
 {
     [HarmonyPatch(typeof(ATMInterface))]
-    public static class MoreATMLimit
+    public static class ATMPatches
     {
         [HarmonyPatch("get_remainingAllowedDeposit")]
         [HarmonyPrefix]

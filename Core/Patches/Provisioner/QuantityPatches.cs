@@ -12,6 +12,14 @@ namespace SkillTree.Core.Patches.Provisioner
     [HarmonyPatch]
     public static class QuantityPatches
     {
+        private static void UpdateDryingRackCapacity(DryingRack rack)
+        {
+            int original = rack.ItemCapacity;
+            rack.ItemCapacity = SkillModifiers.GetDryingRackCapacity();
+
+            if (original != rack.ItemCapacity)
+                rack.RefreshHangingVisuals();
+        }
 
         [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
         [HarmonyPrefix]
@@ -88,15 +96,6 @@ namespace SkillTree.Core.Patches.Provisioner
             if (__instance == null || SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
-        }
-
-        private static void UpdateDryingRackCapacity(DryingRack rack)
-        {
-            int original = rack.ItemCapacity;
-            rack.ItemCapacity = SkillModifiers.GetDryingRackCapacity();
-
-            if (original != rack.ItemCapacity)
-                rack.RefreshHangingVisuals();
         }
     }
 }

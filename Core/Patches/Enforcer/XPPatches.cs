@@ -8,9 +8,9 @@ using UnityEngine;
 
 namespace SkillTree.Core.Patches.Enforcer
 {
-    [HarmonyPatch(typeof(LevelManager), "AddXP")]
-    public class MoreXP
+    public class XPPatches
     {
+        [HarmonyPatch(typeof(LevelManager), "AddXP")]
         [HarmonyPrefix]
         public static void Prefix_AddXP(LevelManager __instance, ref int xp)
         {
@@ -22,11 +22,8 @@ namespace SkillTree.Core.Patches.Enforcer
             xp = (int)(xp * SkillModifiers.GetXPGainMultiplier());
             //MelonLogger.Msg($"[MoreXP] Earned {bonus} XP from {original} | Skill bonus is {(int)(SkillModifiers.GetXPGainMultiplier() % 1 * 100)}% | {__instance.TotalXP} + {xp} = {__instance.TotalXP + xp}");
         }
-    }
 
-    [HarmonyPatch(typeof(Contract), "SubmitPayment")]
-    public class PatchContractPayment
-    {
+        [HarmonyPatch(typeof(Contract), "SubmitPayment")]
         [HarmonyPostfix]
         public static void Postfix(Contract __instance, float bonusTotal)
         {
