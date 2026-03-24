@@ -7,7 +7,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
 
-namespace SkillTree.Core.Patches.Supplier
+namespace SkillTree.Core.Patches.Provisioner
 {
     [HarmonyPatch]
     public class MushroomPatches

@@ -4,6 +4,8 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using MelonLoader.Preferences;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Utilities
@@ -12,7 +14,7 @@ namespace SkillTree.Core.Utilities
     {
         public class ConfigEntry<T>
         {
-            private readonly MelonPreferences_Entry<T> _entry;
+            public MelonPreferences_Entry<T> Entry { get; private set; }
 
             public ConfigEntry(MelonPreferences_Category category,
                                string identifier,
@@ -21,21 +23,45 @@ namespace SkillTree.Core.Utilities
                                string description = null,
                                ValueValidator validator = null)
             {
-                _entry = category.CreateEntry(identifier, defaultValue, displayName, description, validator: validator);
+                Entry = category.CreateEntry(identifier, defaultValue, displayName, description, validator: validator);
             }
 
             public T GetValue()
             {
-                return (T)_entry.BoxedValue;
+                return (T)Entry.BoxedValue;
             }
 
             public void SetValue(T value)
             {
-                _entry.BoxedValue = value;
+                Entry.BoxedValue = value;
+            }
+
+            public void SetDefault()
+            {
+                Entry.BoxedValue = Entry.DefaultValue;
             }
         }
 
-        private static MelonPreferences_Category Stats { get; set; }
+        private static void ResetConfig(bool reset)
+        {
+            if (!reset) return;
+
+            var properties = typeof(ConfigManager).GetProperties().Where(x => !x.Name.Equals("ResetSkills"));
+            ConfigManager obj = new();
+            foreach (var property in properties)
+            {
+                try
+                {
+                    (property.GetValue(obj) as ConfigEntry<float>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<bool>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<KeyCode>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<Color>)?.SetDefault();
+                }
+                catch (Exception) { }
+            }
+        }
+
+        private static MelonPreferences_Category Enforcer { get; set; }
         public static ConfigEntry<float> BaseHealth { get; set; }
         public static ConfigEntry<float> HealthBonus { get; set; }
         public static ConfigEntry<float> BaseHealthRegen { get; set; }
@@ -64,7 +90,7 @@ namespace SkillTree.Core.Utilities
         //public static readonly float PackagerMoveSpeedMultiplier = 2f;
 
 
-        private static MelonPreferences_Category Operations { get; set; }
+        private static MelonPreferences_Category Provisioner { get; set; }
         public static ConfigEntry<int>   BaseDryingRackCapacity { get; set; }
         public static ConfigEntry<int>   BaseCauldronOutput { get; set; }
         public static ConfigEntry<int>   CauldronOutputBonus { get; set; }
@@ -80,10 +106,8 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> MoistureDrainBonus { get; set; }
         //public static readonly int StackSizeMultiplier = 2;
 
-        private static MelonPreferences_Category Social { get; set; }
+        private static MelonPreferences_Category Hustler { get; set; }
         public static ConfigEntry<float> BaseWeeklyDepositLimit { get; set; }
-        public static ConfigEntry<int>   BaseMaxCustomer { get; set; }
-        public static ConfigEntry<int>   BaseDeadDropItemLimit { get; set; }
         public static ConfigEntry<int>   BaseTrashGrabberBinSize { get; set; }
         public static ConfigEntry<float> TrashGrabberBinSizeBonus { get; set; }
         public static ConfigEntry<float> TrashPickupRadius { get; set; }
@@ -93,16 +117,25 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> ATMDepositBonus { get; set; }
         public static ConfigEntry<float> CustomerSampleAcceptBonus { get; set; }
         public static ConfigEntry<float> CustomerCashBonus { get; set; }
+        public static ConfigEntry<int>   CustomerOrderLimitBonus { get; set; }
+        public static ConfigEntry<int>   CustomerOrderLimitRankBonus { get; set; }
+        public static ConfigEntry<float> LaunderingBonus { get; set; }
+
+        private static MelonPreferences_Category Logistician { get; set; }
+        public static ConfigEntry<int>   BaseMaxCustomer { get; set; }
+        public static ConfigEntry<int>   BaseDeadDropItemLimit { get; set; }
+        public static ConfigEntry<int>   BaseMaxChemistStations { get; set; }
+        public static ConfigEntry<int>   BaseMaxBotanistStations { get; set; }
+        public static ConfigEntry<float> BotanistActionSpeedBonus { get; set; }
+        public static ConfigEntry<float> EmployeeMoveSpeedBonus { get; set; }
+        public static ConfigEntry<int>   EmployeeStationBonus { get; set; }
         public static ConfigEntry<int>   DealerCustomerLimitBonus { get; set; }
         public static ConfigEntry<float> DealerCutReduction { get; set; }
         public static ConfigEntry<float> DealerSpeedBonus { get; set; }
         public static ConfigEntry<float> SupplierCashBonus { get; set; }
         public static ConfigEntry<float> SupplierItemBonus { get; set; }
-        public static ConfigEntry<float> LaunderingBonus { get; set; }
 
         private static MelonPreferences_Category Special { get; set; }
-        public static ConfigEntry<int>   BaseMaxChemistStations { get; set; }
-        public static ConfigEntry<int>   BaseMaxBotanistStations { get; set; }
         public static ConfigEntry<float> PoliceKilledBonus { get; set; }
         public static ConfigEntry<float> CartelKilledBonus { get; set; }
         public static ConfigEntry<float> BloodRushRegenDelayMultiplier { get; set; }
@@ -113,9 +146,6 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> SiphonFundsOwnedBusinessBonus { get; set; }
         public static ConfigEntry<float> TrickleDownCashReserve { get; set; }
         public static ConfigEntry<int>   TrickleDownPayoutInterval { get; set; }
-        public static ConfigEntry<float> BotanistActionSpeedBonus { get; set; }
-        public static ConfigEntry<float> EmployeeMoveSpeedBonus { get; set; }
-        public static ConfigEntry<int>   EmployeeStationBonus { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -136,76 +166,85 @@ namespace SkillTree.Core.Utilities
 
         private static MelonPreferences_Category DebugOptions { get; set; }
         public static ConfigEntry<bool> ResetSkills { get; set; }
+        public static ConfigEntry<bool> ResetConfiguration { get; set; }
 
         public static void Initialize()
         {
-            Stats = MelonPreferences.CreateCategory("SkillTree_05_StatsSettings", "Stats Skills Settings");
-            BaseHealth = new ConfigEntry<float>(Stats, "SkillTree_BaseMaxHealth", PlayerHealth.MAX_HEALTH, "Base Maximum Health");
-            BaseHealthRegen = new ConfigEntry<float>(Stats, "SkillTree_BaseHealthRegen", 0.5f, "Base Health Restored Per Second");
-            BaseHealthRegenDelay = new ConfigEntry<float>(Stats, "SkillTree_BaseHealthRegenDelay", 30f, "Base Time Until Health Regenerates");
-            BaseStamina = new ConfigEntry<float>(Stats, "SkillTree_BaseStamina", PlayerMovement.StaminaReserveMax, "Base Maximum Stamina");
-            BaseMoveSpeed = new ConfigEntry<float>(Stats, "SkillTree_BaseMoveSpeed", 1f, "Base Movement Speed");
-            BaseJumpHeight = new ConfigEntry<float>(Stats, "SkillTree_BaseJumpHeight", PlayerMovement.JumpMultiplier, "Base Jump Height");
-            BaseArrestTime = new ConfigEntry<float>(Stats, "SkillTree_BaseArrestTime", 1.75f, "Base Arrest Time");
-            BaseArrestRadius = new ConfigEntry<float>(Stats, "SkillTree_BaseArrestRadius", 2.75f, "Base Arrest Radius");
-            HealthBonus = new ConfigEntry<float>(Stats, "SkillTree_HealthBonus", 20f, "Hardy: Health Bonus");
-            HealthRegenBonus = new ConfigEntry<float>(Stats, "SkillTree_HealthRegenBonus", 1f, "Battle-Scarred: Health Regen Bonus", "Increases the health regeneration amount multiplier");
-            HealthRegenDelayMultiplier = new ConfigEntry<float>(Stats, "SkillTree_HealthRegenDelayMultiplier", 0.5f, "Battle-Scarred: Health Regen Delay Multiplier");
-            StaminaBonus = new ConfigEntry<float>(Stats, "SkillTree_StaminaBonus", 0.30f, "Spring-Heeled: Stamina Bonus");
-            JumpHeightBonus = new ConfigEntry<float>(Stats, "SkillTree_JumpHeightBonus", 0.35f, "Spring-Heeled: Jump Height Bonus");
-            MoveSpeedBonus = new ConfigEntry<float>(Stats, "SkillTree_MoveSpeedBonus", 0.15f, "Fleet Feet: Movement Speed Bonus");
-            VisibilityMultiplier = new ConfigEntry<float>(Stats, "SkillTree_VisibilityMultiplier", 0.75f, "Ghost: Visibility Multiplier");
-            PickpocketDifficultyMultiplier = new ConfigEntry<float>(Stats, "SkillTree_PickpocketDifficultyMultiplier", 0.75f, "Ghost: Pickpocket Difficulty Multiplier");
-            PickpocketMinimumSuccessWidth = new ConfigEntry<float>(Stats, "SkillTree_PickpocketMinimumSuccessWidth", 20f, "Ghost: Minimum Width of Pickpocket Green Area");
-            TimeSkipGrowthMultiplier = new ConfigEntry<float>(Stats, "SkillTree_TimeSkipGrowthMultiplier", 0.33f, "Circadian Mastery: Time Skip Plant Growth Progress Multiplier", "By default, plants grow at one-third (0.33) of their normal speed when time is skipped.", new ValueRange<float>(0.1f, 2f));
-            XPGainBonus = new ConfigEntry<float>(Stats, "SkillTree_XPGainBonus", 0.05f, "Fast Learner: XP Bonus");
-            XPGainBonus2 = new ConfigEntry<float>(Stats, "SkillTree_XPGainBonus2", 0.1f, "Turbo Nerdo: XP Bonus");
-            SaleXPBonus = new ConfigEntry<float>(Stats, "SkillTree_SalesXPBonus", 0.05f, "Kingpin: Sales XP Bonus");
-            InventoryStackSizeBonus = new ConfigEntry<int>(Stats, "SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus");
-            ArrestTimeBonus = new ConfigEntry<float>(Stats, "SkillTree_ArrestTimeBonus", 1f, "Slippery: Arrest Time Bonus", "Increases the arrest time multiplier");
-            ArrestRadiusBonus = new ConfigEntry<float>(Stats, "SkillTree_ArrestRadiusBonus", 0.75f, "Slippery: Arrest Radius Multiplier");
-            Stats.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Enforcer = MelonPreferences.CreateCategory("SkillTree_EnforcerSettings", "Enforcer Skills Settings");
+            BaseHealth = new ConfigEntry<float>(Enforcer, "SkillTree_BaseMaxHealth", PlayerHealth.MAX_HEALTH, "Base Maximum Health");
+            BaseHealthRegen = new ConfigEntry<float>(Enforcer, "SkillTree_BaseHealthRegen", 0.5f, "Base Health Restored Per Second");
+            BaseHealthRegenDelay = new ConfigEntry<float>(Enforcer, "SkillTree_BaseHealthRegenDelay", 30f, "Base Time Until Health Regenerates");
+            BaseStamina = new ConfigEntry<float>(Enforcer, "SkillTree_BaseStamina", PlayerMovement.StaminaReserveMax, "Base Maximum Stamina");
+            BaseMoveSpeed = new ConfigEntry<float>(Enforcer, "SkillTree_BaseMoveSpeed", 1f, "Base Movement Speed");
+            BaseJumpHeight = new ConfigEntry<float>(Enforcer, "SkillTree_BaseJumpHeight", PlayerMovement.JumpMultiplier, "Base Jump Height");
+            BaseArrestTime = new ConfigEntry<float>(Enforcer, "SkillTree_BaseArrestTime", 1.75f, "Base Arrest Time");
+            BaseArrestRadius = new ConfigEntry<float>(Enforcer, "SkillTree_BaseArrestRadius", 2.75f, "Base Arrest Radius");
+            HealthBonus = new ConfigEntry<float>(Enforcer, "SkillTree_HealthBonus", 20f, "Hardy: Health Bonus");
+            HealthRegenBonus = new ConfigEntry<float>(Enforcer, "SkillTree_HealthRegenBonus", 1f, "Battle-Scarred: Health Regen Bonus", "Increases the health regeneration amount multiplier");
+            HealthRegenDelayMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_HealthRegenDelayMultiplier", 0.5f, "Battle-Scarred: Health Regen Delay Multiplier");
+            StaminaBonus = new ConfigEntry<float>(Enforcer, "SkillTree_StaminaBonus", 0.30f, "Spring-Heeled: Stamina Bonus");
+            JumpHeightBonus = new ConfigEntry<float>(Enforcer, "SkillTree_JumpHeightBonus", 0.35f, "Spring-Heeled: Jump Height Bonus");
+            MoveSpeedBonus = new ConfigEntry<float>(Enforcer, "SkillTree_MoveSpeedBonus", 0.15f, "Fleet Feet: Movement Speed Bonus");
+            VisibilityMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_VisibilityMultiplier", 0.75f, "Ghost: Visibility Multiplier");
+            PickpocketDifficultyMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_PickpocketDifficultyMultiplier", 0.75f, "Ghost: Pickpocket Difficulty Multiplier");
+            PickpocketMinimumSuccessWidth = new ConfigEntry<float>(Enforcer, "SkillTree_PickpocketMinimumSuccessWidth", 20f, "Ghost: Minimum Width of Pickpocket Green Area");
+            TimeSkipGrowthMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_TimeSkipGrowthMultiplier", 0.33f, "Circadian Mastery: Time Skip Plant Growth Progress Multiplier", "By default, plants grow at one-third (0.33) of their normal speed when time is skipped.", new ValueRange<float>(0.1f, 2f));
+            XPGainBonus = new ConfigEntry<float>(Enforcer, "SkillTree_XPGainBonus", 0.05f, "Fast Learner: XP Bonus");
+            XPGainBonus2 = new ConfigEntry<float>(Enforcer, "SkillTree_XPGainBonus2", 0.1f, "Turbo Nerdo: XP Bonus");
+            SaleXPBonus = new ConfigEntry<float>(Enforcer, "SkillTree_SalesXPBonus", 0.05f, "Kingpin: Sales XP Bonus");
+            InventoryStackSizeBonus = new ConfigEntry<int>(Enforcer, "SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus");
+            ArrestTimeBonus = new ConfigEntry<float>(Enforcer, "SkillTree_ArrestTimeBonus", 1f, "Slippery: Arrest Time Bonus", "Increases the arrest time multiplier");
+            ArrestRadiusBonus = new ConfigEntry<float>(Enforcer, "SkillTree_ArrestRadiusBonus", 0.75f, "Slippery: Arrest Radius Multiplier");
+            Enforcer.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            Operations = MelonPreferences.CreateCategory("SkillTree_06_OperationsSettings", "Operations Skills Settings");
-            BaseDryingRackCapacity = new ConfigEntry<int>(Operations, "SkillTree_BaseDryingRackCapacity", 20, "Base Drying Rack Capacity");
-            BaseCauldronOutput = new ConfigEntry<int>(Operations, "SkillTree_BaseCauldronOutput", 10, "Base Cauldron Output");
-            BaseYieldPlants = new ConfigEntry<int>(Operations, "SkillTree_BaseYieldPlants", 12, "Base Yield of Plants");
-            BasePlantQualityLevel = new ConfigEntry<float>(Operations, "SkillTree_BasePlantQualityLevel", 0.5f, "Base Quality Level of Plants");
-            CauldronOutputBonus = new ConfigEntry<int>(Operations, "SkillTree_CauldronOutputBonus", 1, "Witch's Brew: Cauldron Output Bonus", "Increases the output multiplier");
-            MixDryOutputSizeBonus = new ConfigEntry<int>(Operations, "SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier");
-            ChemistStationSpeedBonus = new ConfigEntry<int>(Operations, "SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier");
-            QualityBonusGrowTent = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusGrowTent", 0.16f, "Pitchin' a Tent: Quality Bonus for Grow Tents");
-            QualityBonusPlants = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots");
-            QualityBonusShrooms = new ConfigEntry<float>(Operations, "SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms");
-            YieldBonusPlants = new ConfigEntry<int>(Operations, "SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants");
-            GrowthSpeedBonusPlants = new ConfigEntry<float>(Operations, "SkillTree_GrowthSpeedBonusPlants", 0.025f, "Green Thumb/Plant Whisperer: Plant Growth Speed Bonus");
-            MoistureDrainBonus = new ConfigEntry<float>(Operations, "SkillTree_MoistureDrainBonus", 0.5f, "Wet-Ass Plants: Moisture Drain Multiplier");
-            Operations.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Provisioner = MelonPreferences.CreateCategory("SkillTree_ProvisionerSettings", "Provisioner Skills Settings");
+            BaseDryingRackCapacity = new ConfigEntry<int>(Provisioner, "SkillTree_BaseDryingRackCapacity", 20, "Base Drying Rack Capacity");
+            BaseCauldronOutput = new ConfigEntry<int>(Provisioner, "SkillTree_BaseCauldronOutput", 10, "Base Cauldron Output");
+            BaseYieldPlants = new ConfigEntry<int>(Provisioner, "SkillTree_BaseYieldPlants", 12, "Base Yield of Plants");
+            BasePlantQualityLevel = new ConfigEntry<float>(Provisioner, "SkillTree_BasePlantQualityLevel", 0.5f, "Base Quality Level of Plants");
+            CauldronOutputBonus = new ConfigEntry<int>(Provisioner, "SkillTree_CauldronOutputBonus", 1, "Witch's Brew: Cauldron Output Bonus", "Increases the output multiplier");
+            MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner, "SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier");
+            ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner, "SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier");
+            QualityBonusGrowTent = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusGrowTent", 0.16f, "Pitchin' a Tent: Quality Bonus for Grow Tents");
+            QualityBonusPlants = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots");
+            QualityBonusShrooms = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms");
+            YieldBonusPlants = new ConfigEntry<int>(Provisioner, "SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants");
+            GrowthSpeedBonusPlants = new ConfigEntry<float>(Provisioner, "SkillTree_GrowthSpeedBonusPlants", 0.025f, "Green Thumb/Plant Whisperer: Plant Growth Speed Bonus");
+            MoistureDrainBonus = new ConfigEntry<float>(Provisioner, "SkillTree_MoistureDrainBonus", 0.5f, "Wet-Ass Plants: Moisture Drain Multiplier");
+            Provisioner.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            Social = MelonPreferences.CreateCategory("SkillTree_07_SocialSettings", "Social Skills Settings");
-            BaseWeeklyDepositLimit = new ConfigEntry<float>(Social, "SkillTree_BaseWeeklyDepositLimit", ATM.WEEKLY_DEPOSIT_LIMIT, "Base Weekly ATM Deposit Limit");
-            BaseMaxCustomer = new ConfigEntry<int>(Social, "SkillTree_BaseMaxCustomer", Dealer.MAX_CUSTOMERS, "Base Max Customers for Dealers");
-            BaseDeadDropItemLimit = new ConfigEntry<int>(Social, "SkillTree_BaseDeadDropItemLimit", Supplier.DEADDROP_ITEM_LIMIT, "Base Deaddrop Item Limit");
-            BaseTrashGrabberBinSize = new ConfigEntry<int>(Social, "SkillTree_BaseTrashGrabberBinSize", 20, "Base Trash Grabber Bin Size");
-            TrashGrabberBinSizeBonus = new ConfigEntry<float>(Social, "SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier");
-            TrashPickupRadius = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius");
-            TrashPickupRadiusBonus = new ConfigEntry<float>(Social, "SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
-            TrashValueBonus = new ConfigEntry<int>(Social, "SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus");
-            PawnPriceBonus = new ConfigEntry<float>(Social, "SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus");
-            ATMDepositBonus = new ConfigEntry<float>(Social, "SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus");
-            DealerCustomerLimitBonus = new ConfigEntry<int>(Social, "SkillTree_CustomerLimitBonus", 2, "Expansive Empire: Customer Limit Bonus");
-            CustomerSampleAcceptBonus = new ConfigEntry<float>(Social, "SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus");
-            CustomerCashBonus = new ConfigEntry<float>(Social, "SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus");
-            DealerCutReduction = new ConfigEntry<float>(Social, "SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction");
-            DealerSpeedBonus = new ConfigEntry<float>(Social, "SkillTree_DealerSpeedBonus", 1f, "Motivational Leader: Dealer Speed Bonus", "Increases the speed multiplier");
-            SupplierCashBonus = new ConfigEntry<float>(Social, "SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus");
-            SupplierItemBonus = new ConfigEntry<float>(Social, "SkillTree_SupplierItemBonus", 0.50f, "Reliable Bus. Partner: Dead Drop Item Limit Bonus");
-            LaunderingBonus = new ConfigEntry<float>(Social, "SkillTree_LaunderingBonus", 0.30f, "Squeaky Clean: Business Laundering Capacity Bonus");
-            Social.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Hustler = MelonPreferences.CreateCategory("SkillTree_HustlerSettings", "Hustler Skills Settings");
+            BaseWeeklyDepositLimit = new ConfigEntry<float>(Hustler, "SkillTree_BaseWeeklyDepositLimit", ATM.WEEKLY_DEPOSIT_LIMIT, "Base Weekly ATM Deposit Limit");
+            BaseTrashGrabberBinSize = new ConfigEntry<int>(Hustler, "SkillTree_BaseTrashGrabberBinSize", 20, "Base Trash Grabber Bin Size");
+            TrashGrabberBinSizeBonus = new ConfigEntry<float>(Hustler, "SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier");
+            TrashPickupRadius = new ConfigEntry<float>(Hustler, "SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius");
+            TrashPickupRadiusBonus = new ConfigEntry<float>(Hustler, "SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier");
+            TrashValueBonus = new ConfigEntry<int>(Hustler, "SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus");
+            PawnPriceBonus = new ConfigEntry<float>(Hustler, "SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus");
+            ATMDepositBonus = new ConfigEntry<float>(Hustler, "SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus");
+            CustomerSampleAcceptBonus = new ConfigEntry<float>(Hustler, "SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus");
+            CustomerCashBonus = new ConfigEntry<float>(Hustler, "SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus");
+            CustomerOrderLimitBonus = new ConfigEntry<int>(Hustler, "SkillTree_CustomerOrderLimitBonus", 3, "Captive Market: Customer Order Limit Bonus");
+            CustomerOrderLimitRankBonus = new ConfigEntry<int>(Hustler, "SkillTree_CustomerOrderLimitRankBonus", 1, "Captive Market: Customer Order Limit Rank Bonus");
+            LaunderingBonus = new ConfigEntry<float>(Hustler, "SkillTree_LaunderingBonus", 0.30f, "Squeaky Clean: Business Laundering Capacity Bonus");
+            Hustler.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            Special = MelonPreferences.CreateCategory("SkillTree_08_SpecialSettings", "Special Skills Settings");
-            BaseMaxChemistStations = new ConfigEntry<int>(Special, "SkillTree_BaseMaxChemistStations", 4, "Base Maximum Chemist Stations");
-            BaseMaxBotanistStations = new ConfigEntry<int>(Special, "SkillTree_BaseMaxBotanistStations", 8, "Base Maximum Botanist Stations");
+            Logistician = MelonPreferences.CreateCategory("SkillTree_LogisticianSettings", "Logistician Skills Settings");
+            BaseDeadDropItemLimit = new ConfigEntry<int>(Logistician, "SkillTree_BaseDeadDropItemLimit", Supplier.DEADDROP_ITEM_LIMIT, "Base Deaddrop Item Limit");
+            BaseMaxCustomer = new ConfigEntry<int>(Logistician, "SkillTree_BaseMaxCustomer", Dealer.MAX_CUSTOMERS, "Base Max Customers for Dealers");
+            BaseMaxChemistStations = new ConfigEntry<int>(Logistician, "SkillTree_BaseMaxChemistStations", 4, "Base Maximum Chemist Stations");
+            BaseMaxBotanistStations = new ConfigEntry<int>(Logistician, "SkillTree_BaseMaxBotanistStations", 8, "Base Maximum Botanist Stations");
+            SupplierCashBonus = new ConfigEntry<float>(Logistician, "SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus");
+            SupplierItemBonus = new ConfigEntry<float>(Logistician, "SkillTree_SupplierItemBonus", 0.50f, "Reliable Bus. Partner: Dead Drop Item Limit Bonus");
+            DealerCustomerLimitBonus = new ConfigEntry<int>(Logistician, "SkillTree_CustomerLimitBonus", 2, "Expansive Empire: Customer Limit Bonus");
+            DealerCutReduction = new ConfigEntry<float>(Logistician, "SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction");
+            DealerSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_DealerSpeedBonus", 1f, "Motivational Leader: Dealer Speed Bonus", "Increases the speed multiplier");
+            BotanistActionSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_BotanistActionSpeedBonus", 0.5f, "Fast Farmers: Multiplier for Botanist Action Duration");
+            EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)");
+            EmployeeStationBonus = new ConfigEntry<int>(Logistician, "SkillTree_EmployeeStationBonus", 2, "Overworked/Underpaid: Station bonus for Botanists and Chemists");
+            Logistician.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+
+            Special = MelonPreferences.CreateCategory("SkillTree_SpecialSettings", "Special Skills Settings");
             PoliceKilledBonus = new ConfigEntry<float>(Special, "SkillTree_PoliceKilledBonus", 0.1f, "Blood Rush: Bonus Health per Police Killed");
             CartelKilledBonus = new ConfigEntry<float>(Special, "SkillTree_CartelKilledBonus", 0.1f, "Blood Rush: Bonus Health per Cartel Killed");
             BloodRushRegenDelayMultiplier = new ConfigEntry<float>(Special, "SkillTree_BloodRushRegenDelayMultiplier", 0.2f, "Blood Rush: Health Regen Delay Multiplier");
@@ -216,34 +255,33 @@ namespace SkillTree.Core.Utilities
             SiphonFundsOwnedBusinessBonus = new ConfigEntry<float>(Special, "SkillTree_SiphonFundsOwnedBusinessBonus", 0.05f, "Siphon Funds: Bonus Per Owned Business");
             TrickleDownCashReserve = new ConfigEntry<float>(Special, "SkillTree_TrickledownCashReserve", 2000f, "Trickle-down Economics: Cash Reserve", "Amount of cash kept when transferring money to businesses if there's not enough to max out their capacity");
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special, "SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24));
-            BotanistActionSpeedBonus = new ConfigEntry<float>(Special, "SkillTree_BotanistActionSpeedBonus", 0.5f, "Fast Farmers: Multiplier for Botanist Action Duration");
-            EmployeeMoveSpeedBonus = new ConfigEntry<float>(Special, "SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)");
-            EmployeeStationBonus = new ConfigEntry<int>(Special, "SkillTree_EmployeeStationBonus", 2, "Overworked/Underpaid: Station bonus for Botanists and Chemists");
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            UserSettings = MelonPreferences.CreateCategory("SkillTree_00_UserSettings", "User Settings");
-            AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_01_Auto_Unlock_Prerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
+            UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
+            AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_01_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
             EnableContractColors = new ConfigEntry<bool>(UserSettings, "SkillTree_02_EnableContractColors", true, "Enable Contract Colors", "If enabled, contract icon colors can be customized and will change colors to indicate contracts within their delivery window");
             EnableCrosshair = new ConfigEntry<bool>(UserSettings, "SkillTree_03_EnableCrosshair", true, "Enable Crosshair", "If enabled, the crosshair stays enabled while wielding a ranged weapon");
-            ContractReadyBackgroundColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReady_BackgroundColor", new(0.2984f, 0.6226f, 0.2673f, 1f), "Contract Ready: Background Color", "Icon background color for contracts that are within their delivery window");
-            ContractReadyFillColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReady_FillColor", new(1f, 1f, 1f, 1f), "Contract Ready: Fill Color", "Icon fill color for contracts that are within their delivery window");
+            ContractReadyBackgroundColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReadyBackgroundColor", new(0.2984f, 0.6226f, 0.2673f, 1f), "Contract Ready: Background Color", "Icon background color for contracts that are within their delivery window");
+            ContractReadyFillColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReadyFillColor", new(1f, 1f, 1f, 1f), "Contract Ready: Fill Color", "Icon fill color for contracts that are within their delivery window");
             ContractNotReadyBackgroundColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractNotReady_BackgroundColor", new(0.6984f, 0.6226f, 0.4673f, 1f), "Contract Not Ready: Background Color", "Icon background color for contracts that are outside their delivery window");
             ContractNotReadyFillColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractNotReady_FillColor", new(1f, 1f, 1f, 1f), "Contract Not Ready: Fill Color", "Icon fill color for contracts that are outside their delivery window");
             UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            Keybinds = MelonPreferences.CreateCategory("SkillTree_01_Keybinds", "Keybindings");
-            MenuHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_01_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
+            Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
+            MenuHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_00_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
             LevelSkillHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_01_LevelSkill_Hotkey", KeyCode.Space, "Level Skill Hotkey", "While the skill tree is open, levels the currently selected skill");
-            ActiveSkillOne = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_02_Skill_One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
-            ActiveSkillTwo = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_03_Skill_Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
-            ActiveSkillThree = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
-            ActiveSkillFour = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_04_Skill_Four", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-down Economics' skill");
+            ActiveSkillOne = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_05_Skill_One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
+            ActiveSkillTwo = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_06_Skill_Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
+            ActiveSkillThree = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_07_Skill_Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
+            ActiveSkillFour = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_08_Skill_Four", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-down Economics' skill");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
-            DebugOptions = MelonPreferences.CreateCategory($"SkillTree_99_ModInfo", $"Debug Options");
+            DebugOptions = MelonPreferences.CreateCategory($"SkillTree_DebugOptions", $"Debug Options");
             ResetSkills = new ConfigEntry<bool>(DebugOptions, "SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
+            ResetConfiguration = new ConfigEntry<bool>(DebugOptions, "SkillTree_03_ResetConfiguration", false, "Reset all options", "Debug: Enable this option to reset mod options to default.");
             DebugOptions.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
+            ResetConfiguration.Entry.OnEntryValueChanged.Subscribe((oldVal, newVal) => ResetConfig(newVal));
         }
     }
 }

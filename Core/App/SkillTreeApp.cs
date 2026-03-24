@@ -151,8 +151,8 @@ namespace SkillTree.Core.App
 
             var (catEnforcerGO, catEnforcerBtn, catEnforcerTMP) = CreateTabButton("EnforcerTab",
                 catRow.transform, $"Enforcer ({SkillPoints.EnforcerPoints})");
-            var (catSupplierGO, catSupplierBtn, catSupplierTMP) = CreateTabButton("SupplierTab",
-                catRow.transform, $"Supplier ({SkillPoints.SupplierPoints})");
+            var (catProvisionerGO, catProvisionerBtn, catProvisionerTMP) = CreateTabButton("ProvisionerTab",
+                catRow.transform, $"Provisioner ({SkillPoints.ProvisionerPoints})");
             var (catHustlerGO, catHustlerBtn, catHustlerTMP) = CreateTabButton("HustlerTab",
                 catRow.transform, $"Hustler ({SkillPoints.HustlerPoints})");
             var (catLogisticianGO, catLogisticianBtn, catLogisticianTMP) = CreateTabButton("LogisticianTab",
@@ -200,7 +200,7 @@ namespace SkillTree.Core.App
             scrollRect.content = treeRect;
 
             var enforcerContainer = CreateCategoryContainer("EnforcerContainer", treeContent.transform);
-            var supplierContainer = CreateCategoryContainer("SupplierContainer", treeContent.transform);
+            var provisionerContainer = CreateCategoryContainer("ProvisionerContainer", treeContent.transform);
             var hustlerContainer = CreateCategoryContainer("HustlerContainer", treeContent.transform);
             var logisticianContainer = CreateCategoryContainer("LogisticianContainer", treeContent.transform);
             var specialContainer = CreateCategoryContainer("SpecialContainer", treeContent.transform);
@@ -268,19 +268,19 @@ namespace SkillTree.Core.App
             var connectionLines = new Dictionary<(Skill, Skill), List<Image>>();
 
             List<SkillNode> nodesEnforcer = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Enforcer], enforcerContainer, connectionLines);
-            List<SkillNode> nodesSupplier = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Supplier], supplierContainer, connectionLines);
+            List<SkillNode> nodesProvisioner = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Provisioner], provisionerContainer, connectionLines);
             List<SkillNode> nodesHustler = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Hustler], hustlerContainer, connectionLines);
             List<SkillNode> nodesLogistician = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Logistician], logisticianContainer, connectionLines);
             List<SkillNode> nodesSpecial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Special], specialContainer, connectionLines);
 
-            List<SkillNode> allNodes = [.. nodesEnforcer, .. nodesSupplier, .. nodesHustler, .. nodesLogistician, .. nodesSpecial];
+            List<SkillNode> allNodes = [.. nodesEnforcer, .. nodesProvisioner, .. nodesHustler, .. nodesLogistician, .. nodesSpecial];
 
             SkillCategory activeCategory = SkillCategory.Enforcer;
 
             // === INITIAL STATE ===
             _selectedSkill = nodesEnforcer.Count > 0 ? nodesEnforcer.First(x => x.Skill.Parent == null) : null;
             UpdateDetails();
-            SetActiveCategory(enforcerContainer, supplierContainer, hustlerContainer, logisticianContainer, specialContainer, enforcerContainer);
+            SetActiveCategory(enforcerContainer, provisionerContainer, hustlerContainer, logisticianContainer, specialContainer, enforcerContainer);
             UpdateAllNodes(allNodes);
             UpdateAllLines();
             UpdatePointsOverlay();
@@ -339,9 +339,9 @@ namespace SkillTree.Core.App
             {
                 activeCategory = category;
                 _selectedSkill = nodes.Count > 0 ? nodes.First(x => x.Skill.Parent == null) : null;
-                SetActiveCategory(enforcerContainer, supplierContainer, hustlerContainer, logisticianContainer,
+                SetActiveCategory(enforcerContainer, provisionerContainer, hustlerContainer, logisticianContainer,
                     specialContainer, activeContainer);
-                SetTabColors(catEnforcerGO, catSupplierGO, catHustlerGO, catLogisticianGO, catSpecialGO, activeTab);
+                SetTabColors(catEnforcerGO, catProvisionerGO, catHustlerGO, catLogisticianGO, catSpecialGO, activeTab);
                 UpdateDetails();
                 UpdateCategoryText();
                 UpdateAllNodes(allNodes);
@@ -351,8 +351,8 @@ namespace SkillTree.Core.App
 
             ButtonUtils.AddListener(catEnforcerBtn, () =>
                 SwitchCategory(nodesEnforcer, enforcerContainer, catEnforcerGO, SkillCategory.Enforcer));
-            ButtonUtils.AddListener(catSupplierBtn, () =>
-                SwitchCategory(nodesSupplier, supplierContainer, catSupplierGO, SkillCategory.Supplier));
+            ButtonUtils.AddListener(catProvisionerBtn, () =>
+                SwitchCategory(nodesProvisioner, provisionerContainer, catProvisionerGO, SkillCategory.Provisioner));
             ButtonUtils.AddListener(catHustlerBtn, () =>
                 SwitchCategory(nodesHustler, hustlerContainer, catHustlerGO, SkillCategory.Hustler));
             ButtonUtils.AddListener(catLogisticianBtn, () =>
@@ -386,7 +386,7 @@ namespace SkillTree.Core.App
             void UpdateCategoryText()
             {
                 catEnforcerTMP.text = $"Enforcer ({SkillPoints.EnforcerPoints})";
-                catSupplierTMP.text = $"Supplier ({SkillPoints.SupplierPoints})";
+                catProvisionerTMP.text = $"Provisioner ({SkillPoints.ProvisionerPoints})";
                 catHustlerTMP.text = $"Hustler ({SkillPoints.HustlerPoints})";
                 catLogisticianTMP.text = $"Logistician ({SkillPoints.LogisticianPoints})";
                 catSpecialTMP.text = $"Special ({SkillPoints.SpecialPoints})";
@@ -773,23 +773,23 @@ namespace SkillTree.Core.App
         }
 
         /// <summary>Shows only the active category container, hides the rest.</summary>
-        private static void SetActiveCategory(GameObject enforcer, GameObject supplier,
+        private static void SetActiveCategory(GameObject enforcer, GameObject provisioner,
             GameObject hustler, GameObject logistician, GameObject special, GameObject active)
         {
             enforcer.SetActive(enforcer == active);
-            supplier.SetActive(supplier == active);
+            provisioner.SetActive(provisioner == active);
             hustler.SetActive(hustler == active);
             logistician.SetActive(logistician == active);
             special.SetActive(special == active);
         }
 
         /// <summary>Highlights the active tab and resets the others to default color.</summary>
-        private static void SetTabColors(GameObject enforcerTab, GameObject supplierTab,
+        private static void SetTabColors(GameObject enforcerTab, GameObject provisionerTab,
             GameObject hustlerTab, GameObject logisticianTab, GameObject specialTab, GameObject activeTab)
         {
             enforcerTab.GetComponent<Image>().color = enforcerTab == activeTab
                 ? ColorButtonSelected : ColorButton;
-            supplierTab.GetComponent<Image>().color = supplierTab == activeTab
+            provisionerTab.GetComponent<Image>().color = provisionerTab == activeTab
                 ? ColorButtonSelected : ColorButton;
             hustlerTab.GetComponent<Image>().color = hustlerTab == activeTab
                 ? ColorButtonSelected : ColorButton;

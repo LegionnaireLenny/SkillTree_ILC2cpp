@@ -11,71 +11,26 @@ namespace SkillTree.Core
         // Businesses
         public static readonly Dictionary<string, float> OriginalLaunderCapacity = [];
 
-        // Customers
-        //public static readonly List<OriginalCustomer> Customers = [];
-        public static readonly Dictionary<string, float> OriginalMinSpend = [];
-        public static readonly Dictionary<string, float> OriginalMaxSpend = [];
-        //public static readonly Dictionary<string, float> OriginalMinOrder = [];
-        //public static readonly Dictionary<string, float> OriginalMaxOrder = [];
+        public static readonly Dictionary<string, OriginalCustomer> OriginalCustomers = [];
+        public static readonly Dictionary<string, OriginalDealer> OriginalDealers = [];
 
         // Items
         public static readonly Dictionary<string, int> OriginalItemStackSize = [];
 
-        // Economy
-        public static readonly Dictionary<string, float> OriginalDealerCut = [];
-        public static readonly Dictionary<string, float> OriginalDealerMoveSpeed = [];
-
-        public static void FillCache(List<Business> businesses)
+        public class OriginalCustomer
         {
-            if (OriginalLaunderCapacity.Count > 0)
-            {
-                return;
-            }
-
-            foreach (Business business in businesses)
-            {
-                if (!OriginalLaunderCapacity.ContainsKey(business.PropertyName))
-                {
-                    OriginalLaunderCapacity.Add(business.PropertyName, business.LaunderCapacity);
-                }
-            }
-            MelonLogger.Msg("[Cache] Successfully cached original laundering capacity for each business!");
+            public string Name { get; set; }
+            public float MinWeeklySpend { get; set; }
+            public float MaxWeeklySpend { get; set; }
+            public int MinOrdersPerWeek { get; set; }
+            public int MaxOrdersPerWeek { get; set; }
         }
 
-        //public class OriginalCustomer
-        //{
-        //    public string Name { get; set; }
-        //    public float MinWeeklySpend { get; set; }
-        //    public float MaxWeeklySpend { get; set; }
-        //    public int MinOrdersPerWeek { get; set; }
-        //    public int MaxOrdersPerWeek { get; set; }
-        //}
-
-        public static void FillCache(List<Customer> customers)
+        public class OriginalDealer
         {
-            foreach (Customer customer in customers)
-            {
-                //if (Customers.Find(x => x.Name.Equals(customer.CustomerData.name)) == null)
-                //{
-                //    Customers.Add(new OriginalCustomer
-                //    {
-                //        Name = customer.CustomerData.name,
-                //        MinWeeklySpend = customer.CustomerData.MinWeeklySpend,
-                //        MaxWeeklySpend = customer.CustomerData.MaxWeeklySpend,
-                //        MinOrdersPerWeek = customer.CustomerData.MinOrdersPerWeek,
-                //        MaxOrdersPerWeek = customer.CustomerData.MaxOrdersPerWeek
-                //    });
-                //}
-
-                if (!OriginalMinSpend.ContainsKey(customer.CustomerData.name))
-                {
-                    OriginalMinSpend.Add(customer.CustomerData.name, customer.CustomerData.MinWeeklySpend);
-                    OriginalMaxSpend.Add(customer.CustomerData.name, customer.CustomerData.MaxWeeklySpend);
-                    //OriginalMaxSpend.Add(customer.CustomerData.name, customer.CustomerData.MinOrdersPerWeek);
-                    //OriginalMaxSpend.Add(customer.CustomerData.name, customer.CustomerData.MaxOrdersPerWeek);
-                }
-            }
-            MelonLogger.Msg("[Cache] Successfully cached original spending capacity for each customer!");
+            public string Name { get; set; }
+            public float Cut { get; set; }
+            public float MoveSpeedMultiplier { get; set; }
         }
 
         public static void FillCache(List<ItemDefinition> items)
@@ -90,33 +45,43 @@ namespace SkillTree.Core
             MelonLogger.Msg("[Cache] Successfully cached stack limits for each item!");
         }
 
-        public static void FillCache(List<Dealer> dealers)
+        public static void FillCache(Business business)
         {
-            if (OriginalDealerCut.Count > 0)
+            if (!OriginalLaunderCapacity.ContainsKey(business.PropertyName))
             {
-                return;
+                OriginalLaunderCapacity.Add(business.PropertyName, business.LaunderCapacity);
+                MelonLogger.Msg($"[Cache] Cached original laundering capacity {business.PropertyName}");
             }
-
-            foreach (Dealer dealer in dealers)
-            {
-                if (!OriginalDealerCut.ContainsKey(dealer.name))
-                {
-                    OriginalDealerCut.Add(dealer.name, dealer.Cut);
-                    OriginalDealerMoveSpeed.Add(dealer.name, dealer.Movement.MoveSpeedMultiplier);
-                }
-            }
-            MelonLogger.Msg("[Cache] Successfully cached dealer data!");
         }
 
-        public static void Reset()
+        public static void FillCache(Customer customer)
         {
-            OriginalLaunderCapacity.Clear();
-            OriginalMinSpend.Clear();
-            OriginalMaxSpend.Clear();
-            OriginalItemStackSize.Clear();
-            OriginalDealerCut.Clear();
-            OriginalDealerMoveSpeed.Clear();
-            //Customers.Clear()
+            if (!OriginalCustomers.ContainsKey(customer.CustomerData.name))
+            {
+                OriginalCustomers.Add(customer.CustomerData.name, new OriginalCustomer
+                {
+                    Name = customer.CustomerData.name,
+                    MinWeeklySpend = customer.CustomerData.MinWeeklySpend,
+                    MaxWeeklySpend = customer.CustomerData.MaxWeeklySpend,
+                    MinOrdersPerWeek = customer.CustomerData.MinOrdersPerWeek,
+                    MaxOrdersPerWeek = customer.CustomerData.MaxOrdersPerWeek
+                });
+                MelonLogger.Msg($"[Cache] Cached original customer data for {customer.name}");
+            }
+        }
+
+        public static void FillCache(Dealer dealer)
+        {
+            if (!OriginalDealers.ContainsKey(dealer.name))
+            {
+                OriginalDealers.Add(dealer.name, new OriginalDealer
+                {
+                    Name = dealer.name,
+                    Cut = dealer.Cut,
+                    MoveSpeedMultiplier = dealer.Movement.MoveSpeedMultiplier
+                });
+                MelonLogger.Msg($"[Cache] Cached original dealer data for {dealer.name}");
+            }
         }
     }
 }

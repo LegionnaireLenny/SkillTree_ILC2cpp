@@ -13,7 +13,7 @@ namespace SkillTree.Core.Serialization
     public class SkillPoints
     {
         public static int EnforcerPoints { get; private set; } = 0;
-        public static int SupplierPoints { get; private set; } = 0;
+        public static int ProvisionerPoints { get; private set; } = 0;
         public static int HustlerPoints { get; private set; } = 0;
         public static int LogisticianPoints { get; private set; } = 0;
         public static int SpecialPoints { get; private set; } = 0;
@@ -26,8 +26,8 @@ namespace SkillTree.Core.Serialization
                 case SkillCategory.Enforcer:
                     EnforcerPoints -= amount;
                     break;
-                case SkillCategory.Supplier:
-                    SupplierPoints -= amount;
+                case SkillCategory.Provisioner:
+                    ProvisionerPoints -= amount;
                     break;
                 case SkillCategory.Hustler:
                     HustlerPoints -= amount;
@@ -45,7 +45,7 @@ namespace SkillTree.Core.Serialization
         public static void AddSkillPoints(int stats, int ops, int social, int logistician, int special)
         {
             EnforcerPoints += stats;
-            SupplierPoints += ops;
+            ProvisionerPoints += ops;
             HustlerPoints += social;
             LogisticianPoints += logistician;
             SpecialPoints += special;
@@ -64,8 +64,8 @@ namespace SkillTree.Core.Serialization
                     $"<color=#16F01C>+1 Enforcer point</color>", IconManager.LoadSprite(IconManager.IconEnforcer));
 
                     break;
-                case SkillCategory.Supplier:
-                    SupplierPoints++;
+                case SkillCategory.Provisioner:
+                    ProvisionerPoints++;
                     MelonLogger.Msg("+1 Supplier point");
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
@@ -121,7 +121,7 @@ namespace SkillTree.Core.Serialization
                         AddSkillPoint(SkillCategory.Enforcer);
                         break;
                     case 1:
-                        AddSkillPoint(SkillCategory.Supplier);
+                        AddSkillPoint(SkillCategory.Provisioner);
                         break;
                     case 2:
                         AddSkillPoint(SkillCategory.Hustler);
@@ -144,8 +144,8 @@ namespace SkillTree.Core.Serialization
             {
                 case SkillCategory.Enforcer:
                     return EnforcerPoints > 0;
-                case SkillCategory.Supplier:
-                    return SupplierPoints > 0;
+                case SkillCategory.Provisioner:
+                    return ProvisionerPoints > 0;
                 case SkillCategory.Hustler:
                     return HustlerPoints > 0;
                 case SkillCategory.Logistician:
@@ -163,8 +163,8 @@ namespace SkillTree.Core.Serialization
             {
                 case SkillCategory.Enforcer:
                     return EnforcerPoints;
-                case SkillCategory.Supplier:
-                    return SupplierPoints;
+                case SkillCategory.Provisioner:
+                    return ProvisionerPoints;
                 case SkillCategory.Hustler:
                     return HustlerPoints;
                 case SkillCategory.Logistician:
@@ -214,21 +214,21 @@ namespace SkillTree.Core.Serialization
 
         public static void ValidateTotalSkillPoints()
         {
-            var (enforcerExpected, supplierExpected, hustlerExpected, logisticianExpected, specialExpected) = GetExpectedPointTotals();
+            var (enforcerExpected, provisionerExpected, hustlerExpected, logisticianExpected, specialExpected) = GetExpectedPointTotals();
             var points = SkillTreeData.GetCategoryPointsSpent();
             int enforcerSpent = points[SkillCategory.Enforcer];
-            int supplierSpent = points[SkillCategory.Supplier];
+            int provisionerSpent = points[SkillCategory.Provisioner];
             int hustlerSpent = points[SkillCategory.Hustler];
             int logisticianSpent = points[SkillCategory.Logistician];
             int specialSpent = points[SkillCategory.Special];
 
-            int expectedTotal = enforcerExpected + supplierExpected + hustlerExpected + logisticianExpected + specialExpected;
-            int pointsSpent = enforcerSpent + supplierSpent + hustlerSpent + logisticianSpent + specialSpent;
-            int pointsRemaining = EnforcerPoints + SupplierPoints + HustlerPoints + LogisticianPoints + SpecialPoints;
+            int expectedTotal = enforcerExpected + provisionerExpected + hustlerExpected + logisticianExpected + specialExpected;
+            int pointsSpent = enforcerSpent + provisionerSpent + hustlerSpent + logisticianSpent + specialSpent;
+            int pointsRemaining = EnforcerPoints + ProvisionerPoints + HustlerPoints + LogisticianPoints + SpecialPoints;
 
-            MelonLogger.Msg($"Expected: Enforcer {enforcerExpected} | Supplier {supplierExpected} | Hustler {hustlerExpected} | Logistician {logisticianExpected} | Special {specialExpected} | Total {expectedTotal}");
-            MelonLogger.Msg($"Spent:    Enforcer {enforcerSpent} | Supplier {supplierSpent} | Hustler {hustlerSpent} | Logistician {logisticianSpent} | Special {specialSpent} | Total {pointsSpent}");
-            MelonLogger.Msg($"Left:     Enforcer {EnforcerPoints} | Supplier {SupplierPoints} | Hustler {HustlerPoints} | Logistician {LogisticianPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
+            MelonLogger.Msg($"Expected: Enforcer {enforcerExpected} | Provisioner {provisionerExpected} | Hustler {hustlerExpected} | Logistician {logisticianExpected} | Special {specialExpected} | Total {expectedTotal}");
+            MelonLogger.Msg($"Spent:    Enforcer {enforcerSpent} | Provisioner {provisionerSpent} | Hustler {hustlerSpent} | Logistician {logisticianSpent} | Special {specialSpent} | Total {pointsSpent}");
+            MelonLogger.Msg($"Left:     Enforcer {EnforcerPoints} | Provisioner {ProvisionerPoints} | Hustler {HustlerPoints} | Logistician {LogisticianPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
 
             if (expectedTotal < pointsSpent + pointsRemaining)
             {
@@ -239,7 +239,7 @@ namespace SkillTree.Core.Serialization
             }
 
             int missingEnforcer = enforcerExpected - (enforcerSpent + EnforcerPoints);
-            int missingSupplier = supplierExpected - (supplierSpent + SupplierPoints);
+            int missingProvisioner = provisionerExpected - (provisionerSpent + ProvisionerPoints);
             int missingHustler = hustlerExpected - (hustlerSpent + HustlerPoints);
             int missingLogistician = logisticianExpected - (logisticianSpent + LogisticianPoints);
             int missingSpecial = specialExpected - (specialSpent + SpecialPoints);
@@ -248,9 +248,9 @@ namespace SkillTree.Core.Serialization
             {
                 MelonLogger.Warning($"Adjusting Enforcer points by {missingEnforcer}");
             }
-            if (missingSupplier != 0)
+            if (missingProvisioner != 0)
             {
-                MelonLogger.Warning($"Adjusting Supplier points by {missingSupplier}");
+                MelonLogger.Warning($"Adjusting Supplier points by {missingProvisioner}");
             }
             if (missingHustler != 0)
             {
@@ -264,7 +264,7 @@ namespace SkillTree.Core.Serialization
             {
                 MelonLogger.Warning($"Adjusting Special points by {missingSpecial}");
             }
-            AddSkillPoints(missingEnforcer, missingSupplier, missingHustler, missingLogistician, missingSpecial);
+            AddSkillPoints(missingEnforcer, missingProvisioner, missingHustler, missingLogistician, missingSpecial);
         }
 
         public static void LoadFromFile(JsonElement data)

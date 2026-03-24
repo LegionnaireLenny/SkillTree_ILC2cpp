@@ -10,7 +10,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
-namespace SkillTree.Core.Patches.Supplier
+namespace SkillTree.Core.Patches.Provisioner
 {
     [HarmonyPatch]
     public static class GrowContainerPatches

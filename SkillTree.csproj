@@ -28,12 +28,12 @@
 		<Compile Include="Core\Serialization\Cooldowns.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
 		<Compile Include="Core\Patches\Compatibility\SkillTree_EmpirePatches.cs" />
-		<Compile Include="Core\Patches\Supplier\GrowContainerPatches.cs" />
-		<Compile Include="Core\Patches\Supplier\CraftingSpeedPatches.cs" />
-		<Compile Include="Core\Patches\Supplier\MushroomPatches.cs" />
-		<Compile Include="Core\Patches\Supplier\QualityPatches.cs" />
-		<Compile Include="Core\Patches\Supplier\QuantityPatches.cs" />
-		<Compile Include="Core\Patches\Supplier\PlantPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\GrowContainerPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\CraftingSpeedPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\MushroomPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\QualityPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\QuantityPatches.cs" />
+		<Compile Include="Core\Patches\Provisioner\PlantPatches.cs" />
 		<Compile Include="Core\Patches\Special\LaunderingPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\SupplierPatches.cs" />
 		<Compile Include="Core\Cache.cs" />
@@ -694,5 +694,9 @@
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Supplier.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_WashingMachine.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Core\Patches\Logistician\" />
 	</ItemGroup>
 </Project>

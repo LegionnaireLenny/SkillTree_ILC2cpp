@@ -16,12 +16,11 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetDealerCut()
         {
-            Cache.FillCache(Dealer.AllPlayerDealers.ToArray().ToList());
-
             foreach (Dealer dealer in Dealer.AllPlayerDealers)
             {
-                if (Cache.OriginalDealerCut.TryGetValue(dealer.name, out float baseCut))
+                if (Cache.OriginalDealers.ContainsKey(dealer.name))
                 {
+                    float baseCut = Cache.OriginalDealers[dealer.name].Cut;
                     dealer.Cut = baseCut - SkillModifiers.GetDealerCutReduction();
                     if (!Mathf.Approximately(baseCut, dealer.Cut))
                     {
@@ -33,12 +32,11 @@ namespace SkillTree.Core.Patches.Hustler
 
         public static void SetDealerMoveSpeed()
         {
-            Cache.FillCache(Dealer.AllPlayerDealers.ToArray().ToList());
-
             foreach (Dealer dealer in Dealer.AllPlayerDealers)
             {
-                if (Cache.OriginalDealerMoveSpeed.TryGetValue(dealer.name, out float baseMoveSpeed))
+                if (Cache.OriginalDealers.ContainsKey(dealer.name))
                 {
+                    float baseMoveSpeed = Cache.OriginalDealers[dealer.name].MoveSpeedMultiplier;
                     dealer.Movement.MoveSpeedMultiplier = baseMoveSpeed * SkillModifiers.GetDealerSpeedMultiplier();
                     if (!Mathf.Approximately(baseMoveSpeed, dealer.Movement.MoveSpeedMultiplier))
                     {
@@ -66,6 +64,13 @@ namespace SkillTree.Core.Patches.Hustler
                 instance.CustomerEntries = entriesList.ToArray();
                 LayoutRebuilder.ForceRebuildLayoutImmediate(instance.Content);
             }
+        }
+
+        [HarmonyPatch(typeof(Dealer), "Start")]
+        [HarmonyPostfix]
+        public static void Patch_Dealer_Start(Dealer __instance)
+        {
+            Cache.FillCache(__instance);
         }
 
         [HarmonyPatch(typeof(DealerManagementApp), "Awake")]

@@ -22,18 +22,18 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Enforcer, 2, MoreXP);
         public static readonly Skill MoreXPWhenEarnMoney = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Enforcer, 1, MoreXP);
 
-        public static readonly Skill Supplier = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Supplier, 1, null);
-        public static readonly Skill MoreQuality = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%", SkillCategory.Supplier, 2, Supplier);
-        public static readonly Skill MoreQualityMethCoca = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Supplier, 1, MoreQuality);
-        public static readonly Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%", SkillCategory.Supplier, 2, MoreQuality);
-        public static readonly Skill WetAssPlants = new("Wet-Ass Plants", "Moisture drains 50% slower for all grow containers", SkillCategory.Supplier, 1, Supplier);
-        public static readonly Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Supplier, 1, WetAssPlants);
-        public static readonly Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Supplier, 2, Supplier);
-        public static readonly Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Supplier, 2, GrowthSpeed);
-        public static readonly Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Supplier, 1, GrowthSpeed);
-        public static readonly Skill MoreYield = new("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Supplier, 1, Supplier);
-        public static readonly Skill MoreMixAndDryingRackOutput = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Supplier, 1, MoreYield);
-        public static readonly Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Supplier, 1, MoreYield);
+        public static readonly Skill Supplier = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Provisioner, 1, null);
+        public static readonly Skill MoreQuality = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%", SkillCategory.Provisioner, 2, Supplier);
+        public static readonly Skill MoreQualityMethCoca = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Provisioner, 1, MoreQuality);
+        public static readonly Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%", SkillCategory.Provisioner, 2, MoreQuality);
+        public static readonly Skill WetAssPlants = new("Wet-Ass Plants", "Moisture drains 50% slower for all grow containers", SkillCategory.Provisioner, 1, Supplier);
+        public static readonly Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted", SkillCategory.Provisioner, 1, WetAssPlants);
+        public static readonly Skill GrowthSpeed = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%", SkillCategory.Provisioner, 2, Supplier);
+        public static readonly Skill GrowthSpeed2 = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%", SkillCategory.Provisioner, 2, GrowthSpeed);
+        public static readonly Skill ChemistStationQuick = new("Quick Crafter", "Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations", SkillCategory.Provisioner, 1, GrowthSpeed);
+        public static readonly Skill MoreYield = new("Bountiful Harvest", "Increase base yield of plants by 1", SkillCategory.Provisioner, 1, Supplier);
+        public static readonly Skill MoreMixAndDryingRackOutput = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Provisioner, 1, MoreYield);
+        public static readonly Skill MoreCauldronOutput = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Provisioner, 1, MoreYield);
 
         public static readonly Skill Logistician = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Logistician, 2, null);
         public static readonly Skill RushDelivery = new("Rush Delivery", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours", SkillCategory.Logistician, 1, Logistician);
@@ -49,7 +49,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items", SkillCategory.Hustler, 1, Hustler);
         public static readonly Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Hustler, 2, CommunityService, [TrashPatches.IncreaseTrashValue]);
         public static readonly Skill SpreadTheWealth = new("Spread the Wealth", "Increase citizens' weekly spending limits by 25% per level", SkillCategory.Hustler, 2, Hustler, [CustomerPatches.SetCustomerSpendLimits]);
-        //public static readonly Skill CaptiveMarket = new("Captive Market", "Increase citizens' weekly order limits by 3 per level and 1 per rank", SkillCategory.Hustler, 2, Hustler, [Patches.Social.CustomerPatches.SetCustomerSpendLimits]);
+        public static readonly Skill CaptiveMarket = new("Captive Market", "Increase citizens' weekly order limits by 3 per level and 1 per rank", SkillCategory.Hustler, 2, SpreadTheWealth, [CustomerPatches.SetCustomerOrderLimits]);
         public static readonly Skill HoardTheWealth = new("Hoard the Wealth", "Increase ATM deposit limit by $2500 per level", SkillCategory.Hustler, 2, Hustler);
         public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [BusinessPatches.SetLaunderingCapacity]);
         public static readonly Skill CrystalBall = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Hustler, 1, Hustler);

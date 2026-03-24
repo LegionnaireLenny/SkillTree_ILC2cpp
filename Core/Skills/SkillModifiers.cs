@@ -1,4 +1,5 @@
-﻿using S1API.Property;
+﻿using MelonLoader;
+using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Serialization;
 using UnityEngine;
@@ -157,19 +158,10 @@ namespace SkillTree.Core.Skills
             return BaseWeeklyDepositLimit.GetValue() + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue();
         }
 
-        public static int GetMaxCustomers()
-        {
-            return BaseMaxCustomer.GetValue() + SkillTreeData.ExpansiveEmpire.CurrentLevel * DealerCustomerLimitBonus.GetValue();
-        }
 
         public static float GetCustomerSampleBonus()
         {
             return SkillTreeData.Hustler.CurrentLevel * CustomerSampleAcceptBonus.GetValue();
-        }
-
-        public static float GetDealerCutReduction()
-        {
-            return SkillTreeData.WageGarnishment.CurrentLevel * DealerCutReduction.GetValue();
         }
 
         public static int GetGrabberBinSize()
@@ -197,15 +189,6 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus.GetValue();
         }
 
-        public static float GetSupplierCashMultiplier()
-        {
-            return 1f + SkillTreeData.Logistician.CurrentLevel * SupplierCashBonus.GetValue();
-        }
-
-        public static int GetSupplierItemLimit()
-        {
-            return (int)(BaseDeadDropItemLimit.GetValue() * (1f + SkillTreeData.Logistician.CurrentLevel * SupplierItemBonus.GetValue()));
-        }
 
         public static float GetLaunderingCapacityMultiplier()
         {
@@ -217,30 +200,39 @@ namespace SkillTree.Core.Skills
             return 1f + SkillTreeData.SpreadTheWealth.CurrentLevel * CustomerCashBonus.GetValue();
         }
 
+        #endregion Social
+
+        #region Logistician
+        public static int GetMaxCustomers()
+        {
+            return BaseMaxCustomer.GetValue() + SkillTreeData.ExpansiveEmpire.CurrentLevel * DealerCustomerLimitBonus.GetValue();
+        }
+
+        public static float GetDealerCutReduction()
+        {
+            return SkillTreeData.WageGarnishment.CurrentLevel * DealerCutReduction.GetValue();
+        }
+
+        public static float GetSupplierCashMultiplier()
+        {
+            return 1f + SkillTreeData.Logistician.CurrentLevel * SupplierCashBonus.GetValue();
+        }
+
+        public static int GetCustomerOrderLimitBonus()
+        {
+            if (SkillTreeData.CaptiveMarket.CurrentLevel == 0) return 0;
+
+            return SkillTreeData.CaptiveMarket.CurrentLevel * CustomerOrderLimitBonus.GetValue() + ((int)S1API.Leveling.LevelManager.Rank + 1) * CustomerOrderLimitRankBonus.GetValue();
+        }
+
+        public static int GetSupplierItemLimit()
+        {
+            return (int)(BaseDeadDropItemLimit.GetValue() * (1f + SkillTreeData.Logistician.CurrentLevel * SupplierItemBonus.GetValue()));
+        }
+
         public static float GetDealerSpeedMultiplier()
         {
             return 1f + SkillTreeData.MotivationalLeader.CurrentLevel * DealerSpeedBonus.GetValue();
-        }
-        #endregion Social
-
-        #region Special
-        public static float GetBloodRushHealthBonus()
-        {
-            if (SkillTreeData.Heal.CurrentLevel == 0)
-            {
-                return 0f;
-            }
-
-            float policeBonus = (KillCounts.PoliceKilled / 2) * PoliceKilledBonus.GetValue();
-            float cartelBonus = KillCounts.CartelKilled * CartelKilledBonus.GetValue();
-            float healthCap = BloodRushHealthBonusCap.GetValue() * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier.GetValue() : 1f);
-            float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
-            return bonus;
-        }
-
-        public static float GetSiphonFundsConversionMultiplier()
-        {
-            return SkillTreeData.GetCashDealer.CurrentLevel * (SiphonFundsBaseConversionRate.GetValue() + SiphonFundsOwnedBusinessBonus.GetValue() * BusinessManager.GetOwnedBusinesses().Count);
         }
 
         public static float GetEmployeeMoveSpeedScale()
@@ -267,6 +259,29 @@ namespace SkillTree.Core.Skills
         {
             return (BaseMaxBotanistStations.GetValue() + GetEmployeeStationBonus(), BaseMaxBotanistStations.GetValue());
         }
+        #endregion Logistician
+
+
+        #region Special
+        public static float GetBloodRushHealthBonus()
+        {
+            if (SkillTreeData.Heal.CurrentLevel == 0)
+            {
+                return 0f;
+            }
+
+            float policeBonus = (KillCounts.PoliceKilled / 2) * PoliceKilledBonus.GetValue();
+            float cartelBonus = KillCounts.CartelKilled * CartelKilledBonus.GetValue();
+            float healthCap = BloodRushHealthBonusCap.GetValue() * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier.GetValue() : 1f);
+            float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
+            return bonus;
+        }
+
+        public static float GetSiphonFundsConversionMultiplier()
+        {
+            return SkillTreeData.GetCashDealer.CurrentLevel * (SiphonFundsBaseConversionRate.GetValue() + SiphonFundsOwnedBusinessBonus.GetValue() * BusinessManager.GetOwnedBusinesses().Count);
+        }
+
         #endregion Special
     }
 }

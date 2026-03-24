@@ -7,7 +7,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using UnityEngine;
 
-namespace SkillTree.Core.Patches.Supplier
+namespace SkillTree.Core.Patches.Provisioner
 {
     [HarmonyPatch]
     public static class QuantityPatches

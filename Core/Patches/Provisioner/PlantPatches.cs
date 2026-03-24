@@ -6,7 +6,7 @@ using Il2CppScheduleOne.Growing;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 
-namespace SkillTree.Core.Patches.Supplier
+namespace SkillTree.Core.Patches.Provisioner
 {
     [HarmonyPatch]
     public class PlantPatches

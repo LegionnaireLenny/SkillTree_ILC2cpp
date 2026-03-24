@@ -1,9 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Property;
 using MelonLoader;
-using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
-using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Hustler
@@ -13,13 +11,8 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetLaunderingCapacity()
         {
-            if (SkillTreeData.SqueakyClean.CurrentLevel != 0)
-            {
-                MelonLogger.Msg($"[BusinessEvolving] Increasing business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
-            }
-
+            MelonLogger.Msg($"Adjusting business laundering capacity by {(int)(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
             Business[] businessList = Object.FindObjectsOfType<Business>();
-            Cache.FillCache(businessList.ToList());
             foreach (Business business in businessList)
             {
                 if (Cache.OriginalLaunderCapacity.TryGetValue(business.PropertyName, out float original))
@@ -31,6 +24,13 @@ namespace SkillTree.Core.Patches.Hustler
                     }
                 }
             }
+        }
+
+        [HarmonyPatch(typeof(Business), "Start")]
+        [HarmonyPostfix]
+        public static void Patch_Dealer_Start(Business __instance)
+        {
+            Cache.FillCache(__instance);
         }
     }
 }

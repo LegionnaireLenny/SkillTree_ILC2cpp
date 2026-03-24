@@ -3,7 +3,7 @@
     public enum SkillCategory
     {
         Enforcer,
-        Supplier,
+        Provisioner,
         Hustler,
         Logistician,
         Special
