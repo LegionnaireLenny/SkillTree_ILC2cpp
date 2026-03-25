@@ -1,4 +1,5 @@
 ﻿using MelonLoader;
+using SkillTree.Core.Patches.Enforcer;
 using SkillTree.Core.Patches.Hustler;
 using SkillTree.Core.Patches.Logistician;
 using SkillTree.Core.Skills;
@@ -11,13 +12,13 @@ namespace SkillTree.Core.Serialization
 {
     public class SkillTreeData
     {
-        public static readonly Skill Enforcer = new("Hardy", "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20", SkillCategory.Enforcer, 1, null, [Patches.Enforcer.HealthPatches.SetPlayerHealth]);
-        public static readonly Skill BattleScarred = new("Battle-scarred", "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%", SkillCategory.Enforcer, 1, Enforcer, [Patches.Enforcer.HealthPatches.SetPlayerHealth]);
-        public static readonly Skill Ghost = new("Ghost", "You always stay low-profile and apply a light touch.\n\nYour visibility is reduced by 25% and pickpocketing items is much easier.", SkillCategory.Enforcer, 1, Enforcer, [Effects.Ghost.ApplyToPlayer, Patches.Enforcer.PickpocketPatches.SetPickpockDifficulty]);
+        public static readonly Skill Enforcer = new("Hardy", "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20", SkillCategory.Enforcer, 1, null, [HealthPatches.SetPlayerHealth]);
+        public static readonly Skill BattleScarred = new("Battle-scarred", "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%", SkillCategory.Enforcer, 1, Enforcer, [HealthPatches.SetPlayerHealth]);
+        public static readonly Skill Ghost = new("Ghost", "You always stay low-profile and apply a light touch.\n\nYour visibility is reduced by 25% and pickpocketing items is much easier.", SkillCategory.Enforcer, 1, Enforcer, [Effects.Ghost.ApplyToPlayer, PickpocketPatches.SetPickpockDifficulty]);
         public static readonly Skill Slippery = new("Slippery", "You're an expert at keeping out of reach and breaking the tightest grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%", SkillCategory.Enforcer, 1, Ghost);
-        public static readonly Skill MoreMovespeed = new("Fleet Feet", "Increase movement speed by 15% per level", SkillCategory.Enforcer, 2, Enforcer, [Patches.Enforcer.MovementPatches.SetPlayerSpeed]);
-        public static readonly Skill SpringHeeled = new("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Enforcer, 1, MoreMovespeed, [Patches.Enforcer.MovementPatches.SetPlayerJumpHeight, Patches.Enforcer.MovementPatches.SetPlayerStamina]);
-        public static readonly Skill MoreStackItem = new("Prison Wallet", "Increase item stack size by 100% per level", SkillCategory.Enforcer, 3, Enforcer, [Patches.Enforcer.ItemStackPatches.SetItemStackSize]);
+        public static readonly Skill MoreMovespeed = new("Fleet Feet", "Increase movement speed by 15% per level", SkillCategory.Enforcer, 2, Enforcer, [MovementPatches.SetPlayerSpeed]);
+        public static readonly Skill SpringHeeled = new("Spring-Heeled", "Increase max stamina by 30% and jump height by 35%", SkillCategory.Enforcer, 1, MoreMovespeed, [MovementPatches.SetPlayerJumpHeight, MovementPatches.SetPlayerStamina]);
+        public static readonly Skill MoreStackItem = new("Prison Wallet", "Increase item stack size by 100% per level", SkillCategory.Enforcer, 3, Enforcer, [ItemStackPatches.SetItemStackSize]);
         public static readonly Skill CircadianMastery = new("Circadian Mastery", "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Enforcer, 1, Enforcer);
         public static readonly Skill MoreXP = new("Fast Learner", "Increase XP gain by 5%", SkillCategory.Enforcer, 2, Enforcer);
         public static readonly Skill MoreXP2 = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Enforcer, 2, MoreXP);
@@ -41,8 +42,10 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill ExpansiveEmpire = new("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Logistician, 1, Logistician);
         public static readonly Skill WageGarnishment = new("Wage Garnishment", "Decrease dealer's cut by 5%", SkillCategory.Logistician, 2, ExpansiveEmpire, [DealerPatches.SetDealerCut]);
         public static readonly Skill MotivationalLeader = new("Motivational Leader", "Double the movespeed of dealers", SkillCategory.Logistician, 1, ExpansiveEmpire, [DealerPatches.SetDealerMoveSpeed]);
+        public static readonly Skill FastFarmers = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Logistician, 1, Logistician);
+        public static readonly Skill FastHandlers = new("Fast Handlers", "Packagers perform all actions twice as fast", SkillCategory.Logistician, 1, FastFarmers, [HandlerBehaviorPatches.SetHandlerPackagingSpeed]);
+        public static readonly Skill FastChemists = new("Fast Chemists", "Chemists perform all actions twice as fast", SkillCategory.Logistician, 1, FastFarmers);
         public static readonly Skill NightShift = new("Night Shift", "Employees don't stop at 4 AM", SkillCategory.Logistician, 1, Logistician);
-        public static readonly Skill BetterBotanists = new("Fast Farmers", "Botanists perform all actions twice as fast", SkillCategory.Logistician, 1, NightShift);
         public static readonly Skill EmployeeMovespeed = new("RUN BITCH RUN!", "Employees move 3 times faster", SkillCategory.Logistician, 1, NightShift);
         public static readonly Skill EmployeeMaxStation = new("Overworked and Underpaid", "Increase station assignment limit for botanists and chemists by 2", SkillCategory.Logistician, 2, NightShift);
 

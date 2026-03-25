@@ -77,7 +77,7 @@ namespace SkillTree.Core.Patches.Hustler
             if (Cache.OriginalCustomers.ContainsKey(__instance.CustomerData.name))
             {
                 Cache.OriginalCustomers.Remove(__instance.CustomerData.name);
-                MelonLogger.Msg($"Removed {__instance.CustomerData.name} from cache");
+                //MelonLogger.Msg($"Removed {__instance.CustomerData.name} from cache");
             }
         }
     }

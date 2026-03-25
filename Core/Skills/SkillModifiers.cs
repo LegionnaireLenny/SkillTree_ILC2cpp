@@ -1,6 +1,7 @@
 ﻿using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -239,9 +240,19 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.EmployeeMovespeed.CurrentLevel == 0 ? 1f : Mathf.Clamp(EmployeeMoveSpeedBonus.GetValue(), 0.1f, 10f);
         }
 
-        public static float GetBotanistActionSpeedMultiplier()
+        public static float GetBotanistActionDurationMultiplier()
         {
-            return Mathf.Clamp(1f - SkillTreeData.BetterBotanists.CurrentLevel * BotanistActionSpeedBonus.GetValue(), 0.1f, 10f);
+            return SkillTreeData.FastFarmers.CurrentLevel == 0 ? 1f : Mathf.Clamp(BotanistActionDurationMultiplier.GetValue(), 0.1f, 10f);
+        }
+
+        public static float GetHandlerPackagingSpeedMultiplier()
+        {
+            return SkillTreeData.FastHandlers.CurrentLevel == 0 ? 1f : Mathf.Clamp(HandlerPackagingSpeedMultiplier.GetValue(), 0.1f, 10f);
+        }
+
+        public static float GetChemistActionDurationMultiplier()
+        {
+            return SkillTreeData.FastChemists.CurrentLevel == 0 ? 1f : Mathf.Clamp(ChemistActionDurationMultiplier.GetValue(), 0.1f, 10f);
         }
 
         public static int GetEmployeeStationBonus()

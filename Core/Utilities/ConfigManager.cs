@@ -126,7 +126,9 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   BaseDeadDropItemLimit { get; set; }
         public static ConfigEntry<int>   BaseMaxChemistStations { get; set; }
         public static ConfigEntry<int>   BaseMaxBotanistStations { get; set; }
-        public static ConfigEntry<float> BotanistActionSpeedBonus { get; set; }
+        public static ConfigEntry<float> BotanistActionDurationMultiplier { get; set; }
+        public static ConfigEntry<float> HandlerPackagingSpeedMultiplier { get; set; }
+        public static ConfigEntry<float> ChemistActionDurationMultiplier { get; set; }
         public static ConfigEntry<float> EmployeeMoveSpeedBonus { get; set; }
         public static ConfigEntry<int>   EmployeeStationBonus { get; set; }
         public static ConfigEntry<int>   DealerCustomerLimitBonus { get; set; }
@@ -239,7 +241,9 @@ namespace SkillTree.Core.Utilities
             DealerCustomerLimitBonus = new ConfigEntry<int>(Logistician, "SkillTree_CustomerLimitBonus", 2, "Expansive Empire: Customer Limit Bonus");
             DealerCutReduction = new ConfigEntry<float>(Logistician, "SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction");
             DealerSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_DealerSpeedBonus", 1f, "Motivational Leader: Dealer Speed Bonus", "Increases the speed multiplier");
-            BotanistActionSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_BotanistActionSpeedBonus", 0.5f, "Fast Farmers: Multiplier for Botanist Action Duration");
+            BotanistActionDurationMultiplier = new ConfigEntry<float>(Logistician, "SkillTree_BotanistActionDurationMultiplier", 0.5f, "Fast Farmers: Botanist Action Duration Multiplier", validator: new ValueRange<float>(0.1f, 10f));
+            HandlerPackagingSpeedMultiplier = new ConfigEntry<float>(Logistician, "SkillTree_HandlerPackagingSpeedMultiplier", 2f, "Fast Handlers: Handler Packaging Speed Multiplier", validator: new ValueRange<float>(0.1f, 10f));
+            ChemistActionDurationMultiplier = new ConfigEntry<float>(Logistician, "SkillTree_ChemistActionDurationMultiplier", 0.5f, "Fast Chemists: Chemist Action Duration Multiplier", validator: new ValueRange<float>(0.1f, 10f));
             EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician, "SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)");
             EmployeeStationBonus = new ConfigEntry<int>(Logistician, "SkillTree_EmployeeStationBonus", 2, "Overworked/Underpaid: Station bonus for Botanists and Chemists");
             Logistician.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);

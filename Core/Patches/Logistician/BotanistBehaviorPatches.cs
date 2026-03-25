@@ -28,35 +28,35 @@ namespace SkillTree.Core.Patches.Logistician
         {
             if (__instance.TryCast<AddSoilToGrowContainerBehaviour>() != null)
             {
-                __result = 10f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 10f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<ApplyAdditiveToGrowContainerBehaviour>() != null)
             {
-                __result = 10f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 10f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<ApplySpawnToMushroomBedBehaviour>() != null)
             {
-                __result = 15f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 15f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<HarvestPotBehaviour>() != null)
             {
-                __result = (__instance as HarvestPotBehaviour).GetQuantityToHarvest() * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = __instance.Cast<HarvestPotBehaviour>().GetQuantityToHarvest() * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<HarvestMushroomBedBehaviour>() != null)
             {
-                __result = (__instance as HarvestMushroomBedBehaviour).GetQuantityToHarvest() * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = __instance.Cast<HarvestMushroomBedBehaviour>().GetQuantityToHarvest() * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<SowSeedInPotBehaviour>() != null)
             {
-                __result = 15f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 15f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else if (__instance.TryCast<WaterPotBehaviour>() != null)
             {
-                __result = 10f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 10f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
             else
             {
-                __result = 15f * SkillModifiers.GetBotanistActionSpeedMultiplier();
+                __result = 15f * SkillModifiers.GetBotanistActionDurationMultiplier();
             }
 
             return false;

@@ -19,6 +19,8 @@
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
+		<Compile Include="Core\Patches\Logistician\HandlerBehaviorPatches.cs" />
+		<Compile Include="Core\Patches\Logistician\ChemistBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ContractPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\CrossHairPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\TrashPatches.cs" />
