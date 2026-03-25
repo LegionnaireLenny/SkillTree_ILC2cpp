@@ -19,6 +19,7 @@
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
+		<Compile Include="Core\Patches\Logistician\BotanistGetDurationPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\HandlerBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\ChemistBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ContractPatches.cs" />
@@ -42,7 +43,7 @@
 		<Compile Include="Core\Patches\Hustler\BusinessPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\DealerPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\ATMPatches.cs" />
-		<Compile Include="Core\Patches\Logistician\BotanistBehaviorPatches.cs" />
+		<Compile Include="Core\Patches\Logistician\BotanistDryingRackPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\NPCPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\CounterOfferPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\DeliveryPatches.cs" />

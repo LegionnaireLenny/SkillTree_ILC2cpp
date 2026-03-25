@@ -7,7 +7,7 @@ using System.Reflection;
 namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
-    public class BotanistBehaviorPatches
+    public class BotanistGetDurationPatches
     {
         static IEnumerable<MethodBase> TargetMethods()
         {
