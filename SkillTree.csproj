@@ -19,6 +19,7 @@
 		<Compile Include="Core\Core.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
+		<Compile Include="Core\Patches\Enforcer\PlayerCrimeDataPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\BotanistGetDurationPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\HandlerBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\ChemistBehaviorPatches.cs" />
@@ -47,7 +48,7 @@
 		<Compile Include="Core\Patches\Hustler\NPCPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\CounterOfferPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\DeliveryPatches.cs" />
-		<Compile Include="Core\Patches\Enforcer\CrimePatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\PursuitBehaviourPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PlayerPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\XPPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\ItemStackPatches.cs" />

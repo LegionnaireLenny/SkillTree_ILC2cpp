@@ -83,6 +83,11 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.Slippery.CurrentLevel == 0 ? BaseArrestRadius.GetValue() : BaseArrestRadius.GetValue() * ArrestRadiusBonus.GetValue();
         }
 
+        public static float GetPoliceSearchTime(float searchTime)
+        {
+            return SkillTreeData.PileTheBodiesHigh.CurrentLevel == 0 ? searchTime : Mathf.Clamp(searchTime, 0f, 35f) - Mathf.Clamp(KillCounts.PoliceKilled / 20, 0, 10);
+        }
+
         #endregion Stats
 
         #region Operations

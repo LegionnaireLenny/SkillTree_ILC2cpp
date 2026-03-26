@@ -7,7 +7,7 @@ using UnityEngine;
 namespace SkillTree.Core.Patches.Enforcer
 {
     [HarmonyPatch(typeof(PursuitBehaviour))]
-    public class CrimePatches
+    public class PursuitBehaviourPatches
     {
         [HarmonyPatch("Activate")]
         [HarmonyPostfix]
