@@ -13,7 +13,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static void Prefix(LabOven __instance)
         {
-            if (__instance?.CurrentOperation == null || SkillTreeData.MoreQualityMethCoca.CurrentLevel == 0)
+            if (__instance?.CurrentOperation == null || SkillTreeData.HarderAndStronger.CurrentLevel == 0)
                 return;
 
             __instance.CurrentOperation.IngredientQuality = ItemQuality.ShiftQuality(__instance.CurrentOperation.IngredientQuality, SkillModifiers.GetMethCocaProductQualityBonus());

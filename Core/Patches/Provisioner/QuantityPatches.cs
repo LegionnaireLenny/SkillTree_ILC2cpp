@@ -25,7 +25,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static bool Prefix(Cauldron __instance, int minutes)
         {
-            if (__instance == null || SkillTreeData.MoreCauldronOutput.CurrentLevel == 0 && SkillTreeData.MoreQualityMethCoca.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.WitchsBrew.CurrentLevel == 0 && SkillTreeData.HarderAndStronger.CurrentLevel == 0)
                 return true;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -73,7 +73,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPostfix]
         public static void Postfix(MixingStation __instance, ref int __result)
         {
-            if (__instance?.GetProduct() == null || __instance?.GetMixer() == null || SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
+            if (__instance?.GetProduct() == null || __instance?.GetMixer() == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
 
             __result = Mathf.Min(Mathf.Min(__instance.ProductSlot.Quantity, __instance.MixerSlot.Quantity),
@@ -84,7 +84,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPostfix]
         public static void Postfix(DryingRack __instance)
         {
-            if (__instance == null || SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }
@@ -93,7 +93,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static void Prefix(DryingRack __instance)
         {
-            if (__instance == null || SkillTreeData.MoreMixAndDryingRackOutput.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }

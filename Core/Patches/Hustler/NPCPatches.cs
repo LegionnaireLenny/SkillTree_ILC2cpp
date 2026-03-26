@@ -155,7 +155,7 @@ namespace SkillTree.Core.Patches.Hustler
                 CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
             }
 
-            if (SkillTreeData.Heal.CurrentLevel == 0) return;
+            if (SkillTreeData.BloodRush.CurrentLevel == 0) return;
 
             // OnDie is called twice for police, so PoliceKilled will increase by two every time a cop is killed
             if (__instance.TryCast<PoliceOfficer>() != null)

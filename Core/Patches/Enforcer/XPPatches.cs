@@ -14,7 +14,7 @@ namespace SkillTree.Core.Patches.Enforcer
         [HarmonyPrefix]
         public static void Prefix_AddXP(LevelManager __instance, ref int xp)
         {
-            if (SkillTreeData.MoreXP.CurrentLevel == 0 && SkillTreeData.MoreXP2.CurrentLevel == 0)
+            if (SkillTreeData.FastLearner.CurrentLevel == 0 && SkillTreeData.TurboNerdo.CurrentLevel == 0)
                 return;
 
             int original = xp;
@@ -27,7 +27,7 @@ namespace SkillTree.Core.Patches.Enforcer
         [HarmonyPostfix]
         public static void Postfix(Contract __instance, float bonusTotal)
         {
-            if (LevelManager.Instance == null || SkillTreeData.MoreXPWhenEarnMoney.CurrentLevel == 0)
+            if (LevelManager.Instance == null || SkillTreeData.Kingpin.CurrentLevel == 0)
                 return;
 
             int bonusXP = Mathf.CeilToInt((__instance.Payment + bonusTotal) * SkillModifiers.GetSaleXPBonus());

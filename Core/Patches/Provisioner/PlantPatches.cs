@@ -54,7 +54,7 @@ namespace SkillTree.Core.Patches.Provisioner
             if (!InstanceFinder.IsServer ||
                 __instance == null ||
                 !__instance.Pot.IsSpawned ||
-                SkillTreeData.Supplier.CurrentLevel == 0 && SkillTreeData.MoreQuality.CurrentLevel == 0 && SkillTreeData.MoreYield.CurrentLevel == 0)
+                SkillTreeData.PitchinATent.CurrentLevel == 0 && SkillTreeData.AdvancedPotTechniques.CurrentLevel == 0 && SkillTreeData.BountifulHarvest.CurrentLevel == 0)
                 return;
 
             //float baseQuality = __instance.QualityLevel;

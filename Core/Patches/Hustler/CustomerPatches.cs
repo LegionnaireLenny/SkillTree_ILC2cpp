@@ -52,7 +52,7 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void Postfix(ref float __result)
         {
-            if (SkillTreeData.Hustler.CurrentLevel == 0)
+            if (SkillTreeData.SilverTonguedDevil.CurrentLevel == 0)
                 return;
 
             float origin = __result;

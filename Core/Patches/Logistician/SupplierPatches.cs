@@ -15,7 +15,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool Patch_CartChanged(PhoneShopInterface __instance)
         {
-            if (__instance == null || SkillTreeData.Logistician.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.ReliableBusinessPartner.CurrentLevel == 0)
                 return true;
 
             int itemCount;
@@ -35,7 +35,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPostfix]
         public static void Patch_GetDeadDropLimit(Supplier __instance, ref float __result)
         {
-            if (SkillTreeData.Logistician.CurrentLevel == 0)
+            if (SkillTreeData.ReliableBusinessPartner.CurrentLevel == 0)
                 return;
 
             float originalLimit = __result;

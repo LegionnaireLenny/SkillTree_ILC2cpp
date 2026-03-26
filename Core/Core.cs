@@ -85,13 +85,13 @@ namespace SkillTree.Core
 
             if (Cursor.lockState != CursorLockMode.None)
             {
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillOne.GetValue()) && SkillTreeData.Special.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillOne.GetValue()) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
                     SkillActive.GoodSamaritan();
 
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillTwo.GetValue()) && SkillTreeData.Heal.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillTwo.GetValue()) && SkillTreeData.BloodRush.CurrentLevel == 1)
                     SkillActive.BloodRush();
 
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.GetCashDealer.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
 
                 if (Input.GetKeyDown(ConfigManager.ActiveSkillFour.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)

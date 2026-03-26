@@ -14,7 +14,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static void Patch_ChemistryStation_OnTimePass(ref int minutes)
         {
-            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
+            if (SkillTreeData.QuickCrafter.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -24,7 +24,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static void Patch_MixingStation_OnTimePass(ref int minutes)
         {
-            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
+            if (SkillTreeData.QuickCrafter.CurrentLevel == 0)
                 return;
 
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
@@ -34,7 +34,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static bool Patch_LabOven_OnUncappedMinPass(LabOven __instance)
         {
-            if (SkillTreeData.ChemistStationQuick.CurrentLevel == 0)
+            if (SkillTreeData.QuickCrafter.CurrentLevel == 0)
                 return true;
 
             if (__instance == null) return false;
