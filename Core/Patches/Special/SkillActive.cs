@@ -194,5 +194,19 @@ namespace SkillTree.Core.Patches.Special
                 Money.ChangeCashBalance(-amountLaundered, true);
             }
         }
+
+        public static void BloodMoney()
+        {
+            if (BloodMoneyUsed)
+                Singleton<NotificationsManager>.Instance.SendNotification(
+                                "Blood Money on Cooldown",
+                                $"<color=#FF0000>Wait one day</color>",
+                                IconManager.LoadSprite(IconManager.IconHeart));
+            else
+            {
+                Effects.BloodMoney.ApplyToPlayer(Player.Local);
+                BloodMoneyUsed = true;
+            }
+        }
     }
 }

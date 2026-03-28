@@ -63,10 +63,12 @@ namespace SkillTree.Core.Patches.Enforcer
                 return false;
             }
 
-            MelonLogger.MsgPastel($"[Stats] Player health: {__instance.CurrentHealth} - {damage} = {__instance.CurrentHealth - damage}");
-            __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth - damage, 0f, SkillModifiers.GetPlayerMaxHealth());
+            float original = __instance.CurrentHealth;
+            float minHealth = Effects.BloodMoney.IsBloodMoneyActive ? 1f : 0f;
+            __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth - damage, minHealth, SkillModifiers.GetPlayerMaxHealth());
             __instance.TimeSinceLastDamage = 0f;
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
+            Effects.BloodMoney.GetBloodMoney(damage);
 
             if (__instance.Player.IsOwner)
             {
@@ -86,6 +88,7 @@ namespace SkillTree.Core.Patches.Enforcer
                 __instance.PlayBloodMist();
             }
 
+            MelonLogger.MsgPastel($"[Stats] Player health: {original} - {damage} = {__instance.CurrentHealth}");
             return false;
         }
 

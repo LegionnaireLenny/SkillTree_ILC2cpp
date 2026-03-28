@@ -63,6 +63,7 @@ namespace SkillTree.Core.Serialization
 
         public static readonly Skill GoodSamaritan = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, null);
         public static readonly Skill BloodRush = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, GoodSamaritan);
+        public static readonly Skill BloodMoney = new("Blood Money", "Once per day, for 30 seconds your health cannot drop below 1 and you gain 100% of all damage received and dealt as cash.", SkillCategory.Special, 1, BloodRush);
         public static readonly Skill SiphonFunds = new("Siphon Funds", "Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.", SkillCategory.Special, 1, GoodSamaritan);
         public static readonly Skill TrickleDown = new("Trick-down Economics", "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours", SkillCategory.Special, 1, GoodSamaritan);
 

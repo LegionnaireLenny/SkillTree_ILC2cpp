@@ -11,6 +11,7 @@ namespace SkillTree.Core.Serialization
     {
         public static bool GoodSamaritanUsed { get; set; } = false;
         public static bool BloodRushUsed { get; set; } = false;
+        public static bool BloodMoneyUsed { get; set; } = false;
         public static bool SiphonFundsUsed { get; set; } = false;
         public static bool TrickleDownUsed { get; set; } = false;
         public static bool CircadianMasteryUsed { get; set; } = false;
@@ -19,6 +20,7 @@ namespace SkillTree.Core.Serialization
         {
             GoodSamaritanUsed = false;
             BloodRushUsed = false;
+            BloodMoneyUsed = false;
             SiphonFundsUsed = false;
             TrickleDownUsed = false;
             CircadianMasteryUsed = false;

@@ -85,17 +85,20 @@ namespace SkillTree.Core
 
             if (Cursor.lockState != CursorLockMode.None)
             {
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillOne.GetValue()) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.GoodSamaritanHotkey.GetValue()) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
                     SkillActive.GoodSamaritan();
 
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillTwo.GetValue()) && SkillTreeData.BloodRush.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.BloodRushHotkey.GetValue()) && SkillTreeData.BloodRush.CurrentLevel == 1)
                     SkillActive.BloodRush();
 
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillThree.GetValue()) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.SiphonFundsHotkey.GetValue()) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
 
-                if (Input.GetKeyDown(ConfigManager.ActiveSkillFour.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
+                if (Input.GetKeyDown(ConfigManager.TrickledownHotkey.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
                     SkillActive.TrickleDownEconomics();
+
+                if (Input.GetKeyDown(ConfigManager.BloodMoneyHotkey.GetValue()) && SkillTreeData.BloodMoney.CurrentLevel == 1)
+                    SkillActive.BloodMoney();
 
             }
         }

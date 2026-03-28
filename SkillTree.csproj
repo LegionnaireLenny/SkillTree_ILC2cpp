@@ -17,6 +17,7 @@
 	<ItemGroup>
 		<Compile Include="Core\App\SkillTreeApp.cs" />
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Effects\BloodMoney.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
 		<Compile Include="Core\Patches\Enforcer\PlayerCrimeDataPatches.cs" />
@@ -28,6 +29,7 @@
 		<Compile Include="Core\Patches\Hustler\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
+		<Compile Include="Core\Patches\Special\ImpactPatches.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />

@@ -148,6 +148,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> SiphonFundsOwnedBusinessBonus { get; set; }
         public static ConfigEntry<float> TrickleDownCashReserve { get; set; }
         public static ConfigEntry<int>   TrickleDownPayoutInterval { get; set; }
+        public static ConfigEntry<float> BloodMoneyDuration { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -161,10 +162,14 @@ namespace SkillTree.Core.Utilities
         private static MelonPreferences_Category Keybinds { get; set; }
         public static ConfigEntry<KeyCode> MenuHotkey { get; set; }
         public static ConfigEntry<KeyCode> LevelSkillHotkey { get; set; }
-        public static ConfigEntry<KeyCode> ActiveSkillOne { get; set; }
-        public static ConfigEntry<KeyCode> ActiveSkillTwo { get; set; }
-        public static ConfigEntry<KeyCode> ActiveSkillThree { get; set; }
-        public static ConfigEntry<KeyCode> ActiveSkillFour { get; set; }
+        public static ConfigEntry<KeyCode> GoodSamaritanHotkey { get; set; }
+        public static ConfigEntry<KeyCode> BloodRushHotkey { get; set; }
+        public static ConfigEntry<KeyCode> SiphonFundsHotkey { get; set; }
+        public static ConfigEntry<KeyCode> TrickledownHotkey { get; set; }
+        public static ConfigEntry<KeyCode> BloodMoneyHotkey { get; set; }
+        public static ConfigEntry<KeyCode> InfectiousPersonalityHotkey { get; set; }
+        public static ConfigEntry<KeyCode> AdrenalineSurgeHotkey { get; set; }
+        public static ConfigEntry<KeyCode> AntiGravityBongHotkey { get; set; }
 
         private static MelonPreferences_Category DebugOptions { get; set; }
         public static ConfigEntry<bool> ResetSkills { get; set; }
@@ -259,6 +264,7 @@ namespace SkillTree.Core.Utilities
             SiphonFundsOwnedBusinessBonus = new ConfigEntry<float>(Special, "SkillTree_SiphonFundsOwnedBusinessBonus", 0.05f, "Siphon Funds: Bonus Per Owned Business");
             TrickleDownCashReserve = new ConfigEntry<float>(Special, "SkillTree_TrickledownCashReserve", 2000f, "Trickle-down Economics: Cash Reserve", "Amount of cash kept when transferring money to businesses if there's not enough to max out their capacity");
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special, "SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24));
+            BloodMoneyDuration = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyDuration", 30f, "Blood Money: Effect Duration");
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
@@ -272,12 +278,16 @@ namespace SkillTree.Core.Utilities
             UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
-            MenuHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_00_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
-            LevelSkillHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_01_LevelSkill_Hotkey", KeyCode.Space, "Level Skill Hotkey", "While the skill tree is open, levels the currently selected skill");
-            ActiveSkillOne = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_05_Skill_One", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
-            ActiveSkillTwo = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_06_Skill_Two", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
-            ActiveSkillThree = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_07_Skill_Three", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
-            ActiveSkillFour = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_08_Skill_Four", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-down Economics' skill");
+            MenuHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu");
+            LevelSkillHotkey = new ConfigEntry<KeyCode>(Keybinds, $"SkillTree_LevelSkill_Hotkey", KeyCode.Space, "Level Skill Hotkey", "While the skill tree is open, levels the currently selected skill");
+            GoodSamaritanHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_GoodSamaritan_Hotkey", KeyCode.F1, "Skill: Good Samaritan", "Activate 'Good Samaritan' skill");
+            BloodRushHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_BloodRush_Hotkey", KeyCode.F2, "Skill: Blood Rush", "Activate 'Blood Rush' skill");
+            SiphonFundsHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_SiphonFundsHotkey", KeyCode.F3, "Skill: Siphon Funds", "Activate 'Siphon Funds' skill");
+            TrickledownHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_Trickledown_Hotkey", KeyCode.F4, "Skill: Trickle-down Economics", "Activate 'Trickle-down Economics' skill");
+            BloodMoneyHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_BloodMoney_Hotkey", KeyCode.F5, "Skill: Blood Money", "Activate 'Blood Money' skill");
+            InfectiousPersonalityHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_InfectiousPersonality_Hotkey", KeyCode.F6, "Skill: Infectious Personality", "Activate 'Infectious Personality' skill");
+            AdrenalineSurgeHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_AdrenalineSurge_Hotkey", KeyCode.F7, "Skill: Adrenaline Surge", "Activate 'Adrenaline Surge' skill");
+            AntiGravityBongHotkey = new ConfigEntry<KeyCode>(Keybinds, "SkillTree_AntiGravityBong_Hotkey", KeyCode.F8, "Skill: Anti-Gravity Bong", "Activate 'Anti-Gravity Bong' skill");
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             DebugOptions = MelonPreferences.CreateCategory($"SkillTree_DebugOptions", $"Debug Options");
