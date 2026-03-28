@@ -1,6 +1,9 @@
-﻿using Il2CppScheduleOne.DevUtilities;
+﻿using Il2CppScheduleOne.Combat;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Economy;
+using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.Money;
+using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
@@ -9,6 +12,9 @@ using S1API.Money;
 using S1API.Property;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using static SkillTree.Core.Serialization.Cooldowns;
 
 namespace SkillTree.Core.Patches.Special
@@ -207,6 +213,102 @@ namespace SkillTree.Core.Patches.Special
                 Effects.BloodMoney.ApplyToPlayer(Player.Local);
                 BloodMoneyUsed = true;
             }
+        }
+
+        private static readonly HashSet<string> afflicted = [];
+        public static void InfectiousPersonality()
+        {
+            Effect[] toxicEffects = [new Toxic(), new Laxative(), new Smelly()];
+            Effect[] explosiveEffects = [new Explosive(), new Spicy()];
+            float toxicDelay = 8f;
+            float explosionDelay = 30f;
+
+            if (InfectiousPersonalityUsed)
+                Singleton<NotificationsManager>.Instance.SendNotification(
+                                "Infectious Personality on Cooldown",
+                                $"<color=#FF0000>Wait one day</color>",
+                                IconManager.LoadSprite(IconManager.IconHeart));
+            else
+            {
+                Collider[] array = Physics.OverlapSphere(Player.Local.CenterPointTransform.position, ConfigManager.InfectiousPersonalityRange.GetValue());
+                foreach (var item in array)
+                {
+                    NPC npc = item.GetComponentInParent<NPC>();
+                    if (npc != null && !npc.Health.IsDead && !npc.Health.IsKnockedOut)
+                    {
+                        int num = Random.RandomRangeInt(0, 100);
+                        if (num < 50)
+                        {
+                            Infect(npc, toxicEffects, toxicDelay);
+                        }
+                        else
+                        {
+                            Infect(npc, explosiveEffects, explosionDelay);
+                        }
+                        InfectiousPersonalityUsed = true;
+                    }
+                }
+
+                if (!InfectiousPersonalityUsed)
+                {
+                    Singleton<NotificationsManager>.Instance.SendNotification(
+                        "Infectious Personality",
+                        $"No one found nearby",
+                        IconManager.LoadSprite(IconManager.IconHeart));
+                }
+            }
+
+            void Infect(NPC npc, Effect[] effects, float delay)
+            {
+                if (npc.Health.IsDead || npc.Health.IsKnockedOut || afflicted.Contains(npc.name)) return;
+
+                afflicted.Add(npc.name);
+                npc.Behaviour.activeBehaviour.Pause();
+                npc.Behaviour.CombatBehaviour.Pause();
+                npc.Behaviour.CoweringBehaviour.Enable();
+                npc.Behaviour.CoweringBehaviour.Activate();
+
+                foreach (Effect effect in effects)
+                {
+                    effect.ApplyToNPC(npc);
+                }
+
+                MelonCoroutines.Start(SpreadInfection(npc, effects, delay));
+            }
+
+            IEnumerator SpreadInfection(NPC npc, Effect[] effects, float delay)
+            {
+                yield return new WaitForSeconds(delay);
+                foreach (Effect effect in effects)
+                {
+                    effect.ClearFromNPC(npc);
+                }
+                InfectArea(npc.CenterPoint, ConfigManager.InfectiousPersonalityRange.GetValue(), effects, delay);
+                Money.ChangeCashBalance(npc.Health.MaxHealth / 2);
+                NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
+                    $"Infectious Personlity payment",
+                    npc.Health.MaxHealth / 2, 1f, string.Empty);
+                npc.ReceiveImpact(new Impact(Vector3.zero, Vector3.zero, 0f, npc.Health.MaxHealth, EImpactType.Explosion, Player.Local.NetworkObject));
+            }
+
+            void InfectArea(Vector3 source, float radius, Effect[] effects, float delay)
+            {
+                Collider[] array = Physics.OverlapSphere(source, radius);
+
+                foreach (var item in array)
+                {
+                    NPC npc = item.GetComponentInParent<NPC>();
+                    if (npc != null && !npc.Health.IsDead && !npc.Health.IsKnockedOut)
+                    {
+                        Infect(npc, effects, delay);
+                    }
+                }
+            }
+        }
+
+        public static void ResetAfflicted()
+        {
+            afflicted.Clear();
         }
     }
 }

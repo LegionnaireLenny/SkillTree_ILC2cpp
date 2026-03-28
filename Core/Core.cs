@@ -100,6 +100,8 @@ namespace SkillTree.Core
                 if (Input.GetKeyDown(ConfigManager.BloodMoneyHotkey.GetValue()) && SkillTreeData.BloodMoney.CurrentLevel == 1)
                     SkillActive.BloodMoney();
 
+                if (Input.GetKeyDown(ConfigManager.InfectiousPersonalityHotkey.GetValue()) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
+                    SkillActive.InfectiousPersonality();
             }
         }
 
@@ -115,6 +117,7 @@ namespace SkillTree.Core
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
                 TimeManager.OnDayPass -= Cooldowns.ResetSkillCooldowns;
+                TimeManager.OnDayPass -= SkillActive.ResetAfflicted;
                 OnOpenKeyPressed = null;
                 OnLevelSkillKeyPressed = null;
                 SkillPoints.OnSkillPointsChanged = null;
@@ -125,6 +128,7 @@ namespace SkillTree.Core
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
                 LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
                 TimeManager.OnDayPass += Cooldowns.ResetSkillCooldowns;
+                TimeManager.OnDayPass += SkillActive.ResetAfflicted;
                 if (ConfigManager.ResetSkills.GetValue())
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");

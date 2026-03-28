@@ -66,6 +66,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill BloodMoney = new("Blood Money", "Once per day, for 30 seconds your health cannot drop below 1 and you gain 100% of all damage received and dealt as cash.", SkillCategory.Special, 1, BloodRush);
         public static readonly Skill SiphonFunds = new("Siphon Funds", "Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.", SkillCategory.Special, 1, GoodSamaritan);
         public static readonly Skill TrickleDown = new("Trick-down Economics", "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours", SkillCategory.Special, 1, GoodSamaritan);
+        public static readonly Skill InfectiousPersonality = new("Infectious Personality", "Once per day, all characters within 15 meters are randomly afflicted with Toxic or Explosive. Characters afflicted with Toxic die after 8 seconds, characters afflicted with Explosive explode and die after 30 seconds. Upon death, the effect is spread to nearby characters and half of their health is gained as cash and online balance.", SkillCategory.Special, 1, GoodSamaritan);
 
         public static readonly Dictionary<SkillCategory, HashSet<Skill>> SkillTrees = [];
 

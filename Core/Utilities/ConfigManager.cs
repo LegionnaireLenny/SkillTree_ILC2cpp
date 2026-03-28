@@ -149,6 +149,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> TrickleDownCashReserve { get; set; }
         public static ConfigEntry<int>   TrickleDownPayoutInterval { get; set; }
         public static ConfigEntry<float> BloodMoneyDuration { get; set; }
+        public static ConfigEntry<float> InfectiousPersonalityRange { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -265,6 +266,7 @@ namespace SkillTree.Core.Utilities
             TrickleDownCashReserve = new ConfigEntry<float>(Special, "SkillTree_TrickledownCashReserve", 2000f, "Trickle-down Economics: Cash Reserve", "Amount of cash kept when transferring money to businesses if there's not enough to max out their capacity");
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special, "SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24));
             BloodMoneyDuration = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyDuration", 30f, "Blood Money: Effect Duration");
+            InfectiousPersonalityRange = new ConfigEntry<float>(Special, "SkillTree_InfectiousPersonalityRange", 15f, "Infectious Personality: Effect Range");
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
