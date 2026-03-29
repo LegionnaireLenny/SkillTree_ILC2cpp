@@ -12,7 +12,7 @@ namespace SkillTree.Core.Patches.Special
         [HarmonyPostfix]
         public static void RpcLogic___ReceiveImpact_427288424(NPC __instance, Impact impact)
         {
-            if (impact.IsPlayerImpact(out Player player))
+            if (!__instance.Health.IsDead && !__instance.Health.IsKnockedOut && impact.IsPlayerImpact(out Player player))
             {
                 if (player == Player.Local)
                 {
