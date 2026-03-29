@@ -14,7 +14,7 @@ namespace SkillTree.Core.Patches.Enforcer
             if (Registry.Instance == null)
                 return;
 
-            List<ItemDefinition> allItems = Registry.Instance.GetAllItems().ToArray().ToList();
+            List<ItemDefinition> allItems = Registry.Instance.GetAllItems()._items.ToList();
             Cache.FillCache(allItems);
 
             MelonLogger.Msg($"[MoreStackItem] Stack limit multiplier x{SkillModifiers.GetInventoryStackSizeMultiplier()}");

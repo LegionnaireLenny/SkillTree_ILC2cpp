@@ -79,7 +79,7 @@ namespace SkillTree.Core.Patches.Special
                                 IconManager.LoadSprite(IconManager.IconHeart));
             else
             {
-                Effects.BloodRush.ApplyToPlayer(Player.Local);
+                Effects.BloodRush.ApplyToPlayer();
                 float oldHp = Player.Local.Health.CurrentHealth;
                 Player.Local.Health.RecoverHealth(SkillModifiers.GetPlayerMaxHealth());
                 Singleton<NotificationsManager>.Instance.SendNotification(
@@ -210,7 +210,7 @@ namespace SkillTree.Core.Patches.Special
                                 IconManager.LoadSprite(IconManager.IconHeart));
             else
             {
-                Effects.BloodMoney.ApplyToPlayer(Player.Local);
+                Effects.BloodMoney.ApplyToPlayer();
                 BloodMoneyUsed = true;
             }
         }
@@ -286,7 +286,7 @@ namespace SkillTree.Core.Patches.Special
                 InfectArea(npc.CenterPoint, ConfigManager.InfectiousPersonalityRange.GetValue(), effects, delay);
                 Money.ChangeCashBalance(npc.Health.MaxHealth / 2);
                 NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
-                    $"Infectious Personlity payment",
+                    $"Infectious Personality payment",
                     npc.Health.MaxHealth / 2, 1f, string.Empty);
                 npc.ReceiveImpact(new Impact(Vector3.zero, Vector3.zero, 0f, npc.Health.MaxHealth, EImpactType.Explosion, Player.Local.NetworkObject));
             }
@@ -304,6 +304,19 @@ namespace SkillTree.Core.Patches.Special
                     }
                 }
             }
+        }
+
+        public static void AdrenalineSurge()
+        {
+            if (AdrenalineSurgeCharges > 0)
+            {
+                Effects.AdrenalineSurge.ApplyToPlayer();
+                AdrenalineSurgeCharges--;
+            }
+            Singleton<NotificationsManager>.Instance.SendNotification(
+                "Adrenaline Surge",
+                $"{AdrenalineSurgeCharges} charges left",
+                IconManager.LoadSprite(IconManager.IconHeart));
         }
 
         public static void ResetAfflicted()

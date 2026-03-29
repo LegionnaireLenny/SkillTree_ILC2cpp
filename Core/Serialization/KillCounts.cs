@@ -18,8 +18,10 @@ namespace SkillTree.Core.Serialization
             {
                 try
                 {
-                    int value = data.GetProperty(property.Name).ValueKind == JsonValueKind.String ? int.Parse(data.GetProperty(property.Name).GetString()) : data.GetProperty(property.Name).GetInt32();
-                    property.SetValue(new KillCounts(), value);
+                    if (int.TryParse(data.GetProperty(property.Name).GetString(), out int result))
+                    {
+                        property.SetValue(new KillCounts(), result);
+                    }
                 }
                 catch (KeyNotFoundException e)
                 {

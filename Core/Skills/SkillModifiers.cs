@@ -1,7 +1,6 @@
 ﻿using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Serialization;
-using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -22,10 +21,9 @@ namespace SkillTree.Core.Skills
 
         public static float GetPlayerHealthRegenDelay()
         {
-            float battleScarred = SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue();
-            float bloodRush = BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier.GetValue() : 1f;
-            float delay = BaseHealthRegenDelay.GetValue() * battleScarred * bloodRush;
-            return delay;
+            return BaseHealthRegenDelay.GetValue() * 
+                (SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue()) * 
+                (BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier.GetValue() : 1f);
         }
 
         public static float GetPlayerMaxStamina()
@@ -33,14 +31,16 @@ namespace SkillTree.Core.Skills
             return BaseStamina.GetValue() * (1 + SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus.GetValue());
         }
 
-        public static float GetPlayerMoveSpeedMultiplier()
+        public static float GetFleetFeetMoveSpeedMultiplier()
         {
             return 1 + SkillTreeData.FleetFeet.CurrentLevel * MoveSpeedBonus.GetValue();
         }
 
         public static float GetPlayerJumpHeight()
         {
-            return BaseJumpHeight.GetValue() * (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue());
+            return BaseJumpHeight.GetValue() * 
+                (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue()) * 
+                (AdrenalineSurge.IsAdrenalineSurgeActive ? AdrenalineSurgeJumpMultiplier.GetValue() : 1f);
         }
 
         public static float GetXPGainMultiplier()

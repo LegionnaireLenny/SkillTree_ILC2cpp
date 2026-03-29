@@ -4,6 +4,7 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using MelonLoader.Preferences;
+using SkillTree.Core.Effects;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -150,6 +151,13 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   TrickleDownPayoutInterval { get; set; }
         public static ConfigEntry<float> BloodMoneyDuration { get; set; }
         public static ConfigEntry<float> InfectiousPersonalityRange { get; set; }
+        public static ConfigEntry<int>   AdrenalineSurgeCharges { get; set; }
+        public static ConfigEntry<float> AdrenalineSurgeDuration { get; set; }
+        public static ConfigEntry<float> AdrenalineSurgeSpeedMultiplier { get; set; }
+        public static ConfigEntry<float> AdrenalineSurgeJumpMultiplier { get; set; }
+        public static ConfigEntry<bool>  AdrenalineSurgeZappedEffect { get; set; }
+        public static ConfigEntry<float> AntiGravityBongDuration { get; set; }
+        public static ConfigEntry<float> AntiGravityBongCooldown { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -267,6 +275,13 @@ namespace SkillTree.Core.Utilities
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special, "SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24));
             BloodMoneyDuration = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyDuration", 30f, "Blood Money: Effect Duration");
             InfectiousPersonalityRange = new ConfigEntry<float>(Special, "SkillTree_InfectiousPersonalityRange", 15f, "Infectious Personality: Effect Range");
+            AdrenalineSurgeCharges = new ConfigEntry<int>(Special, "SkillTree_AdrenalineSurgeCharges", 3, "Adrenaline Surge: Number of Charges");
+            AdrenalineSurgeDuration = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeDuration", 15f, "Adrenaline Surge: Effect Duration");
+            AdrenalineSurgeSpeedMultiplier = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeSpeedMultiplier", 3f, "Adrenaline Surge: Speed Multiplier");
+            AdrenalineSurgeJumpMultiplier = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeJumpMultiplier", 3f, "Adrenaline Surge: Jump Multiplier");
+            AdrenalineSurgeZappedEffect = new ConfigEntry<bool>(Special, "SkillTree_AdrenalineSurgeZappedEffect", true, "Adrenaline Surge: Enabled Zapped Effect");
+            AntiGravityBongDuration = new ConfigEntry<float>(Special, "SkillTree_AntiGravityBongDuration", 15f, "Anti-Gravity Bong: Effect Duration");
+            AntiGravityBongCooldown = new ConfigEntry<float>(Special, "SkillTree_AntiGravityBongCooldown", 60f, "Anti-Gravity Bong: Skill Cooldown");
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");

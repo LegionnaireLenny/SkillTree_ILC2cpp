@@ -11,23 +11,18 @@ namespace SkillTree.Core.Effects
     {
         public static bool IsBloodMoneyActive { get; private set; } = false;
 
-        public static void ApplyToPlayer(Player player)
+        public static void ApplyToPlayer()
         {
             IsBloodMoneyActive = true;
             MelonLogger.Msg($"Blood Money effect applied");
-            MelonCoroutines.Start(RemoveBloodMoney(player));
+            MelonCoroutines.Start(ClearFromPlayer());
         }
 
-        public static void ClearFromPlayer(Player player)
-        {
-            IsBloodMoneyActive = false;
-            MelonLogger.Msg($"Blood Money effect removed");
-        }
-
-        private static IEnumerator RemoveBloodMoney(Player player)
+        public static IEnumerator ClearFromPlayer()
         {
             yield return new WaitForSeconds(ConfigManager.BloodMoneyDuration.GetValue());
-            ClearFromPlayer(player);
+            IsBloodMoneyActive = false;
+            MelonLogger.Msg($"Blood Money effect removed");
         }
 
         public static void GetBloodMoney(float damage)

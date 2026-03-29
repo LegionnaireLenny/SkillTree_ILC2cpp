@@ -2,8 +2,11 @@
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core.Utilities;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
+using UnityEngine;
 
 namespace SkillTree.Core.Serialization
 {
@@ -15,9 +18,11 @@ namespace SkillTree.Core.Serialization
         public static bool SiphonFundsUsed { get; set; } = false;
         public static bool TrickleDownUsed { get; set; } = false;
         public static bool InfectiousPersonalityUsed { get; set; } = false;
+        public static int AdrenalineSurgeCharges { get; set; } = ConfigManager.AdrenalineSurgeCharges.GetValue();
+        public static bool AntiGravityBongUsed { get; set; } = false;
         public static bool CircadianMasteryUsed { get; set; } = false;
 
-        public static void ResetSkillCooldowns()
+        public static void ResetDailySkills()
         {
             GoodSamaritanUsed = false;
             BloodRushUsed = false;
@@ -26,10 +31,17 @@ namespace SkillTree.Core.Serialization
             TrickleDownUsed = false;
             InfectiousPersonalityUsed = false;
             CircadianMasteryUsed = false;
+            AdrenalineSurgeCharges = ConfigManager.AdrenalineSurgeCharges.GetValue();
             Singleton<NotificationsManager>.Instance?.SendNotification(
                 "A New Day Dawns",
                 "Cooldowns Reset",
                 IconManager.LoadSprite(IconManager.IconClock));
+        }
+
+        public static IEnumerator ResetAntiGravityBong()
+        {
+            yield return new WaitForSeconds(ConfigManager.AntiGravityBongCooldown.GetValue());
+            AntiGravityBongUsed = false;
         }
 
         public static void LoadFromFile(JsonElement data)
@@ -40,8 +52,14 @@ namespace SkillTree.Core.Serialization
             {
                 try
                 {
-                    bool value = data.GetProperty(property.Name).ValueKind == JsonValueKind.String ? bool.Parse(data.GetProperty(property.Name).GetString()) : data.GetProperty(property.Name).GetBoolean();
-                    property.SetValue(new Cooldowns(), value);
+                    if (bool.TryParse(data.GetProperty(property.Name).GetString(), out bool resultBool))
+                    {
+                        property.SetValue(new Cooldowns(), resultBool);
+                    }
+                    else if (int.TryParse(data.GetProperty(property.Name).GetString(), out int resultInt))
+                    {
+                        property.SetValue(new Cooldowns(), resultInt);
+                    }
                 }
                 catch (KeyNotFoundException e)
                 {
@@ -55,7 +73,14 @@ namespace SkillTree.Core.Serialization
         {
             foreach (var property in typeof(Cooldowns).GetProperties())
             {
-                property.SetValue(new Cooldowns(), false);
+                if (property.PropertyType.GetType() == typeof(bool))
+                {
+                    property.SetValue(new Cooldowns(), false);
+                }
+                else if (property.PropertyType.GetType() == typeof(int))
+                {
+                    property.SetValue(new Cooldowns(), ConfigManager.AdrenalineSurgeCharges.GetValue());
+                }
             }
         }
     }

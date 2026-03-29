@@ -17,6 +17,7 @@
 	<ItemGroup>
 		<Compile Include="Core\App\SkillTreeApp.cs" />
 		<Compile Include="Core\Core.cs" />
+		<Compile Include="Core\Effects\AdrenalineSurge.cs" />
 		<Compile Include="Core\Effects\BloodMoney.cs" />
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />

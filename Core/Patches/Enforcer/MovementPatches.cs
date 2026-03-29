@@ -15,7 +15,7 @@ namespace SkillTree.Core.Patches.Enforcer
         {
             float original = PlayerMovement.Instance.MoveSpeedMultiplier;
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_FleetFeet");
-            PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_FleetFeet", SkillModifiers.GetPlayerMoveSpeedMultiplier(), FloatStack.EStackMode.Multiplicative, 5));
+            PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_FleetFeet", SkillModifiers.GetFleetFeetMoveSpeedMultiplier(), FloatStack.EStackMode.Multiplicative, 5));
 
             if (!Mathf.Approximately(original, PlayerMovement.Instance.MoveSpeedMultiplier))
             {

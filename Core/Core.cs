@@ -102,6 +102,9 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown(ConfigManager.InfectiousPersonalityHotkey.GetValue()) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
                     SkillActive.InfectiousPersonality();
+
+                if (Input.GetKeyDown(ConfigManager.AdrenalineSurgeHotkey.GetValue()) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
+                    SkillActive.AdrenalineSurge();
             }
         }
 
@@ -116,7 +119,7 @@ namespace SkillTree.Core
                 SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
-                TimeManager.OnDayPass -= Cooldowns.ResetSkillCooldowns;
+                TimeManager.OnDayPass -= Cooldowns.ResetDailySkills;
                 TimeManager.OnDayPass -= SkillActive.ResetAfflicted;
                 OnOpenKeyPressed = null;
                 OnLevelSkillKeyPressed = null;
@@ -127,7 +130,7 @@ namespace SkillTree.Core
             {
                 GameLifecycle.OnSaveComplete += SaveManager.SaveFile;
                 LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
-                TimeManager.OnDayPass += Cooldowns.ResetSkillCooldowns;
+                TimeManager.OnDayPass += Cooldowns.ResetDailySkills;
                 TimeManager.OnDayPass += SkillActive.ResetAfflicted;
                 if (ConfigManager.ResetSkills.GetValue())
                 {

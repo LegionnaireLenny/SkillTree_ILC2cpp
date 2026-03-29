@@ -10,23 +10,18 @@ namespace SkillTree.Core.Effects
     {
         public static bool IsBloodRushActive { get; private set; } = false;
 
-        public static void ApplyToPlayer(Player player)
+        public static void ApplyToPlayer()
         {
             IsBloodRushActive = true;
             MelonLogger.Msg($"Blood Rush effect applied");
-            MelonCoroutines.Start(RemoveBloodRush(player));
+            MelonCoroutines.Start(ClearFromPlayer());
         }
 
-        public static void ClearFromPlayer(Player player)
-        {
-            IsBloodRushActive = false;
-            MelonLogger.Msg($"Blood Rush effect removed");
-        }
-
-        private static IEnumerator RemoveBloodRush(Player player)
+        public static IEnumerator ClearFromPlayer()
         {
             yield return new WaitForSeconds(ConfigManager.BloodRushDuration.GetValue());
-            ClearFromPlayer(player);
+            IsBloodRushActive = false;
+            MelonLogger.Msg($"Blood Rush effect removed");
         }
     }
 }
