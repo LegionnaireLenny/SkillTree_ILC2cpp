@@ -9,6 +9,7 @@ using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Items;
 using Il2CppSystem;
+using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace SkillTree.Core.Patches.Hustler
             __instance.SellValue += SkillModifiers.GetTrashValueBonus();
             ProcessedTrash.Add(__instance.GUID);
             //MelonLogger.Msg($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}");
+            //MelonLogger.Msg($"Start Trash value {__instance.name} | {__instance.ID}");
         }
 
         [HarmonyPatch(typeof(Equippable_TrashGrabber), "GetCapacity")]

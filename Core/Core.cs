@@ -105,6 +105,9 @@ namespace SkillTree.Core
 
                 if (Input.GetKeyDown(ConfigManager.AdrenalineSurgeHotkey.GetValue()) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
                     SkillActive.AdrenalineSurge();
+
+                if (Input.GetKeyDown(ConfigManager.AntiGravityBongHotkey.GetValue()) && SkillTreeData.AntiGravityBong.CurrentLevel == 1)
+                    SkillActive.AntiGravityBong();
             }
         }
 

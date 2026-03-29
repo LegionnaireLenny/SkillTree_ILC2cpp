@@ -157,6 +157,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> AdrenalineSurgeJumpMultiplier { get; set; }
         public static ConfigEntry<bool>  AdrenalineSurgeZappedEffect { get; set; }
         public static ConfigEntry<float> AntiGravityBongDuration { get; set; }
+        public static ConfigEntry<float> AntiGravityBongRadius { get; set; }
         public static ConfigEntry<float> AntiGravityBongCooldown { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
@@ -281,6 +282,7 @@ namespace SkillTree.Core.Utilities
             AdrenalineSurgeJumpMultiplier = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeJumpMultiplier", 3f, "Adrenaline Surge: Jump Multiplier");
             AdrenalineSurgeZappedEffect = new ConfigEntry<bool>(Special, "SkillTree_AdrenalineSurgeZappedEffect", true, "Adrenaline Surge: Enabled Zapped Effect");
             AntiGravityBongDuration = new ConfigEntry<float>(Special, "SkillTree_AntiGravityBongDuration", 15f, "Anti-Gravity Bong: Effect Duration");
+            AntiGravityBongRadius = new ConfigEntry<float>(Special, "SkillTree_AntiGravityBongRadius", 10f, "Anti-Gravity Bong: Effect Radius");
             AntiGravityBongCooldown = new ConfigEntry<float>(Special, "SkillTree_AntiGravityBongCooldown", 60f, "Anti-Gravity Bong: Skill Cooldown");
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 

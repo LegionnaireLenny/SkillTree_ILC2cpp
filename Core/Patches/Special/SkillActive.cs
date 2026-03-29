@@ -319,6 +319,52 @@ namespace SkillTree.Core.Patches.Special
                 IconManager.LoadSprite(IconManager.IconHeart));
         }
 
+        public static void AntiGravityBong()
+        {
+            if (!AntiGravityBongUsed)
+            {
+                AntiGravityBongUsed = true;
+                MelonCoroutines.Start(SpawnBong());
+                MelonCoroutines.Start(ResetAntiGravityBong());
+            }
+            else
+            {
+                Singleton<NotificationsManager>.Instance.SendNotification(
+                    "Anti-Gravity Bong",
+                    $"On cooldown",
+                    IconManager.LoadSprite(IconManager.IconClock));
+            }
+
+            IEnumerator SpawnBong()
+            {
+                TrashItem bong = NetworkSingleton<TrashManager>.Instance.CreateTrashItem("bong", Player.Local.CameraPosition, Random.rotation, default, "", false);
+                bong.SetPhysicsActive(false);
+                for (int i = 0; i < ConfigManager.AntiGravityBongDuration.GetValue(); i++)
+                {
+                    float radius = i == ConfigManager.AntiGravityBongRadius.GetValue() - 2 ? ConfigManager.AntiGravityBongRadius.GetValue() * 1.5f : ConfigManager.AntiGravityBongRadius.GetValue();
+                    Collider[] array = Physics.OverlapSphere(bong.transform.position, radius);
+                    foreach (var item in array)
+                    {
+                        NPC npc = item.GetComponentInParent<NPC>();
+                        if (npc != null)
+                        {
+                            if (i >= ConfigManager.AntiGravityBongDuration.GetValue() - 2)
+                            {
+                                npc.Movement.ActivateRagdoll_Server(bong.transform.position, (bong.transform.position - npc.CenterPoint).normalized + new Vector3(0f, 0.15f, 0f), 250f);
+                            }
+                            else
+                            {
+                                npc.Movement.ActivateRagdoll_Server(bong.transform.position, (npc.CenterPoint - bong.transform.position).normalized + new Vector3(0f, 0.5f, 0f), 100f);
+                            }
+                        }
+                    }
+                    yield return new WaitForSeconds(1f);
+                }
+                NetworkSingleton<CombatManager>.Instance.CreateExplosion(bong.transform.position, ExplosionData.DefaultSmall);
+                bong.DestroyTrash();
+            }
+        }
+
         public static void ResetAfflicted()
         {
             afflicted.Clear();

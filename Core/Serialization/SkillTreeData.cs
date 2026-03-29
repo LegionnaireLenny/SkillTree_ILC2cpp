@@ -68,7 +68,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill TrickleDown = new("Trickle-down Economics", "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours", SkillCategory.Special, 1, GoodSamaritan);
         public static readonly Skill InfectiousPersonality = new("Infectious Personality", "Once per day, all NPCs within 15 meters are randomly afflicted with Toxic or Explosive.\n\nCharacters afflicted with Toxic die after 8 seconds, characters afflicted with Explosive explode and die after 30 seconds.\n\nUpon death, the effect is spread to nearby characters and half of their health is gained as cash and online balance.", SkillCategory.Special, 1, GoodSamaritan);
         public static readonly Skill AdrenalineSurge = new("Adrenaline Surge", "Three times per day, your movement speed and jump height are tripled for 15 seconds.", SkillCategory.Special, 1, GoodSamaritan);
-        //public static readonly Skill AntiGravityBong = new("Anti-Gravity Bong", "Once every 60 seconds, place a special anti-gravity bong that ragdolls and flings away any NPC that enters its radius. Lasts for 15 seconds.", SkillCategory.Special, 1, GoodSamaritan);
+        public static readonly Skill AntiGravityBong = new("Anti-Gravity Bong", "Once every 60 seconds, place a special anti-gravity bong that ragdolls and flings away any NPC within a 10 meter radius.\n\nLasts for 15 seconds. When the skill expires, the bong pulls NPCs towards itself and explodes.", SkillCategory.Special, 1, GoodSamaritan);
 
         public static readonly Dictionary<SkillCategory, HashSet<Skill>> SkillTrees = [];
 

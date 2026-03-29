@@ -42,6 +42,10 @@ namespace SkillTree.Core.Serialization
         {
             yield return new WaitForSeconds(ConfigManager.AntiGravityBongCooldown.GetValue());
             AntiGravityBongUsed = false;
+            Singleton<NotificationsManager>.Instance.SendNotification(
+                "Anti-Gravity Bong",
+                $"Skill ready",
+                IconManager.LoadSprite(IconManager.IconClock));
         }
 
         public static void LoadFromFile(JsonElement data)

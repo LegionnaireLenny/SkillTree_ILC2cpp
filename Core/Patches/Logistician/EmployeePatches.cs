@@ -124,17 +124,20 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static void Patch_Employee_OnDestroy(Employee __instance)
         {
-            if (__instance == null) return;
-
-            if (processedEmployees.Contains(__instance.GUID) ||
-                processedBotanists.Contains(__instance.GUID) ||
-                processedChemists.Contains(__instance.GUID))
+            if (__instance?.GUID == null) return;
+            try
             {
-                processedEmployees.Remove(__instance.GUID);
-                processedBotanists.Remove(__instance.GUID);
-                processedChemists.Remove(__instance.GUID);
-                MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName} removed from cache");
+                if (processedEmployees.Contains(__instance.GUID) ||
+                    processedBotanists.Contains(__instance.GUID) ||
+                    processedChemists.Contains(__instance.GUID))
+                {
+                    processedEmployees.Remove(__instance.GUID);
+                    processedBotanists.Remove(__instance.GUID);
+                    processedChemists.Remove(__instance.GUID);
+                    MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName} removed from cache");
+                }
             }
+            catch (System.Exception) { }
         }
     }
 }
