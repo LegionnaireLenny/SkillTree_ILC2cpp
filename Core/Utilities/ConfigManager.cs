@@ -145,11 +145,19 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> BloodRushHealthBonusMultiplier { get; set; }
         public static ConfigEntry<float> BloodRushHealthBonusCap { get; set; }
         public static ConfigEntry<float> BloodRushDuration { get; set; }
+        public static ConfigEntry<float> BloodRushFOVChange { get; set; }
+        public static ConfigEntry<float> BloodRushHeartbeatVolume { get; set; }
+        public static ConfigEntry<float> BloodRushHeartbeatPitch { get; set; }
+        public static ConfigEntry<Color> BloodRushScreenTint { get; set; }
         public static ConfigEntry<float> SiphonFundsBaseConversionRate { get; set; }
         public static ConfigEntry<float> SiphonFundsOwnedBusinessBonus { get; set; }
         public static ConfigEntry<float> TrickleDownCashReserve { get; set; }
         public static ConfigEntry<int>   TrickleDownPayoutInterval { get; set; }
         public static ConfigEntry<float> BloodMoneyDuration { get; set; }
+        public static ConfigEntry<float> BloodMoneyFOVChange { get; set; }
+        public static ConfigEntry<float> BloodMoneyHeartbeatVolume { get; set; }
+        public static ConfigEntry<float> BloodMoneyHeartbeatPitch { get; set; }
+        public static ConfigEntry<Color> BloodMoneyScreenTint { get; set; }
         public static ConfigEntry<float> InfectiousPersonalityRange { get; set; }
         public static ConfigEntry<int>   AdrenalineSurgeCharges { get; set; }
         public static ConfigEntry<float> AdrenalineSurgeDuration { get; set; }
@@ -270,11 +278,19 @@ namespace SkillTree.Core.Utilities
             BloodRushHealthBonusMultiplier = new ConfigEntry<float>(Special, "SkillTree_BloodRushHealthBonusMultiplier", 2f, "Blood Rush: Bonus Health Cap Multiplier");
             BloodRushHealthBonusCap = new ConfigEntry<float>(Special, "SkillTree_BloodRushHealthBonusCap", 30f, "Blood Rush: Bonus Health Cap");
             BloodRushDuration = new ConfigEntry<float>(Special, "SkillTree_BloodRushDuration", 60f, "Blood Rush: Effect Duration");
+            BloodRushFOVChange = new ConfigEntry<float>(Special, "SkillTree_BloodRushFOVChange", 10f, "Blood Rush: FOV Change");
+            BloodRushHeartbeatVolume = new ConfigEntry<float>(Special, "SkillTree_BloodRushHeartbeatVolume", 0.25f, "Blood Rush: Heartbeat Volume");
+            BloodRushHeartbeatPitch = new ConfigEntry<float>(Special, "SkillTree_BloodRushHeartbeatPitch", 1f, "Blood Rush: Heartbeat Pitch");
+            BloodRushScreenTint = new ConfigEntry<Color>(Special, "SkillTree_BloodRushScreenTint", new Color(1f, 0.9f, 0.9f, 0.2f), "Blood Rush: Screen Tint");
             SiphonFundsBaseConversionRate = new ConfigEntry<float>(Special, "SkillTree_SiphonFundsBaseConversionRate", 0.1f, "Siphon Funds: Base Online Balance Conversion Rate");
             SiphonFundsOwnedBusinessBonus = new ConfigEntry<float>(Special, "SkillTree_SiphonFundsOwnedBusinessBonus", 0.05f, "Siphon Funds: Bonus Per Owned Business");
             TrickleDownCashReserve = new ConfigEntry<float>(Special, "SkillTree_TrickledownCashReserve", 2000f, "Trickle-down Economics: Cash Reserve", "Amount of cash kept when transferring money to businesses if there's not enough to max out their capacity");
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special, "SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24));
             BloodMoneyDuration = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyDuration", 30f, "Blood Money: Effect Duration");
+            BloodMoneyFOVChange = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyFOVChange", 10f, "Blood Money: FOV Change");
+            BloodMoneyHeartbeatVolume = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyHeartbeatVolume", 0.5f, "Blood Money: Heartbeat Volume");
+            BloodMoneyHeartbeatPitch = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyHeartbeatPitch", 0.85f, "Blood Money: Heartbeat Pitch");
+            BloodMoneyScreenTint = new ConfigEntry<Color>(Special, "SkillTree_BloodMoneyScreenTint", new Color(1f, 1f, 0.9f, 0.2f), "Blood Money: Screen Tint");
             InfectiousPersonalityRange = new ConfigEntry<float>(Special, "SkillTree_InfectiousPersonalityRange", 15f, "Infectious Personality: Effect Range");
             AdrenalineSurgeCharges = new ConfigEntry<int>(Special, "SkillTree_AdrenalineSurgeCharges", 3, "Adrenaline Surge: Number of Charges");
             AdrenalineSurgeDuration = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeDuration", 15f, "Adrenaline Surge: Effect Duration");

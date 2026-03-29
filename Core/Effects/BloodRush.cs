@@ -13,17 +13,16 @@ namespace SkillTree.Core.Effects
         public static bool IsBloodRushActive { get; private set; } = false;
         private static readonly string EffectName = "BloodRush";
         private static readonly int EffectTier = 3;
-        private static readonly Color EffectTint = new Color(1f, 0.9f, 0.9f, 0.2f);
 
 
         public static void ApplyToPlayer()
         {
             IsBloodRushActive = true;
             MelonLogger.Msg($"Blood Rush effect applied");
-            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(10f, EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(0.25f, EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(1f, EffectTier, EffectName);
-            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(EffectTint, EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(ConfigManager.BloodRushFOVChange.GetValue(), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(ConfigManager.BloodRushHeartbeatVolume.GetValue(), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(ConfigManager.BloodRushHeartbeatPitch.GetValue(), EffectTier, EffectName);
+            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(ConfigManager.BloodRushScreenTint.GetValue(), EffectTier, EffectName);
             MelonCoroutines.Start(ClearFromPlayer());
         }
 
