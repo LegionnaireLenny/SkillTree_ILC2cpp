@@ -260,7 +260,7 @@ namespace SkillTree.Core.Patches.Special
 
             void Infect(NPC npc, Effect[] effects, float delay)
             {
-                if (npc.Health.IsDead || npc.Health.IsKnockedOut || afflicted.Contains(npc.name)) return;
+                if (npc == null || npc.Health.IsDead || npc.Health.IsKnockedOut || afflicted.Contains(npc.name)) return;
 
                 afflicted.Add(npc.name);
                 npc.Behaviour.activeBehaviour.Pause();
@@ -335,7 +335,7 @@ namespace SkillTree.Core.Patches.Special
                     IconManager.LoadSprite(IconManager.IconClock));
             }
 
-            IEnumerator SpawnBong()
+            static IEnumerator SpawnBong()
             {
                 TrashItem bong = NetworkSingleton<TrashManager>.Instance.CreateTrashItem("bong", Player.Local.CameraPosition, Random.rotation, default, "", false);
                 bong.SetPhysicsActive(false);
