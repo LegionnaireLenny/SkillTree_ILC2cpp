@@ -1,7 +1,6 @@
 ﻿using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
-using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;

@@ -1,5 +1,4 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
-using Il2CppScheduleOne.Effects;
 using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;

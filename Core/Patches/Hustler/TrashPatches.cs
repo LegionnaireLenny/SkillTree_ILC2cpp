@@ -9,7 +9,6 @@ using Il2CppScheduleOne.Trash;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Items;
 using Il2CppSystem;
-using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections.Generic;

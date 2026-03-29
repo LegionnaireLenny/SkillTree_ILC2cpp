@@ -4,7 +4,6 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using MelonLoader.Preferences;
-using SkillTree.Core.Effects;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -303,9 +302,9 @@ namespace SkillTree.Core.Utilities
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
-            AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_01_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
-            EnableContractColors = new ConfigEntry<bool>(UserSettings, "SkillTree_02_EnableContractColors", true, "Enable Contract Colors", "If enabled, contract icon colors can be customized and will change colors to indicate contracts within their delivery window");
-            EnableCrosshair = new ConfigEntry<bool>(UserSettings, "SkillTree_03_EnableCrosshair", true, "Enable Crosshair", "If enabled, the crosshair stays enabled while wielding a ranged weapon");
+            AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
+            EnableContractColors = new ConfigEntry<bool>(UserSettings, "SkillTree_EnableContractColors", true, "Enable Contract Colors", "If enabled, contract icon colors can be customized and will change colors to indicate contracts within their delivery window");
+            EnableCrosshair = new ConfigEntry<bool>(UserSettings, "SkillTree_EnableCrosshair", true, "Enable Crosshair", "If enabled, the crosshair stays enabled while wielding a ranged weapon");
             ContractReadyBackgroundColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReadyBackgroundColor", new(0.2984f, 0.6226f, 0.2673f, 1f), "Contract Ready: Background Color", "Icon background color for contracts that are within their delivery window");
             ContractReadyFillColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractReadyFillColor", new(1f, 1f, 1f, 1f), "Contract Ready: Fill Color", "Icon fill color for contracts that are within their delivery window");
             ContractNotReadyBackgroundColor = new ConfigEntry<Color>(UserSettings, "SkillTree_ContractNotReady_BackgroundColor", new(0.6984f, 0.6226f, 0.4673f, 1f), "Contract Not Ready: Background Color", "Icon background color for contracts that are outside their delivery window");

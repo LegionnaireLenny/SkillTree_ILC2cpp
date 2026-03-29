@@ -21,8 +21,8 @@ namespace SkillTree.Core.Skills
 
         public static float GetPlayerHealthRegenDelay()
         {
-            return BaseHealthRegenDelay.GetValue() * 
-                (SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue()) * 
+            return BaseHealthRegenDelay.GetValue() *
+                (SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue()) *
                 (BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier.GetValue() : 1f);
         }
 
@@ -38,8 +38,8 @@ namespace SkillTree.Core.Skills
 
         public static float GetPlayerJumpHeight()
         {
-            return BaseJumpHeight.GetValue() * 
-                (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue()) * 
+            return BaseJumpHeight.GetValue() *
+                (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue()) *
                 (AdrenalineSurge.IsAdrenalineSurgeActive ? AdrenalineSurgeJumpMultiplier.GetValue() : 1f);
         }
 
