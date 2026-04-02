@@ -25,7 +25,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill TurboNerdo = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Enforcer, 2, FastLearner);
         public static readonly Skill Kingpin = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Enforcer, 1, FastLearner);
 
-        public static readonly Skill PitchinATent = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 26%", SkillCategory.Provisioner, 1, null);
+        public static readonly Skill PitchinATent = new("Pitchin' a Tent", "Increase plant quality for grow tents by 26%", SkillCategory.Provisioner, 1, null);
         public static readonly Skill AdvancedPotTechniques = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%", SkillCategory.Provisioner, 2, PitchinATent);
         public static readonly Skill HarderAndStronger = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Provisioner, 1, AdvancedPotTechniques);
         public static readonly Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%", SkillCategory.Provisioner, 2, AdvancedPotTechniques);
