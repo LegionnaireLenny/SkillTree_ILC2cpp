@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.Json;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Serialization
 {
@@ -17,7 +18,7 @@ namespace SkillTree.Core.Serialization
         public static bool SiphonFundsUsed { get; set; } = false;
         public static bool TrickleDownUsed { get; set; } = false;
         public static bool InfectiousPersonalityUsed { get; set; } = false;
-        public static int AdrenalineSurgeCharges { get; set; } = ConfigManager.AdrenalineSurgeCharges.GetValue();
+        public static int AdrenalineSurgeRemainingCharges { get; set; } = AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue());
         public static bool AntiGravityBongUsed { get; set; } = false;
         public static bool CircadianMasteryUsed { get; set; } = false;
 
@@ -30,7 +31,7 @@ namespace SkillTree.Core.Serialization
             TrickleDownUsed = false;
             InfectiousPersonalityUsed = false;
             CircadianMasteryUsed = false;
-            AdrenalineSurgeCharges = ConfigManager.AdrenalineSurgeCharges.GetValue();
+            AdrenalineSurgeRemainingCharges = AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue());
             Singleton<NotificationsManager>.Instance?.SendNotification(
                 "A New Day Dawns",
                 "Cooldowns Reset",
@@ -39,7 +40,7 @@ namespace SkillTree.Core.Serialization
 
         public static IEnumerator ResetAntiGravityBong()
         {
-            yield return new WaitForSeconds(ConfigManager.AntiGravityBongCooldown.GetValue());
+            yield return new WaitForSeconds(AntiGravityBongCooldown.GetValue(UseDefaultSkillParameters.GetValue()));
             AntiGravityBongUsed = false;
             Singleton<NotificationsManager>.Instance.SendNotification(
                 "Anti-Gravity Bong",
@@ -82,7 +83,7 @@ namespace SkillTree.Core.Serialization
                 }
                 else if (property.PropertyType.GetType() == typeof(int))
                 {
-                    property.SetValue(new Cooldowns(), ConfigManager.AdrenalineSurgeCharges.GetValue());
+                    property.SetValue(new Cooldowns(), AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue()));
                 }
             }
         }

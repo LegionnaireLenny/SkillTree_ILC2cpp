@@ -26,9 +26,9 @@ namespace SkillTree.Core.Utilities
                 Entry = category.CreateEntry(identifier, defaultValue, displayName, description, validator: validator);
             }
 
-            public T GetValue()
+            public T GetValue(bool useDefault = true)
             {
-                return (T)Entry.BoxedValue;
+                return useDefault ? Entry.DefaultValue : (T)Entry.BoxedValue;
             }
 
             public void SetValue(T value)
@@ -53,6 +53,7 @@ namespace SkillTree.Core.Utilities
                 try
                 {
                     (property.GetValue(obj) as ConfigEntry<float>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<int>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<bool>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<KeyCode>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<Color>)?.SetDefault();
@@ -158,7 +159,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> BloodMoneyHeartbeatPitch { get; set; }
         public static ConfigEntry<Color> BloodMoneyScreenTint { get; set; }
         public static ConfigEntry<float> InfectiousPersonalityRange { get; set; }
-        public static ConfigEntry<int>   AdrenalineSurgeCharges { get; set; }
+        public static ConfigEntry<int>   AdrenalineSurgeMaxCharges { get; set; }
         public static ConfigEntry<float> AdrenalineSurgeDuration { get; set; }
         public static ConfigEntry<float> AdrenalineSurgeSpeedMultiplier { get; set; }
         public static ConfigEntry<float> AdrenalineSurgeJumpMultiplier { get; set; }
@@ -168,6 +169,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> AntiGravityBongCooldown { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
+        public static ConfigEntry<bool> UseDefaultSkillParameters { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
         public static ConfigEntry<bool> EnableContractColors { get; set; }
         public static ConfigEntry<bool> EnableCrosshair { get; set; }
@@ -229,7 +231,7 @@ namespace SkillTree.Core.Utilities
             CauldronOutputBonus = new ConfigEntry<int>(Provisioner, "SkillTree_CauldronOutputBonus", 1, "Witch's Brew: Cauldron Output Bonus", "Increases the output multiplier");
             MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner, "SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier");
             ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner, "SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier");
-            QualityBonusGrowTent = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusGrowTent", 0.16f, "Pitchin' a Tent: Quality Bonus for Grow Tents");
+            QualityBonusGrowTent = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusGrowTent", 0.26f, "Pitchin' a Tent: Quality Bonus for Grow Tents");
             QualityBonusPlants = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots");
             QualityBonusShrooms = new ConfigEntry<float>(Provisioner, "SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms");
             YieldBonusPlants = new ConfigEntry<int>(Provisioner, "SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants");
@@ -291,7 +293,7 @@ namespace SkillTree.Core.Utilities
             BloodMoneyHeartbeatPitch = new ConfigEntry<float>(Special, "SkillTree_BloodMoneyHeartbeatPitch", 0.85f, "Blood Money: Heartbeat Pitch");
             BloodMoneyScreenTint = new ConfigEntry<Color>(Special, "SkillTree_BloodMoneyScreenTint", new Color(1f, 1f, 0.9f, 0.2f), "Blood Money: Screen Tint");
             InfectiousPersonalityRange = new ConfigEntry<float>(Special, "SkillTree_InfectiousPersonalityRange", 15f, "Infectious Personality: Effect Range");
-            AdrenalineSurgeCharges = new ConfigEntry<int>(Special, "SkillTree_AdrenalineSurgeCharges", 3, "Adrenaline Surge: Number of Charges");
+            AdrenalineSurgeMaxCharges = new ConfigEntry<int>(Special, "SkillTree_AdrenalineSurgeCharges", 3, "Adrenaline Surge: Max Number of Charges");
             AdrenalineSurgeDuration = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeDuration", 15f, "Adrenaline Surge: Effect Duration");
             AdrenalineSurgeSpeedMultiplier = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeSpeedMultiplier", 3f, "Adrenaline Surge: Speed Multiplier");
             AdrenalineSurgeJumpMultiplier = new ConfigEntry<float>(Special, "SkillTree_AdrenalineSurgeJumpMultiplier", 3f, "Adrenaline Surge: Jump Multiplier");
@@ -302,6 +304,7 @@ namespace SkillTree.Core.Utilities
             Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
+            UseDefaultSkillParameters = new ConfigEntry<bool>(UserSettings, "SkillTree_UseDefaultSkillParameters", true, "Use Default Skill Parameters", "If enabled, skills will use their default parameters. Disable this if you want to customize skill parameters.");
             AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings, "SkillTree_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once");
             EnableContractColors = new ConfigEntry<bool>(UserSettings, "SkillTree_EnableContractColors", true, "Enable Contract Colors", "If enabled, contract icon colors can be customized and will change colors to indicate contracts within their delivery window");
             EnableCrosshair = new ConfigEntry<bool>(UserSettings, "SkillTree_EnableCrosshair", true, "Enable Crosshair", "If enabled, the crosshair stays enabled while wielding a ranged weapon");

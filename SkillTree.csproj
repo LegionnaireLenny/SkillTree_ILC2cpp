@@ -26,10 +26,11 @@
 		<Compile Include="Core\Patches\Logistician\HandlerBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\ChemistBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ContractPatches.cs" />
-		<Compile Include="Core\Patches\Miscellaneous\CrossHairPatches.cs" />
+		<Compile Include="Core\Patches\Miscellaneous\CrosshairPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
+		<Compile Include="Core\Patches\Miscellaneous\StoragePatches.cs" />
 		<Compile Include="Core\Patches\Special\ImpactPatches.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />

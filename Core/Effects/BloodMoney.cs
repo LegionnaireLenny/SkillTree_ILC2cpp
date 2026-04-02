@@ -3,9 +3,9 @@ using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using S1API.Money;
-using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Effects
 {
@@ -19,16 +19,16 @@ namespace SkillTree.Core.Effects
         {
             IsBloodMoneyActive = true;
             MelonLogger.Msg($"Blood Money effect applied");
-            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(ConfigManager.BloodMoneyFOVChange.GetValue(), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(ConfigManager.BloodMoneyHeartbeatVolume.GetValue(), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(ConfigManager.BloodMoneyHeartbeatPitch.GetValue(), EffectTier, EffectName);
-            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(ConfigManager.BloodMoneyScreenTint.GetValue(), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodMoneyFOVChange.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodMoneyHeartbeatVolume.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodMoneyHeartbeatPitch.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(BloodMoneyScreenTint.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
             MelonCoroutines.Start(ClearFromPlayer());
         }
 
         public static IEnumerator ClearFromPlayer()
         {
-            yield return new WaitForSeconds(ConfigManager.BloodMoneyDuration.GetValue());
+            yield return new WaitForSeconds(BloodMoneyDuration.GetValue(UseDefaultSkillParameters.GetValue()));
             IsBloodMoneyActive = false;
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.RemoveOverride(EffectName);

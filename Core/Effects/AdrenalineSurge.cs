@@ -1,9 +1,9 @@
 ﻿using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
-using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Effects
 {
@@ -14,9 +14,9 @@ namespace SkillTree.Core.Effects
         public static void ApplyToPlayer()
         {
             IsAdrenalineSurgeActive = true;
-            PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_AdrenalineSurge", ConfigManager.AdrenalineSurgeSpeedMultiplier.GetValue(), FloatStack.EStackMode.Multiplicative, 5));
+            PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_AdrenalineSurge", AdrenalineSurgeSpeedMultiplier.GetValue(UseDefaultSkillParameters.GetValue()), FloatStack.EStackMode.Multiplicative, 5));
             Patches.Enforcer.MovementPatches.SetPlayerJumpHeight();
-            if (ConfigManager.AdrenalineSurgeZappedEffect.GetValue())
+            if (AdrenalineSurgeZappedEffect.GetValue(UseDefaultSkillParameters.GetValue()))
             {
                 Player.Local.Avatar.Effects.SetZapped(true, true);
             }
@@ -26,7 +26,7 @@ namespace SkillTree.Core.Effects
 
         public static IEnumerator ClearFromPlayer()
         {
-            yield return new WaitForSeconds(ConfigManager.AdrenalineSurgeDuration.GetValue());
+            yield return new WaitForSeconds(AdrenalineSurgeDuration.GetValue(UseDefaultSkillParameters.GetValue()));
             IsAdrenalineSurgeActive = false;
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_AdrenalineSurge");
             Patches.Enforcer.MovementPatches.SetPlayerJumpHeight();

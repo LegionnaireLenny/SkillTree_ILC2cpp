@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using S1API.GameTime;
@@ -14,6 +15,7 @@ using SkillTree.Core.Utilities;
 using System;
 using System.Collections;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 [assembly: MelonInfo(typeof(Core), "SkillTree", "3.0.0", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
@@ -78,35 +80,36 @@ namespace SkillTree.Core
                 return;
             }
 
-            if (Input.GetKeyDown(ConfigManager.MenuHotkey.GetValue()))
+            if (Input.GetKeyDown(MenuHotkey.GetValue(UseDefaultSkillParameters.GetValue())))
                 OnOpenKeyPressed?.Invoke();
-            if (Input.GetKeyDown(ConfigManager.LevelSkillHotkey.GetValue()))
+            if (Input.GetKeyDown(LevelSkillHotkey.GetValue(UseDefaultSkillParameters.GetValue())))
                 OnLevelSkillKeyPressed?.Invoke();
 
-            if (Cursor.lockState != CursorLockMode.None)
+            if (Cursor.lockState != CursorLockMode.None && 
+                !PlayerSingleton<PlayerCamera>.Instance.activeUIElements.Contains("Console"))
             {
-                if (Input.GetKeyDown(ConfigManager.GoodSamaritanHotkey.GetValue()) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
+                if (Input.GetKeyDown(GoodSamaritanHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
                     SkillActive.GoodSamaritan();
 
-                if (Input.GetKeyDown(ConfigManager.BloodRushHotkey.GetValue()) && SkillTreeData.BloodRush.CurrentLevel == 1)
+                if (Input.GetKeyDown(BloodRushHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.BloodRush.CurrentLevel == 1)
                     SkillActive.BloodRush();
 
-                if (Input.GetKeyDown(ConfigManager.SiphonFundsHotkey.GetValue()) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
+                if (Input.GetKeyDown(SiphonFundsHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
 
-                if (Input.GetKeyDown(ConfigManager.TrickledownHotkey.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
+                if (Input.GetKeyDown(TrickledownHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.TrickleDown.CurrentLevel == 1)
                     SkillActive.TrickleDownEconomics();
 
-                if (Input.GetKeyDown(ConfigManager.BloodMoneyHotkey.GetValue()) && SkillTreeData.BloodMoney.CurrentLevel == 1)
+                if (Input.GetKeyDown(BloodMoneyHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.BloodMoney.CurrentLevel == 1)
                     SkillActive.BloodMoney();
 
-                if (Input.GetKeyDown(ConfigManager.InfectiousPersonalityHotkey.GetValue()) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
+                if (Input.GetKeyDown(InfectiousPersonalityHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
                     SkillActive.InfectiousPersonality();
 
-                if (Input.GetKeyDown(ConfigManager.AdrenalineSurgeHotkey.GetValue()) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
+                if (Input.GetKeyDown(AdrenalineSurgeHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
                     SkillActive.AdrenalineSurge();
 
-                if (Input.GetKeyDown(ConfigManager.AntiGravityBongHotkey.GetValue()) && SkillTreeData.AntiGravityBong.CurrentLevel == 1)
+                if (Input.GetKeyDown(AntiGravityBongHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.AntiGravityBong.CurrentLevel == 1)
                     SkillActive.AntiGravityBong();
             }
         }
@@ -135,10 +138,10 @@ namespace SkillTree.Core
                 LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
                 TimeManager.OnDayPass += Cooldowns.ResetDailySkills;
                 TimeManager.OnDayPass += SkillActive.ResetAfflicted;
-                if (ConfigManager.ResetSkills.GetValue())
+                if (ResetSkills.GetValue(UseDefaultSkillParameters.GetValue()))
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
-                    ConfigManager.ResetSkills.SetValue(false);
+                    ResetSkills.SetValue(false);
                     SaveManager.DeleteFile();
                     SaveManager.LoadDefaultValues();
                 }

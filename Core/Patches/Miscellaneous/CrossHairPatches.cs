@@ -3,25 +3,25 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Equipping;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.UI;
-using SkillTree.Core.Utilities;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Patches.Miscellaneous
 {
     [HarmonyPatch]
-    public class CrossHairPatches
+    public class CrosshairPatches
     {
         [HarmonyPatch(typeof(Equippable_RangedWeapon), "Equip")]
         [HarmonyPostfix]
         public static void Patch_Equippable_RangedWeapon_Equip(ItemInstance item)
         {
-            Singleton<HUD>.Instance.SetCrosshairVisible(ConfigManager.EnableCrosshair.GetValue());
+            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue(UseDefaultSkillParameters.GetValue()));
         }
 
         [HarmonyPatch(typeof(Equippable_RangedWeapon), "Update")]
         [HarmonyPostfix]
         public static void Patch_Equippable_RangedWeapon_Update()
         {
-            Singleton<HUD>.Instance.SetCrosshairVisible(ConfigManager.EnableCrosshair.GetValue());
+            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue(UseDefaultSkillParameters.GetValue()));
         }
     }
 }

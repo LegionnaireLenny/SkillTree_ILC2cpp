@@ -2,9 +2,9 @@
 using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
-using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Effects
 {
@@ -19,16 +19,16 @@ namespace SkillTree.Core.Effects
         {
             IsBloodRushActive = true;
             MelonLogger.Msg($"Blood Rush effect applied");
-            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(ConfigManager.BloodRushFOVChange.GetValue(), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(ConfigManager.BloodRushHeartbeatVolume.GetValue(), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(ConfigManager.BloodRushHeartbeatPitch.GetValue(), EffectTier, EffectName);
-            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(ConfigManager.BloodRushScreenTint.GetValue(), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodRushFOVChange.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodRushHeartbeatVolume.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodRushHeartbeatPitch.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(BloodRushScreenTint.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
             MelonCoroutines.Start(ClearFromPlayer());
         }
 
         public static IEnumerator ClearFromPlayer()
         {
-            yield return new WaitForSeconds(ConfigManager.BloodRushDuration.GetValue());
+            yield return new WaitForSeconds(BloodRushDuration.GetValue(UseDefaultSkillParameters.GetValue()));
             IsBloodRushActive = false;
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.RemoveOverride(EffectName);

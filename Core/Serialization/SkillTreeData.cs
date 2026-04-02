@@ -25,7 +25,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill TurboNerdo = new("Turbo Nerdo", "Increase XP gain by an additional 10%", SkillCategory.Enforcer, 2, FastLearner);
         public static readonly Skill Kingpin = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP", SkillCategory.Enforcer, 1, FastLearner);
 
-        public static readonly Skill PitchinATent = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 16%", SkillCategory.Provisioner, 1, null);
+        public static readonly Skill PitchinATent = new("Pitchin' a Tent", "Increase quality of plants in grow tents by 26%", SkillCategory.Provisioner, 1, null);
         public static readonly Skill AdvancedPotTechniques = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%", SkillCategory.Provisioner, 2, PitchinATent);
         public static readonly Skill HarderAndStronger = new("Harder and Stronger", "Meth and cocaine quality increased by 1", SkillCategory.Provisioner, 1, AdvancedPotTechniques);
         public static readonly Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%", SkillCategory.Provisioner, 2, AdvancedPotTechniques);
@@ -38,6 +38,17 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill CrankinOneOut = new("Crankin' One Out", "Double the production capacity of mixing stations and drying racks", SkillCategory.Provisioner, 1, BountifulHarvest);
         public static readonly Skill WitchsBrew = new("Witch's Brew", "Double the cauldron's output", SkillCategory.Provisioner, 1, BountifulHarvest);
 
+        public static readonly Skill SilverTonguedDevil = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Hustler, 1, null);
+        public static readonly Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items", SkillCategory.Hustler, 1, SilverTonguedDevil);
+        public static readonly Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Hustler, 2, CommunityService, [TrashPatches.IncreaseTrashValue]);
+        public static readonly Skill SpreadTheWealth = new("Spread the Wealth", "Increase citizens' weekly spending limits by 25% per level", SkillCategory.Hustler, 2, SilverTonguedDevil, [CustomerPatches.SetCustomerSpendLimits]);
+        public static readonly Skill CaptiveMarket = new("Captive Market", "Increase citizens' weekly order limits by 3 per skill level and 1 per player rank", SkillCategory.Hustler, 2, SpreadTheWealth, [CustomerPatches.SetCustomerOrderLimits]);
+        public static readonly Skill HoardTheWealth = new("Hoard the Wealth", "Increase ATM deposit limit by $2500 per level", SkillCategory.Hustler, 2, SilverTonguedDevil);
+        public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [BusinessPatches.SetLaunderingCapacity]);
+        public static readonly Skill CrystalBall = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Hustler, 1, SilverTonguedDevil);
+        public static readonly Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
+        public static readonly Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
+
         public static readonly Skill ReliableBusinessPartner = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%", SkillCategory.Logistician, 2, null);
         public static readonly Skill RushDelivery = new("Rush Delivery", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours", SkillCategory.Logistician, 1, ReliableBusinessPartner);
         public static readonly Skill ExpansiveEmpire = new("Expansive Empire", "Increase dealer's customer limit by 2", SkillCategory.Logistician, 1, ReliableBusinessPartner);
@@ -49,17 +60,6 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill NightShift = new("Night Shift", "Employees don't stop at 4 AM", SkillCategory.Logistician, 1, ReliableBusinessPartner);
         public static readonly Skill EmployeeMovespeed = new("RUN BITCH RUN!", "Employees move 3 times faster", SkillCategory.Logistician, 1, NightShift);
         public static readonly Skill EmployeeMaxStation = new("Overworked and Underpaid", "Increase station assignment limit for botanists and chemists by 2", SkillCategory.Logistician, 2, NightShift);
-
-        public static readonly Skill SilverTonguedDevil = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Hustler, 1, null);
-        public static readonly Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items", SkillCategory.Hustler, 1, SilverTonguedDevil);
-        public static readonly Skill SacarLaBasura = new("Sacar La Basura", "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level", SkillCategory.Hustler, 2, CommunityService, [TrashPatches.IncreaseTrashValue]);
-        public static readonly Skill SpreadTheWealth = new("Spread the Wealth", "Increase citizens' weekly spending limits by 25% per level", SkillCategory.Hustler, 2, SilverTonguedDevil, [CustomerPatches.SetCustomerSpendLimits]);
-        public static readonly Skill CaptiveMarket = new("Captive Market", "Increase citizens' weekly order limits by 3 per level and 1 per rank", SkillCategory.Hustler, 2, SpreadTheWealth, [CustomerPatches.SetCustomerOrderLimits]);
-        public static readonly Skill HoardTheWealth = new("Hoard the Wealth", "Increase ATM deposit limit by $2500 per level", SkillCategory.Hustler, 2, SilverTonguedDevil);
-        public static readonly Skill SqueakyClean = new("Squeaky Clean", "Increase money laundering capacity by 30%", SkillCategory.Hustler, 2, HoardTheWealth, [BusinessPatches.SetLaunderingCapacity]);
-        public static readonly Skill CrystalBall = new("Crystal Ball", "See the chance of a customer accepting a counteroffer", SkillCategory.Hustler, 1, SilverTonguedDevil);
-        public static readonly Skill Informant = new("Informant", "Police are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
-        public static readonly Skill Spymaster = new("Spymaster", "Benzies are shown on the map", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
 
         public static readonly Skill GoodSamaritan = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance", SkillCategory.Special, 1, null);
         public static readonly Skill BloodRush = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred)", SkillCategory.Special, 1, GoodSamaritan);

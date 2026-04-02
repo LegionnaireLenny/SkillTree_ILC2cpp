@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.App
 {
@@ -314,7 +315,7 @@ namespace SkillTree.Core.App
                 }
 
                 bool updateNeeded = false;
-                if (ConfigManager.AutoUnlockPrerequisites.GetValue())
+                if (ConfigManager.AutoUnlockPrerequisites.GetValue(UseDefaultSkillParameters.GetValue()))
                 {
                     updateNeeded = _selectedSkill.Skill.LevelAndUnlockParents();
                 }
@@ -409,7 +410,7 @@ namespace SkillTree.Core.App
                 // Build the set of edges that would be auto-unlocked if the selected skill is leveled
                 var highlightEdges = new HashSet<(Skill, Skill)>();
                 if (_selectedSkill != null && !_selectedSkill.Skill.IsParentNullOrMaxLevel() &&
-                    ConfigManager.AutoUnlockPrerequisites.GetValue())
+                    ConfigManager.AutoUnlockPrerequisites.GetValue(UseDefaultSkillParameters.GetValue()))
                 {
                     var current = _selectedSkill.Skill;
                     while (current.Parent != null)
@@ -450,7 +451,7 @@ namespace SkillTree.Core.App
         private static string GetAutoUnlockText(Skill skill)
         {
             if (skill == null) return null;
-            if (!ConfigManager.AutoUnlockPrerequisites.GetValue()) return null;
+            if (!ConfigManager.AutoUnlockPrerequisites.GetValue(UseDefaultSkillParameters.GetValue())) return null;
             if (skill.IsParentNullOrMaxLevel()) return null;
             if (skill.IsMaxLevel()) return null;
 

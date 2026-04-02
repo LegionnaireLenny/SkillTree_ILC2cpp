@@ -6,9 +6,9 @@ using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Serialization;
-using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Serialization.Cooldowns;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Patches.Enforcer
 {
@@ -132,8 +132,8 @@ namespace SkillTree.Core.Patches.Enforcer
                         foreach (GrowContainer container in Object.FindObjectsOfType<GrowContainer>())
                         {
                             container.OnTimeSkipped(totalMinutesPassed);
-                            container.TryCast<Pot>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * ConfigManager.TimeSkipGrowthMultiplier.GetValue()));
-                            container.TryCast<MushroomBed>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * ConfigManager.TimeSkipGrowthMultiplier.GetValue()));
+                            container.TryCast<Pot>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefaultSkillParameters.GetValue())));
+                            container.TryCast<MushroomBed>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefaultSkillParameters.GetValue())));
                         }
 
                         CircadianMasteryUsed = true;
