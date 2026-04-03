@@ -46,9 +46,8 @@ namespace SkillTree.Core.Utilities
         {
             if (!reset) return;
 
-            var properties = typeof(ConfigManager).GetProperties().Where(x => !x.Name.Equals("ResetSkills"));
             ConfigManager obj = new();
-            foreach (var property in properties)
+            foreach (var property in typeof(ConfigManager).GetProperties())
             {
                 try
                 {
@@ -85,11 +84,12 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> XPGainBonus2 { get; set; }
         public static ConfigEntry<float> SaleXPBonus { get; set; }
         public static ConfigEntry<int>   InventoryStackSizeBonus { get; set; }
+        public static ConfigEntry<float> AimTimeMultiplier { get; set; }
+        public static ConfigEntry<float> MaxSpreadMultiplier { get; set; }
+        public static ConfigEntry<float> MinSpreadMultiplier { get; set; }
+        public static ConfigEntry<int>   AmmoCapacityBonus { get; set; }
         public static ConfigEntry<float> ArrestTimeBonus { get; set; }
         public static ConfigEntry<float> ArrestRadiusBonus { get; set; }
-        //public static readonly float PlayerBaseMoveSpeed = PlayerMovement.StaticMoveSpeedMultiplier;
-        //public static readonly float PackagerMoveSpeedMultiplier = 2f;
-
 
         private static MelonPreferences_Category Provisioner { get; set; }
         public static ConfigEntry<int>   BaseDryingRackCapacity { get; set; }
@@ -105,7 +105,6 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   YieldBonusPlants { get; set; }
         public static ConfigEntry<float> GrowthSpeedBonusPlants { get; set; }
         public static ConfigEntry<float> MoistureDrainBonus { get; set; }
-        //public static readonly int StackSizeMultiplier = 2;
 
         private static MelonPreferences_Category Hustler { get; set; }
         public static ConfigEntry<float> BaseWeeklyDepositLimit { get; set; }
@@ -218,7 +217,11 @@ namespace SkillTree.Core.Utilities
             XPGainBonus = new ConfigEntry<float>(Enforcer, "SkillTree_XPGainBonus", 0.05f, "Fast Learner: XP Bonus");
             XPGainBonus2 = new ConfigEntry<float>(Enforcer, "SkillTree_XPGainBonus2", 0.1f, "Turbo Nerdo: XP Bonus");
             SaleXPBonus = new ConfigEntry<float>(Enforcer, "SkillTree_SalesXPBonus", 0.05f, "Kingpin: Sales XP Bonus");
-            InventoryStackSizeBonus = new ConfigEntry<int>(Enforcer, "SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus");
+            InventoryStackSizeBonus = new ConfigEntry<int>(Enforcer, "SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus", validator: new ValueRange<int>(0, 1000));
+            AimTimeMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_AimTimeMultiplier", 0.5f, "Quick Draw McGraw: Ranged Weapon Aim Time Multiplier");
+            MaxSpreadMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_MaxSpreadMultiplier", 0.35f, "Sharpshooter: Maximum Ranged Weapon Spread Multiplier");
+            MinSpreadMultiplier = new ConfigEntry<float>(Enforcer, "SkillTree_MinSpreadMultiplier", 0.35f, "Sharpshooter: Minimum Ranged Weapon Spread Multiplier");
+            AmmoCapacityBonus = new ConfigEntry<int>(Enforcer, "SkillTree_AmmoCapacityBonus", 1, "Double-Stack Mags: Ammo Capacity Bonus", "Increases the ammo capacity multiplier");
             ArrestTimeBonus = new ConfigEntry<float>(Enforcer, "SkillTree_ArrestTimeBonus", 1f, "Slippery: Arrest Time Bonus", "Increases the arrest time multiplier");
             ArrestRadiusBonus = new ConfigEntry<float>(Enforcer, "SkillTree_ArrestRadiusBonus", 0.75f, "Slippery: Arrest Radius Multiplier");
             Enforcer.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
@@ -328,8 +331,8 @@ namespace SkillTree.Core.Utilities
             Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             DebugOptions = MelonPreferences.CreateCategory($"SkillTree_DebugOptions", $"Debug Options");
-            ResetSkills = new ConfigEntry<bool>(DebugOptions, "SkillTree_02_ResetSkills", true, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
-            ResetConfiguration = new ConfigEntry<bool>(DebugOptions, "SkillTree_03_ResetConfiguration", false, "Reset all options", "Debug: Enable this option to reset mod options to default.");
+            ResetSkills = new ConfigEntry<bool>(DebugOptions, "SkillTree_ResetSkills", false, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills");
+            ResetConfiguration = new ConfigEntry<bool>(DebugOptions, "SkillTree_ResetConfiguration", false, "Reset all options", "Debug: Enable this option to reset mod options to default.");
             DebugOptions.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             ResetConfiguration.Entry.OnEntryValueChanged.Subscribe((oldVal, newVal) => ResetConfig(newVal));

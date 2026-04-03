@@ -73,6 +73,26 @@ namespace SkillTree.Core.Skills
             return 1 + SkillTreeData.PrisonWallet.CurrentLevel * InventoryStackSizeBonus.GetValue(UseDefaultSkillParameters.GetValue());
         }
 
+        public static float GetAimTimeMultiplier()
+        {
+            return SkillTreeData.QuickDraw.CurrentLevel == 0 ? 1f : AimTimeMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+        }
+
+        public static float GetMaxSpreadMultiplier()
+        {
+            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MaxSpreadMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+        }
+
+        public static float GetMinSpreadMultiplier()
+        {
+            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MinSpreadMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+        }
+
+        public static int GetAmmoCapacityMultiplier()
+        {
+            return 1 + (SkillTreeData.DoubleStackMags.CurrentLevel * AmmoCapacityBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+        }
+
         public static float GetArrestTime()
         {
             return BaseArrestTime.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.Slippery.CurrentLevel * ArrestTimeBonus.GetValue(UseDefaultSkillParameters.GetValue()));

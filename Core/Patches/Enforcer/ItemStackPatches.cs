@@ -1,4 +1,5 @@
 ﻿using Il2CppScheduleOne;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
 using SkillTree.Core.Skills;
@@ -14,12 +15,14 @@ namespace SkillTree.Core.Patches.Enforcer
             if (Registry.Instance == null)
                 return;
 
-            List<ItemDefinition> allItems = Registry.Instance.GetAllItems()._items.ToList();
+            List<ItemDefinition> allItems = Singleton<Registry>.Instance.GetAllItems()._items.ToList();
             Cache.FillCache(allItems);
 
             MelonLogger.Msg($"[MoreStackItem] Stack limit multiplier x{SkillModifiers.GetInventoryStackSizeMultiplier()}");
             foreach (ItemDefinition item in allItems)
             {
+                if (item.StackLimit <= 1) continue;
+
                 if (Cache.OriginalItemStackSize.TryGetValue(item.name, out int baseStackLimit))
                 {
                     item.StackLimit = baseStackLimit * SkillModifiers.GetInventoryStackSizeMultiplier();

@@ -22,6 +22,7 @@
 		<Compile Include="Core\Effects\BloodRush.cs" />
 		<Compile Include="Core\Effects\Ghost.cs" />
 		<Compile Include="Core\Patches\Enforcer\PlayerCrimeDataPatches.cs" />
+		<Compile Include="Core\Patches\Enforcer\RangedWeaponPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\BotanistGetDurationPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\HandlerBehaviorPatches.cs" />
 		<Compile Include="Core\Patches\Logistician\ChemistBehaviorPatches.cs" />
