@@ -31,7 +31,7 @@
 		<Compile Include="Core\Patches\Hustler\TrashPatches.cs" />
 		<Compile Include="Core\Patches\Hustler\PawnShopPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
-		<Compile Include="Core\Patches\Miscellaneous\StoragePatches.cs" />
+		<Compile Include="Core\Patches\Miscellaneous\ItemUIPatches.cs" />
 		<Compile Include="Core\Patches\Special\ImpactPatches.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />

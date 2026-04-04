@@ -26,7 +26,7 @@ namespace SkillTree.Core.Utilities
                 Entry = category.CreateEntry(identifier, defaultValue, displayName, description, validator: validator);
             }
 
-            public T GetValue(bool useDefault = true)
+            public T GetValue(bool useDefault = false)
             {
                 return useDefault ? Entry.DefaultValue : (T)Entry.BoxedValue;
             }
