@@ -21,11 +21,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartAction_2166136261(FinishLabOvenBehaviour __instance)
         {
-            if (__instance.actionRoutine != null)
-            {
-                return false;
-            }
-            if (__instance.targetOven == null)
+            if (__instance == null || __instance.actionRoutine != null || __instance.targetOven == null)
             {
                 return false;
             }
@@ -111,11 +107,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartChemistryStationBehaviour __instance)
         {
-            if (__instance.cookRoutine != null)
-            {
-                return false;
-            }
-            if (__instance.targetStation == null)
+            if (__instance == null || __instance.cookRoutine != null || __instance.targetStation == null)
             {
                 return false;
             }
@@ -171,11 +163,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartLabOvenBehaviour __instance)
         {
-            if (__instance.cookRoutine != null)
-            {
-                return false;
-            }
-            if (__instance.targetOven == null)
+            if (__instance == null || __instance.cookRoutine != null || __instance.targetOven == null)
             {
                 return false;
             }
@@ -233,11 +221,7 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartMixingStationBehaviour __instance)
         {
-            if (__instance.startRoutine != null)
-            {
-                return false;
-            }
-            if (__instance.targetStation == null)
+            if (__instance == null || __instance.startRoutine != null || __instance.targetStation == null)
             {
                 return false;
             }
