@@ -96,7 +96,7 @@ namespace SkillTree.Core.Patches.Enforcer
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            if (Mathf.Approximately(health, BaseHealth.GetValue(UseDefaultSkillParameters.GetValue())))
+            if (Mathf.Approximately(health, BaseHealth.GetValue(UseDefault.GetValue())))
             {
                 health = SkillModifiers.GetPlayerMaxHealth();
             }

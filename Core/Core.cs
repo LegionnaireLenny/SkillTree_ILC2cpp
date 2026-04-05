@@ -80,36 +80,36 @@ namespace SkillTree.Core
                 return;
             }
 
-            if (Input.GetKeyDown(MenuHotkey.GetValue(UseDefaultSkillParameters.GetValue())))
+            if (Input.GetKeyDown(MenuHotkey.GetValue()))
                 OnOpenKeyPressed?.Invoke();
-            if (Input.GetKeyDown(LevelSkillHotkey.GetValue(UseDefaultSkillParameters.GetValue())))
+            if (Input.GetKeyDown(LevelSkillHotkey.GetValue()))
                 OnLevelSkillKeyPressed?.Invoke();
 
             if (Cursor.lockState != CursorLockMode.None && 
                 !PlayerSingleton<PlayerCamera>.Instance.activeUIElements.Contains("Console"))
             {
-                if (Input.GetKeyDown(GoodSamaritanHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
+                if (Input.GetKeyDown(GoodSamaritanHotkey.GetValue()) && SkillTreeData.GoodSamaritan.CurrentLevel == 1)
                     SkillActive.GoodSamaritan();
 
-                if (Input.GetKeyDown(BloodRushHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.BloodRush.CurrentLevel == 1)
+                if (Input.GetKeyDown(BloodRushHotkey.GetValue()) && SkillTreeData.BloodRush.CurrentLevel == 1)
                     SkillActive.BloodRush();
 
-                if (Input.GetKeyDown(SiphonFundsHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
+                if (Input.GetKeyDown(SiphonFundsHotkey.GetValue()) && SkillTreeData.SiphonFunds.CurrentLevel == 1)
                     SkillActive.SiphonFunds();
 
-                if (Input.GetKeyDown(TrickledownHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.TrickleDown.CurrentLevel == 1)
+                if (Input.GetKeyDown(TrickledownHotkey.GetValue()) && SkillTreeData.TrickleDown.CurrentLevel == 1)
                     SkillActive.TrickleDownEconomics();
 
-                if (Input.GetKeyDown(BloodMoneyHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.BloodMoney.CurrentLevel == 1)
+                if (Input.GetKeyDown(BloodMoneyHotkey.GetValue()) && SkillTreeData.BloodMoney.CurrentLevel == 1)
                     SkillActive.BloodMoney();
 
-                if (Input.GetKeyDown(InfectiousPersonalityHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
+                if (Input.GetKeyDown(InfectiousPersonalityHotkey.GetValue()) && SkillTreeData.InfectiousPersonality.CurrentLevel == 1)
                     SkillActive.InfectiousPersonality();
 
-                if (Input.GetKeyDown(AdrenalineSurgeHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
+                if (Input.GetKeyDown(AdrenalineSurgeHotkey.GetValue()) && SkillTreeData.AdrenalineSurge.CurrentLevel == 1)
                     SkillActive.AdrenalineSurge();
 
-                if (Input.GetKeyDown(AntiGravityBongHotkey.GetValue(UseDefaultSkillParameters.GetValue())) && SkillTreeData.AntiGravityBong.CurrentLevel == 1)
+                if (Input.GetKeyDown(AntiGravityBongHotkey.GetValue()) && SkillTreeData.AntiGravityBong.CurrentLevel == 1)
                     SkillActive.AntiGravityBong();
             }
         }

@@ -30,14 +30,14 @@ namespace SkillTree.Core.Patches.Miscellaneous
         [HarmonyPostfix]
         public static void Patch_Contract_UpdatePoI(Contract __instance)
         {
-            if (__instance?.Entries[0]?.PoI == null || !EnableContractColors.GetValue(UseDefaultSkillParameters.GetValue())) return;
+            if (__instance?.Entries[0]?.PoI == null || !EnableContractColors.GetValue()) return;
 
             try
             {
                 string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
                 string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
-                Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ContractReadyBackgroundColor.GetValue(UseDefaultSkillParameters.GetValue()) : ContractNotReadyBackgroundColor.GetValue(UseDefaultSkillParameters.GetValue());
-                Color fillColor = currentWindow.Equals(deliveryWindow) ? ContractReadyFillColor.GetValue(UseDefaultSkillParameters.GetValue()) : ContractNotReadyFillColor.GetValue(UseDefaultSkillParameters.GetValue());
+                Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ContractReadyBackgroundColor.GetValue() : ContractNotReadyBackgroundColor.GetValue();
+                Color fillColor = currentWindow.Equals(deliveryWindow) ? ContractReadyFillColor.GetValue() : ContractNotReadyFillColor.GetValue();
 
                 __instance.hudUI.transform.FindChild("Title").FindChild("IconContainer").FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = backgroundColor;
                 __instance.Entries[0].compassElement.Rect.FindChild("ContractIcon(Clone)").FindChild("Background").GetComponent<Image>().color = backgroundColor;

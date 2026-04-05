@@ -148,7 +148,7 @@ namespace SkillTree.Core.Patches.Special
 					IconManager.LoadSprite(IconManager.IconWashingMachine));
 			else
 			{
-				float moneyToLaunder = Money.GetCashBalance() - TrickleDownCashReserve.GetValue(UseDefaultSkillParameters.GetValue());
+				float moneyToLaunder = Money.GetCashBalance() - TrickleDownCashReserve.GetValue(UseDefault.GetValue());
 				float amountLaundered = 0;
 
 				if (BusinessManager.GetOwnedBusinesses().Count <= 0)
@@ -164,7 +164,7 @@ namespace SkillTree.Core.Patches.Special
 				{
 					Singleton<NotificationsManager>.Instance.SendNotification(
 						"Trickle-down Economics",
-						$"<color=#FF0000>Cash does not exceed {MoneyManager.FormatAmount(TrickleDownCashReserve.GetValue(UseDefaultSkillParameters.GetValue()))} reserve</color>",
+						$"<color=#FF0000>Cash does not exceed {MoneyManager.FormatAmount(TrickleDownCashReserve.GetValue(UseDefault.GetValue()))} reserve</color>",
 						IconManager.LoadSprite(IconManager.IconWashingMachine));
 					return;
 				}
@@ -231,7 +231,7 @@ namespace SkillTree.Core.Patches.Special
 								IconManager.LoadSprite(IconManager.IconHeart));
 			else
 			{
-				Collider[] array = Physics.OverlapSphere(Player.Local.CenterPointTransform.position, InfectiousPersonalityRange.GetValue(UseDefaultSkillParameters.GetValue()));
+				Collider[] array = Physics.OverlapSphere(Player.Local.CenterPointTransform.position, InfectiousPersonalityRange.GetValue(UseDefault.GetValue()));
 				foreach (var item in array)
 				{
 					NPC npc = item.GetComponentInParent<NPC>();
@@ -284,7 +284,7 @@ namespace SkillTree.Core.Patches.Special
 				{
 					effect.ClearFromNPC(npc);
 				}
-				InfectArea(npc.CenterPoint, InfectiousPersonalityRange.GetValue(UseDefaultSkillParameters.GetValue()), effects, delay);
+				InfectArea(npc.CenterPoint, InfectiousPersonalityRange.GetValue(UseDefault.GetValue()), effects, delay);
 				Money.ChangeCashBalance(npc.Health.MaxHealth / 2);
 				NetworkSingleton<MoneyManager>.Instance.CreateOnlineTransaction(
 					$"Infectious Personality payment",
@@ -309,6 +309,15 @@ namespace SkillTree.Core.Patches.Special
 
 		public static void AdrenalineSurge()
 		{
+			if (Effects.AdrenalineSurge.IsAdrenalineSurgeActive)
+			{
+				Singleton<NotificationsManager>.Instance.SendNotification(
+					"Adrenaline Surge",
+					$"Skill already active",
+					IconManager.LoadSprite(IconManager.IconHeart));
+				return;
+			}
+
 			if (AdrenalineSurgeRemainingCharges > 0)
 			{
 				Effects.AdrenalineSurge.ApplyToPlayer();
@@ -340,11 +349,12 @@ namespace SkillTree.Core.Patches.Special
 			{
 				TrashItem bong = NetworkSingleton<TrashManager>.Instance.CreateTrashItem("bong", Player.Local.CameraPosition, Random.rotation, default, "", false);
 				bong.SetPhysicsActive(false);
-				for (int i = 0; i < AntiGravityBongDuration.GetValue(UseDefaultSkillParameters.GetValue()); i++)
+				bong.CanGoInContainer = false;
+				for (int i = 0; i < AntiGravityBongDuration.GetValue(UseDefault.GetValue()); i++)
 				{
-					float radius = i == AntiGravityBongRadius.GetValue(UseDefaultSkillParameters.GetValue()) - 2 ?
-						AntiGravityBongRadius.GetValue(UseDefaultSkillParameters.GetValue()) * 1.5f :
-						AntiGravityBongRadius.GetValue(UseDefaultSkillParameters.GetValue());
+					float radius = i == AntiGravityBongRadius.GetValue(UseDefault.GetValue()) - 2 ?
+						AntiGravityBongRadius.GetValue(UseDefault.GetValue()) * 1.5f :
+						AntiGravityBongRadius.GetValue(UseDefault.GetValue());
 
 					Collider[] array = Physics.OverlapSphere(bong.transform.position, radius);
 					foreach (var item in array)
@@ -352,7 +362,7 @@ namespace SkillTree.Core.Patches.Special
 						NPC npc = item.GetComponentInParent<NPC>();
 						if (npc != null)
 						{
-							if (i >= AntiGravityBongDuration.GetValue(UseDefaultSkillParameters.GetValue()) - 2)
+							if (i >= AntiGravityBongDuration.GetValue(UseDefault.GetValue()) - 2)
 							{
 								npc.Movement.ActivateRagdoll_Server(bong.transform.position, (bong.transform.position - npc.CenterPoint).normalized + new Vector3(0f, 0.15f, 0f), 250f);
 							}

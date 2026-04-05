@@ -132,8 +132,8 @@ namespace SkillTree.Core.Patches.Enforcer
                         foreach (GrowContainer container in Object.FindObjectsOfType<GrowContainer>())
                         {
                             container.OnTimeSkipped(totalMinutesPassed);
-                            container.TryCast<Pot>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefaultSkillParameters.GetValue())));
-                            container.TryCast<MushroomBed>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefaultSkillParameters.GetValue())));
+                            container.TryCast<Pot>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefault.GetValue())));
+                            container.TryCast<MushroomBed>()?.OnTimeSkipped(Mathf.RoundToInt(totalMinutesPassed * TimeSkipGrowthMultiplier.GetValue(UseDefault.GetValue())));
                         }
 
                         CircadianMasteryUsed = true;

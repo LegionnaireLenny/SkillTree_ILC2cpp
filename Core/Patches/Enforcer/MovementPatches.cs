@@ -29,16 +29,16 @@ namespace SkillTree.Core.Patches.Enforcer
             PlayerMovement.JumpMultiplier = SkillModifiers.GetPlayerJumpHeight();
             if (!Mathf.Approximately(original, PlayerMovement.JumpMultiplier))
             {
-                MelonLogger.Msg($"Player jump multiplier changed from x{BaseJumpHeight.GetValue(UseDefaultSkillParameters.GetValue())} to x{PlayerMovement.JumpMultiplier}");
+                MelonLogger.Msg($"Player jump multiplier changed from x{BaseJumpHeight.GetValue(UseDefault.GetValue())} to x{PlayerMovement.JumpMultiplier}");
             }
         }
 
         public static void SetPlayerStamina()
         {
             PlayerMovement.StaminaReserveMax = SkillModifiers.GetPlayerMaxStamina();
-            if (!Mathf.Approximately(BaseStamina.GetValue(UseDefaultSkillParameters.GetValue()), PlayerMovement.StaminaReserveMax))
+            if (!Mathf.Approximately(BaseStamina.GetValue(UseDefault.GetValue()), PlayerMovement.StaminaReserveMax))
             {
-                MelonLogger.Msg($"Player max stamina changed from {BaseStamina.GetValue(UseDefaultSkillParameters.GetValue())} to {PlayerMovement.StaminaReserveMax}");
+                MelonLogger.Msg($"Player max stamina changed from {BaseStamina.GetValue(UseDefault.GetValue())} to {PlayerMovement.StaminaReserveMax}");
             }
 
         }

@@ -14,14 +14,14 @@ namespace SkillTree.Core.Patches.Miscellaneous
         [HarmonyPostfix]
         public static void Patch_Equippable_RangedWeapon_Equip(ItemInstance item)
         {
-            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue(UseDefaultSkillParameters.GetValue()));
+            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue());
         }
 
         [HarmonyPatch(typeof(Equippable_RangedWeapon), "Update")]
         [HarmonyPostfix]
         public static void Patch_Equippable_RangedWeapon_Update()
         {
-            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue(UseDefaultSkillParameters.GetValue()));
+            Singleton<HUD>.Instance.SetCrosshairVisible(EnableCrosshair.GetValue());
         }
     }
 }

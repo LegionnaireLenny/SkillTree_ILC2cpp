@@ -18,7 +18,7 @@ namespace SkillTree.Core.Serialization
         public static bool SiphonFundsUsed { get; set; } = false;
         public static bool TrickleDownUsed { get; set; } = false;
         public static bool InfectiousPersonalityUsed { get; set; } = false;
-        public static int AdrenalineSurgeRemainingCharges { get; set; } = AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue());
+        public static int AdrenalineSurgeRemainingCharges { get; set; } = AdrenalineSurgeMaxCharges.GetValue(UseDefault.GetValue());
         public static bool AntiGravityBongUsed { get; set; } = false;
         public static bool CircadianMasteryUsed { get; set; } = false;
 
@@ -31,7 +31,7 @@ namespace SkillTree.Core.Serialization
             TrickleDownUsed = false;
             InfectiousPersonalityUsed = false;
             CircadianMasteryUsed = false;
-            AdrenalineSurgeRemainingCharges = AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue());
+            AdrenalineSurgeRemainingCharges = AdrenalineSurgeMaxCharges.GetValue(UseDefault.GetValue());
             Singleton<NotificationsManager>.Instance?.SendNotification(
                 "A New Day Dawns",
                 "Cooldowns Reset",
@@ -40,7 +40,7 @@ namespace SkillTree.Core.Serialization
 
         public static IEnumerator ResetAntiGravityBong()
         {
-            yield return new WaitForSeconds(AntiGravityBongCooldown.GetValue(UseDefaultSkillParameters.GetValue()));
+            yield return new WaitForSeconds(AntiGravityBongCooldown.GetValue(UseDefault.GetValue()));
             AntiGravityBongUsed = false;
             Singleton<NotificationsManager>.Instance.SendNotification(
                 "Anti-Gravity Bong",
@@ -83,7 +83,7 @@ namespace SkillTree.Core.Serialization
                 }
                 else if (property.PropertyType.GetType() == typeof(int))
                 {
-                    property.SetValue(new Cooldowns(), AdrenalineSurgeMaxCharges.GetValue(UseDefaultSkillParameters.GetValue()));
+                    property.SetValue(new Cooldowns(), AdrenalineSurgeMaxCharges.GetValue(UseDefault.GetValue()));
                 }
             }
         }

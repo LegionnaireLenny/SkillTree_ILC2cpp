@@ -24,8 +24,8 @@ namespace SkillTree.Core.Patches.Special
                 return true;
             }
 
-            int payoutInterval = TrickleDownPayoutInterval.GetValue(UseDefaultSkillParameters.GetValue()) * 60;
-            float payoutPercentage = TrickleDownPayoutInterval.GetValue(UseDefaultSkillParameters.GetValue()) / 24f;
+            int payoutInterval = TrickleDownPayoutInterval.GetValue(UseDefault.GetValue()) * 60;
+            float payoutPercentage = TrickleDownPayoutInterval.GetValue(UseDefault.GetValue()) / 24f;
 
             for (int i = 0; i < __instance.LaunderingOperations.Count; i++)
             {

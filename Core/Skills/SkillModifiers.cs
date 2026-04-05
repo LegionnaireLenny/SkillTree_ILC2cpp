@@ -11,96 +11,96 @@ namespace SkillTree.Core.Skills
         #region Stats
         public static float GetPlayerMaxHealth()
         {
-            return BaseHealth.GetValue(UseDefaultSkillParameters.GetValue()) + (SkillTreeData.Hardy.CurrentLevel * HealthBonus.GetValue(UseDefaultSkillParameters.GetValue())) + GetBloodRushHealthBonus();
+            return BaseHealth.GetValue(UseDefault.GetValue()) + (SkillTreeData.Hardy.CurrentLevel * HealthBonus.GetValue(UseDefault.GetValue())) + GetBloodRushHealthBonus();
         }
 
         public static float GetPlayerHealthRegen()
         {
-            return BaseHealthRegen.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.BattleScarred.CurrentLevel * HealthRegenBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return BaseHealthRegen.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.BattleScarred.CurrentLevel * HealthRegenBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetPlayerHealthRegenDelay()
         {
-            return BaseHealthRegenDelay.GetValue(UseDefaultSkillParameters.GetValue()) *
-                (SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue(UseDefaultSkillParameters.GetValue())) *
-                (BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier.GetValue(UseDefaultSkillParameters.GetValue()) : 1f);
+            return BaseHealthRegenDelay.GetValue(UseDefault.GetValue()) *
+                (SkillTreeData.BattleScarred.CurrentLevel == 0 ? 1f : SkillTreeData.BattleScarred.CurrentLevel * HealthRegenDelayMultiplier.GetValue(UseDefault.GetValue())) *
+                (BloodRush.IsBloodRushActive ? BloodRushRegenDelayMultiplier.GetValue(UseDefault.GetValue()) : 1f);
         }
 
         public static float GetPlayerMaxStamina()
         {
-            return BaseStamina.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return BaseStamina.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.SpringHeeled.CurrentLevel * StaminaBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetFleetFeetMoveSpeedMultiplier()
         {
-            return 1 + SkillTreeData.FleetFeet.CurrentLevel * MoveSpeedBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1 + SkillTreeData.FleetFeet.CurrentLevel * MoveSpeedBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetPlayerJumpHeight()
         {
-            return BaseJumpHeight.GetValue(UseDefaultSkillParameters.GetValue()) *
-                (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue(UseDefaultSkillParameters.GetValue())) *
-                (AdrenalineSurge.IsAdrenalineSurgeActive ? AdrenalineSurgeJumpMultiplier.GetValue(UseDefaultSkillParameters.GetValue()) : 1f);
+            return BaseJumpHeight.GetValue(UseDefault.GetValue()) *
+                (1 + SkillTreeData.SpringHeeled.CurrentLevel * JumpHeightBonus.GetValue(UseDefault.GetValue())) *
+                (AdrenalineSurge.IsAdrenalineSurgeActive ? AdrenalineSurgeJumpMultiplier.GetValue(UseDefault.GetValue()) : 1f);
         }
 
         public static float GetXPGainMultiplier()
         {
-            return 1f + (SkillTreeData.FastLearner.CurrentLevel * XPGainBonus.GetValue(UseDefaultSkillParameters.GetValue())) + (SkillTreeData.TurboNerdo.CurrentLevel * XPGainBonus2.GetValue(UseDefaultSkillParameters.GetValue()));
+            return 1f + (SkillTreeData.FastLearner.CurrentLevel * XPGainBonus.GetValue(UseDefault.GetValue())) + (SkillTreeData.TurboNerdo.CurrentLevel * XPGainBonus2.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetSaleXPBonus()
         {
-            return SkillTreeData.Kingpin.CurrentLevel * SaleXPBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Kingpin.CurrentLevel * SaleXPBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetVisbilityMultiplier()
         {
-            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : VisibilityMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : VisibilityMultiplier.GetValue(UseDefault.GetValue());
         }
 
         public static float GetPickpocketDifficultyMultiplier()
         {
-            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : PickpocketDifficultyMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? 1f : PickpocketDifficultyMultiplier.GetValue(UseDefault.GetValue());
         }
 
         public static float GetPickpocketMinimumWidth(float original)
         {
-            return SkillTreeData.Ghost.CurrentLevel == 0 ? original : PickpocketMinimumSuccessWidth.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Ghost.CurrentLevel == 0 ? original : PickpocketMinimumSuccessWidth.GetValue(UseDefault.GetValue());
         }
 
         public static int GetInventoryStackSizeMultiplier()
         {
-            return 1 + SkillTreeData.PrisonWallet.CurrentLevel * InventoryStackSizeBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1 + SkillTreeData.PrisonWallet.CurrentLevel * InventoryStackSizeBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetAimTimeMultiplier()
         {
-            return SkillTreeData.QuickDraw.CurrentLevel == 0 ? 1f : AimTimeMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.QuickDraw.CurrentLevel == 0 ? 1f : AimTimeMultiplier.GetValue(UseDefault.GetValue());
         }
 
         public static float GetMaxSpreadMultiplier()
         {
-            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MaxSpreadMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MaxSpreadMultiplier.GetValue(UseDefault.GetValue());
         }
 
         public static float GetMinSpreadMultiplier()
         {
-            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MinSpreadMultiplier.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Sharpshooter.CurrentLevel == 0 ? 1f : MinSpreadMultiplier.GetValue(UseDefault.GetValue());
         }
 
         public static int GetAmmoCapacityMultiplier()
         {
-            return 1 + (SkillTreeData.DoubleStackMags.CurrentLevel * AmmoCapacityBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return 1 + (SkillTreeData.DoubleStackMags.CurrentLevel * AmmoCapacityBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetArrestTime()
         {
-            return BaseArrestTime.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.Slippery.CurrentLevel * ArrestTimeBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return BaseArrestTime.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.Slippery.CurrentLevel * ArrestTimeBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetArrestRadius()
         {
-            return SkillTreeData.Slippery.CurrentLevel == 0 ? BaseArrestRadius.GetValue(UseDefaultSkillParameters.GetValue()) : BaseArrestRadius.GetValue(UseDefaultSkillParameters.GetValue()) * ArrestRadiusBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Slippery.CurrentLevel == 0 ? BaseArrestRadius.GetValue(UseDefault.GetValue()) : BaseArrestRadius.GetValue(UseDefault.GetValue()) * ArrestRadiusBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetPoliceSearchTime(float searchTime)
@@ -113,17 +113,17 @@ namespace SkillTree.Core.Skills
         #region Operations
         public static int GetCauldronOutput()
         {
-            return BaseCauldronOutput.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.WitchsBrew.CurrentLevel * CauldronOutputBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return BaseCauldronOutput.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.WitchsBrew.CurrentLevel * CauldronOutputBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static int GetDryingRackCapacity()
         {
-            return BaseDryingRackCapacity.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.CrankinOneOut.CurrentLevel * MixDryOutputSizeBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return BaseDryingRackCapacity.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.CrankinOneOut.CurrentLevel * MixDryOutputSizeBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static int GetChemistStationSpeedMultiplier()
         {
-            return 1 + SkillTreeData.QuickCrafter.CurrentLevel * ChemistStationSpeedBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1 + SkillTreeData.QuickCrafter.CurrentLevel * ChemistStationSpeedBonus.GetValue(UseDefault.GetValue());
         }
 
         public static int GetMethCocaProductQualityBonus()
@@ -133,17 +133,17 @@ namespace SkillTree.Core.Skills
 
         public static int GetMixDryOutputMultiplier()
         {
-            return 1 + SkillTreeData.CrankinOneOut.CurrentLevel * MixDryOutputSizeBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1 + SkillTreeData.CrankinOneOut.CurrentLevel * MixDryOutputSizeBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetGrowthSpeedMultiplier()
         {
-            return 1f + (SkillTreeData.GreenThumb.CurrentLevel + SkillTreeData.PlantWhisperer.CurrentLevel) * GrowthSpeedBonusPlants.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1f + (SkillTreeData.GreenThumb.CurrentLevel + SkillTreeData.PlantWhisperer.CurrentLevel) * GrowthSpeedBonusPlants.GetValue(UseDefault.GetValue());
         }
 
         public static float GetMoistureDrainMultiplier()
         {
-            return SkillTreeData.WetAssPlants.CurrentLevel == 0 ? 1f : MoistureDrainBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.WetAssPlants.CurrentLevel == 0 ? 1f : MoistureDrainBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetPlantQualityBonus(string potName)
@@ -151,15 +151,15 @@ namespace SkillTree.Core.Skills
             float potBonus = 0f;
             if (potName.Equals("Grow Tent"))
             {
-                potBonus = SkillTreeData.PitchinATent.CurrentLevel * QualityBonusGrowTent.GetValue(UseDefaultSkillParameters.GetValue());
+                potBonus = SkillTreeData.PitchinATent.CurrentLevel * QualityBonusGrowTent.GetValue(UseDefault.GetValue());
             }
             else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot"))
             {
-                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel > 0 ? QualityBonusPlants.GetValue(UseDefaultSkillParameters.GetValue()) : 0;
+                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel > 0 ? QualityBonusPlants.GetValue(UseDefault.GetValue()) : 0;
             }
             else if (potName.Equals("Air Pot"))
             {
-                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPlants.GetValue(UseDefaultSkillParameters.GetValue());
+                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPlants.GetValue(UseDefault.GetValue());
                 potBonus += SkillTreeData.AdvancedPotTechniques.CurrentLevel == 2 ? 0.05f : 0f;
             }
 
@@ -168,61 +168,61 @@ namespace SkillTree.Core.Skills
 
         public static float GetShroomQualityBonus()
         {
-            return SkillTreeData.Mushroomancer.CurrentLevel * QualityBonusShrooms.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.Mushroomancer.CurrentLevel * QualityBonusShrooms.GetValue(UseDefault.GetValue());
         }
 
         public static int GetPlantYieldBonus()
         {
-            return SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPlants.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPlants.GetValue(UseDefault.GetValue());
         }
         #endregion Operations
 
         #region Social
         public static float GetATMLimit()
         {
-            return BaseWeeklyDepositLimit.GetValue(UseDefaultSkillParameters.GetValue()) + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return BaseWeeklyDepositLimit.GetValue(UseDefault.GetValue()) + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue(UseDefault.GetValue());
         }
 
 
         public static float GetCustomerSampleBonus()
         {
-            return SkillTreeData.SilverTonguedDevil.CurrentLevel * CustomerSampleAcceptBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.SilverTonguedDevil.CurrentLevel * CustomerSampleAcceptBonus.GetValue(UseDefault.GetValue());
         }
 
         public static int GetGrabberBinSize()
         {
-            return Mathf.RoundToInt(BaseTrashGrabberBinSize.GetValue(UseDefaultSkillParameters.GetValue()) * (1 + SkillTreeData.CommunityService.CurrentLevel * TrashGrabberBinSizeBonus.GetValue(UseDefaultSkillParameters.GetValue())));
+            return Mathf.RoundToInt(BaseTrashGrabberBinSize.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.CommunityService.CurrentLevel * TrashGrabberBinSizeBonus.GetValue(UseDefault.GetValue())));
         }
 
         public static float GetGrabberPickupRadius()
         {
-            return TrashPickupRadius.GetValue(UseDefaultSkillParameters.GetValue()) * GetGrabberPickupRadiusMultiplier();
+            return TrashPickupRadius.GetValue(UseDefault.GetValue()) * GetGrabberPickupRadiusMultiplier();
         }
 
         public static float GetGrabberPickupRadiusMultiplier()
         {
-            return (1 + SkillTreeData.CommunityService.CurrentLevel * TrashPickupRadiusBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return (1 + SkillTreeData.CommunityService.CurrentLevel * TrashPickupRadiusBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetPawnPriceMultiplier()
         {
-            return 1 + (SkillTreeData.SacarLaBasura.CurrentLevel * PawnPriceBonus.GetValue(UseDefaultSkillParameters.GetValue()));
+            return 1 + (SkillTreeData.SacarLaBasura.CurrentLevel * PawnPriceBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static int GetTrashValueBonus()
         {
-            return SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus.GetValue(UseDefault.GetValue());
         }
 
 
         public static float GetLaunderingCapacityMultiplier()
         {
-            return 1f + SkillTreeData.SqueakyClean.CurrentLevel * LaunderingBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1f + SkillTreeData.SqueakyClean.CurrentLevel * LaunderingBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetCustomerCashMultiplier()
         {
-            return 1f + SkillTreeData.SpreadTheWealth.CurrentLevel * CustomerCashBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1f + SkillTreeData.SpreadTheWealth.CurrentLevel * CustomerCashBonus.GetValue(UseDefault.GetValue());
         }
 
         #endregion Social
@@ -230,69 +230,69 @@ namespace SkillTree.Core.Skills
         #region Logistician
         public static int GetMaxCustomers()
         {
-            return BaseMaxCustomer.GetValue(UseDefaultSkillParameters.GetValue()) + SkillTreeData.ExpansiveEmpire.CurrentLevel * DealerCustomerLimitBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return BaseMaxCustomer.GetValue(UseDefault.GetValue()) + SkillTreeData.ExpansiveEmpire.CurrentLevel * DealerCustomerLimitBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetDealerCutReduction()
         {
-            return SkillTreeData.WageGarnishment.CurrentLevel * DealerCutReduction.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.WageGarnishment.CurrentLevel * DealerCutReduction.GetValue(UseDefault.GetValue());
         }
 
         public static float GetSupplierCashMultiplier()
         {
-            return 1f + SkillTreeData.ReliableBusinessPartner.CurrentLevel * SupplierCashBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1f + SkillTreeData.ReliableBusinessPartner.CurrentLevel * SupplierCashBonus.GetValue(UseDefault.GetValue());
         }
 
         public static int GetCustomerOrderLimitBonus()
         {
             if (SkillTreeData.CaptiveMarket.CurrentLevel == 0) return 0;
 
-            return SkillTreeData.CaptiveMarket.CurrentLevel * CustomerOrderLimitBonus.GetValue(UseDefaultSkillParameters.GetValue()) + ((int)S1API.Leveling.LevelManager.Rank + 1) * CustomerOrderLimitRankBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.CaptiveMarket.CurrentLevel * CustomerOrderLimitBonus.GetValue(UseDefault.GetValue()) + ((int)S1API.Leveling.LevelManager.Rank + 1) * CustomerOrderLimitRankBonus.GetValue(UseDefault.GetValue());
         }
 
         public static int GetSupplierItemLimit()
         {
-            return (int)(BaseDeadDropItemLimit.GetValue(UseDefaultSkillParameters.GetValue()) * (1f + SkillTreeData.ReliableBusinessPartner.CurrentLevel * SupplierItemBonus.GetValue(UseDefaultSkillParameters.GetValue())));
+            return (int)(BaseDeadDropItemLimit.GetValue(UseDefault.GetValue()) * (1f + SkillTreeData.ReliableBusinessPartner.CurrentLevel * SupplierItemBonus.GetValue(UseDefault.GetValue())));
         }
 
         public static float GetDealerSpeedMultiplier()
         {
-            return 1f + SkillTreeData.MotivationalLeader.CurrentLevel * DealerSpeedBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return 1f + SkillTreeData.MotivationalLeader.CurrentLevel * DealerSpeedBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetEmployeeMoveSpeedScale()
         {
-            return SkillTreeData.EmployeeMovespeed.CurrentLevel == 0 ? 1f : Mathf.Clamp(EmployeeMoveSpeedBonus.GetValue(UseDefaultSkillParameters.GetValue()), 0.1f, 10f);
+            return SkillTreeData.EmployeeMovespeed.CurrentLevel == 0 ? 1f : Mathf.Clamp(EmployeeMoveSpeedBonus.GetValue(UseDefault.GetValue()), 0.1f, 10f);
         }
 
         public static float GetBotanistActionDurationMultiplier()
         {
-            return SkillTreeData.FastFarmers.CurrentLevel == 0 ? 1f : Mathf.Clamp(BotanistActionDurationMultiplier.GetValue(UseDefaultSkillParameters.GetValue()), 0.1f, 10f);
+            return SkillTreeData.FastFarmers.CurrentLevel == 0 ? 1f : Mathf.Clamp(BotanistActionDurationMultiplier.GetValue(UseDefault.GetValue()), 0.1f, 10f);
         }
 
         public static float GetHandlerPackagingSpeedMultiplier()
         {
-            return SkillTreeData.FastHandlers.CurrentLevel == 0 ? 1f : Mathf.Clamp(HandlerPackagingSpeedMultiplier.GetValue(UseDefaultSkillParameters.GetValue()), 0.1f, 10f);
+            return SkillTreeData.FastHandlers.CurrentLevel == 0 ? 1f : Mathf.Clamp(HandlerPackagingSpeedMultiplier.GetValue(UseDefault.GetValue()), 0.1f, 10f);
         }
 
         public static float GetChemistActionDurationMultiplier()
         {
-            return SkillTreeData.FastChemists.CurrentLevel == 0 ? 1f : Mathf.Clamp(ChemistActionDurationMultiplier.GetValue(UseDefaultSkillParameters.GetValue()), 0.1f, 10f);
+            return SkillTreeData.FastChemists.CurrentLevel == 0 ? 1f : Mathf.Clamp(ChemistActionDurationMultiplier.GetValue(UseDefault.GetValue()), 0.1f, 10f);
         }
 
         public static int GetEmployeeStationBonus()
         {
-            return SkillTreeData.EmployeeMaxStation.CurrentLevel * EmployeeStationBonus.GetValue(UseDefaultSkillParameters.GetValue());
+            return SkillTreeData.EmployeeMaxStation.CurrentLevel * EmployeeStationBonus.GetValue(UseDefault.GetValue());
         }
 
         public static (int, int) GetChemistStationBonus()
         {
-            return (BaseMaxChemistStations.GetValue(UseDefaultSkillParameters.GetValue()) + GetEmployeeStationBonus(), BaseMaxChemistStations.GetValue(UseDefaultSkillParameters.GetValue()));
+            return (BaseMaxChemistStations.GetValue(UseDefault.GetValue()) + GetEmployeeStationBonus(), BaseMaxChemistStations.GetValue(UseDefault.GetValue()));
         }
 
         public static (int, int) GetBotanistStationBonus()
         {
-            return (BaseMaxBotanistStations.GetValue(UseDefaultSkillParameters.GetValue()) + GetEmployeeStationBonus(), BaseMaxBotanistStations.GetValue(UseDefaultSkillParameters.GetValue()));
+            return (BaseMaxBotanistStations.GetValue(UseDefault.GetValue()) + GetEmployeeStationBonus(), BaseMaxBotanistStations.GetValue(UseDefault.GetValue()));
         }
         #endregion Logistician
 
@@ -305,16 +305,16 @@ namespace SkillTree.Core.Skills
                 return 0f;
             }
 
-            float policeBonus = (KillCounts.PoliceKilled / 2) * PoliceKilledBonus.GetValue(UseDefaultSkillParameters.GetValue());
-            float cartelBonus = KillCounts.CartelKilled * CartelKilledBonus.GetValue(UseDefaultSkillParameters.GetValue());
-            float healthCap = BloodRushHealthBonusCap.GetValue(UseDefaultSkillParameters.GetValue()) * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier.GetValue(UseDefaultSkillParameters.GetValue()) : 1f);
+            float policeBonus = (KillCounts.PoliceKilled / 2) * PoliceKilledBonus.GetValue(UseDefault.GetValue());
+            float cartelBonus = KillCounts.CartelKilled * CartelKilledBonus.GetValue(UseDefault.GetValue());
+            float healthCap = BloodRushHealthBonusCap.GetValue(UseDefault.GetValue()) * (BloodRush.IsBloodRushActive ? BloodRushHealthBonusMultiplier.GetValue(UseDefault.GetValue()) : 1f);
             float bonus = Mathf.Clamp(policeBonus + cartelBonus, 0f, healthCap);
             return bonus;
         }
 
         public static float GetSiphonFundsConversionMultiplier()
         {
-            return SkillTreeData.SiphonFunds.CurrentLevel * (SiphonFundsBaseConversionRate.GetValue(UseDefaultSkillParameters.GetValue()) + SiphonFundsOwnedBusinessBonus.GetValue(UseDefaultSkillParameters.GetValue()) * BusinessManager.GetOwnedBusinesses().Count);
+            return SkillTreeData.SiphonFunds.CurrentLevel * (SiphonFundsBaseConversionRate.GetValue(UseDefault.GetValue()) + SiphonFundsOwnedBusinessBonus.GetValue(UseDefault.GetValue()) * BusinessManager.GetOwnedBusinesses().Count);
         }
 
         #endregion Special

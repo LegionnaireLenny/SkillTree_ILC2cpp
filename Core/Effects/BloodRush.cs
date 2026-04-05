@@ -19,16 +19,16 @@ namespace SkillTree.Core.Effects
         {
             IsBloodRushActive = true;
             MelonLogger.Msg($"Blood Rush effect applied");
-            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodRushFOVChange.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodRushHeartbeatVolume.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
-            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodRushHeartbeatPitch.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
-            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(BloodRushScreenTint.GetValue(UseDefaultSkillParameters.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodRushFOVChange.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodRushHeartbeatVolume.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
+            PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodRushHeartbeatPitch.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
+            Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(BloodRushScreenTint.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             MelonCoroutines.Start(ClearFromPlayer());
         }
 
         public static IEnumerator ClearFromPlayer()
         {
-            yield return new WaitForSeconds(BloodRushDuration.GetValue(UseDefaultSkillParameters.GetValue()));
+            yield return new WaitForSeconds(BloodRushDuration.GetValue(UseDefault.GetValue()));
             IsBloodRushActive = false;
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.RemoveOverride(EffectName);
