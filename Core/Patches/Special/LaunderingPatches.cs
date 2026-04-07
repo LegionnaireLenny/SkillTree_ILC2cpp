@@ -6,6 +6,7 @@ using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -48,7 +49,7 @@ namespace SkillTree.Core.Patches.Special
                                 $"Partial Laundering ({__instance.propertyName})",
                                 installment, 1f, string.Empty);
 
-                            MelonLogger.Msg($"[LaunderingMod] Partial payout of {installment} processed for {__instance.propertyName}");
+                            LogManager.LogMessage($"[LaunderingMod] Partial payout of {installment} processed for {__instance.propertyName}", LogLevel.Debug);
                         }
 
                         Singleton<NotificationsManager>.Instance.SendNotification(
@@ -64,7 +65,7 @@ namespace SkillTree.Core.Patches.Special
 
                     __instance.CompleteOperation(operation);
 
-                    MelonLogger.Msg($"[LaunderingMod] Operation completed for {__instance.propertyName}. Final installment paid.");
+                    LogManager.LogMessage($"[LaunderingMod] Operation completed for {__instance.propertyName}. Final installment paid.", LogLevel.Debug);
                     i--;
                 }
             }

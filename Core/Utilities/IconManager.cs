@@ -66,7 +66,7 @@ namespace SkillTree.Core.Utilities
             }
             catch (Exception e)
             {
-                MelonLogger.Warning($"Error extracting {fileName} from assembly {e}");
+                LogManager.LogMessage($"Error extracting {fileName} from assembly {e}", LogLevel.Warning);
             }
         }
 

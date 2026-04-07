@@ -3,6 +3,7 @@ using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
 using S1API.Money;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
@@ -18,7 +19,7 @@ namespace SkillTree.Core.Effects
         public static void ApplyToPlayer()
         {
             IsBloodMoneyActive = true;
-            MelonLogger.Msg($"Blood Money effect applied");
+            LogManager.LogMessage($"Blood Money effect applied", LogLevel.Debug);
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodMoneyFOVChange.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodMoneyHeartbeatVolume.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodMoneyHeartbeatPitch.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
@@ -35,7 +36,7 @@ namespace SkillTree.Core.Effects
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.RemoveOverride(EffectName);
             Singleton<PostProcessingManager>.Instance.ColorFilterController.RemoveOverride(EffectName);
 
-            MelonLogger.Msg($"Blood Money effect removed");
+            LogManager.LogMessage($"Blood Money effect removed", LogLevel.Debug);
         }
 
         public static void GetBloodMoney(float damage)

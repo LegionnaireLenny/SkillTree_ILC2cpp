@@ -3,6 +3,7 @@ using SkillTree.Core.Patches.Enforcer;
 using SkillTree.Core.Patches.Hustler;
 using SkillTree.Core.Patches.Logistician;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -166,7 +167,7 @@ namespace SkillTree.Core.Serialization
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load {field} from file {e}");
+                    LogManager.LogMessage($"Failed to load {field} from file {e}", LogLevel.Warning);
                 }
             }
         }

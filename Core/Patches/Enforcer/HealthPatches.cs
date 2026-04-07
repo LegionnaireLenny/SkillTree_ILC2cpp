@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
+using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -16,7 +18,7 @@ namespace SkillTree.Core.Patches.Enforcer
         {
             float original = Player.Local.Health.CurrentHealth;
             Player.Local.Health.SetHealth(SkillModifiers.GetPlayerMaxHealth());
-            MelonLogger.Msg($"[Stats] Player max health changed from {original} to {Player.Local.Health.CurrentHealth} ");
+            LogManager.LogMessage($"[Stats] Player max health changed from {original} to {Player.Local.Health.CurrentHealth}", LogLevel.Info);
         }
 
         [HarmonyPatch("MinPass")]
@@ -44,7 +46,7 @@ namespace SkillTree.Core.Patches.Enforcer
             }
             __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            MelonLogger.Msg($"Health => Recovered {recovery} | Current {__instance.CurrentHealth} | Max {SkillModifiers.GetPlayerMaxHealth()}");
+            LogManager.LogMessage($"Health => Recovered {recovery} | Current {__instance.CurrentHealth} | Max {SkillModifiers.GetPlayerMaxHealth()}", LogLevel.Debug);
             return false;
         }
 
@@ -59,7 +61,7 @@ namespace SkillTree.Core.Patches.Enforcer
 
             if (!__instance.CanTakeDamage)
             {
-                Il2CppScheduleOne.Console.LogWarning("Player cannot take damage right now.", null);
+                Console.LogWarning("Player cannot take damage right now.", null);
                 return false;
             }
 
@@ -88,7 +90,7 @@ namespace SkillTree.Core.Patches.Enforcer
                 __instance.PlayBloodMist();
             }
 
-            MelonLogger.MsgPastel($"[Stats] Player health: {original} - {damage} = {__instance.CurrentHealth}");
+            LogManager.LogMessage($"[Stats] Player health: {original} - {damage} = {__instance.CurrentHealth}", LogLevel.Info);
             return false;
         }
 
@@ -96,14 +98,14 @@ namespace SkillTree.Core.Patches.Enforcer
         [HarmonyPrefix]
         public static bool Prefix_SetHealth(PlayerHealth __instance, float health)
         {
-            if (Mathf.Approximately(health, BaseHealth.GetValue(UseDefault.GetValue())))
+            if (health >= 100f)
             {
                 health = SkillModifiers.GetPlayerMaxHealth();
             }
 
             __instance.CurrentHealth = Mathf.Clamp(health, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            MelonLogger.Msg($"[Stats] Player health set to {__instance.CurrentHealth}. Maximum health {SkillModifiers.GetPlayerMaxHealth()}");
+            LogManager.LogMessage($"[Stats] Player health set to {__instance.CurrentHealth}. Maximum health {SkillModifiers.GetPlayerMaxHealth()}", LogLevel.Info);
             if (__instance.CurrentHealth <= 0f)
             {
                 __instance.SendDie();

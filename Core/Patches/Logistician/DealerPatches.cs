@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.UI.Phone.Messages;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,10 +23,7 @@ namespace SkillTree.Core.Patches.Logistician
                 {
                     float baseCut = Cache.OriginalDealers[dealer.name].Cut;
                     dealer.Cut = baseCut - SkillModifiers.GetDealerCutReduction();
-                    if (!Mathf.Approximately(baseCut, dealer.Cut))
-                    {
-                        MelonLogger.Msg($"{dealer.name}'s cut changed from {(int)(baseCut * 100)}% to {(int)(dealer.Cut * 100)}%");
-                    }
+                    LogManager.LogMessage($"{dealer.name}'s cut changed from {(int)(baseCut * 100)}% to {(int)(dealer.Cut * 100)}%", LogLevel.Debug);
                 }
             }
         }
@@ -38,10 +36,7 @@ namespace SkillTree.Core.Patches.Logistician
                 {
                     float baseMoveSpeed = Cache.OriginalDealers[dealer.name].MoveSpeedMultiplier;
                     dealer.Movement.MoveSpeedMultiplier = baseMoveSpeed * SkillModifiers.GetDealerSpeedMultiplier();
-                    if (!Mathf.Approximately(baseMoveSpeed, dealer.Movement.MoveSpeedMultiplier))
-                    {
-                        MelonLogger.Msg($"{dealer.name}'s movespeed multiplier changed from x{baseMoveSpeed} to x{dealer.Movement.MoveSpeedMultiplier}");
-                    }
+                    LogManager.LogMessage($"{dealer.name}'s movespeed multiplier changed from x{baseMoveSpeed} to x{dealer.Movement.MoveSpeedMultiplier}", LogLevel.Debug);
                 }
             }
         }

@@ -3,6 +3,7 @@ using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -16,48 +17,20 @@ namespace SkillTree.Core.Patches.Enforcer
             float original = PlayerMovement.Instance.MoveSpeedMultiplier;
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_FleetFeet");
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Add(new FloatStack.StackEntry("SkillTree_FleetFeet", SkillModifiers.GetFleetFeetMoveSpeedMultiplier(), FloatStack.EStackMode.Multiplicative, 5));
-
-            if (!Mathf.Approximately(original, PlayerMovement.Instance.MoveSpeedMultiplier))
-            {
-                MelonLogger.Msg($"Player speed multiplier changed from x{original} to x{PlayerMovement.Instance.MoveSpeedMultiplier}");
-            }
+            LogManager.LogMessage($"Player speed multiplier changed from x{original} to x{PlayerMovement.Instance.MoveSpeedMultiplier}", LogLevel.Debug);
         }
 
         public static void SetPlayerJumpHeight()
         {
             float original = PlayerMovement.JumpMultiplier;
             PlayerMovement.JumpMultiplier = SkillModifiers.GetPlayerJumpHeight();
-            if (!Mathf.Approximately(original, PlayerMovement.JumpMultiplier))
-            {
-                MelonLogger.Msg($"Player jump multiplier changed from x{BaseJumpHeight.GetValue(UseDefault.GetValue())} to x{PlayerMovement.JumpMultiplier}");
-            }
+            LogManager.LogMessage($"Player jump multiplier changed from x{BaseJumpHeight.GetValue(UseDefault.GetValue())} to x{PlayerMovement.JumpMultiplier}", LogLevel.Debug);
         }
 
         public static void SetPlayerStamina()
         {
             PlayerMovement.StaminaReserveMax = SkillModifiers.GetPlayerMaxStamina();
-            if (!Mathf.Approximately(BaseStamina.GetValue(UseDefault.GetValue()), PlayerMovement.StaminaReserveMax))
-            {
-                MelonLogger.Msg($"Player max stamina changed from {BaseStamina.GetValue(UseDefault.GetValue())} to {PlayerMovement.StaminaReserveMax}");
-            }
-
+            LogManager.LogMessage($"Player max stamina changed from {BaseStamina.GetValue(UseDefault.GetValue())} to {PlayerMovement.StaminaReserveMax}", LogLevel.Debug);
         }
-
-        //WIP stamina regen patch
-        //[HarmonyPatch(typeof(PlayerMovement), "Update")]
-        //[HarmonyPostfix]
-        //public static void Update_Postfix(PlayerMovement __instance)
-        //{
-        //    if (Core.SkillData == null || Core.SkillData.Stats == 0)
-        //    {
-        //        return;
-        //    }
-
-        //    if (__instance.timeSinceStaminaDrain > 1f && __instance.CurrentStaminaReserve < PlayerMovement.StaminaReserveMax)
-        //    {
-        //        //MelonLogger.Msg($"Regenerating stamina by an additional {25f * Time.deltaTime}");
-        //        __instance.ChangeStamina(25f * Time.deltaTime, true);
-        //    }
-        //}
     }
 }

@@ -5,6 +5,7 @@ using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI.Items;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Miscellaneous
@@ -62,7 +63,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
                         }
                         catch (System.Exception)
                         {
-                            MelonLogger.Msg("Failed to stack items with same ID");
+                            LogManager.LogMessage($"Failed to stack items with same ID {__instance.HoveredSlot.assignedSlot.ItemInstance.ID}", LogLevel.Warning);
                         }
                     }
                     else

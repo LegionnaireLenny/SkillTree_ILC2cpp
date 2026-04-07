@@ -1,4 +1,5 @@
 ﻿using MelonLoader;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Text.Json;
 
@@ -25,7 +26,7 @@ namespace SkillTree.Core.Serialization
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load {property.Name} from file {e}");
+                    LogManager.LogMessage($"Failed to load {property.Name} from file {e}", LogLevel.Warning);
                     property.SetValue(new KillCounts(), 0);
                 }
             }

@@ -11,6 +11,7 @@ using Il2CppScheduleOne.UI.Items;
 using Il2CppSystem;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,8 +38,8 @@ namespace SkillTree.Core.Patches.Hustler
             //int original = __instance.SellValue;
             __instance.SellValue += SkillModifiers.GetTrashValueBonus();
             ProcessedTrash.Add(__instance.GUID);
-            //MelonLogger.Msg($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}");
-            //MelonLogger.Msg($"Start Trash value {__instance.name} | {__instance.ID}");
+            //LogManager.LogMessage($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}", LogLevel.Debug);
+            //LogManager.LogMessage($"Start Trash value {__instance.name} | {__instance.ID}", LogLevel.Debug);
         }
 
         [HarmonyPatch(typeof(Equippable_TrashGrabber), "GetCapacity")]
@@ -154,7 +155,7 @@ namespace SkillTree.Core.Patches.Hustler
                                 !processedTrash.Contains(list[i].GUID) &&
                                 Equippable_TrashGrabber.Instance.GetCapacity() > 0)
                             {
-                                //MelonLogger.Msg($"Adding {list[i]} | ID {list[i].ID} | Name {list[i].name} | GUID {list[i].GUID} | Size {list[i].Size} | Value {list[i].SellValue}");
+                                LogManager.LogMessage($"Adding {list[i]} | ID {list[i].ID} | Name {list[i].name} | GUID {list[i].GUID} | Size {list[i].Size} | Value {list[i].SellValue}", LogLevel.Debug);
                                 __instance.trashGrabberInstance.AddTrash(list[i].ID, 1);
                                 list[i].DestroyTrash();
                                 itemGrabbed = true;
@@ -214,7 +215,7 @@ namespace SkillTree.Core.Patches.Hustler
                 //int original = item.SellValue;
                 item.SellValue += SkillModifiers.GetTrashValueBonus();
                 ProcessedTrash.Add(item.GUID);
-                //MelonLogger.Msg($"IncreaseTrashValue {item.GUID} {original} -> {item.SellValue}");
+                //LogManager.LogMessage($"IncreaseTrashValue {item.GUID} {original} -> {item.SellValue}", LogLevel.Debug);
             }
         }
 
@@ -222,9 +223,9 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void Patch_DestroyTrash(TrashItem __instance)
         {
-            //MelonLogger.Msg($"Destroy Trash. Removed {__instance.GUID} from cache");
+            //LogManager.LogMessage($"Destroy Trash. Removed {__instance.GUID} from cache", LogLevel.Debug);
             ProcessedTrash.Remove(__instance.GUID);
-            //MelonLogger.Msg($"Processed IDs left {ProcessedTrash.Count}");
+            //LogManager.LogMessage($"Processed IDs left {ProcessedTrash.Count}", LogLevel.Debug);
         }
     }
 }

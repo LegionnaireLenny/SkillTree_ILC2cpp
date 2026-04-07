@@ -1,5 +1,6 @@
 ﻿using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -61,19 +62,19 @@ namespace SkillTree.Core.Skills
         {
             if (!IsParentNullOrMaxLevel())
             {
-                MelonLogger.Msg($"Parent skill {Parent.Name} is not unlocked");
+                LogManager.LogMessage($"Parent skill {Parent.Name} is not unlocked", LogLevel.Info);
                 return false;
             }
 
             if (!SkillPoints.ArePointsAvailable(Category))
             {
-                MelonLogger.Msg($"Not enough {Category} points");
+                LogManager.LogMessage($"Not enough {Category} points", LogLevel.Info);
                 return false;
             }
 
             if (IsMaxLevel() || IsOverLeveled())
             {
-                MelonLogger.Msg($"{Name} is already max level");
+                LogManager.LogMessage($"{Name} is already max level", LogLevel.Info);
                 return false;
             }
 
@@ -107,7 +108,7 @@ namespace SkillTree.Core.Skills
         {
             if (IsParentNullOrMaxLevel())
             {
-                //MelonLogger.Msg($"Parent: {Parent?.Name} {Parent?.CurrentLevel}/{Parent?.MaxLevel} | Current: {Name} {CurrentLevel}/{MaxLevel}");
+                LogManager.LogMessage($"Parent: {Parent?.Name} {Parent?.CurrentLevel}/{Parent?.MaxLevel} | Current: {Name} {CurrentLevel}/{MaxLevel}", LogLevel.Debug);
                 IncreaseLevel();
                 return true;
             }
@@ -115,7 +116,7 @@ namespace SkillTree.Core.Skills
             int pointsNeeded = Parent.GetPointsToLevelBranch() + 1;
             int pointsAvailable = SkillPoints.GetPointsAvailable(Category);
 
-            //MelonLogger.Msg($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}");
+            LogManager.LogMessage($"{Category} points | Needed: {pointsNeeded} | Available: {pointsAvailable}", LogLevel.Debug);
             if (pointsNeeded <= pointsAvailable)
             {
                 Parent.UnlockParents();
@@ -124,7 +125,7 @@ namespace SkillTree.Core.Skills
             }
             else
             {
-                MelonLogger.Msg($"Not enough {Category} points to level branch. Needed: {pointsNeeded} | Available: {pointsAvailable}");
+                LogManager.LogMessage($"Not enough {Category} points to level branch. Needed: {pointsNeeded} | Available: {pointsAvailable}", LogLevel.Info);
                 return false;
             }
         }
@@ -143,7 +144,7 @@ namespace SkillTree.Core.Skills
 
         public void LevelToMax()
         {
-            //MelonLogger.Msg($"Leveling {Name} to max.");
+            LogManager.LogMessage($"Leveling {Name} to max.", LogLevel.Debug);
             for (int i = CurrentLevel; i < MaxLevel; i++)
             {
                 IncreaseLevel();
@@ -154,7 +155,7 @@ namespace SkillTree.Core.Skills
         {
             if (CurrentLevel > 0)
             {
-                MelonLogger.Warning($"Setting {Name} to level 0. Refunding {CurrentLevel} {Category} points.");
+                LogManager.LogMessage($"Setting {Name} to level 0. Refunding {CurrentLevel} {Category} points.", LogLevel.Warning);
                 SkillPoints.ConsumeSkillPoints(Category, -CurrentLevel);
                 CurrentLevel = 0;
             }
@@ -178,7 +179,7 @@ namespace SkillTree.Core.Skills
             if (IsOverLeveled())
             {
                 int difference = CurrentLevel - MaxLevel;
-                MelonLogger.Warning($"{Name} is overleveled {CurrentLevel}/{MaxLevel}. Reducing level and refunding {difference} {Category} points.");
+                LogManager.LogMessage($"{Name} is overleveled {CurrentLevel}/{MaxLevel}. Reducing level and refunding {difference} {Category} points.", LogLevel.Warning);
                 CurrentLevel -= difference;
                 SkillPoints.ConsumeSkillPoints(Category, -difference);
             }
@@ -189,7 +190,7 @@ namespace SkillTree.Core.Skills
             FixOverleveledSkill();
             if (!IsMaxLevel())
             {
-                //MelonLogger.Msg($"{Name} is not max level. Validating children.");
+                LogManager.LogMessage($"{Name} is not max level. Validating children.", LogLevel.Debug);
                 foreach (Skill child in Children)
                 {
                     child.RemoveAllLevels();
@@ -198,7 +199,7 @@ namespace SkillTree.Core.Skills
             }
             else
             {
-                //MelonLogger.Msg($"{Name} is max level. Validating children.");
+                LogManager.LogMessage($"{Name} is max level. Validating children.", LogLevel.Debug);
                 foreach (Skill child in Children)
                 {
                     child.FixSkills();

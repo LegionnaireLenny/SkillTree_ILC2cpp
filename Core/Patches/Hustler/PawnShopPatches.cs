@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.UI;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 
 namespace SkillTree.Core.Patches.Hustler
 {
@@ -11,9 +12,9 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void Patch_PawnValue(ref float __result)
         {
-            //float original = __result;
+            float original = __result;
             __result *= SkillModifiers.GetPawnPriceMultiplier();
-            //MelonLogger.Msg($"GetItemValue {original} -> {__result}");
+            LogManager.LogMessage($"GetItemValue {original} -> {__result}", LogLevel.Debug);
         }
     }
 }

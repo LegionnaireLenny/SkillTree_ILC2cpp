@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Delivery;
-using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Logistician
@@ -20,7 +20,7 @@ namespace SkillTree.Core.Patches.Logistician
             int newTime = Mathf.RoundToInt(Mathf.Lerp(30f, 120f, ratio));
 
             delivery.TimeUntilArrival = newTime;
-            MelonLogger.Msg($"[DeliverySkill] Delivery time adjusted from {originalTime}m to {newTime}m");
+            LogManager.LogMessage($"[DeliverySkill] Delivery time adjusted from {originalTime}m to {newTime}m", LogLevel.Info);
         }
     }
 }

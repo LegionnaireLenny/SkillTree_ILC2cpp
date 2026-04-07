@@ -3,6 +3,7 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace SkillTree.Core.Patches.Enforcer
             List<ItemDefinition> allItems = Singleton<Registry>.Instance.GetAllItems()._items.ToList();
             Cache.FillCache(allItems);
 
-            MelonLogger.Msg($"[MoreStackItem] Stack limit multiplier x{SkillModifiers.GetInventoryStackSizeMultiplier()}");
+            LogManager.LogMessage($"[Prison Wallet] Stack limit multiplier x{SkillModifiers.GetInventoryStackSizeMultiplier()}", LogLevel.Info);
             foreach (ItemDefinition item in allItems)
             {
                 if (item.StackLimit <= 1) continue;
@@ -26,7 +27,7 @@ namespace SkillTree.Core.Patches.Enforcer
                 if (Cache.OriginalItemStackSize.TryGetValue(item.name, out int baseStackLimit))
                 {
                     item.StackLimit = baseStackLimit * SkillModifiers.GetInventoryStackSizeMultiplier();
-                    //MelonLogger.Msg($"[MoreStackItem] {item.name}: {baseStackLimit} -> {item.StackLimit}");
+                    LogManager.LogMessage($"[Prison Wallet] {item.name}: {baseStackLimit} -> {item.StackLimit}", LogLevel.Debug);
                 }
             }
         }

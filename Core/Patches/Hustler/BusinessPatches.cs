@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.Property;
 using MelonLoader;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Hustler
@@ -11,17 +12,14 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetLaunderingCapacity()
         {
-            MelonLogger.Msg($"Increasing business laundering capacity by {Mathf.RoundToInt(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%");
+            LogManager.LogMessage($"Increasing business laundering capacity by {Mathf.RoundToInt(SkillModifiers.GetLaunderingCapacityMultiplier() % 1 * 100)}%", LogLevel.Info);
             Business[] businessList = Object.FindObjectsOfType<Business>();
             foreach (Business business in businessList)
             {
                 if (Cache.OriginalLaunderCapacity.TryGetValue(business.PropertyName, out float original))
                 {
                     business.LaunderCapacity = original * SkillModifiers.GetLaunderingCapacityMultiplier();
-                    //if (!Mathf.Approximately(original, business.LaunderCapacity))
-                    //{
-                    //    MelonLogger.Msg($"{business.PropertyName}: ${original} -> ${business.LaunderCapacity}");
-                    //}
+                    LogManager.LogMessage($"{business.PropertyName}: ${original} -> ${business.LaunderCapacity}", LogLevel.Debug);
                 }
             }
         }

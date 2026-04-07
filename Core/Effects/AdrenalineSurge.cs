@@ -1,6 +1,7 @@
 ﻿using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
@@ -20,7 +21,7 @@ namespace SkillTree.Core.Effects
             {
                 Player.Local.Avatar.Effects.SetZapped(true, true);
             }
-            MelonLogger.Msg($"Adrenaline Surge effect applied");
+            LogManager.LogMessage($"Adrenaline Surge effect applied", LogLevel.Debug);
             MelonCoroutines.Start(ClearFromPlayer());
         }
 
@@ -31,7 +32,7 @@ namespace SkillTree.Core.Effects
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_AdrenalineSurge");
             Patches.Enforcer.MovementPatches.SetPlayerJumpHeight();
             Player.Local.Avatar.Effects.SetZapped(false, true);
-            MelonLogger.Msg($"Adrenaline Surge effect removed");
+            LogManager.LogMessage($"Adrenaline Surge effect removed", LogLevel.Debug);
         }
     }
 }

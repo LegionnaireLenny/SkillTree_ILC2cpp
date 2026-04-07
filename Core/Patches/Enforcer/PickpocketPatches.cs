@@ -6,6 +6,7 @@ using Il2CppScheduleOne.UI;
 using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Enforcer
@@ -32,7 +33,7 @@ namespace SkillTree.Core.Patches.Enforcer
                 }
                 else
                 {
-                    //MelonLogger.Msg($"Inventory Difficulty: {Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2)} | Item Difficulty: {itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier}");
+                    LogManager.LogMessage($"Inventory Difficulty: {Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2)} | Item Difficulty: {itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier}", LogLevel.Debug);
                     float num = itemSlotUI.assignedSlot.ItemInstance.GetMonetaryValue() * itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier;
                     float num2 = Mathf.Lerp(__instance.GreenAreaMaxWidth,
                                             __instance.GreenAreaMinWidth,
@@ -52,7 +53,7 @@ namespace SkillTree.Core.Patches.Enforcer
             float originalMin = Singleton<PickpocketScreen>.instance.GreenAreaMinWidth;
             Singleton<PickpocketScreen>.instance.SlideTimeMaxMultiplier *= SkillModifiers.GetPickpocketDifficultyMultiplier();
             Singleton<PickpocketScreen>.instance.GreenAreaMinWidth = SkillModifiers.GetPickpocketMinimumWidth(Singleton<PickpocketScreen>.instance.GreenAreaMinWidth);
-            MelonLogger.Msg($"SlideTimeMaxMultiplier {originalSlide} -> {Singleton<PickpocketScreen>.instance.SlideTimeMaxMultiplier} | GreenMin {originalMin} -> {Singleton<PickpocketScreen>.instance.GreenAreaMinWidth}");
+            LogManager.LogMessage($"SlideTimeMaxMultiplier {originalSlide} -> {Singleton<PickpocketScreen>.instance.SlideTimeMaxMultiplier} | GreenMin {originalMin} -> {Singleton<PickpocketScreen>.instance.GreenAreaMinWidth}", LogLevel.Debug);
         }
     }
 }

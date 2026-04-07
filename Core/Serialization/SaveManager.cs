@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Persistence;
 using MelonLoader;
 using MelonLoader.Utils;
 using Newtonsoft.Json;
+using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +80,7 @@ namespace SkillTree.Core.Serialization
 
                 if (!File.Exists(path))
                 {
-                    MelonLogger.Warning($"[SkillTree] Skill data file not found: {path}");
+                    LogManager.LogMessage($"[SkillTree] Skill data file not found: {path}", LogLevel.Warning);
                     LoadDefaultValues();
                 }
                 else
@@ -96,11 +97,11 @@ namespace SkillTree.Core.Serialization
             }
             catch (KeyNotFoundException ex)
             {
-                MelonLogger.Warning(ex);
+                LogManager.LogMessage(ex, LogLevel.Warning);
             }
             catch (Exception ex)
             {
-                MelonLogger.Warning($"Error loading save data {ex}");
+                LogManager.LogMessage($"Error loading save data {ex}", LogLevel.Warning);
                 DeleteFile();
                 LoadDefaultValues();
             }

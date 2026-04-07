@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Quests;
 using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Enforcer
@@ -20,7 +21,7 @@ namespace SkillTree.Core.Patches.Enforcer
             int original = xp;
             int bonus = Mathf.CeilToInt(xp * (SkillModifiers.GetXPGainMultiplier() - 1));
             xp = (int)(xp * SkillModifiers.GetXPGainMultiplier());
-            //MelonLogger.Msg($"[MoreXP] Earned {bonus} XP from {original} | Skill bonus is {(int)(SkillModifiers.GetXPGainMultiplier() % 1 * 100)}% | {__instance.TotalXP} + {xp} = {__instance.TotalXP + xp}");
+            LogManager.LogMessage($"[MoreXP] Earned {bonus} XP from {original} | Skill bonus is {(int)(SkillModifiers.GetXPGainMultiplier() % 1 * 100)}% | {__instance.TotalXP} + {xp} = {__instance.TotalXP + xp}", LogLevel.Debug);
         }
 
         [HarmonyPatch(typeof(Contract), "SubmitPayment")]
@@ -31,9 +32,8 @@ namespace SkillTree.Core.Patches.Enforcer
                 return;
 
             int bonusXP = Mathf.CeilToInt((__instance.Payment + bonusTotal) * SkillModifiers.GetSaleXPBonus());
-
-            MelonLogger.Msg($"[MoreXPWhenEarnMoney] Earned {bonusXP} bonus XP from ${__instance.Payment + bonusTotal} sale | Skill bonus is {(int)(SkillModifiers.GetSaleXPBonus() * 100)}%");
             LevelManager.Instance.AddXP(bonusXP);
+            LogManager.LogMessage($"[MoreXPWhenEarnMoney] Earned {bonusXP} bonus XP from ${__instance.Payment + bonusTotal} sale | Skill bonus is {(int)(SkillModifiers.GetSaleXPBonus() * 100)}%", LogLevel.Debug);
         }
     }
 }

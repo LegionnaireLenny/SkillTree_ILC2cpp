@@ -67,7 +67,7 @@ namespace SkillTree.Core.Serialization
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load {property.Name} from file {e}");
+                    LogManager.LogMessage($"Failed to load {property.Name} from file {e}", LogLevel.Warning);
                     property.SetValue(new Cooldowns(), false);
                 }
             }

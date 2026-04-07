@@ -5,6 +5,7 @@ using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.UI.Shop;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,18 +49,18 @@ namespace SkillTree.Core.Patches.Miscellaneous
                 string id = item.ID.ToLowerInvariant();
                 if (TargetRanks.TryGetValue(id, out FullRank targetRank))
                 {
-                    MelonLogger.Msg($"[SkillTree Unlocker] Target item found {item.Name} | {item.ID}");
+                    LogManager.LogMessage($"[SkillTree Unlocker] Target item found {item.Name} | {item.ID}", LogLevel.Debug);
                     var storable = item.TryCast<StorableItemDefinition>();
                     if (storable != null)
                     {
                         storable.RequiredRank = targetRank;
                         storable.RequiresLevelToPurchase = true;
                         patchedCount++;
-                        MelonLogger.Msg($"[SkillTree Unlocker] Item {id} updated to Rank: {targetRank.Rank}, Tier: {targetRank.Tier}");
+                        LogManager.LogMessage($"[SkillTree Unlocker] Item {id} updated to Rank: {targetRank.Rank}, Tier: {targetRank.Tier}", LogLevel.Debug);
                     }
                 }
             }
-            MelonLogger.Msg($"[SkillTree Unlocker] Total of {patchedCount} items successfully remapped.");
+            LogManager.LogMessage($"[SkillTree Unlocker] Total of {patchedCount} items successfully remapped.", LogLevel.Info);
         }
 
         [HarmonyPatch(typeof(ShopInterface), "Awake")]

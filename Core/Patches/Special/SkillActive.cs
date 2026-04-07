@@ -57,7 +57,7 @@ namespace SkillTree.Core.Patches.Special
 					$"Payment for {count} pieces of trash destroyed",
 					total, 1f, string.Empty);
 
-				MelonLogger.Msg($"[Special] Payment of ${total} processed for destroying {count} pieces of trash");
+                LogManager.LogMessage($"[Special] Payment of ${total} processed for destroying {count} pieces of trash", LogLevel.Debug);
 				//}
 
 				NetworkSingleton<TrashManager>.Instance.DestroyAllTrash();
@@ -108,7 +108,7 @@ namespace SkillTree.Core.Patches.Special
 					float amountConverted = dealer.Cash * SkillModifiers.GetSiphonFundsConversionMultiplier();
 					totalCash += dealer.Cash - amountConverted;
 					totalOnlineBalance += amountConverted;
-					//MelonLogger.Msg($"Dealer Cash: {dealer.Cash} | Unconverted Amount: {dealer.Cash - amountConverted} | Converted Amount: {amountConverted} | Conversion Rate: {SkillModifiers.GetSiphonFundsConversionMultiplier()}");
+                    LogManager.LogMessage($"Dealer Cash: {dealer.Cash} | Unconverted Amount: {dealer.Cash - amountConverted} | Converted Amount: {amountConverted} | Conversion Rate: {SkillModifiers.GetSiphonFundsConversionMultiplier()}", LogLevel.Debug);
 
 					dealer.SetCash(0f);
 				}
@@ -184,7 +184,7 @@ namespace SkillTree.Core.Patches.Special
 							"Trickle-down Economics",
 							$"<color=#54E717>{MoneyManager.FormatAmount(amount)}</color> to {business.PropertyName}",
 							IconManager.LoadSprite(IconManager.IconWashingMachine));
-						MelonLogger.Msg($"Sent {MoneyManager.FormatAmount(amount)} to {business.PropertyName}");
+                        LogManager.LogMessage($"Sent {MoneyManager.FormatAmount(amount)} to {business.PropertyName}", LogLevel.Debug);
 						TrickleDownUsed = true;
 					}
 				}

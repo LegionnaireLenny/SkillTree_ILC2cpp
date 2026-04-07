@@ -4,6 +4,7 @@ using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.UI.Phone;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Logistician
@@ -40,7 +41,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             float originalLimit = __result;
             __result *= SkillModifiers.GetSupplierCashMultiplier();
-            //MelonLogger.Msg($"[BetterSupplier] Supplier {__instance.fullName}'s order limit increased from ${(int)originalLimit} to ${(int)__result}");
+            LogManager.LogMessage($"[BetterSupplier] Supplier {__instance.fullName}'s order limit increased from ${(int)originalLimit} to ${(int)__result}", LogLevel.Debug);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Il2CppScheduleOne.Equipping;
 using Il2CppScheduleOne.ItemFramework;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace SkillTree.Core.Patches.Enforcer
                     //{
                     //    weapon.Cast<Equippable_PumpShotgun>().PelletCount = Cache.OriginalRangedWeapons[weapon.name].PelletCount * 2;
                     //}
-                    //MelonLogger.Msg($"Increased stats for {weapon.name}");
+                    LogManager.LogMessage($"Increased stats for {weapon.name}", LogLevel.Debug);
                 }
             }
 
@@ -39,6 +40,7 @@ namespace SkillTree.Core.Patches.Enforcer
                 if (Cache.OriginalMagazineSizes.ContainsKey(item.ID))
                 {
                     item.DefaultValue = Cache.OriginalMagazineSizes[item.ID] * SkillModifiers.GetAmmoCapacityMultiplier();
+                    LogManager.LogMessage($"Increased magazine size for {item.name}", LogLevel.Debug);
                 }
             }
         }

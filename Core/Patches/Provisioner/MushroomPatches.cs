@@ -5,6 +5,7 @@ using Il2CppScheduleOne.ObjectScripts;
 using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 
 namespace SkillTree.Core.Patches.Provisioner
@@ -37,7 +38,7 @@ namespace SkillTree.Core.Patches.Provisioner
 
             float original = __instance.NormalizedQuality;
             __instance.ChangeQuality(SkillModifiers.GetShroomQualityBonus());
-            MelonLogger.Msg($"Colony {id} | Quality increased from {ItemQuality.GetQuality(original)} to {ItemQuality.GetQuality(__instance.NormalizedQuality)}");
+            LogManager.LogMessage($"Colony {id} | Quality increased from {ItemQuality.GetQuality(original)} to {ItemQuality.GetQuality(__instance.NormalizedQuality)}", LogLevel.Debug);
             processedIds.Add(id);
         }
 
@@ -50,7 +51,7 @@ namespace SkillTree.Core.Patches.Provisioner
             int id = __instance.CurrentColony.GetInstanceID();
             if (processedIds.Remove(id))
             {
-                MelonLogger.Msg($"Removing fully harvested colony {id} from cache"); ;
+                LogManager.LogMessage($"Removing fully harvested colony {id} from cache", LogLevel.Debug);
             }
         }
     }

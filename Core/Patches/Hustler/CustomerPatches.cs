@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Economy;
 using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Hustler
@@ -12,7 +13,7 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetCustomerSpendLimits()
         {
-            MelonLogger.Msg($"Increasing customer weekly spending limits by {Mathf.RoundToInt(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%");
+            LogManager.LogMessage($"Increasing customer weekly spending limits by {Mathf.RoundToInt(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%", LogLevel.Info);
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             foreach (Customer customer in customerList)
             {
@@ -23,14 +24,14 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
                     customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                    //MelonLogger.Msg($"{customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}");
+                    LogManager.LogMessage($"{customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}", LogLevel.Debug);
                 }
             }
         }
 
         public static void SetCustomerOrderLimits()
         {
-            MelonLogger.Msg($"Increasing customer order limits by {SkillModifiers.GetCustomerOrderLimitBonus()}");
+            LogManager.LogMessage($"Increasing customer order limits by {SkillModifiers.GetCustomerOrderLimitBonus()}", LogLevel.Info);
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             foreach (Customer customer in customerList)
             {
@@ -42,7 +43,7 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinOrdersPerWeek = baseMin + SkillModifiers.GetCustomerOrderLimitBonus();
                     customer.CustomerData.MaxOrdersPerWeek = baseMax + SkillModifiers.GetCustomerOrderLimitBonus();
 
-                    //MelonLogger.Msg($"{customer.NPC.fullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}");
+                    LogManager.LogMessage($"{customer.NPC.fullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}", LogLevel.Debug);
                 }
             }
         }
@@ -57,8 +58,7 @@ namespace SkillTree.Core.Patches.Hustler
 
             float origin = __result;
             __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
-            MelonLogger.Msg($"[SkillTree] Free sample acceptance chance increased from {(int)(origin * 100)}% to {(int)(__result * 100)}%");
-
+            LogManager.LogMessage($"[SkillTree] Free sample acceptance chance increased from {(int)(origin * 100)}% to {(int)(__result * 100)}%", LogLevel.Debug);
         }
 
         [HarmonyPatch(typeof(Customer), "Start")]
@@ -77,7 +77,7 @@ namespace SkillTree.Core.Patches.Hustler
             if (Cache.OriginalCustomers.ContainsKey(__instance.CustomerData.name))
             {
                 Cache.OriginalCustomers.Remove(__instance.CustomerData.name);
-                //MelonLogger.Msg($"Removed {__instance.CustomerData.name} from cache");
+                LogManager.LogMessage($"Removed {__instance.CustomerData.name} from cache", LogLevel.Debug);
             }
         }
     }

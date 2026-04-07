@@ -112,7 +112,6 @@ namespace SkillTree.Core.Patches.Hustler
             rt.anchoredPosition = fairRT.anchoredPosition + new Vector2(0f, -23f);
 
             go.transform.SetAsLastSibling();
-            //MelonLogger.Msg("SuccessChanceLabel visible below FairPrice");
 
         }
 
@@ -122,15 +121,12 @@ namespace SkillTree.Core.Patches.Hustler
                 return;
 
             float chance = CalculateSuccessChance(instance);
-            //MelonLogger.Msg($"CalculateSuccessChance {chance}");
-
             string color =
                 chance >= 0.75f ? "#4CAF50" :
                 chance >= 0.4f ? "#FFC107" :
                 "#F44336";
 
             SuccessLabel.text = $"<color={color}>Success chance: {chance * 100f:0}%</color>";
-            //MelonLogger.Msg($"SuccessLabel.text {SuccessLabel.text}");
         }
 
         [HarmonyPatch(typeof(CounterofferInterface), "Open")]

@@ -3,6 +3,7 @@ using Il2CppScheduleOne.Equipping;
 using Il2CppScheduleOne.ItemFramework;
 using Il2CppScheduleOne.Property;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +68,7 @@ namespace SkillTree.Core
                         MinSpread = weapon.MinSpread,
                         PelletCount = weapon.TryCast<Equippable_PumpShotgun>()?.PelletCount ?? 0
                     });
+                    LogManager.LogMessage($"[Cache] Cached original stats for {weapon.name}", LogLevel.Debug);
 
                     if (!OriginalMagazineSizes.ContainsKey(weapon.Magazine.ID))
                     {
@@ -75,12 +77,13 @@ namespace SkillTree.Core
                             if (weapon.Magazine.ID.Equals(item.ID))
                             {
                                 OriginalMagazineSizes.Add(weapon.Magazine.ID, item.DefaultValue);
+                                LogManager.LogMessage($"[Cache] Cached original magazine size for {weapon.Magazine.ID}", LogLevel.Debug);
                             }
                         }
                     }
                 }
             }
-            //MelonLogger.Msg("[Cache] Cached original stats for ranged weapons");
+            LogManager.LogMessage("[Cache] Cached original stats for ranged weapons", LogLevel.Info);
         }
 
         public static void FillCache(List<ItemDefinition> items)
@@ -90,9 +93,10 @@ namespace SkillTree.Core
                 if (!OriginalItemStackSize.ContainsKey(item.name))
                 {
                     OriginalItemStackSize.Add(item.name, item.StackLimit);
+                    LogManager.LogMessage($"[Cache] Cached stack limit for {item.name}!", LogLevel.Debug);
                 }
             }
-            MelonLogger.Msg("[Cache] Successfully cached stack limits for each item!");
+            LogManager.LogMessage($"[Cache] Cached stack limit for items", LogLevel.Info);
         }
 
         public static void FillCache(ItemDefinition item)
@@ -100,8 +104,8 @@ namespace SkillTree.Core
             if (!OriginalItemStackSize.ContainsKey(item.name))
             {
                 OriginalItemStackSize.Add(item.name, item.StackLimit);
+                LogManager.LogMessage($"[Cache] Cached original stack limit for {item.name}", LogLevel.Debug);
             }
-            MelonLogger.Msg($"[Cache] Cached original stack limit for {item.name}");
         }
 
         public static void FillCache(Business business)
@@ -109,7 +113,7 @@ namespace SkillTree.Core
             if (!OriginalLaunderCapacity.ContainsKey(business.PropertyName))
             {
                 OriginalLaunderCapacity.Add(business.PropertyName, business.LaunderCapacity);
-                //MelonLogger.Msg($"[Cache] Cached original laundering capacity {business.PropertyName}");
+                LogManager.LogMessage($"[Cache] Cached original laundering capacity {business.PropertyName}", LogLevel.Debug);
             }
         }
 
@@ -125,7 +129,7 @@ namespace SkillTree.Core
                     MinOrdersPerWeek = customer.CustomerData.MinOrdersPerWeek,
                     MaxOrdersPerWeek = customer.CustomerData.MaxOrdersPerWeek
                 });
-                //MelonLogger.Msg($"[Cache] Cached original customer data for {customer.name}");
+                LogManager.LogMessage($"[Cache] Cached original customer data for {customer.name}", LogLevel.Debug);
             }
         }
 
@@ -139,7 +143,7 @@ namespace SkillTree.Core
                     Cut = dealer.Cut,
                     MoveSpeedMultiplier = dealer.Movement.MoveSpeedMultiplier
                 });
-                //MelonLogger.Msg($"[Cache] Cached original dealer data for {dealer.name}");
+                LogManager.LogMessage($"[Cache] Cached original dealer data for {dealer.name}", LogLevel.Debug);
             }
         }
     }

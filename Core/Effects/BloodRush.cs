@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.FX;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using SkillTree.Core.Utilities;
 using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
@@ -18,7 +19,7 @@ namespace SkillTree.Core.Effects
         public static void ApplyToPlayer()
         {
             IsBloodRushActive = true;
-            MelonLogger.Msg($"Blood Rush effect applied");
+            LogManager.LogMessage($"Blood Rush effect applied", LogLevel.Debug);
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.AddOverride(BloodRushFOVChange.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodRushHeartbeatVolume.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodRushHeartbeatPitch.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
@@ -34,7 +35,7 @@ namespace SkillTree.Core.Effects
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.RemoveOverride(EffectName);
             Singleton<PostProcessingManager>.Instance.ColorFilterController.RemoveOverride(EffectName);
-            MelonLogger.Msg($"Blood Rush effect removed");
+            LogManager.LogMessage($"Blood Rush effect removed", LogLevel.Debug);
         }
     }
 }

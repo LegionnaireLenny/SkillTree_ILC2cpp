@@ -6,6 +6,7 @@ using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.Tools;
 using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Serialization.Cooldowns;
 using static SkillTree.Core.Utilities.ConfigManager;
@@ -116,7 +117,7 @@ namespace SkillTree.Core.Patches.Enforcer
 
                 if (CircadianMasteryUsed)
                 {
-                    MelonLogger.Msg("[BedSkill] You've already rested today! You can't use it until tomorrow.");
+                    LogManager.LogMessage("[BedSkill] You've already rested today! You can't use it until tomorrow.", LogLevel.Info);
                     return true;
                 }
 
@@ -138,7 +139,7 @@ namespace SkillTree.Core.Patches.Enforcer
 
                         CircadianMasteryUsed = true;
                         NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
-                        MelonLogger.Msg($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}");
+                        LogManager.LogMessage($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}", LogLevel.Info);
                         return false;
                     }
                 }
