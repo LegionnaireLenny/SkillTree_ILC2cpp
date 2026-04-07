@@ -2,9 +2,9 @@
 using Il2CppFishNet;
 using Il2CppScheduleOne.Employees;
 using Il2CppSystem;
-using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using System.Collections.Generic;
 
 namespace SkillTree.Core.Patches.Logistician
@@ -80,7 +80,7 @@ namespace SkillTree.Core.Patches.Logistician
                 __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
                 if (!processedEmployees.Contains(__instance.GUID))
                 {
-                    MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}");
+                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}", LogLevel.Debug);
                     processedEmployees.Add(__instance.GUID);
                 }
             }
@@ -98,7 +98,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (!processedBotanists.Contains(__instance.GUID))
             {
-                MelonLogger.Msg($"[EmployeeMaxStation] Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}");
+                LogManager.LogMessage($"[EmployeeMaxStation] Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
                 processedBotanists.Add(__instance.GUID);
             }
         }
@@ -115,7 +115,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (!processedChemists.Contains(__instance.GUID))
             {
-                MelonLogger.Msg($"[EmployeeMaxStation] Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}");
+                LogManager.LogMessage($"[EmployeeMaxStation] Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
                 processedChemists.Add(__instance.GUID);
             }
         }
@@ -134,7 +134,7 @@ namespace SkillTree.Core.Patches.Logistician
                     processedEmployees.Remove(__instance.GUID);
                     processedBotanists.Remove(__instance.GUID);
                     processedChemists.Remove(__instance.GUID);
-                    MelonLogger.MsgPastel($"{__instance.EmployeeType} {__instance.fullName} removed from cache");
+                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.fullName} removed from cache", LogLevel.Debug);
                 }
             }
             catch (System.Exception) { }

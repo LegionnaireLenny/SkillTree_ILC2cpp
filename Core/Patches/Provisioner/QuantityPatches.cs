@@ -31,10 +31,10 @@ namespace SkillTree.Core.Patches.Provisioner
             minutes *= SkillModifiers.GetChemistStationSpeedMultiplier();
             if (__instance.RemainingCookTime > 0)
             {
+                __instance.RemainingCookTime -= minutes;
                 __instance.Alarm.SetScreenLit(true);
                 __instance.Alarm.DisplayMinutes(__instance.RemainingCookTime);
                 __instance.Light.isOn = true;
-                __instance.RemainingCookTime -= minutes;
                 if (__instance.RemainingCookTime <= 0 && InstanceFinder.IsServer)
                 {
                     if (InstanceFinder.IsServer)
@@ -47,10 +47,7 @@ namespace SkillTree.Core.Patches.Provisioner
                     }
 
                     __instance.CauldronFillable.ResetContents();
-                    if (__instance.onCookEnd != null)
-                    {
-                        __instance.onCookEnd?.Invoke();
-                    }
+                    __instance.onCookEnd?.Invoke();
 
                     return false;
                 }

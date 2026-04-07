@@ -40,12 +40,10 @@ namespace SkillTree.Core.Patches.Hustler
             float productEnjoyment = customer.GetProductEnjoyment(product, customerData.Standards.GetCorrespondingQuality());
 
             float num2 = Mathf.InverseLerp(-1f, 1f, productEnjoyment);
-
             float valueProposition2 = Customer.GetValueProposition(product, price / quantity);
-
             float num3 = Mathf.Pow(quantity / (float)customer.OfferedContractInfo.Products.entries[0].Quantity, 0.6f);
-
-            float num4 = Mathf.Lerp(0f, 2f, num3 * 0.5f); float num5 = Mathf.Lerp(1f, 0f, Mathf.Abs(num4 - 1f));
+            float num4 = Mathf.Lerp(0f, 2f, num3 * 0.5f);
+            float num5 = Mathf.Lerp(1f, 0f, Mathf.Abs(num4 - 1f));
 
             if (valueProposition2 * num5 > valueProposition)
                 return 1f;
@@ -55,21 +53,22 @@ namespace SkillTree.Core.Patches.Hustler
 
             float num6 = productEnjoyment * valueProposition;
             float num7 = num2 * num5 * valueProposition2;
+
             if (num7 > num6)
                 return 1f;
 
             float num8 = num6 - num7;
             float num9 = Mathf.Lerp(0f, 1f, num8 / 0.2f);
-            float t = Mathf.Max(customer.CurrentAddiction, NPC.RelationData.NormalizedRelationDelta);
-            float num10 = Mathf.Lerp(0f, 0.2f, t);
+            float num10 = Mathf.Max(customer.CurrentAddiction, NPC.RelationData.NormalizedRelationDelta);
+            float num11 = Mathf.Lerp(0f, 0.2f, num10);
 
-            if (num9 <= num10)
+            if (num9 <= num11)
                 return 1f;
 
-            if (num9 - num10 >= 0.9f)
+            if (num9 - num11 >= 0.9f)
                 return 0f;
 
-            float probability = (0.9f + num10 - num9) / 0.9f;
+            float probability = (0.9f + num11 - num9) / 0.9f;
             return Mathf.Clamp(probability, 0f, 1f);
         }
 

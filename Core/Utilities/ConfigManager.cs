@@ -163,6 +163,7 @@ namespace SkillTree.Core.Utilities
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<bool> UseDefault { get; set; }
+        public static ConfigEntry<LogLevel> LoggingLevel { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
         public static ConfigEntry<bool> EnableContractColors { get; set; }
         public static ConfigEntry<bool> EnableCrosshair { get; set; }
@@ -191,6 +192,7 @@ namespace SkillTree.Core.Utilities
         {
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
             UseDefault = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_UseDefaultSkillParameters", true, "Use Default Skill Parameters", "If enabled, skills will use their default parameters. Disable this if you want to customize skill parameters. Does not apply to options from User Settings or Keybindings."));
+            LoggingLevel = new ConfigEntry<LogLevel>(UserSettings.CreateEntry("SkillTree_LoggingLevel", LogLevel.Info, "Log Level", "Debug - Shows all log messages; Info - Shows informational messages, warnings, and errors; Error - Shows only warnings and errors"));
             AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once"));
             EnableCrosshair = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_EnableCrosshair", true, "Enable Crosshair", "If enabled, the crosshair stays enabled while wielding a ranged weapon"));
             EnableContractColors = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_EnableContractColors", true, "Enable Contract Colors", "If enabled, contract icon colors can be customized and will change colors to indicate contracts within their delivery window"));

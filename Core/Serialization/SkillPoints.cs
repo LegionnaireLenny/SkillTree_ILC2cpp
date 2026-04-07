@@ -1,6 +1,5 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.UI;
-using MelonLoader;
 using S1API.Leveling;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
@@ -58,7 +57,7 @@ namespace SkillTree.Core.Serialization
             {
                 case SkillCategory.Enforcer:
                     EnforcerPoints++;
-                    MelonLogger.Msg("+1 Enforcer point");
+                    LogManager.LogMessage("+1 Enforcer point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
                     $"<color=#16F01C>+1 Enforcer point</color>", IconManager.LoadSprite(IconManager.IconEnforcer));
@@ -66,28 +65,28 @@ namespace SkillTree.Core.Serialization
                     break;
                 case SkillCategory.Provisioner:
                     ProvisionerPoints++;
-                    MelonLogger.Msg("+1 Supplier point");
+                    LogManager.LogMessage("+1 Supplier point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
                     $"<color=#16F01C>+1 Supplier point</color>", IconManager.LoadSprite(IconManager.IconSupplier));
                     break;
                 case SkillCategory.Hustler:
                     HustlerPoints++;
-                    MelonLogger.Msg("+1 Hustler point");
+                    LogManager.LogMessage("+1 Hustler point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
                     $"<color=#16F01C>+1 Hustler point</color>", IconManager.LoadSprite(IconManager.IconHustler));
                     break;
                 case SkillCategory.Logistician:
                     LogisticianPoints++;
-                    MelonLogger.Msg("+1 Logistician point");
+                    LogManager.LogMessage("+1 Logistician point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
                     $"<color=#16F01C>+1 Logistician point</color>", IconManager.LoadSprite(IconManager.IconLogistician));
                     break;
                 case SkillCategory.Special:
                     SpecialPoints++;
-                    MelonLogger.Msg("+1 Special point");
+                    LogManager.LogMessage("+1 Special point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
                     "Level Up",
                     $"<color=#16F01C>+1 Special point</color>", IconManager.LoadSprite(IconManager.IconSpecial));
@@ -109,12 +108,11 @@ namespace SkillTree.Core.Serialization
             int nonSpecialPointsGained = currentNonSpecialPoints - previousNonSpecialPoints;
             int specialPointsGained = (int)currentRank.Rank - (int)previousRank.Rank;
 
-            //MelonLogger.Msg($"Previous Max {previousMaxPoints} | Current Max {currentMaxPoints} | Previous NonSpecial {previousNonSpecialPoints} | Current NonSpecial {currentNonSpecialPoints} | Points Gain {nonSpecialPointsGained} | Special Gained {specialPointsGained}");
+            LogManager.LogMessage($"Previous Max {previousMaxPoints} | Current Max {currentMaxPoints} | Previous NonSpecial {previousNonSpecialPoints} | Current NonSpecial {currentNonSpecialPoints} | Points Gain {nonSpecialPointsGained} | Special Gained {specialPointsGained}", LogLevel.Debug);
 
             for (int i = 0; i < nonSpecialPointsGained; i++)
             {
                 int mod = (previousNonSpecialPoints + i) % 4;
-                //MelonLogger.Msg($"Mod {mod}");
                 switch (mod)
                 {
                     case 0:
@@ -226,13 +224,13 @@ namespace SkillTree.Core.Serialization
             int pointsSpent = enforcerSpent + provisionerSpent + hustlerSpent + logisticianSpent + specialSpent;
             int pointsRemaining = EnforcerPoints + ProvisionerPoints + HustlerPoints + LogisticianPoints + SpecialPoints;
 
-            MelonLogger.Msg($"Expected: Enforcer {enforcerExpected} | Provisioner {provisionerExpected} | Hustler {hustlerExpected} | Logistician {logisticianExpected} | Special {specialExpected} | Total {expectedTotal}");
-            MelonLogger.Msg($"Spent:    Enforcer {enforcerSpent} | Provisioner {provisionerSpent} | Hustler {hustlerSpent} | Logistician {logisticianSpent} | Special {specialSpent} | Total {pointsSpent}");
-            MelonLogger.Msg($"Left:     Enforcer {EnforcerPoints} | Provisioner {ProvisionerPoints} | Hustler {HustlerPoints} | Logistician {LogisticianPoints} | Special {SpecialPoints} | Total {pointsRemaining}");
+            LogManager.LogMessage($"Expected: Enforcer {enforcerExpected} | Provisioner {provisionerExpected} | Hustler {hustlerExpected} | Logistician {logisticianExpected} | Special {specialExpected} | Total {expectedTotal}", LogLevel.Debug);
+            LogManager.LogMessage($"Spent:    Enforcer {enforcerSpent} | Provisioner {provisionerSpent} | Hustler {hustlerSpent} | Logistician {logisticianSpent} | Special {specialSpent} | Total {pointsSpent}", LogLevel.Debug);
+            LogManager.LogMessage($"Left:     Enforcer {EnforcerPoints} | Provisioner {ProvisionerPoints} | Hustler {HustlerPoints} | Logistician {LogisticianPoints} | Special {SpecialPoints} | Total {pointsRemaining}", LogLevel.Debug);
 
             if (expectedTotal < pointsSpent + pointsRemaining)
             {
-                MelonLogger.Warning($"Current character is below the expected level for this save file or save file is corrupt, resetting save data. Expected Total: {expectedTotal} | Actual Total: {pointsSpent + pointsRemaining}.");
+                LogManager.LogMessage($"Current character is below the expected level for this save file or save file is corrupt, resetting save data. Expected Total: {expectedTotal} | Actual Total: {pointsSpent + pointsRemaining}.", LogLevel.Warning);
                 SaveManager.LoadDefaultValues();
                 ValidateTotalSkillPoints();
                 return;
@@ -246,23 +244,23 @@ namespace SkillTree.Core.Serialization
 
             if (missingEnforcer != 0)
             {
-                MelonLogger.Warning($"Adjusting Enforcer points by {missingEnforcer}");
+                LogManager.LogMessage($"Adjusting Enforcer points by {missingEnforcer}", LogLevel.Warning);
             }
             if (missingProvisioner != 0)
             {
-                MelonLogger.Warning($"Adjusting Supplier points by {missingProvisioner}");
+                LogManager.LogMessage($"Adjusting Supplier points by {missingProvisioner}", LogLevel.Warning);
             }
             if (missingHustler != 0)
             {
-                MelonLogger.Warning($"Adjusting Hustler points by {missingHustler}");
+                LogManager.LogMessage($"Adjusting Hustler points by {missingHustler}", LogLevel.Warning);
             }
             if (missingLogistician != 0)
             {
-                MelonLogger.Warning($"Adjusting Logistician points by {missingLogistician}");
+                LogManager.LogMessage($"Adjusting Logistician points by {missingLogistician}", LogLevel.Warning);
             }
             if (missingSpecial != 0)
             {
-                MelonLogger.Warning($"Adjusting Special points by {missingSpecial}");
+                LogManager.LogMessage($"Adjusting Special points by {missingSpecial}", LogLevel.Warning);
             }
             AddSkillPoints(missingEnforcer, missingProvisioner, missingHustler, missingLogistician, missingSpecial);
         }
@@ -280,7 +278,7 @@ namespace SkillTree.Core.Serialization
                 }
                 catch (KeyNotFoundException e)
                 {
-                    MelonLogger.Warning($"Failed to load {property.Name} from file {e}");
+                    LogManager.LogMessage($"Failed to load {property.Name} from file {e}", LogLevel.Warning);
                     property.SetValue(new SkillPoints(), 0);
                 }
             }

@@ -138,7 +138,7 @@ namespace SkillTree.Core
                 LevelManager.OnRankUp += SkillPoints.ProcessLevelUp;
                 TimeManager.OnDayPass += Cooldowns.ResetDailySkills;
                 TimeManager.OnDayPass += SkillActive.ResetAfflicted;
-                if (ResetSkills.GetValue(useDefault: false))
+                if (ResetSkills.GetValue())
                 {
                     MelonLogger.Warning($"Reset skills option is enabled. This happens the first time a save loaded with version 2.1.0 and later or when manually enabled by the player. Resetting skills.");
                     ResetSkills.SetValue(false);

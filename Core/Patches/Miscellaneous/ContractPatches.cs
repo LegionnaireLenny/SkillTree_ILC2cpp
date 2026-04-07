@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Quests;
+using SkillTree.Core.Utilities;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
         public static string GetTimeWindow(float time)
         {
             string window = "";
-            if (time >= 700 && time < 1200)
+            if (time >= 600 && time < 1200)
                 window = "morning";
             else if (time >= 1200 && time < 1800)
                 window = "afternoon";
@@ -36,6 +37,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
             {
                 string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
                 string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
+                LogManager.LogMessage($"Current Time: {NetworkSingleton<TimeManager>.Instance.CurrentTime} | Current Window: {currentWindow} | Delivery Time: {__instance.DeliveryWindow.WindowStartTime} | Delivery Window: {deliveryWindow}", LogLevel.Debug);
                 Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ContractReadyBackgroundColor.GetValue() : ContractNotReadyBackgroundColor.GetValue();
                 Color fillColor = currentWindow.Equals(deliveryWindow) ? ContractReadyFillColor.GetValue() : ContractNotReadyFillColor.GetValue();
 

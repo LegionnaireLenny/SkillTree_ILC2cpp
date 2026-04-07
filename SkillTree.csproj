@@ -71,6 +71,8 @@
 		<Compile Include="Core\Patches\Logistician\EmployeePatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\MovementPatches.cs" />
 		<Compile Include="Core\Serialization\SkillPoints.cs" />
+		<Compile Include="Core\Utilities\LogLevel.cs" />
+		<Compile Include="Core\Utilities\LogManager.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
