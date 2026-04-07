@@ -17,7 +17,7 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static void Patch_ChangeGrowthPercentage(ShroomColony __instance, ref float change)
         {
-            if (SkillTreeData.GreenThumb.CurrentLevel == 0 && SkillTreeData.PlantWhisperer.CurrentLevel == 0)
+            if (SkillTreeData.GreenThumb.CurrentLevel == 0)
                 return;
 
             change *= SkillModifiers.GetGrowthSpeedMultiplier();

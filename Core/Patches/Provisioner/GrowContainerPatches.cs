@@ -9,6 +9,7 @@ using Il2CppScheduleOne.Variables;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
+using static SkillTree.Core.Utilities.ConfigManager;
 using static Il2CppScheduleOne.ObjectScripts.Pot;
 
 namespace SkillTree.Core.Patches.Provisioner
@@ -66,7 +67,7 @@ namespace SkillTree.Core.Patches.Provisioner
             {
                 float value = NetworkSingleton<VariableDatabase>.Instance.GetValue<float>("HarvestedPlantCount");
                 NetworkSingleton<VariableDatabase>.Instance.SetVariableValue("HarvestedPlantCount", (value + 1f).ToString());
-                NetworkSingleton<LevelManager>.Instance.AddXP(5);
+                NetworkSingleton<LevelManager>.Instance.AddXP(BaseHarvestXPGain.GetValue(UseDefault.GetValue()) * SkillModifiers.GetHarvestXPMultiplier());
             }
 
             __instance.Plant = null;

@@ -1,11 +1,13 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Cartel;
 using Il2CppScheduleOne.DevUtilities;
+using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.Map;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Police;
 using MelonLoader;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,20 +157,24 @@ namespace SkillTree.Core.Patches.Hustler
                 CustomPOIManager[__instance.ID].SetVisibility(__instance.IsCurrentlySightable());
             }
 
-            if (SkillTreeData.BloodRush.CurrentLevel == 0) return;
-
             // OnDie is called twice for police, so PoliceKilled will increase by two every time a cop is killed
             if (__instance.TryCast<PoliceOfficer>() != null)
             {
-                PoliceKilled++;
+                if (SkillTreeData.BloodRush.CurrentLevel > 0)
+                    PoliceKilled++;
+                NetworkSingleton<LevelManager>.Instance.AddXP(SkillModifiers.GetPoliceXPBonus() / 2);
             }
             else if (__instance.TryCast<CartelGoon>() != null)
             {
-                CartelKilled++;
+                if (SkillTreeData.BloodRush.CurrentLevel > 0)
+                    CartelKilled++;
+                NetworkSingleton<LevelManager>.Instance.AddXP(SkillModifiers.GetCartelGoonXPBonus());
             }
             else if (__instance.TryCast<CartelDealer>() != null)
             {
-                CartelKilled++;
+                if (SkillTreeData.BloodRush.CurrentLevel > 0)
+                    CartelKilled++;
+                NetworkSingleton<LevelManager>.Instance.AddXP(SkillModifiers.GetCartelDealerXPBonus());
             }
             else
             {

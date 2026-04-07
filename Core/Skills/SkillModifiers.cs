@@ -45,13 +45,13 @@ namespace SkillTree.Core.Skills
 
         public static float GetXPGainMultiplier()
         {
-            return 1f + (SkillTreeData.FastLearner.CurrentLevel * XPGainBonus.GetValue(UseDefault.GetValue())) + (SkillTreeData.TurboNerdo.CurrentLevel * XPGainBonus2.GetValue(UseDefault.GetValue()));
+            float enforcerBonus = SkillTreeData.SchoolOfHardKnocks.CurrentLevel * SchoolOfHardKnocksBonus.GetValue(UseDefault.GetValue());
+            float provisionerBonus = SkillTreeData.Apprenticeship.CurrentLevel * ApprenticeshipBonus.GetValue(UseDefault.GetValue());
+            float hustlerBonus = SkillTreeData.SalesExperience.CurrentLevel * SalesExperienceBonus.GetValue(UseDefault.GetValue());
+            float logisticianBonus = SkillTreeData.EducatedWorkforce.CurrentLevel * EducatedWorkforceBonus.GetValue(UseDefault.GetValue());
+            return 1f + enforcerBonus + provisionerBonus + hustlerBonus + logisticianBonus;
         }
 
-        public static float GetSaleXPBonus()
-        {
-            return SkillTreeData.Kingpin.CurrentLevel * SaleXPBonus.GetValue(UseDefault.GetValue());
-        }
 
         public static float GetVisbilityMultiplier()
         {
@@ -108,6 +108,21 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.PileTheBodiesHigh.CurrentLevel == 0 ? searchTime : Mathf.Clamp(searchTime, 0f, 35f) - Mathf.Clamp(KillCounts.PoliceKilled / 20, 0, 10);
         }
 
+        public static int GetPoliceXPBonus()
+        {
+            return SkillTreeData.CombatExperience.CurrentLevel * PoliceXPBonus.GetValue(UseDefault.GetValue());
+        }
+
+        public static int GetCartelGoonXPBonus()
+        {
+            return SkillTreeData.CombatExperience.CurrentLevel * CartelGoonXPBonus.GetValue(UseDefault.GetValue());
+        }
+
+        public static int GetCartelDealerXPBonus()
+        {
+            return SkillTreeData.CombatExperience.CurrentLevel * CartelDealerXPBonus.GetValue(UseDefault.GetValue());
+        }
+
         #endregion Stats
 
         #region Operations
@@ -138,7 +153,7 @@ namespace SkillTree.Core.Skills
 
         public static float GetGrowthSpeedMultiplier()
         {
-            return 1f + (SkillTreeData.GreenThumb.CurrentLevel + SkillTreeData.PlantWhisperer.CurrentLevel) * GrowthSpeedBonusPlants.GetValue(UseDefault.GetValue());
+            return 1f + (SkillTreeData.GreenThumb.CurrentLevel * GreenThumbBonus.GetValue(UseDefault.GetValue()));
         }
 
         public static float GetMoistureDrainMultiplier()
@@ -175,6 +190,17 @@ namespace SkillTree.Core.Skills
         {
             return SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPlants.GetValue(UseDefault.GetValue());
         }
+
+        public static int GetHarvestXPMultiplier()
+        {
+            return 1 + SkillTreeData.Meister.CurrentLevel * HarvestXPBonus.GetValue(UseDefault.GetValue());
+        }
+
+        public static float GetNewMixXPMultiplier()
+        {
+            return 1 + SkillTreeData.Meister.CurrentLevel * NewMixXPBonus.GetValue(UseDefault.GetValue());
+        }
+
         #endregion Operations
 
         #region Social
@@ -182,7 +208,6 @@ namespace SkillTree.Core.Skills
         {
             return BaseWeeklyDepositLimit.GetValue(UseDefault.GetValue()) + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue(UseDefault.GetValue());
         }
-
 
         public static float GetCustomerSampleBonus()
         {
@@ -214,7 +239,6 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.SacarLaBasura.CurrentLevel * TrashValueBonus.GetValue(UseDefault.GetValue());
         }
 
-
         public static float GetLaunderingCapacityMultiplier()
         {
             return 1f + SkillTreeData.SqueakyClean.CurrentLevel * LaunderingBonus.GetValue(UseDefault.GetValue());
@@ -223,6 +247,16 @@ namespace SkillTree.Core.Skills
         public static float GetCustomerCashMultiplier()
         {
             return 1f + SkillTreeData.SpreadTheWealth.CurrentLevel * CustomerCashBonus.GetValue(UseDefault.GetValue());
+        }
+
+        public static float GetSaleValueXPBonus()
+        {
+            return SkillTreeData.Grifter.CurrentLevel * SaleValueXPBonus.GetValue(UseDefault.GetValue());
+        }
+
+        public static int GetCounterOfferXPMultiplier()
+        {
+            return 1 + SkillTreeData.Grifter.CurrentLevel * CounterOfferXPBonus.GetValue(UseDefault.GetValue());
         }
 
         #endregion Social
@@ -295,7 +329,6 @@ namespace SkillTree.Core.Skills
             return (BaseMaxBotanistStations.GetValue(UseDefault.GetValue()) + GetEmployeeStationBonus(), BaseMaxBotanistStations.GetValue(UseDefault.GetValue()));
         }
         #endregion Logistician
-
 
         #region Special
         public static float GetBloodRushHealthBonus()

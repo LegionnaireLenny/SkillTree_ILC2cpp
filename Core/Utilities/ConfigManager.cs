@@ -50,6 +50,7 @@ namespace SkillTree.Core.Utilities
                     (property.GetValue(obj) as ConfigEntry<int>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<bool>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<KeyCode>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<LogLevel>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<Color>)?.SetDefault();
                 }
                 catch (Exception) { }
@@ -64,6 +65,9 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> BaseJumpHeight { get; set; }
         public static ConfigEntry<float> BaseArrestTime { get; set; }
         public static ConfigEntry<float> BaseArrestRadius { get; set; }
+        public static ConfigEntry<int>   BaseHarvestXPGain { get; set; }
+        public static ConfigEntry<int>   BaseNewMixXPGain { get; set; }
+        public static ConfigEntry<int>   BaseCounterOfferXPGain { get; set; }
         public static ConfigEntry<int>   BaseDryingRackCapacity { get; set; }
         public static ConfigEntry<int>   BaseCauldronOutput { get; set; }
         public static ConfigEntry<float> BaseWeeklyDepositLimit { get; set; }
@@ -84,9 +88,6 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> PickpocketDifficultyMultiplier { get; set; }
         public static ConfigEntry<float> PickpocketMinimumSuccessWidth { get; set; }
         public static ConfigEntry<float> TimeSkipGrowthMultiplier { get; set; }
-        public static ConfigEntry<float> XPGainBonus { get; set; }
-        public static ConfigEntry<float> XPGainBonus2 { get; set; }
-        public static ConfigEntry<float> SaleXPBonus { get; set; }
         public static ConfigEntry<int>   InventoryStackSizeBonus { get; set; }
         public static ConfigEntry<float> AimTimeMultiplier { get; set; }
         public static ConfigEntry<float> MaxSpreadMultiplier { get; set; }
@@ -94,6 +95,10 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   AmmoCapacityBonus { get; set; }
         public static ConfigEntry<float> ArrestTimeBonus { get; set; }
         public static ConfigEntry<float> ArrestRadiusBonus { get; set; }
+        public static ConfigEntry<float> SchoolOfHardKnocksBonus { get; set; }
+        public static ConfigEntry<int>   PoliceXPBonus { get; set; }
+        public static ConfigEntry<int>   CartelGoonXPBonus { get; set; }
+        public static ConfigEntry<int>   CartelDealerXPBonus { get; set; }
 
         private static MelonPreferences_Category Provisioner { get; set; }
         public static ConfigEntry<int>   CauldronOutputBonus { get; set; }
@@ -103,8 +108,11 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> QualityBonusPlants { get; set; }
         public static ConfigEntry<float> QualityBonusShrooms { get; set; }
         public static ConfigEntry<int>   YieldBonusPlants { get; set; }
-        public static ConfigEntry<float> GrowthSpeedBonusPlants { get; set; }
+        public static ConfigEntry<float> GreenThumbBonus { get; set; }
         public static ConfigEntry<float> MoistureDrainBonus { get; set; }
+        public static ConfigEntry<float> ApprenticeshipBonus { get; set; }
+        public static ConfigEntry<int>   HarvestXPBonus { get; set; }
+        public static ConfigEntry<float> NewMixXPBonus { get; set; }
 
         private static MelonPreferences_Category Hustler { get; set; }
         public static ConfigEntry<float> TrashGrabberBinSizeBonus { get; set; }
@@ -118,6 +126,9 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   CustomerOrderLimitBonus { get; set; }
         public static ConfigEntry<int>   CustomerOrderLimitRankBonus { get; set; }
         public static ConfigEntry<float> LaunderingBonus { get; set; }
+        public static ConfigEntry<float> SalesExperienceBonus { get; set; }
+        public static ConfigEntry<float> SaleValueXPBonus { get; set; }
+        public static ConfigEntry<int>   CounterOfferXPBonus { get; private set; }
 
         private static MelonPreferences_Category Logistician { get; set; }
         public static ConfigEntry<float> BotanistActionDurationMultiplier { get; set; }
@@ -130,6 +141,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> DealerSpeedBonus { get; set; }
         public static ConfigEntry<float> SupplierCashBonus { get; set; }
         public static ConfigEntry<float> SupplierItemBonus { get; set; }
+        public static ConfigEntry<float> EducatedWorkforceBonus { get; set; }
 
         private static MelonPreferences_Category Special { get; set; }
         public static ConfigEntry<float> PoliceKilledBonus { get; set; }
@@ -223,6 +235,9 @@ namespace SkillTree.Core.Utilities
             BaseJumpHeight = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseJumpHeight", PlayerMovement.JumpMultiplier, "Base Jump Height"));
             BaseArrestTime = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseArrestTime", 1.75f, "Base Arrest Time"));
             BaseArrestRadius = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseArrestRadius", 2.75f, "Base Arrest Radius"));
+            BaseHarvestXPGain = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseHarvestXPGain", 5, "Base Harvest XP Gain"));
+            BaseNewMixXPGain = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseNewMixXPGain", 80, "Base New Mix XP Gain"));
+            BaseCounterOfferXPGain = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseCounterOfferXPGain", 5, "Base CounterOffer XP Gain"));
             BaseDryingRackCapacity = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseDryingRackCapacity", 20, "Base Drying Rack Capacity"));
             BaseCauldronOutput = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseCauldronOutput", 10, "Base Cauldron Output"));
             BaseWeeklyDepositLimit = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseWeeklyDepositLimit", ATM.WEEKLY_DEPOSIT_LIMIT, "Base Weekly ATM Deposit Limit"));
@@ -236,31 +251,35 @@ namespace SkillTree.Core.Utilities
             Enforcer = MelonPreferences.CreateCategory("SkillTree_EnforcerSettings", "Enforcer Skills Settings");
             HealthRegenBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_HealthRegenBonus", 1f, "Battle-Scarred: Health Regen Bonus", "Increases the health regeneration amount multiplier"));
             HealthRegenDelayMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_HealthRegenDelayMultiplier", 0.5f, "Battle-Scarred: Health Regen Delay Multiplier"));
-            TimeSkipGrowthMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_TimeSkipGrowthMultiplier", 0.33f, "Circadian Mastery: Time Skip Plant Growth Progress Multiplier", "By default, plants grow at one-third (0.33) of their normal speed when time is skipped.", validator: new ValueRange<float>(0.1f, 2f)));
+            TimeSkipGrowthMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_TimeSkipGrowthMultiplier", 0.33f, "Circadian Mastery: Plant Growth Progress Modifier", "By default, plants grow at one-third (0.33) of their normal speed when time is skipped.", validator: new ValueRange<float>(0.1f, 2f)));
             AmmoCapacityBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_AmmoCapacityBonus", 1, "Double-Stack Mags: Ammo Capacity Bonus", "Increases the ammo capacity multiplier"));
-            XPGainBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_XPGainBonus", 0.05f, "Fast Learner: XP Bonus"));
             MoveSpeedBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MoveSpeedBonus", 0.15f, "Fleet Feet: Movement Speed Bonus"));
             VisibilityMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_VisibilityMultiplier", 0.75f, "Ghost: Visibility Multiplier"));
             PickpocketDifficultyMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_PickpocketDifficultyMultiplier", 0.75f, "Ghost: Pickpocket Difficulty Multiplier"));
             PickpocketMinimumSuccessWidth = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_PickpocketMinimumSuccessWidth", 20f, "Ghost: Minimum Width of Pickpocket Green Area"));
             HealthBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_HealthBonus", 20f, "Hardy: Health Bonus"));
-            SaleXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SalesXPBonus", 0.05f, "Kingpin: Sales XP Bonus"));
             InventoryStackSizeBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus", validator: new ValueRange<int>(0, 1000)));
             AimTimeMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_AimTimeMultiplier", 0.5f, "Quick Draw McGraw: Ranged Weapon Aim Time Multiplier"));
+            SchoolOfHardKnocksBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SchoolOfHardKnocksBonus", 0.125f, "School Of Hard Knocks: XP Bonus"));
             MaxSpreadMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MaxSpreadMultiplier", 0.35f, "Sharpshooter: Maximum Ranged Weapon Spread Multiplier"));
             MinSpreadMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MinSpreadMultiplier", 0.35f, "Sharpshooter: Minimum Ranged Weapon Spread Multiplier"));
             ArrestTimeBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_ArrestTimeBonus", 1f, "Slippery: Arrest Time Bonus", "Increases the arrest time multiplier"));
             ArrestRadiusBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_ArrestRadiusBonus", 0.75f, "Slippery: Arrest Radius Multiplier"));
             StaminaBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_StaminaBonus", 0.30f, "Spring-Heeled: Stamina Bonus"));
             JumpHeightBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_JumpHeightBonus", 0.35f, "Spring-Heeled: Jump Height Bonus"));
-            XPGainBonus2 = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_XPGainBonus2", 0.1f, "Turbo Nerdo: XP Bonus"));
+            PoliceXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_PoliceXPBonus", 12, "CombatExperience: Police XP Bonus"));
+            CartelGoonXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CartelGoonXPBonus", 20, "CombatExperience: Cartel Goon XP Bonus"));
+            CartelDealerXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CartelDealerXPBonus", 30, "CombatExperience: Cartel Dealer Bonus"));
             Enforcer.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 
             Provisioner = MelonPreferences.CreateCategory("SkillTree_ProvisionerSettings", "Provisioner Skills Settings");
             QualityBonusPlants = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots"));
+            ApprenticeshipBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_ApprenticeshipBonus", 0.125f, "Apprenticeship: XP Bonus"));
             YieldBonusPlants = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants"));
             MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier"));
-            GrowthSpeedBonusPlants = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GrowthSpeedBonusPlants", 0.025f, "Green Thumb/Plant Whisperer: Plant Growth Speed Bonus"));
+            GreenThumbBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GreenThumbBonus", 0.05f, "Green Thumb: Plant Growth Speed Bonus"));
+            HarvestXPBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_HarvestXPBonus", 2, "Meister: Harvest XP Bonus", "Increases the harvest XP multiplier"));
+            NewMixXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_NewMixXPBonus", 0.5f, "Meister: New Mix XP Bonus", "Increases the new mix XP multiplier"));
             QualityBonusShrooms = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms"));
             QualityBonusGrowTent = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusGrowTent", 0.26f, "Pitchin' a Tent: Quality Bonus for Grow Tents"));
             ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier"));
@@ -274,9 +293,12 @@ namespace SkillTree.Core.Utilities
             TrashGrabberBinSizeBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier"));
             TrashPickupRadius = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius"));
             TrashPickupRadiusBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier"));
+            SaleValueXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Grifter: Sale Value XP Bonus"));
+            CounterOfferXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Grifter: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
             ATMDepositBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus"));
             TrashValueBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus"));
             PawnPriceBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus"));
+            SalesExperienceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SalesExperienceBonus", 0.125f, "Sales Experience: XP Bonus"));
             CustomerSampleAcceptBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus"));
             CustomerCashBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus"));
             LaunderingBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_LaunderingBonus", 0.30f, "Squeaky Clean: Business Laundering Capacity Bonus"));
@@ -292,6 +314,7 @@ namespace SkillTree.Core.Utilities
             SupplierCashBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus"));
             SupplierItemBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierItemBonus", 0.50f, "Reliable Bus. Partner: Dead Drop Item Limit Bonus"));
             EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)"));
+            EducatedWorkforceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_EducatedWorkforceBonus", 0.125f, "Educated Workforce: XP Bonus"));
             DealerCutReduction = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction"));
             Logistician.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
 

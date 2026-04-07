@@ -25,9 +25,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill PrisonWallet = new("Prison Wallet", "Increase item stack size by 100% per level.\n\nDoes not apply to items with a stack size of 1.", SkillCategory.Enforcer, 3, Hardy, [ItemStackPatches.SetItemStackSize]);
         public static readonly Skill DoubleStackMags = new("Double-Stack Mags", "Increase ammo capacity of ranged weapons and magazines by 100%.", SkillCategory.Enforcer, 1, PrisonWallet, [RangedWeaponPatches.SetWeaponStats]);
         public static readonly Skill CircadianMastery = new("Circadian Mastery", "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.", SkillCategory.Enforcer, 1, Hardy);
-        public static readonly Skill FastLearner = new("Fast Learner", "Increase XP gain by 5%.", SkillCategory.Enforcer, 2, Hardy);
-        public static readonly Skill TurboNerdo = new("Turbo Nerdo", "Increase XP gain by an additional 10%.", SkillCategory.Enforcer, 2, FastLearner);
-        public static readonly Skill Kingpin = new("Kingpin", "Gain 5% of a drug sale's value as bonus XP.", SkillCategory.Enforcer, 1, FastLearner);
+        public static readonly Skill SchoolOfHardKnocks = new("School of Hard Knocks", "Increase XP gain by 12.5%.", SkillCategory.Enforcer, 1, Hardy);
+        public static readonly Skill CombatExperience = new("Combat Experience", "Killing the following NPCs grants XP\n Police Officer: +12 XP\n Cartel Goon: +20 XP\n Cartel Dealer: +30 XP", SkillCategory.Enforcer, 1, SchoolOfHardKnocks);
 
         public static readonly Skill PitchinATent = new("Pitchin' a Tent", "Increase plant quality for grow tents by 26%.", SkillCategory.Provisioner, 1, null);
         public static readonly Skill AdvancedPotTechniques = new("Advanced Pot Techniques", "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%.", SkillCategory.Provisioner, 2, PitchinATent);
@@ -35,12 +34,13 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill Mushroomancer = new("Mushroomancer", "Increase mushroom quality by 15%.", SkillCategory.Provisioner, 2, AdvancedPotTechniques);
         public static readonly Skill WetAssPlants = new("Wet-Ass Plants", "Moisture drains 50% slower for all grow containers.", SkillCategory.Provisioner, 1, PitchinATent);
         public static readonly Skill AbsorbentSoil = new("Absorbent Soil", "Soil additives last until the soil is depleted.", SkillCategory.Provisioner, 1, WetAssPlants);
-        public static readonly Skill GreenThumb = new("Green Thumb", "Increase plant and mushroom growth speed 2.5%.", SkillCategory.Provisioner, 2, PitchinATent);
-        public static readonly Skill PlantWhisperer = new("Plant Whisperer", "Increase plant and mushroom growth speed by an additional 2.5%.", SkillCategory.Provisioner, 2, GreenThumb);
+        public static readonly Skill GreenThumb = new("Green Thumb", "Increase plant and mushroom growth speed 5%.", SkillCategory.Provisioner, 2, PitchinATent);
         public static readonly Skill QuickCrafter = new("Quick Crafter", "Increase the speed of cauldrons, chemistry stations, lab ovens, and mixing stations by 100%.", SkillCategory.Provisioner, 1, GreenThumb);
         public static readonly Skill BountifulHarvest = new("Bountiful Harvest", "Increase base yield of plants by 1.", SkillCategory.Provisioner, 1, PitchinATent);
         public static readonly Skill CrankinOneOut = new("Crankin' One Out", "Increase the production capacity of mixing stations and drying racks by 100%.", SkillCategory.Provisioner, 1, BountifulHarvest);
         public static readonly Skill WitchsBrew = new("Witch's Brew", "Increase the output of the cauldron by 100%.", SkillCategory.Provisioner, 1, BountifulHarvest);
+        public static readonly Skill Apprenticeship = new("Apprenticeship", "Increase XP gain by 12.5%.", SkillCategory.Provisioner, 1, PitchinATent);
+        public static readonly Skill Meister = new("Meister", "Harvesting plants grants an additional 200% XP\nCreating new mixes grants an additional 50% XP.", SkillCategory.Provisioner, 1, Apprenticeship);
 
         public static readonly Skill SilverTonguedDevil = new("Silver Tongued Devil", "Increase chance a potential customer will accept a free sample by 5%", SkillCategory.Hustler, 1, null);
         public static readonly Skill CommunityService = new("Community Service", "Through your experience in gathering trash, you've become more adept at picking up and storing trash.\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items.", SkillCategory.Hustler, 1, SilverTonguedDevil);
@@ -52,6 +52,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill CrystalBall = new("Crystal Ball", "Your haggling prowess is borderline mystical.\n\nYou can see the chance of a customer accepting a counteroffer.", SkillCategory.Hustler, 1, SilverTonguedDevil);
         public static readonly Skill Informant = new("Informant", "You know a guy who knows a guy that knows a guy that knows the best ways to avoid law enforcement.\n\nPolice are shown on the map.", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
         public static readonly Skill Spymaster = new("Spymaster", "Your eyes and ears are everywhere.\n\nBenzies are shown on the map.", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
+        public static readonly Skill SalesExperience = new("Sales Experience", "Increase XP gain by 12.5%.", SkillCategory.Hustler, 1, SilverTonguedDevil);
+        public static readonly Skill Grifter = new("Grifter", "Gain 200% more XP from successful counteroffers\nGain 10% of a drug sale's value as bonus XP.", SkillCategory.Hustler, 1, SalesExperience);
 
         public static readonly Skill ReliableBusinessPartner = new("Reliable Business Partner", "Increase dead drop order limit by 67.5% and item limit by 50%.", SkillCategory.Logistician, 2, null);
         public static readonly Skill RushDelivery = new("Rush Delivery", "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours.", SkillCategory.Logistician, 1, ReliableBusinessPartner);
@@ -64,6 +66,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill NightShift = new("Night Shift", "Employees don't stop working at 4 AM.", SkillCategory.Logistician, 1, ReliableBusinessPartner);
         public static readonly Skill EmployeeMovespeed = new("RUN BITCH RUN!", "Employees move 3 times faster.", SkillCategory.Logistician, 1, NightShift);
         public static readonly Skill EmployeeMaxStation = new("Overworked and Underpaid", "Increase station assignment limit for botanists and chemists by 2.", SkillCategory.Logistician, 2, NightShift);
+        public static readonly Skill EducatedWorkforce = new("Educated Workforce", "Increase XP gain by 12.5%.", SkillCategory.Logistician, 1, ReliableBusinessPartner);
 
         public static readonly Skill GoodSamaritan = new("Good Samaritan", "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance.", SkillCategory.Special, 1, null);
         public static readonly Skill BloodRush = new("Blood Rush", "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred).", SkillCategory.Special, 1, GoodSamaritan);

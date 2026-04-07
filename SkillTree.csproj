@@ -55,7 +55,7 @@
 		<Compile Include="Core\Patches\Logistician\DeliveryPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PursuitBehaviourPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\PlayerPatches.cs" />
-		<Compile Include="Core\Patches\Enforcer\XPPatches.cs" />
+		<Compile Include="Core\Patches\CrossTree\XPPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\ItemStackPatches.cs" />
 		<Compile Include="Core\Patches\Enforcer\HealthPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ShopPatches.cs" />
