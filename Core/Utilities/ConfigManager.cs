@@ -95,7 +95,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   AmmoCapacityBonus { get; set; }
         public static ConfigEntry<float> ArrestTimeBonus { get; set; }
         public static ConfigEntry<float> ArrestRadiusBonus { get; set; }
-        public static ConfigEntry<float> SchoolOfHardKnocksBonus { get; set; }
+        public static ConfigEntry<float> SchoolOfHardKnocksXPBonus { get; set; }
         public static ConfigEntry<int>   PoliceXPBonus { get; set; }
         public static ConfigEntry<int>   CartelGoonXPBonus { get; set; }
         public static ConfigEntry<int>   CartelDealerXPBonus { get; set; }
@@ -106,11 +106,15 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   ChemistStationSpeedBonus { get; set; }
         public static ConfigEntry<float> QualityBonusGrowTent { get; set; }
         public static ConfigEntry<float> QualityBonusPlants { get; set; }
+        public static ConfigEntry<int>   PlantSeedXP { get; set; }
+        public static ConfigEntry<int>   DrugProductionXP { get; set; }
+        public static ConfigEntry<int>   DrugPackagingXP { get; set; }
+        public static ConfigEntry<int>   DrugMixingXP { get; set; }
         public static ConfigEntry<float> QualityBonusShrooms { get; set; }
         public static ConfigEntry<int>   YieldBonusPlants { get; set; }
         public static ConfigEntry<float> GreenThumbBonus { get; set; }
         public static ConfigEntry<float> MoistureDrainBonus { get; set; }
-        public static ConfigEntry<float> ApprenticeshipBonus { get; set; }
+        public static ConfigEntry<float> MeisterXPBonus { get; set; }
         public static ConfigEntry<int>   HarvestXPBonus { get; set; }
         public static ConfigEntry<float> NewMixXPBonus { get; set; }
 
@@ -126,7 +130,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   CustomerOrderLimitBonus { get; set; }
         public static ConfigEntry<int>   CustomerOrderLimitRankBonus { get; set; }
         public static ConfigEntry<float> LaunderingBonus { get; set; }
-        public static ConfigEntry<float> SalesExperienceBonus { get; set; }
+        public static ConfigEntry<float> MultiLevelMarketeerXPBonus { get; set; }
         public static ConfigEntry<float> SaleValueXPBonus { get; set; }
         public static ConfigEntry<int>   CounterOfferXPBonus { get; private set; }
 
@@ -260,7 +264,7 @@ namespace SkillTree.Core.Utilities
             HealthBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_HealthBonus", 20f, "Hardy: Health Bonus"));
             InventoryStackSizeBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_InventoryStackSizeBonus", 1, "Prison Wallet: Inventory Stack Size Bonus", validator: new ValueRange<int>(0, 1000)));
             AimTimeMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_AimTimeMultiplier", 0.5f, "Quick Draw McGraw: Ranged Weapon Aim Time Multiplier"));
-            SchoolOfHardKnocksBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SchoolOfHardKnocksBonus", 0.125f, "School Of Hard Knocks: XP Bonus"));
+            SchoolOfHardKnocksXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SchoolOfHardKnocksXPBonus", 0.125f, "School Of Hard Knocks: XP Bonus"));
             MaxSpreadMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MaxSpreadMultiplier", 0.35f, "Sharpshooter: Maximum Ranged Weapon Spread Multiplier"));
             MinSpreadMultiplier = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MinSpreadMultiplier", 0.35f, "Sharpshooter: Minimum Ranged Weapon Spread Multiplier"));
             ArrestTimeBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_ArrestTimeBonus", 1f, "Slippery: Arrest Time Bonus", "Increases the arrest time multiplier"));
@@ -274,12 +278,16 @@ namespace SkillTree.Core.Utilities
 
             Provisioner = MelonPreferences.CreateCategory("SkillTree_ProvisionerSettings", "Provisioner Skills Settings");
             QualityBonusPlants = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots"));
-            ApprenticeshipBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_ApprenticeshipBonus", 0.125f, "Apprenticeship: XP Bonus"));
+            PlantSeedXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_PlantSeedXP", 2, "Apprenticeship: Seed/Spore Planting XP"));
+            DrugProductionXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugProductionXP", 5, "Apprenticeship: Drug Production XP"));
+            DrugPackagingXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugPackagingXP", 1, "Apprenticeship: Drug Packaging XP"));
+            DrugMixingXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugMixingXP", 1, "Apprenticeship: Drug Mixing XP"));
+            HarvestXPBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_HarvestXPBonus", 2, "Apprenticeship: Harvest XP Bonus", "Increases the harvest XP multiplier"));
+            NewMixXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_NewMixXPBonus", 0.25f, "Apprenticeship: New Mix XP Bonus", "Increases the new mix XP multiplier"));
             YieldBonusPlants = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusPlants", 1, "Bountiful Harvest: Yield Bonus for Plants"));
             MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier"));
             GreenThumbBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GreenThumbBonus", 0.05f, "Green Thumb: Plant Growth Speed Bonus"));
-            HarvestXPBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_HarvestXPBonus", 2, "Meister: Harvest XP Bonus", "Increases the harvest XP multiplier"));
-            NewMixXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_NewMixXPBonus", 0.5f, "Meister: New Mix XP Bonus", "Increases the new mix XP multiplier"));
+            MeisterXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_MeisterXPBonus", 0.125f, "Meister: XP Bonus"));
             QualityBonusShrooms = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms"));
             QualityBonusGrowTent = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusGrowTent", 0.26f, "Pitchin' a Tent: Quality Bonus for Grow Tents"));
             ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier"));
@@ -296,9 +304,9 @@ namespace SkillTree.Core.Utilities
             SaleValueXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Grifter: Sale Value XP Bonus"));
             CounterOfferXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Grifter: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
             ATMDepositBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus"));
+            MultiLevelMarketeerXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MultiLevelMarketeerXPBonus", 0.125f, "Multi-level Marketeer: XP Bonus"));
             TrashValueBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus"));
             PawnPriceBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus"));
-            SalesExperienceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SalesExperienceBonus", 0.125f, "Sales Experience: XP Bonus"));
             CustomerSampleAcceptBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus"));
             CustomerCashBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus"));
             LaunderingBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_LaunderingBonus", 0.30f, "Squeaky Clean: Business Laundering Capacity Bonus"));

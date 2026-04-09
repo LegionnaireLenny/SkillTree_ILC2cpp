@@ -37,7 +37,7 @@ namespace SkillTree.Core.Patches.Miscellaneous
             {
                 string currentWindow = GetTimeWindow(NetworkSingleton<TimeManager>.Instance.CurrentTime);
                 string deliveryWindow = GetTimeWindow(__instance.DeliveryWindow.WindowStartTime);
-                LogManager.LogMessage($"Current Time: {NetworkSingleton<TimeManager>.Instance.CurrentTime} | Current Window: {currentWindow} | Delivery Time: {__instance.DeliveryWindow.WindowStartTime} | Delivery Window: {deliveryWindow}", LogLevel.Debug);
+                LogManager.LogMessage($"Current Time: {NetworkSingleton<TimeManager>.Instance.CurrentTime} | Current Window: {currentWindow} | Delivery Time: {__instance.DeliveryWindow.WindowStartTime} | Delivery Window: {deliveryWindow}", LogLevel.DebugVerbose);
                 Color backgroundColor = currentWindow.Equals(deliveryWindow) ? ContractReadyBackgroundColor.GetValue() : ContractNotReadyBackgroundColor.GetValue();
                 Color fillColor = currentWindow.Equals(deliveryWindow) ? ContractReadyFillColor.GetValue() : ContractNotReadyFillColor.GetValue();
 

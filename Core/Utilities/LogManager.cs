@@ -10,6 +10,7 @@ namespace SkillTree.Core.Utilities
 
             switch (level)
             {
+                case LogLevel.DebugVerbose:
                 case LogLevel.Debug:
                 case LogLevel.Info:
                     MelonLogger.Msg(txt);

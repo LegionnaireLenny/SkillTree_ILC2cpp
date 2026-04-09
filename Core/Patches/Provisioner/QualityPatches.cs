@@ -1,8 +1,12 @@
 ﻿using HarmonyLib;
+using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Patches.Provisioner
 {
@@ -17,6 +21,9 @@ namespace SkillTree.Core.Patches.Provisioner
                 return;
 
             __instance.CurrentOperation.IngredientQuality = ItemQuality.ShiftQuality(__instance.CurrentOperation.IngredientQuality, SkillModifiers.GetMethCocaProductQualityBonus());
+            int xp = DrugProductionXP.GetValue(UseDefault.GetValue());
+            LogManager.LogMessage($"[Meister] Drug Production XP (Shatter): {xp}", LogLevel.Debug);
+            NetworkSingleton<LevelManager>.Instance.AddXP(xp);
         }
     }
 }

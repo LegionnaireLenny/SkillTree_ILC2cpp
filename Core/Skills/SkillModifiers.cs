@@ -45,9 +45,9 @@ namespace SkillTree.Core.Skills
 
         public static float GetXPGainMultiplier()
         {
-            float enforcerBonus = SkillTreeData.SchoolOfHardKnocks.CurrentLevel * SchoolOfHardKnocksBonus.GetValue(UseDefault.GetValue());
-            float provisionerBonus = SkillTreeData.Apprenticeship.CurrentLevel * ApprenticeshipBonus.GetValue(UseDefault.GetValue());
-            float hustlerBonus = SkillTreeData.SalesExperience.CurrentLevel * SalesExperienceBonus.GetValue(UseDefault.GetValue());
+            float enforcerBonus = SkillTreeData.SchoolOfHardKnocks.CurrentLevel * SchoolOfHardKnocksXPBonus.GetValue(UseDefault.GetValue());
+            float provisionerBonus = SkillTreeData.Meister.CurrentLevel * MeisterXPBonus.GetValue(UseDefault.GetValue());
+            float hustlerBonus = SkillTreeData.MultiLevelMarketeer.CurrentLevel * MultiLevelMarketeerXPBonus.GetValue(UseDefault.GetValue());
             float logisticianBonus = SkillTreeData.EducatedWorkforce.CurrentLevel * EducatedWorkforceBonus.GetValue(UseDefault.GetValue());
             return 1f + enforcerBonus + provisionerBonus + hustlerBonus + logisticianBonus;
         }
@@ -193,12 +193,12 @@ namespace SkillTree.Core.Skills
 
         public static int GetHarvestXPMultiplier()
         {
-            return 1 + SkillTreeData.Meister.CurrentLevel * HarvestXPBonus.GetValue(UseDefault.GetValue());
+            return 1 + SkillTreeData.Apprenticeship.CurrentLevel * HarvestXPBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetNewMixXPMultiplier()
         {
-            return 1 + SkillTreeData.Meister.CurrentLevel * NewMixXPBonus.GetValue(UseDefault.GetValue());
+            return 1 + SkillTreeData.Apprenticeship.CurrentLevel * NewMixXPBonus.GetValue(UseDefault.GetValue());
         }
 
         #endregion Operations

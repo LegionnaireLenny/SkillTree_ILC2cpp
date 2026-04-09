@@ -4,6 +4,7 @@
     {
         Warning,
         Info, 
-        Debug
+        Debug,
+        DebugVerbose
     }
 }

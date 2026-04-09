@@ -5,6 +5,7 @@ using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.Growing;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 
 namespace SkillTree.Core.Patches.Provisioner
 {
@@ -18,6 +19,7 @@ namespace SkillTree.Core.Patches.Provisioner
             if (__instance == null || __instance.NormalizedGrowthProgress >= 1f || NetworkSingleton<TimeManager>.Instance.IsEndOfDay)
                 return true;
 
+            LogManager.LogMessage("Plant MinPass", LogLevel.DebugVerbose);
             float num = 1f / (__instance.GrowthTime * 60f) * mins;
             num *= __instance.Pot.GetTemperatureGrowthMultiplier();
             num *= __instance.Pot.GetAverageLightExposure(out var growSpeedMultiplier);

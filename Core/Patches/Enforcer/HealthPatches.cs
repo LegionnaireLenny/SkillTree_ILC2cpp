@@ -3,11 +3,9 @@ using Il2CppScheduleOne;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.PlayerScripts.Health;
-using MelonLoader;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
 using UnityEngine;
-using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Patches.Enforcer
 {
@@ -41,12 +39,12 @@ namespace SkillTree.Core.Patches.Enforcer
         {
             if (__instance.CurrentHealth <= 0f)
             {
-                Il2CppScheduleOne.Console.LogWarning("RecoverHealth called on dead player. Use Revive() instead.", null);
+                Console.LogWarning("RecoverHealth called on dead player. Use Revive() instead.", null);
                 return false;
             }
             __instance.CurrentHealth = Mathf.Clamp(__instance.CurrentHealth + recovery, 0f, SkillModifiers.GetPlayerMaxHealth());
             __instance.onHealthChanged?.Invoke(__instance.CurrentHealth);
-            LogManager.LogMessage($"Health => Recovered {recovery} | Current {__instance.CurrentHealth} | Max {SkillModifiers.GetPlayerMaxHealth()}", LogLevel.Debug);
+            LogManager.LogMessage($"Recovered {recovery} | Current {__instance.CurrentHealth} | Max {SkillModifiers.GetPlayerMaxHealth()}", LogLevel.DebugVerbose);
             return false;
         }
 

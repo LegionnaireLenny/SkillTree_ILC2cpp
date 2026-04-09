@@ -2,10 +2,13 @@
 using Il2CppFishNet;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.Levelling;
 using Il2CppScheduleOne.ObjectScripts;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
+using static SkillTree.Core.Utilities.ConfigManager;
 
 namespace SkillTree.Core.Patches.Provisioner
 {
@@ -45,6 +48,10 @@ namespace SkillTree.Core.Patches.Provisioner
                             ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
                         __instance.OutputSlot.InsertItem(qualityItemInstance);
                     }
+
+                    int xp = DrugProductionXP.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.WitchsBrew.CurrentLevel);
+                    LogManager.LogMessage($"[Apprenticeship] Drug Production XP (Cauldron): {xp}", LogLevel.Debug);
+                    NetworkSingleton<LevelManager>.Instance.AddXP(xp);
 
                     __instance.CauldronFillable.ResetContents();
                     __instance.onCookEnd?.Invoke();

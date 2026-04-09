@@ -67,7 +67,9 @@ namespace SkillTree.Core.Patches.Provisioner
             {
                 float value = NetworkSingleton<VariableDatabase>.Instance.GetValue<float>("HarvestedPlantCount");
                 NetworkSingleton<VariableDatabase>.Instance.SetVariableValue("HarvestedPlantCount", (value + 1f).ToString());
-                NetworkSingleton<LevelManager>.Instance.AddXP(BaseHarvestXPGain.GetValue(UseDefault.GetValue()) * SkillModifiers.GetHarvestXPMultiplier());
+                int xp = BaseHarvestXPGain.GetValue(UseDefault.GetValue()) * SkillModifiers.GetHarvestXPMultiplier();
+                LogManager.LogMessage($"[Apprenticeship] Base Harvest XP (Plant): {BaseHarvestXPGain.GetValue(UseDefault.GetValue())} | XP Gained: {xp} | Skill Multiplier: x{SkillModifiers.GetHarvestXPMultiplier()}", LogLevel.Debug);
+                NetworkSingleton<LevelManager>.Instance.AddXP(xp);
             }
 
             __instance.Plant = null;
