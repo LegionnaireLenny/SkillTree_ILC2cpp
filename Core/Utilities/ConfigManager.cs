@@ -216,7 +216,7 @@ namespace SkillTree.Core.Utilities
             ContractReadyFillColor = new ConfigEntry<Color>(UserSettings.CreateEntry("SkillTree_ContractReadyFillColor", new Color(1f, 1f, 1f, 1f), "Contract Ready: Fill Color", "Icon fill color for contracts that are within their delivery window"));
             ContractNotReadyBackgroundColor = new ConfigEntry<Color>(UserSettings.CreateEntry("SkillTree_ContractNotReady_BackgroundColor", new Color(0.6984f, 0.6226f, 0.4673f, 1f), "Contract Not Ready: Background Color", "Icon background color for contracts that are outside their delivery window"));
             ContractNotReadyFillColor = new ConfigEntry<Color>(UserSettings.CreateEntry("SkillTree_ContractNotReady_FillColor", new Color(1f, 1f, 1f, 1f), "Contract Not Ready: Fill Color", "Icon fill color for contracts that are outside their delivery window"));
-            UserSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            UserSettings.SetFilePath(Core.ConfigFile, true, false);
 
             Keybinds = MelonPreferences.CreateCategory("SkillTree_Keybinds", "Keybindings");
             MenuHotkey = new ConfigEntry<KeyCode>(Keybinds.CreateEntry($"SkillTree_Menu_Hotkey", KeyCode.BackQuote, "Menu Hotkey", "Open the skill tree menu"));
@@ -229,7 +229,7 @@ namespace SkillTree.Core.Utilities
             InfectiousPersonalityHotkey = new ConfigEntry<KeyCode>(Keybinds.CreateEntry("SkillTree_InfectiousPersonality_Hotkey", KeyCode.F6, "Skill: Infectious Personality", "Activate 'Infectious Personality' skill"));
             AdrenalineSurgeHotkey = new ConfigEntry<KeyCode>(Keybinds.CreateEntry("SkillTree_AdrenalineSurge_Hotkey", KeyCode.F7, "Skill: Adrenaline Surge", "Activate 'Adrenaline Surge' skill"));
             AntiGravityBongHotkey = new ConfigEntry<KeyCode>(Keybinds.CreateEntry("SkillTree_AntiGravityBong_Hotkey", KeyCode.F8, "Skill: Anti-Gravity Bong", "Activate 'Anti-Gravity Bong' skill"));
-            Keybinds.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Keybinds.SetFilePath(Core.ConfigFile, true, false);
 
             BaseGameSettings = MelonPreferences.CreateCategory("SkillTree_BaseGameSettings", "Base Game Settings");
             BaseHealth = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxHealth", PlayerHealth.MAX_HEALTH, "Base Maximum Health"));
@@ -250,7 +250,7 @@ namespace SkillTree.Core.Utilities
             BaseMaxCustomer = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxCustomer", Dealer.MAX_CUSTOMERS, "Base Max Customers for Dealers"));
             BaseMaxChemistStations = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxChemistStations", 4, "Base Maximum Chemist Stations"));
             BaseMaxBotanistStations = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxBotanistStations", 8, "Base Maximum Botanist Stations"));
-            BaseGameSettings.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            BaseGameSettings.SetFilePath(Core.ConfigFile, true, false);
 
             Enforcer = MelonPreferences.CreateCategory("SkillTree_EnforcerSettings", "Enforcer Skills Settings");
             HealthRegenBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_HealthRegenBonus", 1f, "Battle-Scarred: Health Regen Bonus", "Increases the health regeneration amount multiplier"));
@@ -274,7 +274,7 @@ namespace SkillTree.Core.Utilities
             PoliceXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_PoliceXPBonus", 12, "CombatExperience: Police XP Bonus"));
             CartelGoonXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CartelGoonXPBonus", 20, "CombatExperience: Cartel Goon XP Bonus"));
             CartelDealerXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CartelDealerXPBonus", 30, "CombatExperience: Cartel Dealer Bonus"));
-            Enforcer.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Enforcer.SetFilePath(Core.ConfigFile, true, false);
 
             Provisioner = MelonPreferences.CreateCategory("SkillTree_ProvisionerSettings", "Provisioner Skills Settings");
             QualityBonusPlants = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusPlants", 0.15f, "Advanced Pot Techniques: Quality Bonus for Pots"));
@@ -293,7 +293,7 @@ namespace SkillTree.Core.Utilities
             ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier"));
             MoistureDrainBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_MoistureDrainBonus", 0.5f, "Wet-Ass Plants: Moisture Drain Multiplier"));
             CauldronOutputBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_CauldronOutputBonus", 1, "Witch's Brew: Cauldron Output Bonus", "Increases the output multiplier"));
-            Provisioner.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Provisioner.SetFilePath(Core.ConfigFile, true, false);
 
             Hustler = MelonPreferences.CreateCategory("SkillTree_HustlerSettings", "Hustler Skills Settings");
             CustomerOrderLimitBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_CustomerOrderLimitBonus", 3, "Captive Market: Customer Order Limit Bonus"));
@@ -310,7 +310,7 @@ namespace SkillTree.Core.Utilities
             CustomerSampleAcceptBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus"));
             CustomerCashBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerCashBonus", 0.25f, "Spread the Wealth: Customer Weekly Spend Limit Bonus"));
             LaunderingBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_LaunderingBonus", 0.30f, "Squeaky Clean: Business Laundering Capacity Bonus"));
-            Hustler.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Hustler.SetFilePath(Core.ConfigFile, true, false);
 
             Logistician = MelonPreferences.CreateCategory("SkillTree_LogisticianSettings", "Logistician Skills Settings");
             DealerCustomerLimitBonus = new ConfigEntry<int>(Logistician.CreateEntry("SkillTree_CustomerLimitBonus", 2, "Expansive Empire: Customer Limit Bonus"));
@@ -324,7 +324,7 @@ namespace SkillTree.Core.Utilities
             EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)"));
             EducatedWorkforceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_EducatedWorkforceBonus", 0.125f, "Educated Workforce: XP Bonus"));
             DealerCutReduction = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction"));
-            Logistician.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Logistician.SetFilePath(Core.ConfigFile, true, false);
 
             Special = MelonPreferences.CreateCategory("SkillTree_SpecialSettings", "Special Skills Settings");
             AdrenalineSurgeZappedEffect = new ConfigEntry<bool>(Special.CreateEntry("SkillTree_AdrenalineSurgeZappedEffect", true, "Adrenaline Surge: Enabled Zapped Effect"));
@@ -355,12 +355,12 @@ namespace SkillTree.Core.Utilities
             SiphonFundsOwnedBusinessBonus = new ConfigEntry<float>(Special.CreateEntry("SkillTree_SiphonFundsOwnedBusinessBonus", 0.05f, "Siphon Funds: Bonus Per Owned Business"));
             TrickleDownCashReserve = new ConfigEntry<float>(Special.CreateEntry("SkillTree_TrickledownCashReserve", 2000f, "Trickle-down Economics: Cash Reserve", "Amount of cash kept when transferring money to businesses if there's not enough to max out their capacity"));
             TrickleDownPayoutInterval = new ConfigEntry<int>(Special.CreateEntry("SkillTree_TrickleDownPayoutInterval", 6, "Trickle-down Economics: Payout Interval", "Number of hours between laundering payouts", validator: new ValueRange<int>(1, 24)));
-            Special.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            Special.SetFilePath(Core.ConfigFile, true, false);
 
             DebugOptions = MelonPreferences.CreateCategory($"SkillTree_DebugOptions", $"Debug Options");
             ResetSkills = new ConfigEntry<bool>(DebugOptions.CreateEntry("SkillTree_ResetSkills", false, "Reset skills on next game load", "Debug: Enable this option and reload your save to reset your skills"));
             ResetConfiguration = new ConfigEntry<bool>(DebugOptions.CreateEntry("SkillTree_ResetConfiguration", false, "Reset all options", "Debug: Enable this option to reset mod options to default."));
-            DebugOptions.SetFilePath($"UserData/SkillTree_Config.cfg", true, false);
+            DebugOptions.SetFilePath(Core.ConfigFile, true, false);
 
             ResetConfiguration.Entry.OnEntryValueChanged.Subscribe((oldVal, newVal) => ResetConfig(newVal));
         }

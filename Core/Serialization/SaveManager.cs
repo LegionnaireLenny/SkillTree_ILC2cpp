@@ -26,7 +26,7 @@ namespace SkillTree.Core.Serialization
 
         public static string GetSaveFilePath()
         {
-            return Path.Combine(MelonEnvironment.UserDataDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
+            return Path.Combine(Core.SaveDirectory, $"SkillTree_{GetCurrentSaveID()}.json");
         }
 
         private static void BuildSaveData(Dictionary<string, string> skillData, List<Dictionary<string, string>> sources)

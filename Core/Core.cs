@@ -2,6 +2,7 @@
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.PlayerScripts;
 using MelonLoader;
+using MelonLoader.Utils;
 using S1API.GameTime;
 using S1API.Leveling;
 using S1API.Lifecycle;
@@ -14,6 +15,7 @@ using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using System;
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -29,6 +31,17 @@ namespace SkillTree.Core
         public static Action OnOpenKeyPressed;
         public static Action OnLevelSkillKeyPressed;
         public static bool ApplyeMployeePatch { get; private set; } = false;
+
+        public static readonly string BaseDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "SkillTree");
+        public static readonly string IconDirectory = Path.Combine(BaseDirectory, "Icons");
+        public static readonly string SaveDirectory = Path.Combine(BaseDirectory, "Saves");
+        public static readonly string TranslationsDirectory = Path.Combine(BaseDirectory, "Translations");
+
+        public static readonly string ConfigFile = Path.Combine(BaseDirectory, "SkillTree_Config.cfg");
+
+        public static readonly string OldIconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
+        public static readonly string OldSaveDirectory = MelonEnvironment.UserDataDirectory;
+        public static readonly string OldConfigFile = Path.Combine(MelonEnvironment.UserDataDirectory, "SkillTree_Config.cfg");
 
         public override void OnInitializeMelon()
         {
@@ -55,6 +68,7 @@ namespace SkillTree.Core
                 LoggerInstance.Msg("eMployee found, bypassing Night Shift skill patches");
             }
 
+            MigrateFiles(LoggerInstance);
             ConfigManager.Initialize();
             IconManager.ExtractIcons();
             SkillTreeData.CreateTrees();
@@ -62,6 +76,62 @@ namespace SkillTree.Core
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
+        public static void MigrateFiles(MelonLogger.Instance instance)
+        {
+            if (!Directory.Exists(BaseDirectory))
+            {
+                Directory.CreateDirectory(BaseDirectory);
+            }
+
+            try
+            {
+                if (File.Exists(OldConfigFile))
+                {
+                    instance.Msg($"Migrating config file: {OldConfigFile} to {ConfigFile}");
+                    File.Move(OldConfigFile, ConfigFile);
+                }
+            }
+            catch (Exception ex)
+            {
+                instance.Warning($"Failed migrating config file: {ex}"); 
+            }
+
+            try
+            {
+                if (Directory.Exists(OldIconDirectory) && !Directory.Exists(IconDirectory))
+                {
+                    instance.Msg($"Migrating icon directory: {OldIconDirectory} to {IconDirectory}");
+                    Directory.Move(OldIconDirectory, IconDirectory);
+                }
+            }
+            catch (Exception ex) 
+            {
+                instance.Warning($"Failed migrating icon files: {ex}"); 
+            }
+
+            try
+            {
+                string[] saveFiles = Directory.GetFiles(OldSaveDirectory, "SkillTree_*");
+                if (saveFiles.Length > 0)
+                {
+                    if (!Directory.Exists(SaveDirectory))
+                    {
+                        Directory.CreateDirectory(SaveDirectory);
+                    }
+
+                    foreach (string file in saveFiles)
+                    {
+                        string destination = Path.Combine(SaveDirectory, Path.GetFileName(file));
+                        instance.Msg($"Migrating save file: {file} to {destination}");
+                        File.Move(file, destination);                   
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                instance.Warning($"Failed migrating save files: {ex}"); 
+            }
+        }
 
         private IEnumerator DelayedSetup()
         {

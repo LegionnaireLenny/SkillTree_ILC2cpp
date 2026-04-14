@@ -1,6 +1,4 @@
-﻿using MelonLoader;
-using MelonLoader.Utils;
-using S1API.Utils;
+﻿using S1API.Utils;
 using System;
 using System.IO;
 using System.Reflection;
@@ -10,7 +8,6 @@ namespace SkillTree.Core.Utilities
 {
     public class IconManager
     {
-        private static readonly string IconDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "S1API", "Icons", "SkillTree");
         public static readonly string IconApp = "Icon_SkillTree_Forked.png";
         public static readonly string IconClock = "Icon_Clock.png";
         public static readonly string IconHeart = "Icon_Heart.png";
@@ -41,7 +38,7 @@ namespace SkillTree.Core.Utilities
 
         public static Sprite LoadSprite(string filename)
         {
-            string path = Path.Combine(IconDirectory, filename);
+            string path = Path.Combine(Core.IconDirectory, filename);
             if (File.Exists(path))
             {
                 return ImageUtils.LoadImage(path);
@@ -72,25 +69,25 @@ namespace SkillTree.Core.Utilities
 
         public static void ExtractIcons()
         {
-            if (!Directory.Exists(IconDirectory))
+            if (!Directory.Exists(Core.IconDirectory))
             {
-                Directory.CreateDirectory(IconDirectory);
+                Directory.CreateDirectory(Core.IconDirectory);
             }
 
-            ExtractEmbeddedResource(IconDirectory, IconApp);
-            ExtractEmbeddedResource(IconDirectory, IconClock);
-            ExtractEmbeddedResource(IconDirectory, IconHeart);
-            ExtractEmbeddedResource(IconDirectory, IconTrashcan);
-            ExtractEmbeddedResource(IconDirectory, IconWashingMachine);
-            ExtractEmbeddedResource(IconDirectory, IconCash);
-            ExtractEmbeddedResource(IconDirectory, IconEnforcer);
-            ExtractEmbeddedResource(IconDirectory, IconSupplier);
-            ExtractEmbeddedResource(IconDirectory, IconHustler);
-            ExtractEmbeddedResource(IconDirectory, IconLogistician);
-            ExtractEmbeddedResource(IconDirectory, IconSpecial);
-            ExtractEmbeddedResource(IconDirectory, IconPolice);
-            ExtractEmbeddedResource(IconDirectory, IconBenziesDealer);
-            ExtractEmbeddedResource(IconDirectory, IconBenziesGoon);
+            ExtractEmbeddedResource(Core.IconDirectory, IconApp);
+            ExtractEmbeddedResource(Core.IconDirectory, IconClock);
+            ExtractEmbeddedResource(Core.IconDirectory, IconHeart);
+            ExtractEmbeddedResource(Core.IconDirectory, IconTrashcan);
+            ExtractEmbeddedResource(Core.IconDirectory, IconWashingMachine);
+            ExtractEmbeddedResource(Core.IconDirectory, IconCash);
+            ExtractEmbeddedResource(Core.IconDirectory, IconEnforcer);
+            ExtractEmbeddedResource(Core.IconDirectory, IconSupplier);
+            ExtractEmbeddedResource(Core.IconDirectory, IconHustler);
+            ExtractEmbeddedResource(Core.IconDirectory, IconLogistician);
+            ExtractEmbeddedResource(Core.IconDirectory, IconSpecial);
+            ExtractEmbeddedResource(Core.IconDirectory, IconPolice);
+            ExtractEmbeddedResource(Core.IconDirectory, IconBenziesDealer);
+            ExtractEmbeddedResource(Core.IconDirectory, IconBenziesGoon);
         }
     }
 }
