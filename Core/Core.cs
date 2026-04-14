@@ -17,7 +17,7 @@ using System.Collections;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
-[assembly: MelonInfo(typeof(Core), "SkillTree", "3.2.0", "CrazyReizor & VindicatedVendetta", null)]
+[assembly: MelonInfo(typeof(Core), "SkillTree", "3.2.1", "CrazyReizor & VindicatedVendetta", null)]
 [assembly: MelonGame("TVGS", "Schedule I")]
 
 namespace SkillTree.Core
@@ -41,7 +41,7 @@ namespace SkillTree.Core
                         Type.GetType("Empire.EmpireSetup.GeneralSetup,Empire-S1API").GetMethod("ResetPlayerStats"),
                         prefix: new HarmonyMethod(typeof(SkillTree_EmpirePatches), nameof(SkillTree_EmpirePatches.Patch_ResetPlayerStats))
                         );
-                    LoggerInstance.Msg(MelonLoader.Logging.ColorARGB.Yellow, "Empire 2.0 found, Empire.EmpireSetup.GeneralSetup.ResetPlayerStats() patched");
+                    LoggerInstance.Msg("Empire 2.0 found, Empire.EmpireSetup.GeneralSetup.ResetPlayerStats() patched");
                 }
                 catch (Exception e)
                 {
@@ -52,7 +52,7 @@ namespace SkillTree.Core
             if (MelonBase.RegisteredMelons.Contains(FindMelon("eMployee", "V4LEXL")))
             {
                 ApplyeMployeePatch = true;
-                LoggerInstance.Msg(MelonLoader.Logging.ColorARGB.Yellow, "eMployee found, bypassing Night Shift skill patches");
+                LoggerInstance.Msg("eMployee found, bypassing Night Shift skill patches");
             }
 
             ConfigManager.Initialize();
