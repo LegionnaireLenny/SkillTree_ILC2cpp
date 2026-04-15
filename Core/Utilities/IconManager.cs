@@ -69,11 +69,6 @@ namespace SkillTree.Core.Utilities
 
         public static void ExtractIcons()
         {
-            if (!Directory.Exists(Core.IconDirectory))
-            {
-                Directory.CreateDirectory(Core.IconDirectory);
-            }
-
             ExtractEmbeddedResource(Core.IconDirectory, IconApp);
             ExtractEmbeddedResource(Core.IconDirectory, IconClock);
             ExtractEmbeddedResource(Core.IconDirectory, IconHeart);

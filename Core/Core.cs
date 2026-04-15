@@ -35,7 +35,7 @@ namespace SkillTree.Core
         public static readonly string BaseDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "SkillTree");
         public static readonly string IconDirectory = Path.Combine(BaseDirectory, "Icons");
         public static readonly string SaveDirectory = Path.Combine(BaseDirectory, "Saves");
-        public static readonly string TranslationsDirectory = Path.Combine(BaseDirectory, "Translations");
+        public static readonly string LocalizationDirectory = Path.Combine(BaseDirectory, "Localization");
 
         public static readonly string ConfigFile = Path.Combine(BaseDirectory, "SkillTree_Config.cfg");
 
@@ -56,9 +56,9 @@ namespace SkillTree.Core
                         );
                     LoggerInstance.Msg("Empire 2.0 found, Empire.EmpireSetup.GeneralSetup.ResetPlayerStats() patched");
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    LoggerInstance.Msg($"Empire 2.0 patch failed {e}");
+                    LoggerInstance.Msg($"Empire 2.0 patch failed {ex}");
                 }
             }
 
@@ -68,21 +68,26 @@ namespace SkillTree.Core
                 LoggerInstance.Msg("eMployee found, bypassing Night Shift skill patches");
             }
 
+            InitializeDirectories();
             MigrateFiles(LoggerInstance);
             ConfigManager.Initialize();
             IconManager.ExtractIcons();
+            LocalizationManager.Initialize(LoggerInstance);
             SkillTreeData.CreateTrees();
 
             LoggerInstance.Msg("SkillTree Initialized.");
         }
 
+        public static void InitializeDirectories()
+        {
+            Directory.CreateDirectory(BaseDirectory);
+            Directory.CreateDirectory(IconDirectory);
+            Directory.CreateDirectory(SaveDirectory);
+            Directory.CreateDirectory(LocalizationDirectory);
+        }
+
         public static void MigrateFiles(MelonLogger.Instance instance)
         {
-            if (!Directory.Exists(BaseDirectory))
-            {
-                Directory.CreateDirectory(BaseDirectory);
-            }
-
             try
             {
                 if (File.Exists(OldConfigFile))
@@ -114,11 +119,6 @@ namespace SkillTree.Core
                 string[] saveFiles = Directory.GetFiles(OldSaveDirectory, "SkillTree_*");
                 if (saveFiles.Length > 0)
                 {
-                    if (!Directory.Exists(SaveDirectory))
-                    {
-                        Directory.CreateDirectory(SaveDirectory);
-                    }
-
                     foreach (string file in saveFiles)
                     {
                         string destination = Path.Combine(SaveDirectory, Path.GetFileName(file));

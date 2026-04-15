@@ -33,6 +33,7 @@
 		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ItemUIPatches.cs" />
 		<Compile Include="Core\Patches\Special\ImpactPatches.cs" />
+		<Compile Include="Core\Utilities\LocalizationManager.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />
 		<Compile Include="Core\Utilities\IconManager.cs" />
@@ -705,5 +706,7 @@
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Supplier.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_WashingMachine.png" />
+	  <EmbeddedResource Include="Core\LocalizedStrings\en_US\Skills.json" />
+	  <EmbeddedResource Include="Core\LocalizedStrings\fr_FR\Skills.json" />
 	</ItemGroup>
 </Project>

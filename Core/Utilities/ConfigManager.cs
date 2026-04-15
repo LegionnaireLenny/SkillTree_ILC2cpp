@@ -5,7 +5,6 @@ using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using MelonLoader.Preferences;
 using System;
-using System.Linq;
 using UnityEngine;
 
 namespace SkillTree.Core.Utilities
@@ -23,17 +22,17 @@ namespace SkillTree.Core.Utilities
 
             public T GetValue(bool useDefault = false)
             {
-                return useDefault ? Entry.DefaultValue : (T)Entry.BoxedValue;
+                return useDefault ? Entry.DefaultValue : Entry.Value;
             }
 
             public void SetValue(T value)
             {
-                Entry.BoxedValue = value;
+                Entry.Value = value;
             }
 
             public void SetDefault()
             {
-                Entry.BoxedValue = Entry.DefaultValue;
+                Entry.Value = Entry.DefaultValue;
             }
         }
 
@@ -56,6 +55,8 @@ namespace SkillTree.Core.Utilities
                 catch (Exception) { }
             }
         }
+
+        public static Action OnLocaleChanged;
 
         private static MelonPreferences_Category BaseGameSettings { get; set; }
         public static ConfigEntry<float> BaseHealth { get; set; }
@@ -178,6 +179,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> AntiGravityBongCooldown { get; set; }
 
         private static MelonPreferences_Category UserSettings { get; set; }
+        public static ConfigEntry<string> Locale { get; set; }
         public static ConfigEntry<bool> UseDefault { get; set; }
         public static ConfigEntry<LogLevel> LoggingLevel { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -207,6 +209,7 @@ namespace SkillTree.Core.Utilities
         public static void Initialize()
         {
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
+            Locale = new ConfigEntry<string>(UserSettings.CreateEntry("SkillTree_Locale", "en_US", "Language Selection"));
             UseDefault = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_UseDefaultSkillParameters", true, "Use Default Skill Parameters", "If enabled, skills will use their default parameters. Disable this if you want to customize skill parameters. Does not apply to options from User Settings or Keybindings."));
             LoggingLevel = new ConfigEntry<LogLevel>(UserSettings.CreateEntry("SkillTree_LoggingLevel", LogLevel.Info, "Log Level", "Debug - Shows all log messages; Info - Shows informational messages, warnings, and errors; Error - Shows only warnings and errors"));
             AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once"));
@@ -363,6 +366,7 @@ namespace SkillTree.Core.Utilities
             DebugOptions.SetFilePath(Core.ConfigFile, true, false);
 
             ResetConfiguration.Entry.OnEntryValueChanged.Subscribe((oldVal, newVal) => ResetConfig(newVal));
+            Locale.Entry.OnEntryValueChanged.Subscribe((oldVal, newVal) => OnLocaleChanged?.Invoke());
         }
     }
 }

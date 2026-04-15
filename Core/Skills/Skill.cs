@@ -1,5 +1,4 @@
-﻿using MelonLoader;
-using SkillTree.Core.Serialization;
+﻿using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -19,18 +18,23 @@ namespace SkillTree.Core.Skills
 
         public Skill(
             string name,
-            string description,
             SkillCategory category,
             int maxLevel,
             Skill parent,
             Action[] onLevelUp = null)
         {
             Name = name;
-            Description = description;
+            Description = LocalizationManager.Skills.GetProperty(Name).ToString();
             Category = category;
             MaxLevel = maxLevel;
             Parent = parent;
             OnLevelUp = onLevelUp;
+            LocalizationManager.OnLocaleUpdated += UpdateDescription;
+        }
+
+        public void UpdateDescription()
+        {
+            Description = LocalizationManager.Skills.GetProperty(Name).ToString();
         }
 
         public bool IsParentNullOrMaxLevel()
