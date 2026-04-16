@@ -706,7 +706,7 @@
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Supplier.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_Trashcan.png" />
 	  <EmbeddedResource Include="Core\Images\Icons\Icon_WashingMachine.png" />
+	  <EmbeddedResource Include="Core\LocalizedStrings\en_US\Notifications.json" />
 	  <EmbeddedResource Include="Core\LocalizedStrings\en_US\Skills.json" />
-	  <EmbeddedResource Include="Core\LocalizedStrings\fr_FR\Skills.json" />
 	</ItemGroup>
 </Project>

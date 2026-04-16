@@ -5,6 +5,7 @@ using Il2CppScheduleOne.PlayerScripts.Health;
 using MelonLoader;
 using MelonLoader.Preferences;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillTree.Core.Utilities
@@ -46,6 +47,8 @@ namespace SkillTree.Core.Utilities
                 try
                 {
                     (property.GetValue(obj) as ConfigEntry<float>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<string>)?.SetDefault();
+                    (property.GetValue(obj) as ConfigEntry<List<string>>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<int>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<bool>)?.SetDefault();
                     (property.GetValue(obj) as ConfigEntry<KeyCode>)?.SetDefault();
@@ -180,6 +183,7 @@ namespace SkillTree.Core.Utilities
 
         private static MelonPreferences_Category UserSettings { get; set; }
         public static ConfigEntry<string> Locale { get; set; }
+        public static ConfigEntry<List<string>> OverwriteLocaleFiles { get; set; }
         public static ConfigEntry<bool> UseDefault { get; set; }
         public static ConfigEntry<LogLevel> LoggingLevel { get; set; }
         public static ConfigEntry<bool> AutoUnlockPrerequisites { get; set; }
@@ -210,6 +214,7 @@ namespace SkillTree.Core.Utilities
         {
             UserSettings = MelonPreferences.CreateCategory("SkillTree_UserSettings", "User Settings");
             Locale = new ConfigEntry<string>(UserSettings.CreateEntry("SkillTree_Locale", "en_US", "Language Selection"));
+            OverwriteLocaleFiles = new ConfigEntry<List<string>>(UserSettings.CreateEntry("SkillTree_OverwriteLocaleFiles", new List<string>() { "en_US" }, "Overwrite Locale Files", "These locales will have their localized string data overwritten by the mod's default data when the game is launched. Remove a locale if you wish to customize it."));
             UseDefault = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_UseDefaultSkillParameters", true, "Use Default Skill Parameters", "If enabled, skills will use their default parameters. Disable this if you want to customize skill parameters. Does not apply to options from User Settings or Keybindings."));
             LoggingLevel = new ConfigEntry<LogLevel>(UserSettings.CreateEntry("SkillTree_LoggingLevel", LogLevel.Info, "Log Level", "Debug - Shows all log messages; Info - Shows informational messages, warnings, and errors; Error - Shows only warnings and errors"));
             AutoUnlockPrerequisites = new ConfigEntry<bool>(UserSettings.CreateEntry("SkillTree_AutoUnlockPrerequisites", true, "Auto Unlock Prerequisite Skills", "If enabled, attempting to level a locked skill will automatically unlock all prerequisite skills and level the selected skill once"));

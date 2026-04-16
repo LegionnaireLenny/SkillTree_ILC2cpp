@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
+using static SkillTree.Core.Utilities.LocalizationManager;
 
 namespace SkillTree.Core.Serialization
 {
@@ -33,8 +34,8 @@ namespace SkillTree.Core.Serialization
             CircadianMasteryUsed = false;
             AdrenalineSurgeRemainingCharges = AdrenalineSurgeMaxCharges.GetValue(UseDefault.GetValue());
             Singleton<NotificationsManager>.Instance?.SendNotification(
-                "A New Day Dawns",
-                "Cooldowns Reset",
+                GetNotificationTitle("CooldownReset", "DailySkills"),
+                GetNotificationSubtitle("CooldownReset", "DailySkills"),
                 IconManager.LoadSprite(IconManager.IconClock));
         }
 
@@ -43,8 +44,8 @@ namespace SkillTree.Core.Serialization
             yield return new WaitForSeconds(AntiGravityBongCooldown.GetValue(UseDefault.GetValue()));
             AntiGravityBongUsed = false;
             Singleton<NotificationsManager>.Instance.SendNotification(
-                "Anti-Gravity Bong",
-                $"Skill ready",
+                GetNotificationTitle("CooldownReset", "AntiGravityBong"),
+                GetNotificationSubtitle("CooldownReset", "AntiGravityBong"),
                 IconManager.LoadSprite(IconManager.IconClock));
         }
 

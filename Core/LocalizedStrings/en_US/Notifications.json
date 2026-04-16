@@ -1,0 +1,126 @@
+{
+  "GoodSamaritan": {
+    "Cooldown": {
+      "Title": "Good Samaritan on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "InvalidUse": {
+      "Title": "Good Samaritan",
+      "Subtitle": "No trash found"
+    },
+    "Success": {
+      "Title": "Good Samaritan",
+      "Subtitle": "Earned <color=#4CBFFF>{0}</color>"
+    }
+  },
+  "BloodRush": {
+    "Cooldown": {
+      "Title": "Blood Rush on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "Success": {
+      "Title": "Blood Rush",
+      "Subtitle": "<color=#FF0000>{0}</color> to <color=#FF0000>{1}</color>"
+    }
+  },
+  "SiphonFunds": {
+    "Cooldown": {
+      "Title": "Siphon Funds on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "InvalidUse": {
+      "Title": "Siphon Funds",
+      "Subtitle": "Dealers had no funds"
+    },
+    "Success": {
+      "Title": "Siphon Funds",
+      "Subtitle": "<color=#54E717>{0}</color> and <color=#4CBFFF>{1}</color>"
+    }
+  },
+  "TrickleDown": {
+    "Cooldown": {
+      "Title": "Trickle-down on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "InvalidUse1": {
+      "Title": "Trickle-down Economics",
+      "Subtitle": "No owned businesses"
+    },
+    "InvalidUse2": {
+      "Title": "Trickle-down Economics",
+      "Subtitle": "<color=#FF0000>Cash does not exceed {0} reserve</color>"
+    },
+    "InvalidUse3": {
+      "Title": "Trickle-down Economics",
+      "Subtitle": "No laundering capacity"
+    },
+    "Success": {
+      "Title": "Trickle-down Economics",
+      "Subtitle": "<color=#54E717>{0}</color> to {1}"
+    }
+  },
+  "InfectiousPersonality": {
+    "Cooldown": {
+      "Title": "Infectious Personality on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "InvalidUse": {
+      "Title": "Infectious Personality",
+      "Subtitle": "No one found nearby"
+    }
+  },
+  "AdrenalineSurge": {
+    "NotExpired": {
+      "Title": "Adrenaline Surge",
+      "Subtitle": "Skill already active"
+    },
+    "Charges": {
+      "Title": "Adrenaline Surge",
+      "Subtitle": "{0} charges left"
+    }
+  },
+  "AntiGravityBong": {
+    "Cooldown": {
+      "Title": "Anti-Gravity Bong",
+      "Subtitle": "On cooldown"
+    }
+  },
+  "CooldownReset": {
+    "DailySkills": {
+      "Title": "A New Day Dawns",
+      "Subtitle": "Cooldowns Reset"
+    },
+    "AntiGravityBong": {
+      "Title": "Anti-Gravity Bong",
+      "Subtitle": "Skill ready"
+    }
+  },
+  "GainSkillPoint": {
+    "Enforcer": {
+      "Title": "Level Up",
+      "Subtitle": "<color=#16F01C>+1 {0} point</color>"
+    },
+    "Provisioner": {
+      "Title": "Level Up",
+      "Subtitle": "<color=#16F01C>+1 {0} point</color>"
+    },
+    "Hustler": {
+      "Title": "Level Up",
+      "Subtitle": "<color=#16F01C>+1 {0} point</color>"
+    },
+    "Logistician": {
+      "Title": "Level Up",
+      "Subtitle": "<color=#16F01C>+1 {0} point</color>"
+    },
+    "Special": {
+      "Title": "Level Up",
+      "Subtitle": "<color=#16F01C>+1 {0} point</color>"
+    }
+  },
+  "GenericNotification": {
+    "Laundering": {
+      "Title": "{0}",
+      "Subtitle": "<color=#16F01C>{0}</color> Laundered (Partial)"
+    }
+  }
+}

@@ -1,7 +1,5 @@
 ﻿using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Persistence;
-using MelonLoader;
-using MelonLoader.Utils;
 using Newtonsoft.Json;
 using SkillTree.Core.Utilities;
 using System;

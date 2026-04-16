@@ -6,6 +6,7 @@ using SkillTree.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using static SkillTree.Core.Utilities.LocalizationManager;
 
 namespace SkillTree.Core.Serialization
 {
@@ -59,37 +60,42 @@ namespace SkillTree.Core.Serialization
                     EnforcerPoints++;
                     LogManager.LogMessage("+1 Enforcer point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Level Up",
-                    $"<color=#16F01C>+1 Enforcer point</color>", IconManager.LoadSprite(IconManager.IconEnforcer));
+                        GetNotificationTitle("GainSkillPoint", "Enforcer"),
+                        string.Format(GetNotificationSubtitle("GainSkillPoint", "Enforcer"), "Enforcer"),
+                    IconManager.LoadSprite(IconManager.IconEnforcer));
 
                     break;
                 case SkillCategory.Provisioner:
                     ProvisionerPoints++;
-                    LogManager.LogMessage("+1 Supplier point", LogLevel.Info);
+                    LogManager.LogMessage("+1 Provisioner point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Level Up",
-                    $"<color=#16F01C>+1 Supplier point</color>", IconManager.LoadSprite(IconManager.IconSupplier));
+                        GetNotificationTitle("GainSkillPoint", "Provisioner"),
+                        string.Format(GetNotificationSubtitle("GainSkillPoint", "Provisioner"), "Provisioner"),
+                    IconManager.LoadSprite(IconManager.IconSupplier));
                     break;
                 case SkillCategory.Hustler:
                     HustlerPoints++;
                     LogManager.LogMessage("+1 Hustler point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Level Up",
-                    $"<color=#16F01C>+1 Hustler point</color>", IconManager.LoadSprite(IconManager.IconHustler));
+                        GetNotificationTitle("GainSkillPoint", "Hustler"),
+                        string.Format(GetNotificationSubtitle("GainSkillPoint", "Hustler"), "Hustler"),
+                    IconManager.LoadSprite(IconManager.IconHustler));
                     break;
                 case SkillCategory.Logistician:
                     LogisticianPoints++;
                     LogManager.LogMessage("+1 Logistician point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Level Up",
-                    $"<color=#16F01C>+1 Logistician point</color>", IconManager.LoadSprite(IconManager.IconLogistician));
+                        GetNotificationTitle("GainSkillPoint", "Logistician"),
+                        string.Format(GetNotificationSubtitle("GainSkillPoint", "Logistician"), "Logistician"),
+                    IconManager.LoadSprite(IconManager.IconLogistician));
                     break;
                 case SkillCategory.Special:
                     SpecialPoints++;
                     LogManager.LogMessage("+1 Special point", LogLevel.Info);
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                    "Level Up",
-                    $"<color=#16F01C>+1 Special point</color>", IconManager.LoadSprite(IconManager.IconSpecial));
+                        GetNotificationTitle("GainSkillPoint", "Special"),
+                        string.Format(GetNotificationSubtitle("GainSkillPoint", "Special"), "Special"),
+                    IconManager.LoadSprite(IconManager.IconSpecial));
                     break;
             }
             OnSkillPointsChanged?.Invoke();

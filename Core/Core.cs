@@ -28,6 +28,7 @@ namespace SkillTree.Core
     {
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
+        public static Core Instance;
         public static Action OnOpenKeyPressed;
         public static Action OnLevelSkillKeyPressed;
         public static bool ApplyeMployeePatch { get; private set; } = false;
@@ -45,6 +46,7 @@ namespace SkillTree.Core
 
         public override void OnInitializeMelon()
         {
+            Instance = this;
             if (MelonBase.RegisteredMelons.Contains(FindMelon("Empire (Forked by Kaen01)", "Aracor")))
             {
                 try
@@ -72,7 +74,7 @@ namespace SkillTree.Core
             MigrateFiles(LoggerInstance);
             ConfigManager.Initialize();
             IconManager.ExtractIcons();
-            LocalizationManager.Initialize(LoggerInstance);
+            LocalizationManager.Initialize();
             SkillTreeData.CreateTrees();
 
             LoggerInstance.Msg("SkillTree Initialized.");

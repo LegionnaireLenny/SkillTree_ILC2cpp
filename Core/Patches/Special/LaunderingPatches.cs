@@ -4,11 +4,11 @@ using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Money;
 using Il2CppScheduleOne.Property;
 using Il2CppScheduleOne.UI;
-using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
+using static SkillTree.Core.Utilities.LocalizationManager;
 
 namespace SkillTree.Core.Patches.Special
 {
@@ -53,8 +53,8 @@ namespace SkillTree.Core.Patches.Special
                         }
 
                         Singleton<NotificationsManager>.Instance.SendNotification(
-                            __instance.propertyName,
-                            $"<color=#16F01C>{MoneyManager.FormatAmount(installment)}</color> Laundered (Partial)",
+                            string.Format(GetNotificationTitle("GenericNotification", "Laundering"), __instance.propertyName),
+                            string.Format(GetNotificationSubtitle("GenericNotification", "Laundering"), MoneyManager.FormatAmount(installment)),
                             NetworkSingleton<MoneyManager>.Instance.LaunderingNotificationIcon);
                     }
                 }
