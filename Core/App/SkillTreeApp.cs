@@ -6,6 +6,7 @@ using S1API.Utils;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,6 +49,7 @@ namespace SkillTree.Core.App
         protected override Sprite IconSprite => IconManager.LoadSprite(IconManager.IconApp);
 
         private static SkillNode _selectedSkill;
+        private static List<SkillNode> AllNodes;
 
         // Layout constants — horizontal tree (root left, children right)
         private const float NodeWidth = 280f;
@@ -274,7 +276,7 @@ namespace SkillTree.Core.App
             List<SkillNode> nodesLogistician = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Logistician], logisticianContainer, connectionLines);
             List<SkillNode> nodesSpecial = BuildCategoryTree(SkillTreeData.SkillTrees[SkillCategory.Special], specialContainer, connectionLines);
 
-            List<SkillNode> allNodes = [.. nodesEnforcer, .. nodesProvisioner, .. nodesHustler, .. nodesLogistician, .. nodesSpecial];
+            AllNodes = [.. nodesEnforcer, .. nodesProvisioner, .. nodesHustler, .. nodesLogistician, .. nodesSpecial];
 
             SkillCategory activeCategory = SkillCategory.Enforcer;
 
@@ -282,12 +284,12 @@ namespace SkillTree.Core.App
             _selectedSkill = nodesEnforcer.Count > 0 ? nodesEnforcer.First(x => x.Skill.Parent == null) : null;
             UpdateDetails();
             SetActiveCategory(enforcerContainer, provisionerContainer, hustlerContainer, logisticianContainer, specialContainer, enforcerContainer);
-            UpdateAllNodes(allNodes);
+            UpdateAllNodes();
             UpdateAllLines();
             UpdatePointsOverlay();
 
             // === WIRE UP NODE CLICKS ===
-            foreach (var node in allNodes)
+            foreach (var node in AllNodes)
             {
                 var capturedNode = node;
                 ButtonUtils.AddListener(node.Button, () =>
@@ -328,7 +330,7 @@ namespace SkillTree.Core.App
                 {
                     UpdateDetails();
                     UpdateCategoryText();
-                    UpdateAllNodes(allNodes);
+                    UpdateAllNodes();
                     UpdateAllLines();
                     UpdatePointsOverlay();
                 }
@@ -345,7 +347,7 @@ namespace SkillTree.Core.App
                 SetTabColors(catEnforcerGO, catProvisionerGO, catHustlerGO, catLogisticianGO, catSpecialGO, activeTab);
                 UpdateDetails();
                 UpdateCategoryText();
-                UpdateAllNodes(allNodes);
+                UpdateAllNodes();
                 UpdateAllLines();
                 UpdatePointsOverlay();
             }
@@ -367,6 +369,9 @@ namespace SkillTree.Core.App
             Core.OnLevelSkillKeyPressed += LevelSkill;
             SkillPoints.OnSkillPointsChanged += UpdateCategoryText;
             SkillPoints.OnSkillPointsChanged += UpdatePointsOverlay;
+            Core.RemoveOnSceneChange += UpdateDetails;
+            Core.RemoveOnSceneChange += UpdateAllNodes;
+            LocalizationManager.OnLocaleUpdated += Core.RemoveOnSceneChange;
 
             // === LOCAL FUNCTIONS ===
 
@@ -801,9 +806,9 @@ namespace SkillTree.Core.App
         }
 
         /// <summary>Refreshes the label text and background color of every skill node.</summary>
-        private static void UpdateAllNodes(List<SkillNode> allNodes)
+        private static void UpdateAllNodes()
         {
-            foreach (var node in allNodes)
+            foreach (var node in AllNodes)
             {
                 node.SetText(FormatNodeLabel(node.Skill));
                 bool isSelected = _selectedSkill != null && _selectedSkill.Skill == node.Skill;

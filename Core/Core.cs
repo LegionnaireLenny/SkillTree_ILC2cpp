@@ -31,6 +31,7 @@ namespace SkillTree.Core
         public static Core Instance;
         public static Action OnOpenKeyPressed;
         public static Action OnLevelSkillKeyPressed;
+        public static Action RemoveOnSceneChange;
         public static bool ApplyeMployeePatch { get; private set; } = false;
 
         public static readonly string BaseDirectory = Path.Combine(MelonEnvironment.UserDataDirectory, "SkillTree");
@@ -209,6 +210,8 @@ namespace SkillTree.Core
                 OnOpenKeyPressed = null;
                 OnLevelSkillKeyPressed = null;
                 SkillPoints.OnSkillPointsChanged = null;
+                LocalizationManager.OnLocaleUpdated -= RemoveOnSceneChange;
+                RemoveOnSceneChange = null;
             }
 
             if (sceneName == "Main")

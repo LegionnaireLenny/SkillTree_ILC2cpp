@@ -1,65 +1,242 @@
 {
-  "Hardy": "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20",
-  "Battle-scarred": "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%",
-  "Pile the Bodies High": "You're a fearsome combatant and the police grow increasingly hesitant in pursuing you for fear of adding to your extensive body count.\n\nPolice search duration is capped at 35 seconds.\n\nIf Blood Rush is unlocked, each officer you've killed further reduces the search timer by 0.1 seconds for a maximum reduction of 10 seconds.",
-  "Quick Draw McGraw": "You're the fastest gunslinger in the West(ville).\n\nAim time for ranged weapons is reduced by 50%.",
-  "Sharpshooter": "You could shoot a fly off a horse's ass at a hundred paces.\n\nReduces the minimum and maximum spread of ranged weapons by 65%.",
-  "Ghost": "You always stay low-profile and apply a light touch.\n\nYour visibility is reduced by 25% and pickpocketing items is much easier.",
-  "Slippery": "You're an expert at keeping out of reach and breaking the tightest grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%.",
-  "Fleet Feet": "Increase movement speed by 15% per level.",
-  "Spring-Heeled": "Increase max stamina by 30% and jump height by 35%.",
-  "Prison Wallet": "Increase item stack size by 100% per level.\n\nDoes not apply to items with a stack size of 1.",
-  "Double-Stack Mags": "Increase ammo capacity of ranged weapons and magazines by 100%.",
-  "Circadian Mastery": "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped.",
-  "Combat Experience": "Killing the following NPCs grants XP\n- Police Officer: +12 XP\n- Cartel Goon: +20 XP\n- Cartel Dealer: +30 XP",
-  "School of Hard Knocks": "Increase XP gain by 12.5%.",
+  "Hardy": {
+    "Name": "Hardy",
+    "Description": "You can survive injuries that would kill lesser people.\n\nYour maximum health is increased by 20"
+  },
+  "Battle-scarred": {
+    "Name": "Battle-scarred",
+    "Description": "Not even the most greivous wounds have kept you down for long.\n\nYou regenerate 100% more health per second and the amount of time before your health begins regenerating is reduced by 50%"
+  },
+  "Pile the Bodies High": {
+    "Name": "Pile the Bodies High",
+    "Description": "You're a fearsome combatant and the police grow increasingly hesitant in pursuing you for fear of adding to your extensive body count.\n\nPolice search duration is capped at 35 seconds.\n\nIf Blood Rush is unlocked, each officer you've killed further reduces the search timer by 0.1 seconds for a maximum reduction of 10 seconds."
+  },
+  "Quick Draw McGraw": {
+    "Name": "Quick Draw McGraw",
+    "Description": "You're the fastest gunslinger in the West(ville).\n\nAim time for ranged weapons is reduced by 50%."
+  },
+  "Sharpshooter": {
+    "Name": "Sharpshooter",
+    "Description": "You could shoot a fly off a horse's ass at a hundred paces.\n\nReduces the minimum and maximum spread of ranged weapons by 65%."
+  },
+  "Ghost": {
+    "Name": "Ghost",
+    "Description": "You always stay low-profile and apply a light touch.\n\nYour visibility is reduced by 25% and pickpocketing items is much easier."
+  },
+  "Slippery": {
+    "Name": "Slippery",
+    "Description": "You're an expert at keeping out of reach and breaking the tightest grips.\n\nReduces police arrest radius by 25% and increases time until arrested by 100%."
+  },
+  "Fleet Feet": {
+    "Name": "Fleet Feet",
+    "Description": "Increase movement speed by 15% per level."
+  },
+  "Spring-Heeled": {
+    "Name": "Spring-Heeled",
+    "Description": "Increase max stamina by 30% and jump height by 35%."
+  },
+  "Prison Wallet": {
+    "Name": "Prison Wallet",
+    "Description": "Increase item stack size by 100% per level.\n\nDoes not apply to items with a stack size of 1."
+  },
+  "Double-Stack Mags": {
+    "Name": "Double-Stack Mags",
+    "Description": "Increase ammo capacity of ranged weapons and magazines by 100%."
+  },
+  "Circadian Mastery": {
+    "Name": "Circadian Mastery",
+    "Description": "You have achieved complete mastery of your sleep cycle.\n\nYou are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period.\n\nPlants only grow at 33% of their normal speed when time is skipped."
+  },
+  "Combat Experience": {
+    "Name": "Combat Experience",
+    "Description": "Killing the following NPCs grants XP\n- Police Officer: +12 XP\n- Cartel Goon: +20 XP\n- Cartel Dealer: +30 XP"
+  },
+  "School of Hard Knocks": {
+    "Name": "School of Hard Knocks",
+    "Description": "Increase XP gain by 12.5%."
+  },
 
-  "Pitchin' a Tent": "Increase plant quality for grow tents by 26%.",
-  "Advanced Pot Techniques": "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%.",
-  "Harder and Stronger": "Increase meth and cocaine quality by 1.",
-  "Mushroomancer": "Increase mushroom quality by 15%.",
-  "Wet-Ass Plants": "Moisture drains 50% slower for all grow containers.",
-  "Absorbent Soil": "Soil additives last until the soil is depleted.",
-  "Green Thumb": "Increase plant and mushroom growth speed 5%.",
-  "Quick Crafter": "Increase the speed of cauldrons, chemistry stations, lab ovens, and mixing stations by 100%.",
-  "Bountiful Harvest": "Increase base yield of plants by 1.",
-  "Crankin' One Out": "Increase the production capacity of mixing stations and drying racks by 100%.",
-  "Witch's Brew": "Increase the output of the cauldron by 100%.",
-  "Apprenticeship": "- Planting seeds/spores grants 2 XP\n- Harvesting plants grants an additional 200% XP\n- Harvesting mushrooms grants the same XP as plants\n- Producing drugs and precursors grants 5 XP\n- Packaging drugs grants 1 XP per product\n- Mixing grants 1 XP per product\n- Creating new mixes grants an additional 25% XP.",
-  "Meister": "Increase XP gain by 12.5%.",
+  "Pitchin' a Tent": {
+    "Name": "Pitchin' a Tent",
+    "Description": "Increase plant quality for grow tents by 26%."
+  },
+  "Advanced Pot Techniques": {
+    "Name": "Advanced Pot Techniques",
+    "Description": "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%."
+  },
+  "Harder and Stronger": {
+    "Name": "Harder and Stronger",
+    "Description": "Increase meth and cocaine quality by 1."
+  },
+  "Mushroomancer": {
+    "Name": "Mushroomancer",
+    "Description": "Increase mushroom quality by 15%."
+  },
+  "Wet-Ass Plants": {
+    "Name": "Wet-Ass Plants",
+    "Description": "Moisture drains 50% slower for all grow containers."
+  },
+  "Absorbent Soil": {
+    "Name": "Absorbent Soil",
+    "Description": "Soil additives last until the soil is depleted."
+  },
+  "Green Thumb": {
+    "Name": "Green Thumb",
+    "Description": "Increase plant and mushroom growth speed 5%."
+  },
+  "Quick Crafter": {
+    "Name": "Quick Crafter",
+    "Description": "Increase the speed of cauldrons, chemistry stations, lab ovens, and mixing stations by 100%."
+  },
+  "Bountiful Harvest": {
+    "Name": "Bountiful Harvest",
+    "Description": "Increase base yield of plants by 1."
+  },
+  "Crankin' One Out": {
+    "Name": "Crankin' One Out",
+    "Description": "Increase the production capacity of mixing stations and drying racks by 100%."
+  },
+  "Witch's Brew": {
+    "Name": "Witch's Brew",
+    "Description": "Increase the output of the cauldron by 100%."
+  },
+  "Apprenticeship": {
+    "Name": "Apprenticeship",
+    "Description": "- Planting seeds/spores grants 2 XP\n- Harvesting plants grants an additional 200% XP\n- Harvesting mushrooms grants the same XP as plants\n- Producing drugs and precursors grants 5 XP\n- Packaging drugs grants 1 XP per product\n- Mixing grants 1 XP per product\n- Creating new mixes grants an additional 25% XP."
+  },
+  "Meister": {
+    "Name": "Meister",
+    "Description": "Increase XP gain by 12.5%."
+  },
 
-  "Silver Tongued Devil": "Increase chance a potential customer will accept a free sample by 5%",
-  "Community Service": "Through your experience in gathering trash, you've become more adept at picking up and storing trash.\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items.",
-  "Sacar La Basura": "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level",
-  "Spread the Wealth": "Increase citizens' weekly spending limits by 25% per level.",
-  "Captive Market": "Increase citizens' weekly order limits by 3 per skill level and 1 per player rank.",
-  "Hoard the Wealth": "Increase ATM deposit limit by $2500 per level.",
-  "Squeaky Clean": "Increase money laundering capacity by 30%",
-  "Crystal Ball": "Your haggling prowess is borderline mystical.\n\nYou can see the chance of a customer accepting a counteroffer.",
-  "Informant": "You know a guy who knows a guy that knows a guy that knows the best ways to avoid law enforcement.\n\nPolice are shown on the map.",
-  "Spymaster": "Your eyes and ears are everywhere.\n\nBenzies are shown on the map.",
-  "Grifter": "- Gain 200% more XP from successful counteroffers\n- Gain 10% of a drug sale's value as bonus XP.",
-  "Multi-level Marketeer": "Increase XP gain by 12.5%.",
+  "Silver Tongued Devil": {
+    "Name": "Silver Tongued Devil",
+    "Description": "Increase chance a potential customer will accept a free sample by 5%"
+  },
+  "Community Service": {
+    "Name": "Community Service",
+    "Description": "Through your experience in gathering trash, you've become more adept at picking up and storing trash.\n\nTrash grabbers now pick up trash in a radius roughly equal to a trash bag and can store twice as many items."
+  },
+  "Sacar La Basura": {
+    "Name": "Sacar La Basura",
+    "Description": "You have the uncanny ability to convince people that your trash is their treasure\n\nTrash is worth $1 more per level and pawned items are worth 25% more per level"
+  },
+  "Spread the Wealth": {
+    "Name": "Spread the Wealth",
+    "Description": "Increase citizens' weekly spending limits by 25% per level."
+  },
+  "Captive Market": {
+    "Name": "Captive Market",
+    "Description": "Increase citizens' weekly order limits by 3 per skill level and 1 per player rank."
+  },
+  "Hoard the Wealth": {
+    "Name": "Hoard the Wealth",
+    "Description": "Increase ATM deposit limit by $2500 per level."
+  },
+  "Squeaky Clean": {
+    "Name": "Squeaky Clean",
+    "Description": "Increase money laundering capacity by 30%"
+  },
+  "Crystal Ball": {
+    "Name": "Crystal Ball",
+    "Description": "Your haggling prowess is borderline mystical.\n\nYou can see the chance of a customer accepting a counteroffer."
+  },
+  "Informant": {
+    "Name": "Informant",
+    "Description": "You know a guy who knows a guy that knows a guy that knows the best ways to avoid law enforcement.\n\nPolice are shown on the map."
+  },
+  "Spymaster": {
+    "Name": "Spymaster",
+    "Description": "Your eyes and ears are everywhere.\n\nBenzies are shown on the map."
+  },
+  "Grifter": {
+    "Name": "Grifter",
+    "Description": "- Gain 200% more XP from successful counteroffers\n- Gain 10% of a drug sale's value as bonus XP."
+  },
+  "Multi-level Marketeer": {
+    "Name": "Multi-level Marketeer",
+    "Description": "Increase XP gain by 12.5%."
+  },
 
-  "Reliable Business Partner": "Increase dead drop order limit by 67.5% and item limit by 50%.",
-  "Rush Delivery": "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours.",
-  "Expansive Empire": "Increase dealer's customer limit by 2.",
-  "Wage Garnishment": "Decrease dealer's cut by 5%.",
-  "Motivational Leader": "Increase the movement speed of dealers by 100%.",
-  "Fast Farmers": "Botanists perform all actions twice as fast.",
-  "Fast Handlers": "Packagers perform all actions twice as fast.",
-  "Fast Chemists": "Chemists perform all actions twice as fast.",
-  "Night Shift": "Employees don't stop working at 4 AM.",
-  "RUN BITCH RUN!": "Employees move 3 times faster.",
-  "Overworked and Underpaid": "Increase station assignment limit for botanists and chemists by 2.",
-  "Educated Workforce": "Increase XP gain by 12.5%.",
+  "Reliable Business Partner": {
+    "Name": "Reliable Business Partner",
+    "Description": "Increase dead drop order limit by 67.5% and item limit by 50%."
+  },
+  "Rush Delivery": {
+    "Name": "Rush Delivery",
+    "Description": "Reduces delivery time\n\nMinimum: 60 minutes -> 30 minutes\n\nMaximum: 6 hours -> 2 hours."
+  },
+  "Expansive Empire": {
+    "Name": "Expansive Empire",
+    "Description": "Increase dealer's customer limit by 2."
+  },
+  "Wage Garnishment": {
+    "Name": "Wage Garnishment",
+    "Description": "Decrease dealer's cut by 5%."
+  },
+  "Motivational Leader": {
+    "Name": "Motivational Leader",
+    "Description": "Increase the movement speed of dealers by 100%."
+  },
+  "Fast Farmers": {
+    "Name": "Fast Farmers",
+    "Description": "Botanists perform all actions twice as fast."
+  },
+  "Fast Handlers": {
+    "Name": "Fast Handlers",
+    "Description": "Packagers perform all actions twice as fast."
+  },
+  "Fast Chemists": {
+    "Name": "Fast Chemists",
+    "Description": "Chemists perform all actions twice as fast."
+  },
+  "Night Shift": {
+    "Name": "Night Shift",
+    "Description": "Employees don't stop working at 4 AM."
+  },
+  "RUN BITCH RUN!": {
+    "Name": "RUN BITCH RUN!",
+    "Description": "Employees move 3 times faster."
+  },
+  "Overworked and Underpaid": {
+    "Name": "Overworked and Underpaid",
+    "Description": "Increase station assignment limit for botanists and chemists by 2."
+  },
+  "Educated Workforce": {
+    "Name": "Educated Workforce",
+    "Description": "Increase XP gain by 12.5%."
+  },
 
-  "Good Samaritan": "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance.\n\nDefault keybind is F1.",
-  "Blood Rush": "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred).\n\nDefault keybind is F2.",
-  "Siphon Funds": "Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.\n\nDefault keybind is F3.",
-  "Trickle-down Economics": "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours.\n\nDefault keybind is F4.",
-  "Blood Money": "Once per day, for 30 seconds your health cannot drop below 1 and you gain 100% of all damage received and dealt as cash.\n\nDefault keybind is F5.",
-  "Infectious Personality": "Once per day, all NPCs within 15 meters are randomly afflicted with Toxic or Explosive.\n\nCharacters afflicted with Toxic die after 8 seconds, characters afflicted with Explosive explode and die after 30 seconds.\n\nUpon death, the effect is spread to nearby characters and half of their health is gained as cash and online balance.\n\nDefault keybind is F6.",
-  "Adrenaline Surge": "Three times per day, your movement speed and jump height are tripled for 15 seconds.\n\nDefault keybind is F7.",
-  "Anti-Gravity Bong": "Once every 60 seconds, place a special anti-gravity bong that ragdolls and flings away any NPC within a 10 meter radius.\n\nLasts for 15 seconds. When the skill expires, the bong pulls NPCs towards itself and explodes.\n\nDefault keybind is F8."
+  "Good Samaritan": {
+    "Name": "Good Samaritan",
+    "Description": "Once per day, destroy all trash on the map and gain 100% of the sell value as online balance.\n\nDefault keybind is F1."
+  },
+  "Blood Rush": {
+    "Name": "Blood Rush",
+    "Description": "Active ability: Once per day, fully restore health and gain Blood Rush for 60 seconds.\n\nPassive ability: Gain 0.1 max health for every police officer or cartel member killed, up to 30 health.\n\nWhile Blood Rush is active, the passive health cap is doubled to 60 health and health regen delay is reduced by 80% (90% with Battle-Scarred).\n\nDefault keybind is F2."
+  },
+  "Siphon Funds": {
+    "Name": "Siphon Funds",
+    "Description": "Once per day, instantly collect your money from all dealers. 10% + 5% per owned business of collected money is converted to online balance.\n\nDefault keybind is F3."
+  },
+  "Trickle-down Economics": {
+    "Name": "Trickle-down Economics",
+    "Description": "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours.\n\nDefault keybind is F4."
+  },
+  "Blood Money": {
+    "Name": "Blood Money",
+    "Description": "Once per day, for 30 seconds your health cannot drop below 1 and you gain 100% of all damage received and dealt as cash.\n\nDefault keybind is F5."
+  },
+  "Infectious Personality": {
+    "Name": "Infectious Personality",
+    "Description": "Once per day, all NPCs within 15 meters are randomly afflicted with Toxic or Explosive.\n\nCharacters afflicted with Toxic die after 8 seconds, characters afflicted with Explosive explode and die after 30 seconds.\n\nUpon death, the effect is spread to nearby characters and half of their health is gained as cash and online balance.\n\nDefault keybind is F6."
+  },
+  "Adrenaline Surge": {
+    "Name": "Adrenaline Surge",
+    "Description": "Three times per day, your movement speed and jump height are tripled for 15 seconds.\n\nDefault keybind is F7."
+  },
+  "Anti-Gravity Bong": {
+    "Name": "Anti-Gravity Bong",
+    "Description": "Once every 60 seconds, place a special anti-gravity bong that ragdolls and flings away any NPC within a 10 meter radius.\n\nLasts for 15 seconds. When the skill expires, the bong pulls NPCs towards itself and explodes.\n\nDefault keybind is F8."
+  }
 }

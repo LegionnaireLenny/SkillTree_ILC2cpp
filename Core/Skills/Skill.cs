@@ -7,6 +7,7 @@ namespace SkillTree.Core.Skills
 {
     public class Skill
     {
+        private string ID;
         public string Name;
         public string Description;
         public SkillCategory Category;
@@ -23,18 +24,20 @@ namespace SkillTree.Core.Skills
             Skill parent,
             Action[] onLevelUp = null)
         {
-            Name = name;
-            Description = LocalizationManager.Skills.GetProperty(Name).ToString();
+            ID = name;
+            Name = LocalizationManager.Skills.GetProperty(ID).GetProperty("Name").ToString();
+            Description = LocalizationManager.Skills.GetProperty(ID).GetProperty("Description").ToString();
             Category = category;
             MaxLevel = maxLevel;
             Parent = parent;
             OnLevelUp = onLevelUp;
-            LocalizationManager.OnLocaleUpdated += UpdateDescription;
+            LocalizationManager.OnLocaleUpdated += UpdateText;
         }
 
-        public void UpdateDescription()
+        public void UpdateText()
         {
-            Description = LocalizationManager.Skills.GetProperty(Name).ToString();
+            Name = LocalizationManager.Skills.GetProperty(ID).GetProperty("Name").ToString();
+            Description = LocalizationManager.Skills.GetProperty(ID).GetProperty("Description").ToString();
         }
 
         public bool IsParentNullOrMaxLevel()
