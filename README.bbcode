@@ -78,10 +78,9 @@ Enforcer
 [*][b]Double-Stack Mags[/b]: Increase ammo capacity of ranged weapons and magazines by 100%
 [/list]
 [*][b]Circadian Mastery[/b]: You have achieved complete mastery of your sleep cycle. You are able to sleep while Athletic or Energizing effects are active and can use a bed to rest until the next time period. Plants only grow at 33% of their normal speed when time is skipped.
-[*][b]Fast Learner[/b]: Increase XP gain by 5%
+[*][b]Combat Experience[/b]: Killing the following NPCs grants XP - Police Officer: +12 XP - Cartel Goon: +20 XP - Cartel Dealer: +30 XP
 [list]
-[*][b]Turbo Nerdo[/b]: Increase XP gain by an additional 5%
-[*][b]Kingpin[/b]: Gain 5% of a drug sale's value as bonus XP
+[*][b]School of Hard Knocks[/b]: Increase XP gain by 12.5%.
 [/list]
 [/list]
 [/list]
@@ -100,13 +99,16 @@ Provisioner
 [/list]
 [*][b]Green Thumb[/b]: Increase plant and mushroom growth speed 2.5%
 [list]
-[*][b]Plant Whisperer[/b]: Increase plant and mushroom growth speed by an additional 2.5%
 [*][b]Quick Crafter[/b]: Double the speed of cauldrons, chemistry stations, lab ovens, and mixing stations
 [/list]
 [*][b]Bountiful Harvest[/b]: Increase base yield of plants by 1
 [list]
 [*][b]Crankin' One Out[/b]: Double the production capacity of mixing stations and drying racks
 [*][b]Witch's Brew[/b]: Double the cauldron's output
+[/list]
+[*][b]Apprenticeship[/b]: - Planting seeds/spores grants 2 XP - Harvesting plants grants an additional 200% XP - Harvesting mushrooms grants the same XP as plants - Producing drugs and precursors grants 5 XP - Packaging drugs grants 1 XP per product - Mixing grants 1 XP per product - Creating new mixes grants an additional 25% XP.
+[list]
+[*][b]Meister[/b]: Increase XP gain by 12.5%.
 [/list]
 [/list]
 [/list]
@@ -131,6 +133,10 @@ Hustler
 [*][b]Informant[/b]: Police are shown on the map
 [*][b]Spymaster[/b]: Benzies are shown on the map
 [/list]
+[*][b]Grifter[/b]: - Gain 200% more XP from successful counteroffers - Gain 10% of a drug sale's value as bonus XP.
+[list]
+[*][b]Multi-level Marketeer[/b]: Increase XP gain by 12.5%.
+[/list]
 [/list]
 [/list]
 Logistician
@@ -148,11 +154,12 @@ Logistician
 [*][b]Fast Handlers[/b]: Handlers perform all actions twice as fast
 [*][b]Fast Chemists[/b]: Chemists perform all actions twice as fast
 [/list]
-[*][b]Sweatshop[/b]: Employees don't stop at 4 AM
+[*][b]Night Shift[/b]: Employees don't stop at 4 AM
 [list]
 [*][b]RUN BITCH RUN![/b]: Employees move 3 times faster
 [*][b]Overworked and Underpaid[/b]: Increase station assignment limit for botanists and chemists by 2
 [/list]
+[*][b]Educated Workforce[/b]: Increase XP gain by 12.5%.
 [/list]
 [/list]
 Special
@@ -276,6 +283,22 @@ If you run into a compatibility issue, provide the name of the mod and a link to
 [*][b]Multiplayer:[/b] Good Samaritan does not remove trash from the world when used by non-host players
 [*][b]Multiplayer:[/b] Skill data is not saving/loading correctly for non-host players, so skills must be reselected after joining a game 
 [/list]
+[color=#3d85c6][size=5][b]For Translators[/b][/size][/color]
+
+The language files are extracted to [i]UserData/SkillTree/Localization[/i] when you load the game, and each locale has its own directory containing JSON files with all the text for notifications, skill names, and skill descriptions.
+ 
+[list=1]
+[*]en_US is the only locale at the moment, so make a copy of that directory and its contents
+[*]Rename the new directory to whatever you want (the name doesn't matter, but don't put periods '.' in the name)
+[*]Some text contains numbers surrounded in curly braces/brackets ({0},{1}, and so on). These are used for inserting values into the text while the game is running. Don't delete these.
+[*]Standard JSON formatting rules apply
+[/list]
+There two language-related options under User Settings: [b]Locale[/b] and [b]Overwrite Locale Files
+
+[/b]Change [b]Locale[/b] to the name of the directory in [i]UserData/SkillTree/Localization[/i] that you want to load, save the setting, and the text will automatically change without having to reload the save. I confirmed that reloading is not needed when using [url=https://www.nexusmods.com/schedule1/mods/1222?tab=files]ModsApp[/url], I didn't test with [url=https://www.nexusmods.com/schedule1/mods/397]Mod Manager - Phone App[/url].
+
+[b]Overwrite Locale Files[/b] is the list of locales that will be overwritten with default data when the game loads. Remove locales from the list if you want to customize them. Currently, en_US is the only locale with default data, so this setting only matters if you want to change the default English text. 
+
 [b][color=#3d85c6][size=5]Notes[/size][/color][/b]
 
 [list]
