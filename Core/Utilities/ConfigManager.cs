@@ -240,7 +240,7 @@ namespace SkillTree.Core.Utilities
             Keybinds.SetFilePath(Core.ConfigFile, true, false);
 
             BaseGameSettings = MelonPreferences.CreateCategory("SkillTree_BaseGameSettings", "Base Game Settings");
-            BaseHealth = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxHealth", PlayerHealth.MAX_HEALTH, "Base Maximum Health"));
+            BaseHealth = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxHealth", PlayerHealth.MaxHealth, "Base Maximum Health"));
             BaseHealthRegen = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseHealthRegen", 0.5f, "Base Health Restored Per Second"));
             BaseHealthRegenDelay = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseHealthRegenDelay", 30f, "Base Time Until Health Regenerates"));
             BaseStamina = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseStamina", PlayerMovement.StaminaReserveMax, "Base Maximum Stamina"));
@@ -252,9 +252,9 @@ namespace SkillTree.Core.Utilities
             BaseCounterOfferXPGain = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseCounterOfferXPGain", 5, "Base CounterOffer XP Gain"));
             BaseDryingRackCapacity = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseDryingRackCapacity", 20, "Base Drying Rack Capacity"));
             BaseCauldronOutput = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseCauldronOutput", 10, "Base Cauldron Output"));
-            BaseWeeklyDepositLimit = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseWeeklyDepositLimit", ATM.WEEKLY_DEPOSIT_LIMIT, "Base Weekly ATM Deposit Limit"));
+            BaseWeeklyDepositLimit = new ConfigEntry<float>(BaseGameSettings.CreateEntry("SkillTree_BaseWeeklyDepositLimit", ATM.WeeklyDepositLimit, "Base Weekly ATM Deposit Limit"));
             BaseTrashGrabberBinSize = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseTrashGrabberBinSize", 20, "Base Trash Grabber Bin Size"));
-            BaseDeadDropItemLimit = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseDeadDropItemLimit", Supplier.DEADDROP_ITEM_LIMIT, "Base Deaddrop Item Limit"));
+            BaseDeadDropItemLimit = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseDeadDropItemLimit", Supplier.DeaddropItemLimit, "Base Deaddrop Item Limit"));
             BaseMaxCustomer = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxCustomer", Dealer.MAX_CUSTOMERS, "Base Max Customers for Dealers"));
             BaseMaxChemistStations = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxChemistStations", 4, "Base Maximum Chemist Stations"));
             BaseMaxBotanistStations = new ConfigEntry<int>(BaseGameSettings.CreateEntry("SkillTree_BaseMaxBotanistStations", 8, "Base Maximum Botanist Stations"));
@@ -329,7 +329,8 @@ namespace SkillTree.Core.Utilities
             EmployeeStationBonus = new ConfigEntry<int>(Logistician.CreateEntry("SkillTree_EmployeeStationBonus", 2, "Overworked/Underpaid: Station bonus for Botanists and Chemists"));
             SupplierCashBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus"));
             SupplierItemBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierItemBonus", 0.50f, "Reliable Bus. Partner: Dead Drop Item Limit Bonus"));
-            EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)"));
+            EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 3f, "RUN BITCH RUN!: Employee MoveSpeedMultiplier", "Value is clamped between 0.1f (0.1x speed) and 10f (10x speed)"));
+            //EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)"));
             EducatedWorkforceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_EducatedWorkforceBonus", 0.125f, "Educated Workforce: XP Bonus"));
             DealerCutReduction = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction"));
             Logistician.SetFilePath(Core.ConfigFile, true, false);

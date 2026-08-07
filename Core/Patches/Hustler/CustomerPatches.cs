@@ -24,7 +24,7 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinWeeklySpend = baseMin * SkillModifiers.GetCustomerCashMultiplier();
                     customer.CustomerData.MaxWeeklySpend = baseMax * SkillModifiers.GetCustomerCashMultiplier();
 
-                    LogManager.LogMessage($"{customer.NPC.fullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}", LogLevel.Debug);
+                    LogManager.LogMessage($"{customer.NPC.FullName}'s spending range increased from {(int)baseMin}-{(int)baseMax} to {(int)customer.CustomerData.MinWeeklySpend}-{(int)customer.CustomerData.MaxWeeklySpend}", LogLevel.Debug);
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace SkillTree.Core.Patches.Hustler
                     customer.CustomerData.MinOrdersPerWeek = baseMin + SkillModifiers.GetCustomerOrderLimitBonus();
                     customer.CustomerData.MaxOrdersPerWeek = baseMax + SkillModifiers.GetCustomerOrderLimitBonus();
 
-                    LogManager.LogMessage($"{customer.NPC.fullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}", LogLevel.Debug);
+                    LogManager.LogMessage($"{customer.NPC.FullName}'s order range increased from {baseMin}-{baseMax} to {customer.CustomerData.MinOrdersPerWeek}-{customer.CustomerData.MaxOrdersPerWeek}", LogLevel.Debug);
                 }
             }
         }

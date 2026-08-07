@@ -41,7 +41,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             float originalLimit = __result;
             __result *= SkillModifiers.GetSupplierCashMultiplier();
-            LogManager.LogMessage($"[BetterSupplier] Supplier {__instance.fullName}'s order limit increased from ${(int)originalLimit} to ${(int)__result}", LogLevel.Debug);
+            LogManager.LogMessage($"[BetterSupplier] Supplier {__instance.FullName}'s order limit increased from ${(int)originalLimit} to ${(int)__result}", LogLevel.Debug);
         }
     }
 }

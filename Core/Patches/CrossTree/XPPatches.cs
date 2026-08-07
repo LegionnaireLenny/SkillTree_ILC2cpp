@@ -71,7 +71,7 @@ namespace SkillTree.Core.Patches.CrossTree
         [HarmonyPostfix]
         public static void Postfix_PackSingleInstance(PackagingStation __instance)
         {
-            if (LevelManager.Instance == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
+            if (LevelManager.Instance == null || __instance == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
                 return;
 
             int xp = DrugPackagingXP.GetValue(UseDefault.GetValue()) * __instance.PackagingSlot.ItemInstance.Definition.Cast<PackagingDefinition>().Quantity;
@@ -83,7 +83,7 @@ namespace SkillTree.Core.Patches.CrossTree
         [HarmonyPostfix]
         public static void Postfix_CompletePress(BrickPress __instance)
         {
-            if (LevelManager.Instance == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
+            if (LevelManager.Instance == null || __instance == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
                 return;
 
             int xp = DrugPackagingXP.GetValue(UseDefault.GetValue()) * __instance.BrickPackaging.Quantity;
@@ -119,7 +119,7 @@ namespace SkillTree.Core.Patches.CrossTree
         [HarmonyPostfix]
         public static void RpcLogic___ProcessCounterOfferServerSide_900355577(Customer __instance)
         {
-            if (__instance.OfferedContractInfo?.IsCounterOffer == true)
+            if (__instance?.OfferedContractInfo?.IsCounterOffer == true)
             {
                 int xp = BaseCounterOfferXPGain.GetValue(UseDefault.GetValue()) * SkillModifiers.GetCounterOfferXPMultiplier();
                 LogManager.LogMessage($"[Grifter] Base Counter Offer XP: {BaseCounterOfferXPGain.GetValue(UseDefault.GetValue())} | XP Gained: {xp} | Skill Multiplier: x{SkillModifiers.GetCounterOfferXPMultiplier()}", LogLevel.Debug);

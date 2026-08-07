@@ -26,7 +26,7 @@ namespace SkillTree.Core.Patches.Provisioner
 
         [HarmonyPatch(typeof(Cauldron), "OnTimePass")]
         [HarmonyPrefix]
-        public static bool Prefix(Cauldron __instance, int minutes)
+        public static bool Prefix_OnTimePass(Cauldron __instance, int minutes)
         {
             if (__instance == null || SkillTreeData.WitchsBrew.CurrentLevel == 0 && SkillTreeData.HarderAndStronger.CurrentLevel == 0)
                 return true;
@@ -75,7 +75,7 @@ namespace SkillTree.Core.Patches.Provisioner
 
         [HarmonyPatch(typeof(MixingStation), "GetMixQuantity")]
         [HarmonyPostfix]
-        public static void Postfix(MixingStation __instance, ref int __result)
+        public static void Postfix_GetMixQuantity(MixingStation __instance, ref int __result)
         {
             if (__instance?.GetProduct() == null || __instance?.GetMixer() == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
@@ -86,21 +86,29 @@ namespace SkillTree.Core.Patches.Provisioner
 
         [HarmonyPatch(typeof(DryingRack), "InitializeGridItem")]
         [HarmonyPostfix]
-        public static void Postfix(DryingRack __instance)
+        public static void Postfix_InitializeGridItem(DryingRack __instance)
         {
             if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }
 
-        [HarmonyPatch(typeof(DryingRack), "Open")]
+        [HarmonyPatch(typeof(DryingRack), "Interacted")]
         [HarmonyPrefix]
-        public static void Prefix(DryingRack __instance)
+        public static void Prefix_Open(DryingRack __instance)
         {
             if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
                 return;
             UpdateDryingRackCapacity(__instance);
         }
+        //[HarmonyPatch(typeof(DryingRack), "Open")]
+        //[HarmonyPrefix]
+        //public static void Prefix_Open(DryingRack __instance)
+        //{
+        //    if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
+        //        return;
+        //    UpdateDryingRackCapacity(__instance);
+        //}
     }
 }
 

@@ -1,9 +1,10 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.DevUtilities;
 using Il2CppScheduleOne.Money;
-using Il2CppScheduleOne.UI.ATM;
+using Il2CppScheduleOne.UI;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 
 namespace SkillTree.Core.Patches.Hustler
@@ -69,7 +70,10 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void PostfixUpdate(ATMInterface __instance)
         {
-            if (__instance == null || !__instance.isOpen || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
+            //if (__instance == null || !__instance.isOpen || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
+            if (__instance == null || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
+
+            LogManager.LogMessage($"ATMInterface state: {__instance?.state?.name}", LogLevel.Debug);
 
             bool limitReached = ATM.WeeklyDepositSum >= SkillModifiers.GetATMLimit();
 

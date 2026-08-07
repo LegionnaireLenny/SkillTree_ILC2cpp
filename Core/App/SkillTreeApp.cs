@@ -95,7 +95,7 @@ namespace SkillTree.Core.App
 
             if (!GameplayMenu.instance.IsOpen && Cursor.lockState != CursorLockMode.None)
             {
-                GameplayMenu.instance.SetIsOpen(true);
+                GameplayMenu.instance.IsOpen = true;
                 GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
                 OpenApp();
             }
@@ -112,7 +112,7 @@ namespace SkillTree.Core.App
                 }
                 else
                 {
-                    GameplayMenu.instance.SetIsOpen(false);
+                    GameplayMenu.instance.IsOpen = false;
                     CloseApp();
                 }
             }

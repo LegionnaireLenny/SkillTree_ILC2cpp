@@ -22,8 +22,8 @@ namespace SkillTree.Core.Patches.Logistician
                 if (Cache.OriginalDealers.ContainsKey(dealer.name))
                 {
                     float baseCut = Cache.OriginalDealers[dealer.name].Cut;
-                    dealer.Cut = baseCut - SkillModifiers.GetDealerCutReduction();
-                    LogManager.LogMessage($"{dealer.name}'s cut changed from {(int)(baseCut * 100)}% to {(int)(dealer.Cut * 100)}%", LogLevel.Debug);
+                    dealer.DealerData.SalesCutPercentage = baseCut - SkillModifiers.GetDealerCutReduction();
+                    LogManager.LogMessage($"{dealer.name}'s cut changed from {(int)(baseCut * 100)}% to {(int)(dealer.DealerData.SalesCutPercentage * 100)}%", LogLevel.Debug);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace SkillTree.Core.Patches.Logistician
                     RectTransform entry = __instance.CustomerEntries[j];
 
                     entry.Find("Mugshot").GetComponent<Image>().sprite = customer.NPC.MugshotSprite;
-                    entry.Find("Name").GetComponent<Text>().text = customer.NPC.fullName;
+                    entry.Find("Name").GetComponent<Text>().text = customer.NPC.FullName;
 
                     Button removeBtn = entry.Find("Remove").GetComponent<Button>();
                     removeBtn.onClick.RemoveAllListeners();

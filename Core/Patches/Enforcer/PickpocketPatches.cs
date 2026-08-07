@@ -33,12 +33,12 @@ namespace SkillTree.Core.Patches.Enforcer
                 }
                 else
                 {
-                    LogManager.LogMessage($"Inventory Difficulty: {Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2)} | Item Difficulty: {itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier}", LogLevel.Debug);
+                    LogManager.LogMessage($"Inventory Difficulty: {Mathf.Clamp(__instance.npc.NPCData.Inventory.PickpocketDifficulty, 0, 2)} | Item Difficulty: {itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier}", LogLevel.Debug);
                     float num = itemSlotUI.assignedSlot.ItemInstance.GetMonetaryValue() * itemSlotUI.assignedSlot.ItemInstance.Definition.TryCast<StorableItemDefinition>().PickpocketDifficultyMultiplier;
                     float num2 = Mathf.Lerp(__instance.GreenAreaMaxWidth,
                                             __instance.GreenAreaMinWidth,
                                             Mathf.Pow(Mathf.Clamp01(num / __instance.ValueDivisor), 0.3f)) /
-                                        (Mathf.Clamp(__instance.npc.Inventory.PickpocketDifficultyMultiplier, 0, 2) * SkillModifiers.GetPickpocketDifficultyMultiplier());
+                                        (Mathf.Clamp(__instance.npc.NPCData.Inventory.PickpocketDifficulty, 0, 2) * SkillModifiers.GetPickpocketDifficultyMultiplier());
                     RectTransform rectTransform = __instance.GreenAreas[j];
                     rectTransform.sizeDelta = new Vector2(num2, rectTransform.sizeDelta.y);
                     rectTransform.gameObject.SetActive(true);

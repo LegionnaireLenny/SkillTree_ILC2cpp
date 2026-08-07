@@ -18,7 +18,8 @@ namespace SkillTree.Core.Patches.Hustler
         public static float CalculateSuccessChance(CounterofferInterface instance)
         {
             var conversation = instance.conversation;
-            var price = instance.price;
+            //var price = instance.price;
+            var price = instance.PriceSelector.SelectedAmount;
             var product = instance.selectedProduct;
             var quantity = instance.quantity;
 
@@ -28,7 +29,8 @@ namespace SkillTree.Core.Patches.Hustler
 
             float adjustedWeeklySpend = customerData.GetAdjustedWeeklySpend(NPC.RelationData.RelationDelta / 5f);
 
-            Il2CppSystem.Collections.Generic.List<EDay> orderDays = customerData.GetOrderDays(customer.CurrentAddiction, NPC.RelationData.RelationDelta / 5f);
+            Il2CppSystem.Collections.Generic.List<EDay> orderDays = new Il2CppSystem.Collections.Generic.List<EDay>();
+            customerData.GetOrderDays(customer.CurrentAddiction, NPC.RelationData.RelationDelta / 5f, orderDays);
             float num = adjustedWeeklySpend / orderDays.Count;
 
             if (price >= num * 3f)
@@ -143,7 +145,20 @@ namespace SkillTree.Core.Patches.Hustler
             }
         }
 
-        [HarmonyPatch(typeof(CounterofferInterface), "ChangeQuantity")]
+        //[HarmonyPatch(typeof(CounterofferInterface), "ChangeQuantity")]
+        //public static class Counteroffer_ChangeQuantity_Patch
+        //{
+        //    [HarmonyPostfix]
+        //    public static void Postfix(CounterofferInterface __instance)
+        //    {
+        //        if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+        //            return;
+
+        //        UpdateSuccessLabel(__instance);
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(CounterofferInterface), "UpdateQuantityLabel")]
         public static class Counteroffer_ChangeQuantity_Patch
         {
             [HarmonyPostfix]
@@ -156,17 +171,17 @@ namespace SkillTree.Core.Patches.Hustler
             }
         }
 
-        [HarmonyPatch(typeof(CounterofferInterface), "ChangePrice")]
-        public static class Counteroffer_ChangePrice_Patch
-        {
-            [HarmonyPostfix]
-            public static void Postfix(CounterofferInterface __instance)
-            {
-                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
-                    return;
+        //[HarmonyPatch(typeof(CounterofferInterface), "ChangePrice")]
+        //public static class Counteroffer_ChangePrice_Patch
+        //{
+        //    [HarmonyPostfix]
+        //    public static void Postfix(CounterofferInterface __instance)
+        //    {
+        //        if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+        //            return;
 
-                UpdateSuccessLabel(__instance);
-            }
-        }
+        //        UpdateSuccessLabel(__instance);
+        //    }
+        //}
     }
 }

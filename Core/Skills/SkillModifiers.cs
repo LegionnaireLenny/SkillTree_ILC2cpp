@@ -294,7 +294,7 @@ namespace SkillTree.Core.Skills
             return 1f + SkillTreeData.MotivationalLeader.CurrentLevel * DealerSpeedBonus.GetValue(UseDefault.GetValue());
         }
 
-        public static float GetEmployeeMoveSpeedScale()
+        public static float GetEmployeeMoveSpeedMultiplier()
         {
             return SkillTreeData.EmployeeMovespeed.CurrentLevel == 0 ? 1f : Mathf.Clamp(EmployeeMoveSpeedBonus.GetValue(UseDefault.GetValue()), 0.1f, 10f);
         }

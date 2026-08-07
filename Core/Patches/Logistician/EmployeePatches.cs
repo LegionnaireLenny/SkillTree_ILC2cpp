@@ -79,10 +79,10 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (SkillTreeData.EmployeeMovespeed.CurrentLevel > 0)
             {
-                __instance.Movement.MovementSpeedScale = SkillModifiers.GetEmployeeMoveSpeedScale();
                 if (!processedEmployees.Contains(__instance.GUID))
                 {
-                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.fullName}'s movespeed scale set to {__instance.Movement.MovementSpeedScale}", LogLevel.Debug);
+                    __instance.Movement.MoveSpeedMultiplier = SkillModifiers.GetEmployeeMoveSpeedMultiplier();
+                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.FullName}'s movespeedmultiplier set to {__instance.Movement.MoveSpeedMultiplier}", LogLevel.Debug);
                     processedEmployees.Add(__instance.GUID);
                 }
             }
@@ -100,7 +100,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (!processedBotanists.Contains(__instance.GUID))
             {
-                LogManager.LogMessage($"[EmployeeMaxStation] Botanist {__instance.fullName}'s max assigns increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
+                LogManager.LogMessage($"[EmployeeMaxStation] Botanist {__instance.FullName}'s max assigns increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
                 processedBotanists.Add(__instance.GUID);
             }
         }
@@ -117,7 +117,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (!processedChemists.Contains(__instance.GUID))
             {
-                LogManager.LogMessage($"[EmployeeMaxStation] Chemist {__instance.fullName}'s max stations increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
+                LogManager.LogMessage($"[EmployeeMaxStation] Chemist {__instance.FullName}'s max stations increased from {stations.Item2} to {stations.Item1}", LogLevel.Debug);
                 processedChemists.Add(__instance.GUID);
             }
         }
@@ -136,7 +136,7 @@ namespace SkillTree.Core.Patches.Logistician
                     processedEmployees.Remove(__instance.GUID);
                     processedBotanists.Remove(__instance.GUID);
                     processedChemists.Remove(__instance.GUID);
-                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.fullName} removed from cache", LogLevel.Debug);
+                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.FullName} removed from cache", LogLevel.Debug);
                 }
             }
             catch (System.Exception) { }

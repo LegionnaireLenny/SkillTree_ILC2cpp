@@ -91,7 +91,7 @@ namespace SkillTree.Core.Patches.Hustler
                     IsPolice = isPolice,
                     POI = Object.Instantiate(NetworkSingleton<NPCManager>.Instance.NPCPoIPrefab, instance.transform)
                 };
-                customPOI.POI.SetMainText($"{instance.fullName}\n{description}");
+                customPOI.POI.SetMainText($"{instance.FullName}\n{description}");
                 customPOI.POI.SetNPC(instance);
                 customPOI.POI.transform.localPosition = Vector3.zero;
                 customPOI.SetVisibility(instance.IsCurrentlySightable());
