@@ -4,19 +4,28 @@ using Il2CppScheduleOne.Economy;
 using Il2CppScheduleOne.GameTime;
 using Il2CppScheduleOne.NPCs;
 using Il2CppScheduleOne.Product;
+using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Phone;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace SkillTree.Core.Patches.Hustler
 {
+    [HarmonyPatch]
     public static class CounterOfferPatches
     {
         private static Text SuccessLabel;
+        private static CounterofferInterface CounterOffer;
 
         public static float CalculateSuccessChance(CounterofferInterface instance)
         {
+            if (instance == null)
+            {
+                return -1;
+            }
+
             var conversation = instance.conversation;
             //var price = instance.price;
             var price = instance.PriceSelector.SelectedAmount;
@@ -74,10 +83,9 @@ namespace SkillTree.Core.Patches.Hustler
             return Mathf.Clamp(probability, 0f, 1f);
         }
 
-
         public static void CreateSuccessLabel(CounterofferInterface instance)
         {
-            if (SuccessLabel != null)
+            if (SuccessLabel != null || instance == null)
             {
                 return;
             }
@@ -119,7 +127,7 @@ namespace SkillTree.Core.Patches.Hustler
 
         public static void UpdateSuccessLabel(CounterofferInterface instance)
         {
-            if (SuccessLabel == null)
+            if (SuccessLabel == null || instance == null)
                 return;
 
             float chance = CalculateSuccessChance(instance);
@@ -132,56 +140,49 @@ namespace SkillTree.Core.Patches.Hustler
         }
 
         [HarmonyPatch(typeof(CounterofferInterface), "Open")]
-        public static class Counteroffer_Open_Patch
+        [HarmonyPostfix]
+        public static void CounterofferInterface_Open_Postfix(CounterofferInterface __instance)
         {
-            [HarmonyPostfix]
-            public static void Postfix(CounterofferInterface __instance)
-            {
-                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
-                    return;
+            LogManager.LogMessage("CounterofferInterface_Open", LogLevel.Debug);
+            if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+                return;
 
-                CreateSuccessLabel(__instance);
-                UpdateSuccessLabel(__instance);
-            }
+            CounterOffer = __instance;
+            CreateSuccessLabel(__instance);
+            UpdateSuccessLabel(__instance);
         }
 
-        //[HarmonyPatch(typeof(CounterofferInterface), "ChangeQuantity")]
-        //public static class Counteroffer_ChangeQuantity_Patch
-        //{
-        //    [HarmonyPostfix]
-        //    public static void Postfix(CounterofferInterface __instance)
-        //    {
-        //        if (SkillTreeData.CrystalBall.CurrentLevel == 0)
-        //            return;
+        [HarmonyPatch(typeof(CounterofferInterface), "Close")]
+        [HarmonyPostfix]
+        public static void CounterofferInterface_Close_Postfix()
+        {
+            LogManager.LogMessage("CounterofferInterface_Close", LogLevel.Debug);
+            if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+                return;
 
-        //        UpdateSuccessLabel(__instance);
-        //    }
-        //}
+            CounterOffer = null;
+        }
 
         [HarmonyPatch(typeof(CounterofferInterface), "UpdateQuantityLabel")]
-        public static class Counteroffer_ChangeQuantity_Patch
+        [HarmonyPostfix]
+        public static void CounterofferInterface_UpdateQuantityLabel_Postfix(CounterofferInterface __instance)
         {
-            [HarmonyPostfix]
-            public static void Postfix(CounterofferInterface __instance)
-            {
-                if (SkillTreeData.CrystalBall.CurrentLevel == 0)
-                    return;
+            LogManager.LogMessage("UpdateQuantityLabel", LogLevel.Debug);
+            if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+                return;
 
-                UpdateSuccessLabel(__instance);
-            }
+            UpdateSuccessLabel(__instance);
         }
 
-        //[HarmonyPatch(typeof(CounterofferInterface), "ChangePrice")]
-        //public static class Counteroffer_ChangePrice_Patch
-        //{
-        //    [HarmonyPostfix]
-        //    public static void Postfix(CounterofferInterface __instance)
-        //    {
-        //        if (SkillTreeData.CrystalBall.CurrentLevel == 0)
-        //            return;
+        [HarmonyPatch(typeof(AmountSelector), "ChangeAmount")]
+        [HarmonyPostfix]
+        public static void AmountSelector_ChangeAmount_Postfix()
+        {
+            LogManager.LogMessage("AmountSelector_ChangeAmount", LogLevel.Debug);
+            if (SkillTreeData.CrystalBall.CurrentLevel == 0)
+                return;
 
-        //        UpdateSuccessLabel(__instance);
-        //    }
-        //}
+            UpdateSuccessLabel(CounterOffer);
+        }
     }
 }

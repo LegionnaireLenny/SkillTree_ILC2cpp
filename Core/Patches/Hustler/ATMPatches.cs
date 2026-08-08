@@ -70,8 +70,7 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void PostfixUpdate(ATMInterface __instance)
         {
-            //if (__instance == null || !__instance.isOpen || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
-            if (__instance == null || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
+            if (__instance == null || !__instance.IsOpen || SkillTreeData.HoardTheWealth.CurrentLevel == 0) return;
 
             LogManager.LogMessage($"ATMInterface state: {__instance?.state?.name}", LogLevel.Debug);
 
