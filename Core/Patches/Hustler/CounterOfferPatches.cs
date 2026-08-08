@@ -27,7 +27,6 @@ namespace SkillTree.Core.Patches.Hustler
             }
 
             var conversation = instance.conversation;
-            //var price = instance.price;
             var price = instance.PriceSelector.SelectedAmount;
             var product = instance.selectedProduct;
             var quantity = instance.quantity;

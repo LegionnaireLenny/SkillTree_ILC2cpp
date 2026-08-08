@@ -79,9 +79,9 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (SkillTreeData.EmployeeMovespeed.CurrentLevel > 0)
             {
+                __instance.Movement.MoveSpeedMultiplier = SkillModifiers.GetEmployeeMoveSpeedMultiplier();
                 if (!processedEmployees.Contains(__instance.GUID))
                 {
-                    __instance.Movement.MoveSpeedMultiplier = SkillModifiers.GetEmployeeMoveSpeedMultiplier();
                     LogManager.LogMessage($"{__instance.EmployeeType} {__instance.FullName}'s movespeedmultiplier set to {__instance.Movement.MoveSpeedMultiplier}", LogLevel.Debug);
                     processedEmployees.Add(__instance.GUID);
                 }

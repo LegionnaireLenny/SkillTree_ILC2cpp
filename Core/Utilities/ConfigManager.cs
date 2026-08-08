@@ -330,7 +330,6 @@ namespace SkillTree.Core.Utilities
             SupplierCashBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierCashBonus", 0.675f, "Reliable Bus. Partner: Dead Drop Order Limit Bonus"));
             SupplierItemBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_SupplierItemBonus", 0.50f, "Reliable Bus. Partner: Dead Drop Item Limit Bonus"));
             EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 3f, "RUN BITCH RUN!: Employee MoveSpeedMultiplier", "Value is clamped between 0.1f (0.1x speed) and 10f (10x speed)"));
-            //EmployeeMoveSpeedBonus = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_EmployeeMoveSpeedBonus", 0.33f, "RUN BITCH RUN!: Employee MovespeedScale", "Lower is faster, higher is slower. Value is clamped between 0.1f (10x speed) and 10f (0.1x speed)"));
             EducatedWorkforceBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_EducatedWorkforceBonus", 0.125f, "Educated Workforce: XP Bonus"));
             DealerCutReduction = new ConfigEntry<float>(Logistician.CreateEntry("SkillTree_DealerCutReduction", 0.05f, "Wage Garnishment: Dealer Cut Reduction"));
             Logistician.SetFilePath(Core.ConfigFile, true, false);

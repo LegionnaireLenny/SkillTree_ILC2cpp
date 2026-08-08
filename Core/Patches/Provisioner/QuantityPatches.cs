@@ -101,14 +101,6 @@ namespace SkillTree.Core.Patches.Provisioner
                 return;
             UpdateDryingRackCapacity(__instance);
         }
-        //[HarmonyPatch(typeof(DryingRack), "Open")]
-        //[HarmonyPrefix]
-        //public static void Prefix_Open(DryingRack __instance)
-        //{
-        //    if (__instance == null || SkillTreeData.CrankinOneOut.CurrentLevel == 0)
-        //        return;
-        //    UpdateDryingRackCapacity(__instance);
-        //}
     }
 }
 
