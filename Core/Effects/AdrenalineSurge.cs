@@ -10,7 +10,8 @@ namespace SkillTree.Core.Effects
 {
     public class AdrenalineSurge
     {
-        public static bool IsAdrenalineSurgeActive { get; set; } = false;
+        private static readonly string EffectName = "AdrenalineSurge";
+        public static bool IsAdrenalineSurgeActive { get; private set; } = false;
 
         public static void ApplyToPlayer()
         {
@@ -22,12 +23,18 @@ namespace SkillTree.Core.Effects
                 Player.Local.Avatar.Effects.SetZapped(true, true);
             }
             LogManager.LogMessage($"Adrenaline Surge effect applied", LogLevel.Debug);
-            MelonCoroutines.Start(ClearFromPlayer());
+            Core.AddCoroutine(EffectName, MelonCoroutines.Start(ClearFromPlayer()));
         }
 
         public static IEnumerator ClearFromPlayer()
         {
             yield return new WaitForSeconds(AdrenalineSurgeDuration.GetValue(UseDefault.GetValue()));
+            ClearEffect();
+            Core.RemoveCoroutine(EffectName);
+        }
+
+        public static void ClearEffect()
+        {
             IsAdrenalineSurgeActive = false;
             PlayerMovement.Instance.MoveSpeedMultiplierStack.Remove("SkillTree_AdrenalineSurge");
             Patches.Enforcer.MovementPatches.SetPlayerJumpHeight();

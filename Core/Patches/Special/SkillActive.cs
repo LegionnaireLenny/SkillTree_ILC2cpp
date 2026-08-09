@@ -223,11 +223,12 @@ namespace SkillTree.Core.Patches.Special
             Effect[] explosiveEffects = [new Explosive(), new Spicy()];
             float toxicDelay = 8f;
             float explosionDelay = 30f;
+            string EffectName = "InfectiousPersonality";
 
             if (InfectiousPersonalityUsed)
                 Singleton<NotificationsManager>.Instance.SendNotification(
-                    GetNotificationTitle("InfectiousPersonality", "Cooldown"),
-                    GetNotificationSubtitle("InfectiousPersonality", "Cooldown"),
+                    GetNotificationTitle(EffectName, "Cooldown"),
+                    GetNotificationSubtitle(EffectName, "Cooldown"),
                     IconManager.LoadSprite(IconManager.IconHeart));
             else
             {
@@ -253,8 +254,8 @@ namespace SkillTree.Core.Patches.Special
                 if (!InfectiousPersonalityUsed)
                 {
                     Singleton<NotificationsManager>.Instance.SendNotification(
-                        GetNotificationTitle("InfectiousPersonality", "InvalidUse"),
-                        GetNotificationSubtitle("InfectiousPersonality", "InvalidUse"),
+                        GetNotificationTitle(EffectName, "InvalidUse"),
+                        GetNotificationSubtitle(EffectName, "InvalidUse"),
                         IconManager.LoadSprite(IconManager.IconHeart));
                 }
             }
@@ -274,7 +275,7 @@ namespace SkillTree.Core.Patches.Special
                     effect.ApplyToNPC(npc);
                 }
 
-                MelonCoroutines.Start(SpreadInfection(npc, effects, delay));
+                Core.AddCoroutine(EffectName + npc.FullName, MelonCoroutines.Start(SpreadInfection(npc, effects, delay)));
             }
 
             IEnumerator SpreadInfection(NPC npc, Effect[] effects, float delay)
@@ -290,6 +291,7 @@ namespace SkillTree.Core.Patches.Special
                     $"Infectious Personality payment",
                     npc.Health.MaxHealth / 2, 1f, string.Empty);
                 npc.ReceiveImpact(new Impact(Vector3.zero, Vector3.zero, 0f, npc.Health.MaxHealth, EImpactType.Explosion, Player.Local.NetworkObject));
+                Core.RemoveCoroutine(EffectName + npc.FullName);
             }
 
             void InfectArea(Vector3 source, float radius, Effect[] effects, float delay)
@@ -334,8 +336,8 @@ namespace SkillTree.Core.Patches.Special
             if (!AntiGravityBongUsed)
             {
                 AntiGravityBongUsed = true;
-                MelonCoroutines.Start(SpawnBong());
-                MelonCoroutines.Start(ResetAntiGravityBong());
+                Core.AddCoroutine("AntiGravityBong", MelonCoroutines.Start(SpawnBong()));
+                Core.AddCoroutine("ResetAntiGravityBong", MelonCoroutines.Start(ResetAntiGravityBong()));
             }
             else
             {
@@ -376,6 +378,7 @@ namespace SkillTree.Core.Patches.Special
                 }
                 NetworkSingleton<CombatManager>.Instance.CreateExplosion(bong.transform.position, ExplosionData.DefaultSmall);
                 bong.DestroyTrash();
+                Core.RemoveCoroutine("AntiGravityBong");
             }
         }
 

@@ -7,15 +7,16 @@ using S1API.GameTime;
 using S1API.Leveling;
 using S1API.Lifecycle;
 using SkillTree.Core;
+using SkillTree.Core.Effects;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Hustler;
-using SkillTree.Core.Patches.Logistician;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Utilities;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
@@ -29,6 +30,8 @@ namespace SkillTree.Core
     {
         private readonly float delayTime = 3f;
         private bool setupComplete = false;
+        private static readonly Dictionary<string, object> coroutines = [];
+
         public static Core Instance;
         public static Action OnOpenKeyPressed;
         public static Action OnLevelSkillKeyPressed;
@@ -140,6 +143,9 @@ namespace SkillTree.Core
         private IEnumerator DelayedSetup()
         {
             yield return new WaitForSeconds(delayTime);
+            AdrenalineSurge.ClearEffect();
+            BloodMoney.ClearEffect();
+            BloodRush.ClearEffect();
             ShopPatches.ChangeItemRankRequirements();
             SkillPoints.ValidateTotalSkillPoints();
             SaveManager.SaveFile();
@@ -201,9 +207,8 @@ namespace SkillTree.Core
             if (sceneName != "Main")
             {
                 setupComplete = false;
-
+                CleanupCoroutines();
                 NPCPatches.Reset();
-                ChemistBehaviorPatches.CleanupCoroutines();
                 SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
@@ -244,6 +249,40 @@ namespace SkillTree.Core
             {
                 MelonCoroutines.Start(DelayedSetup());
             }
+        }
+
+        public static void CleanupCoroutines()
+        {
+            foreach (var item in coroutines)
+            {
+                LogManager.LogMessage($"Terminating stale coroutine for {item.Key}", LogLevel.Debug);
+                MelonCoroutines.Stop(item.Value);
+            }
+            coroutines.Clear();
+        }
+
+        public static void AddCoroutine(int objectID, object coroutine, string name)
+        {
+            coroutines.Add(objectID.ToString(), coroutine);
+            LogManager.LogMessage($"Adding {name} coroutine for {objectID}", LogLevel.Debug);
+        }
+
+        public static void AddCoroutine(string name, object coroutine)
+        {
+            coroutines.Add(name, coroutine);
+            LogManager.LogMessage($"Adding coroutine for {name}", LogLevel.Debug);
+        }
+
+        public static void RemoveCoroutine(int objectID, string name)
+        {
+            coroutines.Remove(objectID.ToString());
+            LogManager.LogMessage($"Removing {name} coroutine for {objectID}", LogLevel.Debug);
+        }
+
+        public static void RemoveCoroutine(string name)
+        {
+            coroutines.Remove(name);
+            LogManager.LogMessage($"Removing coroutine for {name}", LogLevel.Debug);
         }
     }
 }

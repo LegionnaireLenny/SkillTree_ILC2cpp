@@ -7,28 +7,16 @@ using Il2CppScheduleOne.NPCs.Behaviour;
 using Il2CppScheduleOne.ObjectScripts;
 using Il2CppScheduleOne.StationFramework;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace SkillTree.Core.Patches.Logistician
 {
     [HarmonyPatch]
     public class ChemistBehaviorPatches
     {
-        private static readonly Dictionary<Object, Coroutine> routines = [];
-
-        public static void CleanupCoroutines()
-        {
-            foreach (var item in routines)
-            {
-                MelonCoroutines.Stop(item.Value);
-            }
-            routines.Clear();
-        }
-
         [HarmonyPatch(typeof(FinishLabOvenBehaviour), "RpcLogic___StartAction_2166136261")]
         [HarmonyPrefix]
         public static bool RpcLogic___StartAction_2166136261(FinishLabOvenBehaviour __instance)
@@ -43,7 +31,7 @@ namespace SkillTree.Core.Patches.Logistician
                 return false;
             }
             __instance.actionRoutine = (Coroutine)MelonCoroutines.Start(StartAction(__instance));
-            routines.Add(__instance, __instance.actionRoutine);
+            Core.AddCoroutine(__instance.ObjectId, __instance.actionRoutine, __instance.Name);
             return false;
         }
 
@@ -56,7 +44,7 @@ namespace SkillTree.Core.Patches.Logistician
             {
                 instance.StopAction();
                 instance.Deactivate_Networked(null);
-                routines.Remove(instance);
+                Core.RemoveCoroutine(instance.ObjectId, instance.Name);
                 yield break;
             }
             instance.Npc.SetEquippable_Client(null, "Avatar/Equippables/Hammer");
@@ -78,7 +66,7 @@ namespace SkillTree.Core.Patches.Logistician
             instance.targetOven.SendCookOperation(null);
             instance.StopAction();
             instance.Deactivate_Networked(null);
-            routines.Remove(instance);
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
 
@@ -102,7 +90,7 @@ namespace SkillTree.Core.Patches.Logistician
             __instance.WorkInProgress = true;
             __instance.Npc.Movement.FaceDirection(__instance.Station.StandPoint.forward, 0.5f);
             __instance.workRoutine = (Coroutine)MelonCoroutines.Start(BeginCauldron(__instance));
-            routines.Add(__instance, __instance.workRoutine);
+            Core.AddCoroutine(__instance.ObjectId, __instance.workRoutine, __instance.Name);
             return false;
         }
 
@@ -126,7 +114,7 @@ namespace SkillTree.Core.Patches.Logistician
 
             instance.WorkInProgress = false;
             instance.workRoutine = null;
-            routines.Remove(instance);
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
 
@@ -144,7 +132,7 @@ namespace SkillTree.Core.Patches.Logistician
                 return false;
             }
             __instance.cookRoutine = (Coroutine)MelonCoroutines.Start(StartCook(__instance));
-            routines.Add(__instance, __instance.cookRoutine);
+            Core.AddCoroutine(__instance.ObjectId, __instance.cookRoutine, __instance.Name);
             return false;
         }
 
@@ -157,7 +145,7 @@ namespace SkillTree.Core.Patches.Logistician
             {
                 instance.StopCook();
                 instance.Deactivate_Networked(null);
-                routines.Remove(instance);
+                Core.RemoveCoroutine(instance.ObjectId, instance.Name);
                 yield break;
             }
             instance.targetStation.SetNPCUser(instance.Npc.NetworkObject);
@@ -190,7 +178,7 @@ namespace SkillTree.Core.Patches.Logistician
             instance.beaker = null;
             instance.StopCook();
             instance.Deactivate_Networked(null);
-            routines.Remove(instance);
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
 
@@ -208,7 +196,7 @@ namespace SkillTree.Core.Patches.Logistician
                 return false;
             }
             __instance.cookRoutine = (Coroutine)MelonCoroutines.Start(StartCook(__instance));
-            routines.Add(__instance, __instance.cookRoutine);
+            Core.AddCoroutine(__instance.ObjectId, __instance.cookRoutine, __instance.Name);
             return false;
         }
 
@@ -221,7 +209,7 @@ namespace SkillTree.Core.Patches.Logistician
             {
                 instance.StopCook();
                 instance.Deactivate_Networked(null);
-                routines.Remove(instance);
+                Core.RemoveCoroutine(instance.ObjectId, instance.Name);
                 yield break;
             }
             instance.targetOven.Door.SetPosition(1f);
@@ -239,7 +227,7 @@ namespace SkillTree.Core.Patches.Logistician
 
                 instance.StopCook();
                 instance.Deactivate_Networked(null);
-                routines.Remove(instance);
+                Core.RemoveCoroutine(instance.ObjectId, instance.Name);
                 yield break;
             }
             int num = 1;
@@ -257,7 +245,7 @@ namespace SkillTree.Core.Patches.Logistician
             instance.targetOven.SendCookOperation(new OvenCookOperation(itemInstance.ID, equality, num, id));
             instance.StopCook();
             instance.Deactivate_Networked(null);
-            routines.Remove(instance);
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
 
@@ -275,7 +263,7 @@ namespace SkillTree.Core.Patches.Logistician
                 return false;
             }
             __instance.startRoutine = (Coroutine)MelonCoroutines.Start(StartCook(__instance));
-            routines.Add(__instance, __instance.startRoutine);
+            Core.AddCoroutine(__instance.ObjectId, __instance.startRoutine, __instance.Name);
             return false;
         }
 
@@ -287,7 +275,7 @@ namespace SkillTree.Core.Patches.Logistician
             {
                 instance.StopCook();
                 instance.Deactivate_Networked(null);
-                routines.Remove(instance);
+                Core.RemoveCoroutine(instance.ObjectId, instance.Name);
                 yield break;
             }
             instance.targetStation.SetNPCUser(instance.Npc.NetworkObject);
@@ -310,7 +298,7 @@ namespace SkillTree.Core.Patches.Logistician
             }
             instance.StopCook();
             instance.Deactivate_Networked(null);
-            routines.Remove(instance);
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
     }

@@ -12,9 +12,9 @@ namespace SkillTree.Core.Effects
 {
     public class BloodMoney
     {
-        public static bool IsBloodMoneyActive { get; private set; } = false;
         private static readonly string EffectName = "BloodMoney";
         private static readonly int EffectTier = 3;
+        public static bool IsBloodMoneyActive { get; private set; } = false;
 
         public static void ApplyToPlayer()
         {
@@ -24,18 +24,23 @@ namespace SkillTree.Core.Effects
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.AddOverride(BloodMoneyHeartbeatVolume.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.AddOverride(BloodMoneyHeartbeatPitch.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
             Singleton<PostProcessingManager>.Instance.ColorFilterController.AddOverride(BloodMoneyScreenTint.GetValue(UseDefault.GetValue()), EffectTier, EffectName);
-            MelonCoroutines.Start(ClearFromPlayer());
+            Core.AddCoroutine(EffectName, MelonCoroutines.Start(ClearFromPlayer()));
         }
 
         public static IEnumerator ClearFromPlayer()
         {
             yield return new WaitForSeconds(BloodMoneyDuration.GetValue(UseDefault.GetValue()));
+            ClearEffect();
+            Core.RemoveCoroutine(EffectName);
+        }
+
+        public static void ClearEffect()
+        {
             IsBloodMoneyActive = false;
             PlayerSingleton<PlayerCamera>.Instance.FoVChangeSmoother.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.VolumeController.RemoveOverride(EffectName);
             PlayerSingleton<PlayerCamera>.Instance.HeartbeatSoundController.PitchController.RemoveOverride(EffectName);
             Singleton<PostProcessingManager>.Instance.ColorFilterController.RemoveOverride(EffectName);
-
             LogManager.LogMessage($"Blood Money effect removed", LogLevel.Debug);
         }
 

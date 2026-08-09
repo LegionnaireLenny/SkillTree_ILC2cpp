@@ -47,6 +47,7 @@ namespace SkillTree.Core.Serialization
                 GetNotificationTitle("CooldownReset", "AntiGravityBong"),
                 GetNotificationSubtitle("CooldownReset", "AntiGravityBong"),
                 IconManager.LoadSprite(IconManager.IconClock));
+            Core.RemoveCoroutine("ResetAntiGravityBong");
         }
 
         public static void LoadFromFile(JsonElement data)

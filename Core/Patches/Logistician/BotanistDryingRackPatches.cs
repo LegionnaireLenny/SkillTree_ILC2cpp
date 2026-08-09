@@ -32,7 +32,7 @@ namespace SkillTree.Core.Patches.Logistician
             __instance.WorkInProgress = true;
             __instance.Npc.Movement.FacePoint(__instance.Rack.uiPoint.position, 0.5f);
             __instance.workRoutine = (Coroutine)MelonCoroutines.Start(BeginAction(__instance));
-
+            Core.AddCoroutine(__instance.ObjectId, __instance.workRoutine, __instance.Name);
             return false;
         }
 
@@ -54,6 +54,7 @@ namespace SkillTree.Core.Patches.Logistician
             }
             instance.WorkInProgress = false;
             instance.workRoutine = null;
+            Core.RemoveCoroutine(instance.ObjectId, instance.Name);
             yield break;
         }
     }

@@ -1,6 +1,5 @@
 ﻿using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.Vision;
-using MelonLoader;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
@@ -10,13 +9,13 @@ namespace SkillTree.Core.Effects
     public class Ghost
     {
         private static VisibilityAttribute visibilityAttribute;
-        public static readonly string Name = "ghost";
+        private static readonly string EffectName = "ghost";
 
         public static void ApplyToPlayer()
         {
-            if (SkillTreeData.Ghost.CurrentLevel != 0 && Player.Local.Visibility.GetAttribute(Name) == null)
+            if (SkillTreeData.Ghost.CurrentLevel != 0 && Player.Local.Visibility.GetAttribute(EffectName) == null)
             {
-                visibilityAttribute = new VisibilityAttribute(Name, 0f, SkillModifiers.GetVisbilityMultiplier(), -1);
+                visibilityAttribute = new VisibilityAttribute(EffectName, 0f, SkillModifiers.GetVisbilityMultiplier(), -1);
                 LogManager.LogMessage($"Ghost effect applied", LogLevel.Debug);
             }
         }
