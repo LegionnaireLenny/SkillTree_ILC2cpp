@@ -33,6 +33,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartAction_2166136261(FinishLabOvenBehaviour __instance)
         {
+            if (SkillTreeData.FastChemists.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance == null || __instance.actionRoutine != null || __instance.targetOven == null)
             {
                 return false;
@@ -81,6 +86,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___BeginCauldron_2166136261(StartCauldronBehaviour __instance)
         {
+            if (SkillTreeData.FastChemists.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance.WorkInProgress)
             {
                 return false;
@@ -124,6 +134,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartChemistryStationBehaviour __instance)
         {
+            if (SkillTreeData.FastChemists.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance == null || __instance.cookRoutine != null || __instance.targetStation == null)
             {
                 return false;
@@ -183,6 +198,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartLabOvenBehaviour __instance)
         {
+            if (SkillTreeData.FastChemists.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance == null || __instance.cookRoutine != null || __instance.targetOven == null)
             {
                 return false;
@@ -245,6 +265,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___StartCook_2166136261(StartMixingStationBehaviour __instance)
         {
+            if (SkillTreeData.FastChemists.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance == null || __instance.startRoutine != null || __instance.targetStation == null)
             {
                 return false;

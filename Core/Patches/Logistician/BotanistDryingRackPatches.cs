@@ -2,6 +2,7 @@
 using Il2CppFishNet;
 using Il2CppScheduleOne.NPCs.Behaviour;
 using MelonLoader;
+using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using System.Collections;
 using UnityEngine;
@@ -15,6 +16,11 @@ namespace SkillTree.Core.Patches.Logistician
         [HarmonyPrefix]
         public static bool RpcLogic___BeginAction_2166136261(StartDryingRackBehaviour __instance)
         {
+            if (SkillTreeData.FastFarmers.CurrentLevel == 0)
+            {
+                return true;
+            }
+
             if (__instance.WorkInProgress)
             {
                 return false;

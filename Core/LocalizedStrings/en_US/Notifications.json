@@ -59,6 +59,16 @@
       "Subtitle": "<color=#54E717>{0}</color> to {1}"
     }
   },
+  "BloodMoney": {
+    "Cooldown": {
+      "Title": "Blood Money on Cooldown",
+      "Subtitle": "<color=#FF0000>Wait one day</color>"
+    },
+    "Success": {
+      "Title": "Blood Rush",
+      "Subtitle": "<color=#FF0000>{0}</color> to <color=#FF0000>{1}</color>"
+    }
+  },
   "InfectiousPersonality": {
     "Cooldown": {
       "Title": "Infectious Personality on Cooldown",

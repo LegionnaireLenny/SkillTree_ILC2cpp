@@ -47,7 +47,7 @@ namespace SkillTree.Core.Patches.CrossTree
         [HarmonyPrefix]
         public static void Prefix_TryCreateOutputItems(MixingStation __instance)
         {
-            if (LevelManager.Instance == null || __instance.CurrentMixOperation == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
+            if (LevelManager.Instance == null || __instance?.CurrentMixOperation == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
                 return;
 
             int xp = DrugMixingXP.GetValue(UseDefault.GetValue()) * __instance.CurrentMixOperation.Quantity;
