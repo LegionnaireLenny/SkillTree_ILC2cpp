@@ -74,8 +74,16 @@ namespace SkillTree.Core.Patches.CrossTree
             if (LevelManager.Instance == null || __instance == null || SkillTreeData.Apprenticeship.CurrentLevel == 0)
                 return;
 
-            int xp = DrugPackagingXP.GetValue(UseDefault.GetValue()) * __instance.PackagingSlot.ItemInstance.Definition.Cast<PackagingDefinition>().Quantity;
-            LogManager.LogMessage($"[Apprenticeship] Drug Packaging XP (Packaging Station): {xp}", LogLevel.Debug);
+            int xp = 0;
+            try
+            {
+                xp = DrugPackagingXP.GetValue(UseDefault.GetValue()) * __instance.PackagingSlot.ItemInstance.Definition.Cast<PackagingDefinition>().Quantity;
+                LogManager.LogMessage($"[Apprenticeship] Drug Packaging XP (Packaging Station): {xp}", LogLevel.Debug);
+            }
+            catch
+            {
+                LogManager.LogMessage($"[Apprenticeship] Error calculating Drug Packaging XP (Packaging Station)", LogLevel.Warning);
+            }
             NetworkSingleton<LevelManager>.Instance.AddXP(xp);
         }
 

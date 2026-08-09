@@ -9,6 +9,7 @@ using S1API.Lifecycle;
 using SkillTree.Core;
 using SkillTree.Core.Patches.Compatibility;
 using SkillTree.Core.Patches.Hustler;
+using SkillTree.Core.Patches.Logistician;
 using SkillTree.Core.Patches.Miscellaneous;
 using SkillTree.Core.Patches.Special;
 using SkillTree.Core.Serialization;
@@ -202,6 +203,7 @@ namespace SkillTree.Core
                 setupComplete = false;
 
                 NPCPatches.Reset();
+                ChemistBehaviorPatches.CleanupCoroutines();
                 SaveManager.LoadDefaultValues();
                 GameLifecycle.OnSaveComplete -= SaveManager.SaveFile;
                 LevelManager.OnRankUp -= SkillPoints.ProcessLevelUp;
