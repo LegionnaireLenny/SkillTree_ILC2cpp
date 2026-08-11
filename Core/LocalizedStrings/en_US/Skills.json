@@ -37,7 +37,11 @@
   },
   "Prison Wallet": {
     "Name": "Prison Wallet",
-    "Description": "Increase item stack size by 100% per level.\n\nDoes not apply to items with a stack size of 1."
+    "Description": "Increase item stack size by 100%.\n\nDoes not apply to items with a stack size of 1."
+  },
+  "Quantum Stockpile": {
+    "Name": "Quantum Stockpile",
+    "Description": "Increase item stack size by 100% per level, stacking additively with Prison Wallet.\n\nDoes not apply to items with a stack size of 1."
   },
   "Double-Stack Mags": {
     "Name": "Double-Stack Mags",

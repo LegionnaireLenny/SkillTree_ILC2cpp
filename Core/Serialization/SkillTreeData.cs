@@ -22,7 +22,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill Slippery = new("Slippery", SkillCategory.Enforcer, 1, Ghost);
         public static readonly Skill FleetFeet = new("Fleet Feet", SkillCategory.Enforcer, 2, Hardy, [MovementPatches.SetPlayerSpeed]);
         public static readonly Skill SpringHeeled = new("Spring-Heeled", SkillCategory.Enforcer, 1, FleetFeet, [MovementPatches.SetPlayerJumpHeight, MovementPatches.SetPlayerStamina]);
-        public static readonly Skill PrisonWallet = new("Prison Wallet", SkillCategory.Enforcer, 3, Hardy, [ItemStackPatches.SetItemStackSize]);
+        public static readonly Skill PrisonWallet = new("Prison Wallet", SkillCategory.Enforcer, 1, Hardy, [ItemStackPatches.SetItemStackSize]);
+        public static readonly Skill QuantumStockpile = new("Quantum Stockpile", SkillCategory.Enforcer, 2, PrisonWallet, [ItemStackPatches.SetItemStackSize]);
         public static readonly Skill DoubleStackMags = new("Double-Stack Mags", SkillCategory.Enforcer, 1, PrisonWallet, [RangedWeaponPatches.SetWeaponStats]);
         public static readonly Skill CircadianMastery = new("Circadian Mastery", SkillCategory.Enforcer, 1, Hardy);
         public static readonly Skill CombatExperience = new("Combat Experience", SkillCategory.Enforcer, 1, Hardy);
