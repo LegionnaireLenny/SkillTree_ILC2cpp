@@ -29,7 +29,8 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill CombatExperience = new("Combat Experience", SkillCategory.Enforcer, 1, Hardy);
         public static readonly Skill SchoolOfHardKnocks = new("School of Hard Knocks", SkillCategory.Enforcer, 1, CombatExperience);
 
-        public static readonly Skill PitchinATent = new("Pitchin' a Tent", SkillCategory.Provisioner, 1, null);
+        public static readonly Skill Apprenticeship = new("Apprenticeship", SkillCategory.Provisioner, 1, null);
+        public static readonly Skill PitchinATent = new("Pitchin' a Tent", SkillCategory.Provisioner, 1, Apprenticeship);
         public static readonly Skill AdvancedPotTechniques = new("Advanced Pot Techniques", SkillCategory.Provisioner, 2, PitchinATent);
         public static readonly Skill HarderAndStronger = new("Harder and Stronger", SkillCategory.Provisioner, 1, AdvancedPotTechniques);
         public static readonly Skill Mushroomancer = new("Mushroomancer", SkillCategory.Provisioner, 2, AdvancedPotTechniques);
@@ -40,7 +41,6 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill BountifulHarvest = new("Bountiful Harvest", SkillCategory.Provisioner, 1, PitchinATent);
         public static readonly Skill CrankinOneOut = new("Crankin' One Out", SkillCategory.Provisioner, 1, BountifulHarvest);
         public static readonly Skill WitchsBrew = new("Witch's Brew", SkillCategory.Provisioner, 1, BountifulHarvest);
-        public static readonly Skill Apprenticeship = new("Apprenticeship", SkillCategory.Provisioner, 1, PitchinATent);
         public static readonly Skill Meister = new("Meister", SkillCategory.Provisioner, 1, Apprenticeship);
 
         public static readonly Skill SilverTonguedDevil = new("Silver Tongued Devil", SkillCategory.Hustler, 1, null);

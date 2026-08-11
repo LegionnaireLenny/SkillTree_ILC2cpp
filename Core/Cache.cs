@@ -90,6 +90,9 @@ namespace SkillTree.Core
         {
             foreach (ItemDefinition item in items)
             {
+                LogManager.LogMessage($"[Cache] Item: {item} - {item?.name}", LogLevel.Debug);
+                if (item?.name == null) continue;
+
                 if (!OriginalItemStackSize.ContainsKey(item.name))
                 {
                     OriginalItemStackSize.Add(item.name, item.StackLimit);

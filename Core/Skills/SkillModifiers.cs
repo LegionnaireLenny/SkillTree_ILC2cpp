@@ -70,7 +70,7 @@ namespace SkillTree.Core.Skills
 
         public static int GetInventoryStackSizeMultiplier()
         {
-            return 1 + (SkillTreeData.PrisonWallet.CurrentLevel + SkillTreeData.QuantumStockpile.CurrentLevel) * InventoryStackSizeBonus.GetValue(UseDefault.GetValue()) + ;
+            return 1 + (SkillTreeData.PrisonWallet.CurrentLevel + SkillTreeData.QuantumStockpile.CurrentLevel) * InventoryStackSizeBonus.GetValue(UseDefault.GetValue());
         }
 
         public static float GetAimTimeMultiplier()
