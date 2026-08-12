@@ -141,7 +141,7 @@ namespace SkillTree.Core.Skills
             return 1 + SkillTreeData.QuickCrafter.CurrentLevel * ChemistStationSpeedBonus.GetValue(UseDefault.GetValue());
         }
 
-        public static int GetMethCocaProductQualityBonus()
+        public static int GetMethQualityBonus()
         {
             return SkillTreeData.HarderAndStronger.CurrentLevel;
         }
@@ -161,34 +161,27 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.WetAssPlants.CurrentLevel == 0 ? 1f : MoistureDrainBonus.GetValue(UseDefault.GetValue());
         }
 
-        public static float GetPlantQualityBonus(string potName)
+        public static (float, int) GetPlantBonuses(string potName)
         {
-            float potBonus = 0f;
+            float containerQualityBonus = 0f;
+            int containerYieldBonus = 0;
             if (potName.Equals("Grow Tent"))
             {
-                potBonus = SkillTreeData.PitchinATent.CurrentLevel * QualityBonusGrowTent.GetValue(UseDefault.GetValue());
+                containerQualityBonus = SkillTreeData.PitchinATent.CurrentLevel * QualityBonusGrowTent.GetValue(UseDefault.GetValue());
+                containerYieldBonus = SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusGrowTent.GetValue(UseDefault.GetValue());
             }
-            else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot"))
+            else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot") || potName.Equals("Air Pot"))
             {
-                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel > 0 ? QualityBonusPlants.GetValue(UseDefault.GetValue()) : 0;
-            }
-            else if (potName.Equals("Air Pot"))
-            {
-                potBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPlants.GetValue(UseDefault.GetValue());
-                potBonus += SkillTreeData.AdvancedPotTechniques.CurrentLevel == 2 ? 0.05f : 0f;
+                containerQualityBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPlants.GetValue(UseDefault.GetValue());
+                containerYieldBonus = SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPot.GetValue(UseDefault.GetValue());
             }
 
-            return potBonus;
+            return (containerQualityBonus, containerYieldBonus);
         }
 
         public static float GetShroomQualityBonus()
         {
             return SkillTreeData.Mushroomancer.CurrentLevel * QualityBonusShrooms.GetValue(UseDefault.GetValue());
-        }
-
-        public static int GetPlantYieldBonus()
-        {
-            return SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPlants.GetValue(UseDefault.GetValue());
         }
 
         public static int GetHarvestXPMultiplier()

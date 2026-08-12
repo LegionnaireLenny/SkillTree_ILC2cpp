@@ -20,9 +20,13 @@ namespace SkillTree.Core.Patches.Provisioner
             if (__instance?.CurrentOperation == null || SkillTreeData.HarderAndStronger.CurrentLevel == 0)
                 return;
 
-            __instance.CurrentOperation.IngredientQuality = ItemQuality.ShiftQuality(__instance.CurrentOperation.IngredientQuality, SkillModifiers.GetMethCocaProductQualityBonus());
+            if (__instance.CurrentOperation.ProductID.ToLower().Contains("meth"))
+            {
+                __instance.CurrentOperation.IngredientQuality = ItemQuality.ShiftQuality(__instance.CurrentOperation.IngredientQuality, SkillModifiers.GetMethQualityBonus());
+                LogManager.LogMessage($"[HarderAndStronger] Meth quality increased to {__instance.CurrentOperation.IngredientQuality}", LogLevel.Debug);
+            }
             int xp = DrugProductionXP.GetValue(UseDefault.GetValue());
-            LogManager.LogMessage($"[Meister] Drug Production XP (Shatter): {xp}", LogLevel.Debug);
+            LogManager.LogMessage($"[Apprenticeship] Drug Production XP (Shatter {__instance.CurrentOperation.ProductID}): {xp} ", LogLevel.Debug);
             NetworkSingleton<LevelManager>.Instance.AddXP(xp);
         }
     }

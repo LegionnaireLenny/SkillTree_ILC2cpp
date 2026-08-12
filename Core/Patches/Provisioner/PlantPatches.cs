@@ -56,15 +56,14 @@ namespace SkillTree.Core.Patches.Provisioner
             if (!InstanceFinder.IsServer ||
                 __instance == null ||
                 !__instance.Pot.IsSpawned ||
-                SkillTreeData.PitchinATent.CurrentLevel == 0 && SkillTreeData.AdvancedPotTechniques.CurrentLevel == 0 && SkillTreeData.BountifulHarvest.CurrentLevel == 0)
+                (SkillTreeData.PitchinATent.CurrentLevel == 0 && SkillTreeData.AdvancedPotTechniques.CurrentLevel == 0 && SkillTreeData.BountifulHarvest.CurrentLevel == 0))
                 return;
 
+            (float, int) bonuses = SkillModifiers.GetPlantBonuses(__instance.Pot.Name);
             //float baseQuality = __instance.QualityLevel;
-            float potBonus = SkillModifiers.GetPlantQualityBonus(__instance.Pot.Name);
-
-            float finalQuality = __instance.QualityLevel + potBonus;
-            __instance.BaseYieldQuantity += SkillModifiers.GetPlantYieldBonus();
-            __instance.QualityLevel = finalQuality;
+            //float finalQuality = __instance.QualityLevel + bonuses.Item1;
+            __instance.BaseYieldQuantity += bonuses.Item2;
+            __instance.QualityLevel = __instance.QualityLevel + bonuses.Item1;
             //LogManager.LogMessage($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})", LogLevel.Debug);
         }
     }

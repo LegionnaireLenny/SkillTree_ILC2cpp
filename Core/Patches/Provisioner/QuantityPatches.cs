@@ -45,7 +45,7 @@ namespace SkillTree.Core.Patches.Provisioner
                         QualityItemInstance qualityItemInstance = new QualityItemInstance(
                             __instance.CocaineBaseDefinition,
                             SkillModifiers.GetCauldronOutput(),
-                            ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethCocaProductQualityBonus()));
+                            ItemQuality.ShiftQuality(__instance.InputQuality, SkillModifiers.GetMethQualityBonus()));
                         __instance.OutputSlot.InsertItem(qualityItemInstance);
                     }
 

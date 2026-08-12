@@ -62,15 +62,15 @@
 
   "Pitchin' a Tent": {
     "Name": "Pitchin' a Tent",
-    "Description": "Increase plant quality for grow tents by 26%."
+    "Description": "Increase plant quality for grow tents by 30%."
   },
   "Advanced Pot Techniques": {
     "Name": "Advanced Pot Techniques",
-    "Description": "Rank 1: Increase plant quality for all pots by 15%.\n\nRank 2: Increase plant quality for air pots by an additional 20%."
+    "Description": "Increase plant quality for all pots by 12% per level."
   },
   "Harder and Stronger": {
     "Name": "Harder and Stronger",
-    "Description": "Increase meth and cocaine quality by 1."
+    "Description": "Increase meth quality by 1."
   },
   "Mushroomancer": {
     "Name": "Mushroomancer",
@@ -86,7 +86,7 @@
   },
   "Green Thumb": {
     "Name": "Green Thumb",
-    "Description": "Increase plant and mushroom growth speed 5%."
+    "Description": "Increase plant and mushroom growth speed 10% per level."
   },
   "Quick Crafter": {
     "Name": "Quick Crafter",
@@ -94,7 +94,7 @@
   },
   "Bountiful Harvest": {
     "Name": "Bountiful Harvest",
-    "Description": "Increase base yield of plants by 1."
+    "Description": "Increase base yield of plants in grow tents by 2.\n\nIncrease base yield of plants in pots by 1."
   },
   "Crankin' One Out": {
     "Name": "Crankin' One Out",
@@ -102,7 +102,7 @@
   },
   "Witch's Brew": {
     "Name": "Witch's Brew",
-    "Description": "Increase the output of the cauldron by 100%."
+    "Description": "You've figured out a way to cut your brews to get more product from the same amount of ingredients.\n\nIncrease the output of the cauldron by 100%."
   },
   "Apprenticeship": {
     "Name": "Apprenticeship",
