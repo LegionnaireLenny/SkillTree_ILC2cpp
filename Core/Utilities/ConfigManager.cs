@@ -139,6 +139,7 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<float> SaleValueXPBonus { get; set; }
         public static ConfigEntry<int>   CounterOfferXPBonus { get; private set; }
         public static ConfigEntry<float> ProductShortChanceBonus { get; private set; }
+        public static ConfigEntry<int>   ProductExcessCashBonus { get; private set; }
 
         private static MelonPreferences_Category Logistician { get; set; }
         public static ConfigEntry<float> BotanistActionDurationMultiplier { get; set; }
@@ -312,9 +313,10 @@ namespace SkillTree.Core.Utilities
             TrashGrabberBinSizeBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier"));
             TrashPickupRadius = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius"));
             TrashPickupRadiusBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier"));
-            SaleValueXPBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Grifter: Sale Value XP Bonus"));
-            CounterOfferXPBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Grifter: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
+            SaleValueXPBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Haggler: Sale Value XP Bonus"));
+            CounterOfferXPBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Haggler: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
             ProductShortChanceBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_ProductShortChanceBonus", 0.15f, "Scam Artist: Product Short Accept Chance Bonus"));
+            ProductExcessCashBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_ProductExcessCashBonus", 1, "Munificent: Generosity Cash Bonus", "Increases the multiplier for generosity bonus"));
             ATMDepositBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus"));
             MultiLevelMarketeerXPBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_MultiLevelMarketeerXPBonus", 0.125f, "Multi-level Marketeer: XP Bonus"));
             TrashValueBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus"));

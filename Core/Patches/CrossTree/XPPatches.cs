@@ -39,7 +39,7 @@ namespace SkillTree.Core.Patches.CrossTree
                 return;
 
             int bonusXP = Mathf.CeilToInt((__instance.Payment + bonusTotal) * SkillModifiers.GetSaleValueXPBonus());
-            LogManager.LogMessage($"[Grifter] Sale Value: ${__instance.Payment + bonusTotal} | Bonus XP: {bonusXP} | Conversion Rate: {SkillModifiers.GetSaleValueXPBonus() * 100}%", LogLevel.Debug);
+            LogManager.LogMessage($"[Haggler] Sale Value: ${__instance.Payment + bonusTotal} | Bonus XP: {bonusXP} | Conversion Rate: {SkillModifiers.GetSaleValueXPBonus() * 100}%", LogLevel.Debug);
             NetworkSingleton<LevelManager>.Instance.AddXP(bonusXP);
         }
 
@@ -130,7 +130,7 @@ namespace SkillTree.Core.Patches.CrossTree
             if (__instance?.OfferedContractInfo?.IsCounterOffer == true)
             {
                 int xp = BaseCounterOfferXPGain.GetValue(UseDefault.GetValue()) * SkillModifiers.GetCounterOfferXPMultiplier();
-                LogManager.LogMessage($"[Grifter] Base Counter Offer XP: {BaseCounterOfferXPGain.GetValue(UseDefault.GetValue())} | XP Gained: {xp} | Skill Multiplier: x{SkillModifiers.GetCounterOfferXPMultiplier()}", LogLevel.Debug);
+                LogManager.LogMessage($"[Haggler] Base Counter Offer XP: {BaseCounterOfferXPGain.GetValue(UseDefault.GetValue())} | XP Gained: {xp} | Skill Multiplier: x{SkillModifiers.GetCounterOfferXPMultiplier()}", LogLevel.Debug);
                 NetworkSingleton<LevelManager>.Instance.AddXP(xp);
             }
         }

@@ -257,6 +257,11 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.Charlatan.CurrentLevel * ProductShortChanceBonus.GetValue(UseDefault.GetValue());
         }
 
+        public static int GetGenerosityExcessBonus()
+        {
+            return SkillTreeData.Munificent.CurrentLevel * ProductExcessCashBonus.GetValue(UseDefault.GetValue());
+        }
+
         #endregion Hustler
 
         #region Logistician

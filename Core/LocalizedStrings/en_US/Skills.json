@@ -161,6 +161,10 @@
     "Name": "Charlatan",
     "Description": "You've learned how to package and arrange product to more effectively shortchange your customers.\n\nChance that customers will accept less product than they ordered is increased by 15%"
   },
+  "Munificent": {
+    "Name": "Munificent",
+    "Description": "Your customers are deeply moved by your generosity.\n\nGenerosity bonus is increased by 100%"
+  },
   "Multi-level Marketeer": {
     "Name": "Multi-level Marketeer",
     "Description": "Increase XP gain by 12.5%."

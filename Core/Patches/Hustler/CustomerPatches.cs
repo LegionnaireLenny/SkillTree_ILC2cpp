@@ -72,15 +72,27 @@ namespace SkillTree.Core.Patches.Hustler
 
         [HarmonyPatch(typeof(Contract), "GetProductListMatch")]
         [HarmonyPostfix]
-        public static void Patch_Contract_GetProductListMatch(Contract __instance, List<ItemInstance> items, int matchedProductCount, ref float __result)
+        public static void Patch_Contract_GetProductListMatch(Contract __instance, List<ItemInstance> items, ref int matchedProductCount, ref float __result)
         {
-            if (SkillTreeData.Charlatan.CurrentLevel == 0)
-                return;
+            if (SkillTreeData.Munificent.CurrentLevel > 0)
+            {
+                if (matchedProductCount > __instance.ProductList.GetTotalQuantity())
+                {
+                    int excessProductCount = matchedProductCount - __instance.ProductList.GetTotalQuantity();
+                    int bonusProduct = excessProductCount * SkillModifiers.GetGenerosityExcessBonus();
+                    matchedProductCount += bonusProduct;
+                    LogManager.LogMessage($"[Generous] Order Total: {__instance.ProductList.GetTotalQuantity()} | Excess: {excessProductCount} | Bonus: {bonusProduct} | Matched + Bonus: {matchedProductCount}", LogLevel.Debug);
+                }
 
-            float bonus = SkillModifiers.GetProductShortChanceBonus();
-            float original = __result;
-            __result = Mathf.Clamp01(__result + bonus);
-            LogManager.LogMessage($"[Scam Artist] Customer short success chance increased by {FormatAsPercentage(bonus)} from {FormatAsPercentage(original)} to {FormatAsPercentage(__result)}", LogLevel.Debug);
+            }
+
+            if (SkillTreeData.Charlatan.CurrentLevel > 0)
+            {
+                float bonus = SkillModifiers.GetProductShortChanceBonus();
+                float original = __result;
+                __result = Mathf.Clamp01(__result + bonus);
+                LogManager.LogMessage($"[Charlatan] Customer short success chance increased by {FormatAsPercentage(bonus)} from {FormatAsPercentage(original)} to {FormatAsPercentage(__result)}", LogLevel.Debug);
+            }
         }
     }
 }
