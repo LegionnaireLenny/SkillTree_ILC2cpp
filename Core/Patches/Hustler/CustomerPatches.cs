@@ -68,17 +68,17 @@ namespace SkillTree.Core.Patches.Hustler
             Cache.FillCache(__instance);
         }
 
-        [HarmonyPatch(typeof(Customer), "OnDestroy")]
-        [HarmonyPrefix]
-        public static void Patch_Customer_OnDestroyt(Customer __instance)
-        {
-            if (__instance == null) return;
+        //[HarmonyPatch(typeof(Customer), "OnDestroy")]
+        //[HarmonyPrefix]
+        //public static void Patch_Customer_OnDestroy(Customer __instance)
+        //{
+        //    if (__instance == null) return;
 
-            if (Cache.OriginalCustomers.ContainsKey(__instance.CustomerData.name))
-            {
-                Cache.OriginalCustomers.Remove(__instance.CustomerData.name);
-                LogManager.LogMessage($"Removed {__instance.CustomerData.name} from cache", LogLevel.Debug);
-            }
-        }
+        //    if (Cache.OriginalCustomers.ContainsKey(__instance.CustomerData.name))
+        //    {
+        //        Cache.OriginalCustomers.Remove(__instance.CustomerData.name);
+        //        LogManager.LogMessage($"Removed {__instance.CustomerData.name} from cache", LogLevel.Debug);
+        //    }
+        //}
     }
 }
