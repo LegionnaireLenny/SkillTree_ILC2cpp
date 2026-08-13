@@ -1,3 +1,5 @@
+using Il2CppScheduleOne.DevUtilities;
+using Il2CppScheduleOne.PlayerScripts;
 using Il2CppScheduleOne.UI;
 using Il2CppScheduleOne.UI.Phone;
 using Il2CppTMPro;
@@ -6,7 +8,6 @@ using S1API.Utils;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -91,29 +92,37 @@ namespace SkillTree.Core.App
 
         public void Open()
         {
-            if (PauseMenu.instance.IsPaused) return;
-
-            if (!GameplayMenu.instance.IsOpen && Cursor.lockState != CursorLockMode.None)
+            if (Singleton<PauseMenu>.Instance.IsPaused)
             {
-                GameplayMenu.instance.IsOpen = true;
-                GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
+                return;
+            }
+
+            if (!GameplayMenu.Instance.IsOpen && (PlayerSingleton<PlayerCamera>.Instance.ActiveUIElementCount == 0 || Cursor.lockState != CursorLockMode.None))
+            {
+                GameplayMenu.Instance.Open();
                 OpenApp();
             }
-            else if (GameplayMenu.instance.IsOpen)
+            else if (GameplayMenu.Instance.IsOpen)
             {
-                if (GameplayMenu.instance.CurrentScreen == GameplayMenu.EGameplayScreen.Character)
+                if (GameplayMenu.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Character)
                 {
-                    GameplayMenu.instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
-                }
+                    GameplayMenu.Instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
 
-                if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
-                {
-                    OpenApp();
+                    if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
+                    {
+                        OpenApp();
+                    }
                 }
-                else
+                else if (GameplayMenu.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Phone)
                 {
-                    GameplayMenu.instance.IsOpen = false;
-                    CloseApp();
+                    if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
+                    {
+                        OpenApp();
+                    }
+                    else
+                    {
+                        GameplayMenu.Instance.Close();
+                    }
                 }
             }
         }
@@ -166,22 +175,23 @@ namespace SkillTree.Core.App
             catEnforcerGO.GetComponent<Image>().color = ColorButtonSelected;
 
             // === MAP PANEL (skill tree area) ===
-            var mapPanel = CreatePanel("MapPanel", mainPanel.transform, ColorBackground,
+            var skillTreePanel = CreatePanel("SkillTreeScrollView", mainPanel.transform, ColorBackground,
                 new Vector2(0f, 0f), new Vector2(0.65f, 0.87f));
-            var mapPanelRect = mapPanel.GetComponent<RectTransform>();
-            mapPanelRect.offsetMin = new Vector2(5f, 5f);
-            mapPanelRect.offsetMax = new Vector2(0f, -2f);
-            var scrollRect = mapPanel.AddComponent<PinchableScrollRect>();
+            var skillTreePanelRect = skillTreePanel.GetComponent<RectTransform>();
+            skillTreePanelRect.offsetMin = new Vector2(5f, 5f);
+            skillTreePanelRect.offsetMax = new Vector2(0f, -2f);
+            var scrollRect = skillTreePanel.AddComponent<PinchableScrollRect>();
             scrollRect.inertia = true;
             scrollRect.initScale = new Vector3(0.8f, 0.8f, 0.8f);
             scrollRect.lowerScale = new Vector3(0.8f, 0.8f, 0.8f);
             scrollRect.upperScale = new Vector3(1f, 1f, 1f);
             scrollRect.decelerationRate = 0.001f;
-            scrollRect.elasticity = 0.1f;
+            scrollRect.elasticity = 0.05f;
             scrollRect.zoomMaxSpeed = 0.05f;
+            scrollRect.resetOnEnable = false;
 
-            var viewport = new GameObject("MapViewPort");
-            viewport.transform.SetParent(mapPanel.transform, false);
+            var viewport = new GameObject("SkillTreeViewPort");
+            viewport.transform.SetParent(skillTreePanel.transform, false);
             var viewportRect = viewport.AddComponent<RectTransform>();
             viewportRect.anchorMin = new Vector2(0f, 0f);
             viewportRect.anchorMax = new Vector2(1f, 1f);
@@ -190,10 +200,12 @@ namespace SkillTree.Core.App
             var viewImage = viewport.AddComponent<Image>().color = ColorBackground;
             viewport.AddComponent<Mask>().showMaskGraphic = false;
 
-            var treeContent = new GameObject("TreeContent");
+            var treeContent = new GameObject("SkillTreeContent");
             treeContent.transform.SetParent(viewport.transform, false);
             var treeRect = treeContent.AddComponent<RectTransform>();
-            treeRect.anchorMin = new Vector2(0f, 0.3f);
+            treeRect.anchorMin = new Vector2(-0.8f, 0.3f);
+            //treeRect.anchorMin = new Vector2(0f, 0.3f);
+            //treeRect.anchorMax = new Vector2(1f, 1f);
             treeRect.anchorMax = new Vector2(1.25f, 1.1f);
             treeRect.offsetMin = Vector2.zero;
             treeRect.offsetMax = Vector2.zero;
@@ -208,7 +220,7 @@ namespace SkillTree.Core.App
             var logisticianContainer = CreateCategoryContainer("LogisticianContainer", treeContent.transform);
             var specialContainer = CreateCategoryContainer("SpecialContainer", treeContent.transform);
 
-            var pointsOverlay = CreateTMPText("SkillPointsOverlay", mapPanel.transform, "",
+            var pointsOverlay = CreateTMPText("SkillPointsOverlay", skillTreePanel.transform, "",
                 BodySize, ColorPointsText, TextAlignmentOptions.TopLeft);
             var pointsOverlayRect = pointsOverlay.GetComponent<RectTransform>();
             pointsOverlayRect.anchorMin = new Vector2(0f, 1f);
