@@ -53,8 +53,9 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill CrystalBall = new("Crystal Ball", SkillCategory.Hustler, 1, SilverTonguedDevil);
         public static readonly Skill Informant = new("Informant", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
         public static readonly Skill Spymaster = new("Spymaster", SkillCategory.Hustler, 1, CrystalBall, [NPCPatches.UpdateVisibility]);
-        public static readonly Skill Grifter = new("Grifter", SkillCategory.Hustler, 1, SilverTonguedDevil);
-        public static readonly Skill MultiLevelMarketeer = new("Multi-level Marketeer", SkillCategory.Hustler, 1, Grifter);
+        public static readonly Skill Haggler = new("Haggler", SkillCategory.Hustler, 1, SilverTonguedDevil);
+        public static readonly Skill Charlatan = new("Charlatan", SkillCategory.Hustler, 1, Haggler);
+        public static readonly Skill MultiLevelMarketeer = new("Multi-level Marketeer", SkillCategory.Hustler, 1, Haggler);
 
         public static readonly Skill ReliableBusinessPartner = new("Reliable Business Partner", SkillCategory.Logistician, 2, null);
         public static readonly Skill RushDelivery = new("Rush Delivery", SkillCategory.Logistician, 1, ReliableBusinessPartner);

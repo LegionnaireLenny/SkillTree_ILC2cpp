@@ -33,6 +33,7 @@
 		<Compile Include="Core\Patches\Enforcer\PickpocketPatches.cs" />
 		<Compile Include="Core\Patches\Miscellaneous\ItemUIPatches.cs" />
 		<Compile Include="Core\Patches\Special\ImpactPatches.cs" />
+		<Compile Include="Core\Utilities\Formatter.cs" />
 		<Compile Include="Core\Utilities\LocalizationManager.cs" />
 		<Compile Include="Core\Utilities\ConfigManager.cs" />
 		<Compile Include="Core\Serialization\Cooldowns.cs" />

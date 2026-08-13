@@ -8,7 +8,7 @@ namespace SkillTree.Core.Skills
 {
     public static class SkillModifiers
     {
-        #region Stats
+        #region Enforcer
         public static float GetPlayerMaxHealth()
         {
             return BaseHealth.GetValue(UseDefault.GetValue()) + (SkillTreeData.Hardy.CurrentLevel * HealthBonus.GetValue(UseDefault.GetValue())) + GetBloodRushHealthBonus();
@@ -123,9 +123,9 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.CombatExperience.CurrentLevel * CartelDealerXPBonus.GetValue(UseDefault.GetValue());
         }
 
-        #endregion Stats
+        #endregion Enforcer
 
-        #region Operations
+        #region Provisioner
         public static int GetCauldronOutput()
         {
             return BaseCauldronOutput.GetValue(UseDefault.GetValue()) * (1 + SkillTreeData.WitchsBrew.CurrentLevel * CauldronOutputBonus.GetValue(UseDefault.GetValue()));
@@ -194,9 +194,9 @@ namespace SkillTree.Core.Skills
             return 1 + SkillTreeData.Apprenticeship.CurrentLevel * NewMixXPBonus.GetValue(UseDefault.GetValue());
         }
 
-        #endregion Operations
+        #endregion Provisioner
 
-        #region Social
+        #region Hustler
         public static float GetATMLimit()
         {
             return BaseWeeklyDepositLimit.GetValue(UseDefault.GetValue()) + SkillTreeData.HoardTheWealth.CurrentLevel * ATMDepositBonus.GetValue(UseDefault.GetValue());
@@ -244,15 +244,20 @@ namespace SkillTree.Core.Skills
 
         public static float GetSaleValueXPBonus()
         {
-            return SkillTreeData.Grifter.CurrentLevel * SaleValueXPBonus.GetValue(UseDefault.GetValue());
+            return SkillTreeData.Haggler.CurrentLevel * SaleValueXPBonus.GetValue(UseDefault.GetValue());
         }
 
         public static int GetCounterOfferXPMultiplier()
         {
-            return 1 + SkillTreeData.Grifter.CurrentLevel * CounterOfferXPBonus.GetValue(UseDefault.GetValue());
+            return 1 + SkillTreeData.Haggler.CurrentLevel * CounterOfferXPBonus.GetValue(UseDefault.GetValue());
         }
 
-        #endregion Social
+        public static float GetProductShortChanceBonus()
+        {
+            return SkillTreeData.Charlatan.CurrentLevel * ProductShortChanceBonus.GetValue(UseDefault.GetValue());
+        }
+
+        #endregion Hustler
 
         #region Logistician
         public static int GetMaxCustomers()

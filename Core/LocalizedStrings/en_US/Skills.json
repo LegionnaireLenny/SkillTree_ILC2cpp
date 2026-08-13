@@ -153,9 +153,13 @@
     "Name": "Spymaster",
     "Description": "Your eyes and ears are everywhere.\n\nBenzies are shown on the map."
   },
-  "Grifter": {
-    "Name": "Grifter",
-    "Description": "- Gain 200% more XP from successful counteroffers\n- Gain 10% of a drug sale's value as bonus XP."
+  "Haggler": {
+    "Name": "Haggler",
+    "Description": "Gain 200% more XP from successful counteroffers\n\nGain 10% of a drug sale's value as bonus XP."
+  },
+  "Charlatan": {
+    "Name": "Charlatan",
+    "Description": "You've learned how to package and arrange product to more effectively shortchange your customers.\n\nChance that customers will accept less product than they ordered is increased by 15%"
   },
   "Multi-level Marketeer": {
     "Name": "Multi-level Marketeer",

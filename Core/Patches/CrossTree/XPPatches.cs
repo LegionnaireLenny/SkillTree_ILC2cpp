@@ -35,7 +35,7 @@ namespace SkillTree.Core.Patches.CrossTree
         [HarmonyPostfix]
         public static void Postfix_SubmitPayment(Contract __instance, float bonusTotal)
         {
-            if (LevelManager.Instance == null || SkillTreeData.Grifter.CurrentLevel == 0)
+            if (LevelManager.Instance == null || SkillTreeData.Haggler.CurrentLevel == 0)
                 return;
 
             int bonusXP = Mathf.CeilToInt((__instance.Payment + bonusTotal) * SkillModifiers.GetSaleValueXPBonus());

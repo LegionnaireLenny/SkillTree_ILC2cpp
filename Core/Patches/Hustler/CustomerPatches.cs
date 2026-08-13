@@ -1,10 +1,13 @@
 ﻿using HarmonyLib;
 using Il2CppScheduleOne.Economy;
-using MelonLoader;
+using Il2CppScheduleOne.ItemFramework;
+using Il2CppScheduleOne.Quests;
 using SkillTree.Core.Serialization;
 using SkillTree.Core.Skills;
 using SkillTree.Core.Utilities;
+using System.Collections.Generic;
 using UnityEngine;
+using static SkillTree.Core.Utilities.Formatter;
 
 namespace SkillTree.Core.Patches.Hustler
 {
@@ -13,7 +16,7 @@ namespace SkillTree.Core.Patches.Hustler
     {
         public static void SetCustomerSpendLimits()
         {
-            LogManager.LogMessage($"Increasing customer weekly spending limits by {Mathf.RoundToInt(SkillModifiers.GetCustomerCashMultiplier() % 1 * 100)}%", LogLevel.Info);
+            LogManager.LogMessage($"Increasing customer weekly spending limits by {FormatAsPercentage(SkillModifiers.GetCustomerCashMultiplier() - 1)}", LogLevel.Info);
             Customer[] customerList = Object.FindObjectsOfType<Customer>();
             foreach (Customer customer in customerList)
             {
@@ -48,7 +51,6 @@ namespace SkillTree.Core.Patches.Hustler
             }
         }
 
-
         [HarmonyPatch(typeof(Customer), "GetSampleSuccess")]
         [HarmonyPostfix]
         public static void Postfix(ref float __result)
@@ -56,9 +58,9 @@ namespace SkillTree.Core.Patches.Hustler
             if (SkillTreeData.SilverTonguedDevil.CurrentLevel == 0)
                 return;
 
-            float origin = __result;
+            float original = __result;
             __result = Mathf.Clamp(__result + SkillModifiers.GetCustomerSampleBonus(), 0f, 1f);
-            LogManager.LogMessage($"[SkillTree] Free sample acceptance chance increased from {(int)(origin * 100)}% to {(int)(__result * 100)}%", LogLevel.Debug);
+            LogManager.LogMessage($"[SkillTree] Free sample acceptance chance increased from {FormatAsPercentage(original)} to {FormatAsPercentage(__result)}", LogLevel.Debug);
         }
 
         [HarmonyPatch(typeof(Customer), "Start")]
@@ -68,17 +70,17 @@ namespace SkillTree.Core.Patches.Hustler
             Cache.FillCache(__instance);
         }
 
-        //[HarmonyPatch(typeof(Customer), "OnDestroy")]
-        //[HarmonyPrefix]
-        //public static void Patch_Customer_OnDestroy(Customer __instance)
-        //{
-        //    if (__instance == null) return;
+        [HarmonyPatch(typeof(Contract), "GetProductListMatch")]
+        [HarmonyPostfix]
+        public static void Patch_Contract_GetProductListMatch(Contract __instance, List<ItemInstance> items, int matchedProductCount, ref float __result)
+        {
+            if (SkillTreeData.Charlatan.CurrentLevel == 0)
+                return;
 
-        //    if (Cache.OriginalCustomers.ContainsKey(__instance.CustomerData.name))
-        //    {
-        //        Cache.OriginalCustomers.Remove(__instance.CustomerData.name);
-        //        LogManager.LogMessage($"Removed {__instance.CustomerData.name} from cache", LogLevel.Debug);
-        //    }
-        //}
+            float bonus = SkillModifiers.GetProductShortChanceBonus();
+            float original = __result;
+            __result = Mathf.Clamp01(__result + bonus);
+            LogManager.LogMessage($"[Scam Artist] Customer short success chance increased by {FormatAsPercentage(bonus)} from {FormatAsPercentage(original)} to {FormatAsPercentage(__result)}", LogLevel.Debug);
+        }
     }
 }
