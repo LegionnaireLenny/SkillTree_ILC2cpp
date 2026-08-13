@@ -203,10 +203,8 @@ namespace SkillTree.Core.App
             var treeContent = new GameObject("SkillTreeContent");
             treeContent.transform.SetParent(viewport.transform, false);
             var treeRect = treeContent.AddComponent<RectTransform>();
-            treeRect.anchorMin = new Vector2(-0.8f, 0.3f);
-            //treeRect.anchorMin = new Vector2(0f, 0.3f);
-            //treeRect.anchorMax = new Vector2(1f, 1f);
-            treeRect.anchorMax = new Vector2(1.25f, 1.1f);
+            treeRect.anchorMin = new Vector2(0f, 0f);
+            treeRect.anchorMax = new Vector2(1.75f, 1f);
             treeRect.offsetMin = Vector2.zero;
             treeRect.offsetMax = Vector2.zero;
             //treeRect.pivot = new Vector2(0.5f, 0.5f);
