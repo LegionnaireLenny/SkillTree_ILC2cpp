@@ -16,6 +16,7 @@ namespace SkillTree.Core.Patches.Provisioner
     public class CraftingSpeedPatches
     {
         private static readonly HashSet<Guid> operations = [];
+        private static readonly HashSet<Guid> uncappedOvens = [];
 
         [HarmonyPatch(typeof(ChemistryStation), "OnTimePass")]
         [HarmonyPrefix]
@@ -65,14 +66,30 @@ namespace SkillTree.Core.Patches.Provisioner
         [HarmonyPrefix]
         public static bool Patch_LabOven_OnUncappedMinPass(LabOven __instance)
         {
-            if (SkillTreeData.QuickCrafter.CurrentLevel == 0)
+            if (__instance == null || SkillTreeData.QuickCrafter.CurrentLevel == 0)
                 return true;
 
-            if (__instance == null) return false;
+            uncappedOvens.Add(__instance.GUID);
+            __instance.OnTimePass(1 * SkillModifiers.GetChemistStationSpeedMultiplier());
+            return false;
+        }
 
+        [HarmonyPatch(typeof(LabOven), "OnTimePass")]
+        [HarmonyPrefix]
+        public static bool Patch_LabOven_OnTimePass(LabOven __instance, int minutes)
+        {
             if (__instance.CurrentOperation != null && !__instance.CurrentOperation.IsComplete())
             {
-                __instance.CurrentOperation.UpdateCookProgress(1 * SkillModifiers.GetChemistStationSpeedMultiplier());
+                if (uncappedOvens.Contains(__instance.GUID) || SkillTreeData.QuickCrafter.CurrentLevel == 0)
+                {
+                    __instance.CurrentOperation.UpdateCookProgress(minutes);
+                    uncappedOvens.Remove(__instance.GUID);
+                }
+                else
+                {
+                    __instance.CurrentOperation.UpdateCookProgress(minutes * SkillModifiers.GetChemistStationSpeedMultiplier());
+                }
+
                 if (__instance.CurrentOperation.IsComplete() && !Singleton<LoadManager>.Instance.IsLoading)
                 {
                     __instance.DingSound.Play();
