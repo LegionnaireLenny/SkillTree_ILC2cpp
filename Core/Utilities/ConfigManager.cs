@@ -311,10 +311,10 @@ namespace SkillTree.Core.Utilities
             TrashGrabberBinSizeBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashGrabberBinSizeBonus", 1f, "Community Service: Trash Grabber Bin Size Bonus", "Increases the trash grabber's bin size multiplier"));
             TrashPickupRadius = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadius", 0.45f, "Community Service: Trash Grabber Pickup Radius"));
             TrashPickupRadiusBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_TrashPickupRadiusBonus", 0f, "Community Service: Trash Grabber Pickup Radius Bonus", "Increases the trash grabber's pickup radius multiplier"));
-            SaleValueXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Grifter: Sale Value XP Bonus"));
-            CounterOfferXPBonus = new ConfigEntry<int>(Enforcer.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Grifter: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
+            SaleValueXPBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_SaleValueXPBonus", 0.1f, "Grifter: Sale Value XP Bonus"));
+            CounterOfferXPBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_CounterOfferXPBonus", 2, "Grifter: Counter Offer XP Bonus", "Increases counter offer XP multiplier"));
             ATMDepositBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_ATMDepositBonus", 2500f, "Hoard the Wealth: ATM Deposit Limit Bonus"));
-            MultiLevelMarketeerXPBonus = new ConfigEntry<float>(Enforcer.CreateEntry("SkillTree_MultiLevelMarketeerXPBonus", 0.125f, "Multi-level Marketeer: XP Bonus"));
+            MultiLevelMarketeerXPBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_MultiLevelMarketeerXPBonus", 0.125f, "Multi-level Marketeer: XP Bonus"));
             TrashValueBonus = new ConfigEntry<int>(Hustler.CreateEntry("SkillTree_TrashValueBonus", 1, "Sacar La Basura: Trash Value Bonus"));
             PawnPriceBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_PawnPriceBonus", 0.25f, "Sacar La Basura: Pawn Price Bonus"));
             CustomerSampleAcceptBonus = new ConfigEntry<float>(Hustler.CreateEntry("SkillTree_CustomerSampleAcceptBonus", 0.05f, "Silver Tongued Devil: Sample Acceptance Chance Bonus"));
