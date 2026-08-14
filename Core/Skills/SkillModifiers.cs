@@ -1,6 +1,7 @@
 ﻿using S1API.Property;
 using SkillTree.Core.Effects;
 using SkillTree.Core.Serialization;
+using SkillTree.Core.Utilities;
 using UnityEngine;
 using static SkillTree.Core.Utilities.ConfigManager;
 
@@ -161,22 +162,24 @@ namespace SkillTree.Core.Skills
             return SkillTreeData.WetAssPlants.CurrentLevel == 0 ? 1f : MoistureDrainBonus.GetValue(UseDefault.GetValue());
         }
 
-        public static (float, int) GetPlantBonuses(string potName)
+        public static void GetPlantBonuses(string potName, out float containerQualityBonus, out int containerYieldBonus, out float containerBonusYieldMultiplier)
         {
-            float containerQualityBonus = 0f;
-            int containerYieldBonus = 0;
+            containerQualityBonus = 0f;
+            containerYieldBonus = 0;
+            containerBonusYieldMultiplier = 0f;
+
             if (potName.Equals("Grow Tent"))
             {
                 containerQualityBonus = SkillTreeData.PitchinATent.CurrentLevel * QualityBonusGrowTent.GetValue(UseDefault.GetValue());
                 containerYieldBonus = SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusGrowTent.GetValue(UseDefault.GetValue());
+                containerBonusYieldMultiplier = SkillTreeData.BountifulHarvest.CurrentLevel * YieldMultiplierBonusGrowTent.GetValue(UseDefault.GetValue());
             }
             else if (potName.Equals("Plastic Pot") || potName.Equals("Moisture-Preserving Pot") || potName.Equals("Air Pot"))
             {
-                containerQualityBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPlants.GetValue(UseDefault.GetValue());
+                containerQualityBonus = SkillTreeData.AdvancedPotTechniques.CurrentLevel * QualityBonusPot.GetValue(UseDefault.GetValue());
                 containerYieldBonus = SkillTreeData.BountifulHarvest.CurrentLevel * YieldBonusPot.GetValue(UseDefault.GetValue());
+                containerBonusYieldMultiplier = SkillTreeData.BountifulHarvest.CurrentLevel * YieldMultiplierBonusPot.GetValue(UseDefault.GetValue());
             }
-
-            return (containerQualityBonus, containerYieldBonus);
         }
 
         public static float GetShroomQualityBonus()

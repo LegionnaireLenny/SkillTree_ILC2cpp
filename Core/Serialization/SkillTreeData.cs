@@ -30,7 +30,7 @@ namespace SkillTree.Core.Serialization
         public static readonly Skill SchoolOfHardKnocks = new("School of Hard Knocks", SkillCategory.Enforcer, 1, CombatExperience);
 
         public static readonly Skill Apprenticeship = new("Apprenticeship", SkillCategory.Provisioner, 1, null);
-        public static readonly Skill BountifulHarvest = new("Bountiful Harvest", SkillCategory.Provisioner, 1, Apprenticeship);
+        public static readonly Skill BountifulHarvest = new("Bountiful Harvest", SkillCategory.Provisioner, 2, Apprenticeship);
         public static readonly Skill PitchinATent = new("Pitchin' a Tent", SkillCategory.Provisioner, 1, BountifulHarvest);
         public static readonly Skill AdvancedPotTechniques = new("Advanced Pot Techniques", SkillCategory.Provisioner, 3, BountifulHarvest);
         public static readonly Skill GreenThumb = new("Green Thumb", SkillCategory.Provisioner, 2, Apprenticeship);

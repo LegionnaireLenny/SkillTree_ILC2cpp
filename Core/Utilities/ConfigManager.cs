@@ -108,15 +108,17 @@ namespace SkillTree.Core.Utilities
         public static ConfigEntry<int>   CauldronOutputBonus { get; set; }
         public static ConfigEntry<int>   MixDryOutputSizeBonus { get; set; }
         public static ConfigEntry<int>   ChemistStationSpeedBonus { get; set; }
-        public static ConfigEntry<float> QualityBonusGrowTent { get; set; }
-        public static ConfigEntry<float> QualityBonusPlants { get; set; }
         public static ConfigEntry<int>   PlantSeedXP { get; set; }
         public static ConfigEntry<int>   DrugProductionXP { get; set; }
         public static ConfigEntry<int>   DrugPackagingXP { get; set; }
         public static ConfigEntry<int>   DrugMixingXP { get; set; }
-        public static ConfigEntry<float> QualityBonusShrooms { get; set; }
         public static ConfigEntry<int>   YieldBonusPot { get; set; }
         public static ConfigEntry<int>   YieldBonusGrowTent { get; set; }
+        public static ConfigEntry<float> YieldMultiplierBonusPot { get; set; }
+        public static ConfigEntry<float> YieldMultiplierBonusGrowTent { get; set; }
+        public static ConfigEntry<float> QualityBonusPot { get; set; }
+        public static ConfigEntry<float> QualityBonusGrowTent { get; set; }
+        public static ConfigEntry<float> QualityBonusShrooms { get; set; }
         public static ConfigEntry<float> GreenThumbBonus { get; set; }
         public static ConfigEntry<float> MoistureDrainBonus { get; set; }
         public static ConfigEntry<float> MeisterXPBonus { get; set; }
@@ -288,20 +290,22 @@ namespace SkillTree.Core.Utilities
             Enforcer.SetFilePath(Core.ConfigFile, true, false);
 
             Provisioner = MelonPreferences.CreateCategory("SkillTree_ProvisionerSettings", "Provisioner Skills Settings");
-            QualityBonusPlants = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusPlants", 0.12f, "Advanced Pot Techniques: Quality Bonus for Pots"));
             PlantSeedXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_PlantSeedXP", 2, "Apprenticeship: Seed/Spore Planting XP"));
             DrugProductionXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugProductionXP", 5, "Apprenticeship: Drug Production XP"));
             DrugPackagingXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugPackagingXP", 1, "Apprenticeship: Drug Packaging XP"));
             DrugMixingXP = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_DrugMixingXP", 1, "Apprenticeship: Drug Mixing XP"));
             HarvestXPBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_HarvestXPBonus", 2, "Apprenticeship: Harvest XP Bonus", "Increases the harvest XP multiplier"));
             NewMixXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_NewMixXPBonus", 0.25f, "Apprenticeship: New Mix XP Bonus", "Increases the new mix XP multiplier"));
-            YieldBonusPot = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusPots", 1, "Bountiful Harvest: Yield Bonus for Pots"));
-            YieldBonusGrowTent = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusGrowTents", 2, "Bountiful Harvest: Yield Bonus for Grow Tents"));
             MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier"));
             GreenThumbBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GreenThumbBonus", 0.1f, "Green Thumb: Plant Growth Speed Bonus"));
             MeisterXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_MeisterXPBonus", 0.125f, "Meister: XP Bonus"));
-            QualityBonusShrooms = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms"));
+            YieldBonusPot = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusPots", 1, "Bountiful Harvest: Base Yield Bonus for Pots"));
+            YieldBonusGrowTent = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusGrowTents", 0, "Bountiful Harvest: Base Yield Bonus for Grow Tents"));
+            YieldMultiplierBonusPot = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_YieldMultiplierBonusPot", 0f, "Bountiful Harvest: Yield Multiplier Bonus for Pots"));
+            YieldMultiplierBonusGrowTent = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_YieldMultiplierBonusGrowTent", 0.17f, "Bountiful Harvest: Yield Multiplier Bonus for Grow Tents"));
+            QualityBonusPot = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusPlants", 0.12f, "Advanced Pot Techniques: Quality Bonus for Pots"));
             QualityBonusGrowTent = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusGrowTent", 0.30f, "Pitchin' a Tent: Quality Bonus for Grow Tents"));
+            QualityBonusShrooms = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_QualityBonusShrooms", 0.15f, "Mushroomancer: Quality Bonus for Mushrooms"));
             ChemistStationSpeedBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_ChemistStationSpeedBonus", 1, "Quick Crafter: Crafting Speed Bonus", "Increases the speed multiplier"));
             MoistureDrainBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_MoistureDrainBonus", 0.5f, "Wet-Ass Plants: Moisture Drain Multiplier"));
             CauldronOutputBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_CauldronOutputBonus", 1, "Witch's Brew: Cauldron Output Bonus", "Increases the output multiplier"));

@@ -59,12 +59,14 @@ namespace SkillTree.Core.Patches.Provisioner
                 (SkillTreeData.PitchinATent.CurrentLevel == 0 && SkillTreeData.AdvancedPotTechniques.CurrentLevel == 0 && SkillTreeData.BountifulHarvest.CurrentLevel == 0))
                 return;
 
-            (float, int) bonuses = SkillModifiers.GetPlantBonuses(__instance.Pot.Name);
-            //float baseQuality = __instance.QualityLevel;
-            //float finalQuality = __instance.QualityLevel + bonuses.Item1;
-            __instance.BaseYieldQuantity += bonuses.Item2;
-            __instance.QualityLevel = __instance.QualityLevel + bonuses.Item1;
-            //LogManager.LogMessage($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Base Quality {baseQuality:0.00} | Pot Bonus {potBonus:0.00} | Final Quality {finalQuality:0.00} ({ItemQuality.GetQuality(finalQuality)} | Yield {Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})", LogLevel.Debug);
+            SkillModifiers.GetPlantBonuses(__instance.Pot.Name, out float containerQualityBonus, out int containerYieldBonus, out float containerBonusYieldMultiplier);
+            float baseQuality = __instance.QualityLevel;
+            int baseYield = __instance.BaseYieldQuantity;
+            float yieldMultiplier = __instance.YieldMultiplier;
+            __instance.QualityLevel += containerQualityBonus;
+            __instance.BaseYieldQuantity += containerYieldBonus;
+            __instance.YieldMultiplier += containerBonusYieldMultiplier;
+            LogManager.LogMessage($"[SkillTree] Plant GrowthDone | {__instance.Pot.GetManagementName()} | Quality: Base,Bonus,Final {baseQuality:0.00},{containerQualityBonus:0.00},{__instance.QualityLevel:0.00} | Yield: Base,Bonus,Final {baseYield},{containerYieldBonus},{__instance.BaseYieldQuantity} | Yield Multiplier: Base,Bonus,Final {yieldMultiplier},{containerBonusYieldMultiplier},{__instance.YieldMultiplier} | ({Il2CppScheduleOne.ItemFramework.ItemQuality.GetQuality(__instance.QualityLevel)} | Yield {UnityEngine.Mathf.RoundToInt(__instance.BaseYieldQuantity * __instance.YieldMultiplier)})", LogLevel.Debug);
         }
     }
 }

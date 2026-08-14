@@ -94,7 +94,7 @@
   },
   "Bountiful Harvest": {
     "Name": "Bountiful Harvest",
-    "Description": "Increase base yield of plants in grow tents by 2.\n\nIncrease base yield of plants in pots by 1."
+    "Description": "Increase yield multiplier of plants in grow tents by 17% per level.\n\nIncrease base yield of plants in pots by 1 per level."
   },
   "Crankin' One Out": {
     "Name": "Crankin' One Out",
