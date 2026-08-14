@@ -297,7 +297,7 @@ namespace SkillTree.Core.Utilities
             HarvestXPBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_HarvestXPBonus", 2, "Apprenticeship: Harvest XP Bonus", "Increases the harvest XP multiplier"));
             NewMixXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_NewMixXPBonus", 0.25f, "Apprenticeship: New Mix XP Bonus", "Increases the new mix XP multiplier"));
             MixDryOutputSizeBonus = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_MixDryOutputSizeBonus", 1, "Crankin' One Out: Mixer/drying rack capacity bonus", "Increases the capacity multiplier"));
-            GreenThumbBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GreenThumbBonus", 0.1f, "Green Thumb: Plant Growth Speed Bonus"));
+            GreenThumbBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_GreenThumbBonus", 0.075f, "Green Thumb: Plant Growth Speed Bonus"));
             MeisterXPBonus = new ConfigEntry<float>(Provisioner.CreateEntry("SkillTree_MeisterXPBonus", 0.125f, "Meister: XP Bonus"));
             YieldBonusPot = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusPots", 1, "Bountiful Harvest: Base Yield Bonus for Pots"));
             YieldBonusGrowTent = new ConfigEntry<int>(Provisioner.CreateEntry("SkillTree_YieldBonusGrowTents", 0, "Bountiful Harvest: Base Yield Bonus for Grow Tents"));
