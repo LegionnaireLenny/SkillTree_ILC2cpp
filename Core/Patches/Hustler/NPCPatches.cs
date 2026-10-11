@@ -103,7 +103,15 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void Patch_NPC_SetVisible(NPC __instance)
         {
-            if (__instance == null) return;
+            try
+            {
+                if (__instance == null || __instance?.ID == null) return;
+            }
+            catch
+            {
+                LogManager.LogMessage("Suppressing exception caught during NPC.SetVisible null check", LogLevel.Debug);
+                return;
+            }
 
             if (CustomPOIManager.ContainsKey(__instance.ID))
             {

@@ -26,7 +26,7 @@ namespace SkillTree.Core.Patches.Hustler
         private static LayerMask PickupLookMask = 5;
         private static DecalProjector PickupAreaProjector;
 
-        [HarmonyPatch(typeof(TrashItem), "Start")]
+        [HarmonyPatch(typeof(TrashItem), "Initialize")]
         [HarmonyPostfix]
         public static void Patch_Start(TrashItem __instance)
         {
@@ -35,10 +35,10 @@ namespace SkillTree.Core.Patches.Hustler
                 return;
             }
 
-            //int original = __instance.SellValue;
+            int original = __instance.SellValue;
             __instance.SellValue += SkillModifiers.GetTrashValueBonus();
             ProcessedTrash.Add(__instance.GUID);
-            //LogManager.LogMessage($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}", LogLevel.Debug);
+            LogManager.LogMessage($"Start Trash value {__instance.GUID} {original} -> {__instance.SellValue}", LogLevel.Debug);
             //LogManager.LogMessage($"Start Trash value {__instance.name} | {__instance.ID}", LogLevel.Debug);
         }
 
@@ -135,7 +135,7 @@ namespace SkillTree.Core.Patches.Hustler
                 if (list.Count > 0)
                 {
                     PickupAreaProjector.fadeFactor = 0.5f;
-                    if (Equippable_TrashGrabber.Instance.GetCapacity() > 0)
+                    if (__instance.GetCapacity() > 0)
                     {
                         Singleton<TrashBagCanvas>.Instance.InputPrompt.SetLabel("Grab trash");
                     }
@@ -150,10 +150,11 @@ namespace SkillTree.Core.Patches.Hustler
                         HashSet<Guid> processedTrash = [];
                         for (int i = 0; i < list.Count; i++)
                         {
-                            if (Equippable_TrashGrabber.IsEquipped &&
-                                list[i].CanGoInContainer &&
+                            if (PlayerSingleton<PlayerInventory>.Instance.isAnythingEquipped && 
+                                PlayerSingleton<PlayerInventory>.Instance.Equippable as Equippable_TrashGrabber != null &&
+                                list[i].CanGoInTrashContainer() &&
                                 !processedTrash.Contains(list[i].GUID) &&
-                                Equippable_TrashGrabber.Instance.GetCapacity() > 0)
+                                __instance.GetCapacity() > 0)
                             {
                                 LogManager.LogMessage($"Adding {list[i]} | ID {list[i].ID} | Name {list[i].name} | GUID {list[i].GUID} | Size {list[i].Size} | Value {list[i].SellValue}", LogLevel.Debug);
                                 __instance.trashGrabberInstance.AddTrash(list[i].ID, 1);
@@ -190,7 +191,7 @@ namespace SkillTree.Core.Patches.Hustler
             for (int i = 0; i < array.Length; i++)
             {
                 TrashItem componentInParent = array[i].GetComponentInParent<TrashItem>();
-                if (componentInParent != null && componentInParent.CanGoInContainer)
+                if (componentInParent != null && componentInParent.CanGoInTrashContainer())
                 {
                     list.Add(componentInParent);
                 }
@@ -205,7 +206,7 @@ namespace SkillTree.Core.Patches.Hustler
 
         public static void IncreaseTrashValue()
         {
-            foreach (TrashItem item in NetworkSingleton<TrashManager>.Instance.trashItems)
+            foreach (TrashItem item in NetworkSingleton<TrashManager>.Instance._trashItems)
             {
                 if (ProcessedTrash.Contains(item.GUID))
                 {

@@ -35,7 +35,7 @@ namespace SkillTree.Core.Patches.Special
             else
             {
                 int total = 0;
-                int count = NetworkSingleton<TrashManager>.Instance.trashItems.Count;
+                int count = NetworkSingleton<TrashManager>.Instance._trashItems.Count;
 
                 if (count == 0)
                 {
@@ -46,7 +46,7 @@ namespace SkillTree.Core.Patches.Special
                     return;
                 }
 
-                foreach (var item in NetworkSingleton<TrashManager>.Instance.trashItems)
+                foreach (var item in NetworkSingleton<TrashManager>.Instance._trashItems)
                 {
                     total += item.SellValue;
                 }
@@ -349,9 +349,10 @@ namespace SkillTree.Core.Patches.Special
 
             static IEnumerator SpawnBong()
             {
-                TrashItem bong = NetworkSingleton<TrashManager>.Instance.CreateTrashItem("bong", Player.Local.CameraPosition, Random.rotation, default, "", false);
-                bong.SetPhysicsActive(false);
-                bong.CanGoInContainer = false;
+                TrashItem bong = NetworkSingleton<TrashManager>.Instance.CreateTrashItem("bong", Player.Local.CameraPosition, Random.rotation, default, "");
+                //bong.SetPhysicsActive(false);
+                bong._rigidbody.useGravity = false;
+                bong._canGoInTrashContainer = false;
                 for (int i = 0; i < AntiGravityBongDuration.GetValue(UseDefault.GetValue()); i++)
                 {
                     float radius = i == AntiGravityBongRadius.GetValue(UseDefault.GetValue()) - 2 ?

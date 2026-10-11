@@ -70,7 +70,7 @@ namespace SkillTree.Core.Patches.Hustler
             Cache.FillCache(__instance);
         }
 
-        [HarmonyPatch(typeof(Contract), "GetProductListMatch")]
+        [HarmonyPatch(typeof(Contract), "GetProductListMatch", [typeof(Il2CppSystem.Collections.Generic.List<ItemInstance>), typeof(int)], [ArgumentType.Normal, ArgumentType.Out])]
         [HarmonyPostfix]
         public static void Patch_Contract_GetProductListMatch(Contract __instance, List<ItemInstance> items, ref int matchedProductCount, ref float __result)
         {
@@ -83,7 +83,6 @@ namespace SkillTree.Core.Patches.Hustler
                     matchedProductCount += bonusProduct;
                     LogManager.LogMessage($"[Generous] Order Total: {__instance.ProductList.GetTotalQuantity()} | Excess: {excessProductCount} | Bonus: {bonusProduct} | Matched + Bonus: {matchedProductCount}", LogLevel.Debug);
                 }
-
             }
 
             if (SkillTreeData.Charlatan.CurrentLevel > 0)

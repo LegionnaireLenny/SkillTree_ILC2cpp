@@ -233,7 +233,7 @@
   },
   "Trickle-down Economics": {
     "Name": "Trickle-down Economics",
-    "Description": "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours.\n\nDefault keybind is F4."
+    "Description": "Once per day, instantly deposit your cash in all owned businesses for laundering while keeping a minimum of $2000 in reserve.\n\nLaundering operations now pay out in increments of 25% every 6 hours instead of 100% every 24 hours.\n\nDefault keybind is F4."
   },
   "Blood Money": {
     "Name": "Blood Money",

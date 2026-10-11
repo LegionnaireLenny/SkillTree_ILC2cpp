@@ -142,8 +142,7 @@ namespace SkillTree.Core
                 OriginalDealers.Add(dealer.name, new OriginalDealer
                 {
                     Name = dealer.name,
-                    Cut = dealer.DealerData.SalesCutPercentage,
-                    MoveSpeedMultiplier = dealer.Movement.MoveSpeedMultiplier
+                    Cut = dealer.DealerData.SalesCutPercentage
                 });
                 LogManager.LogMessage($"[Cache] Cached original dealer data for {dealer.name}", LogLevel.Debug);
             }

@@ -97,23 +97,24 @@ namespace SkillTree.Core.App
                 return;
             }
 
-            if (!GameplayMenu.Instance.IsOpen && (PlayerSingleton<PlayerCamera>.Instance.ActiveUIElementCount == 0 || Cursor.lockState != CursorLockMode.None))
+            if (!Singleton<GameplayMenu>.Instance.IsOpen && (PlayerSingleton<PlayerCamera>.Instance.ActiveUIElementCount == 0 || Cursor.lockState != CursorLockMode.None))
             {
-                GameplayMenu.Instance.Open();
+                Singleton<GameplayMenu>.Instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
+                Singleton<GameplayMenu>.Instance.Open();
                 OpenApp();
             }
-            else if (GameplayMenu.Instance.IsOpen)
+            else if (Singleton<GameplayMenu>.Instance.IsOpen)
             {
-                if (GameplayMenu.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Character)
+                if (Singleton<GameplayMenu>.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Character)
                 {
-                    GameplayMenu.Instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
+                    Singleton<GameplayMenu>.Instance.SetScreen(GameplayMenu.EGameplayScreen.Phone);
 
                     if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
                     {
                         OpenApp();
                     }
                 }
-                else if (GameplayMenu.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Phone)
+                else if (Singleton<GameplayMenu>.Instance.CurrentScreen == GameplayMenu.EGameplayScreen.Phone)
                 {
                     if (Phone.ActiveApp == null || !Phone.ActiveApp.name.Equals("SkillTreeApp"))
                     {
@@ -121,7 +122,8 @@ namespace SkillTree.Core.App
                     }
                     else
                     {
-                        GameplayMenu.Instance.Close();
+                        Singleton<GameplayMenu>.Instance.Close();
+                        CloseApp();
                     }
                 }
             }
@@ -319,7 +321,8 @@ namespace SkillTree.Core.App
             void LevelSkill()
             {
                 if (_selectedSkill == null ||
-                    GameplayMenu.instance.CurrentScreen != GameplayMenu.EGameplayScreen.Phone ||
+                    !PlayerSingleton<Phone>.Instance.IsOpen ||
+                    Singleton<GameplayMenu>.instance.CurrentScreen != GameplayMenu.EGameplayScreen.Phone ||
                     Phone.ActiveApp == null ||
                     !Phone.ActiveApp.name.Equals("SkillTreeApp"))
                 {

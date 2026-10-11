@@ -17,7 +17,10 @@ namespace SkillTree.Core.Serialization
             string fullPath = Singleton<LoadManager>.Instance.LoadedGameFolderPath;
 
             if (string.IsNullOrEmpty(fullPath))
+            {
+                LogManager.LogMessage($"[SkillTree] Save path is null or empty. Returning save ID of DefaultPlayer", LogLevel.Warning);
                 return "DefaultPlayer";
+            }
 
             return Path.GetFileName(fullPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         }

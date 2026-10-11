@@ -138,7 +138,7 @@ namespace SkillTree.Core.Patches.Enforcer
                         }
 
                         CircadianMasteryUsed = true;
-                        NetworkSingleton<TimeManager>.Instance.SetTimeAndSync(nextTarget);
+                        NetworkSingleton<TimeManager>.Instance.SkipToTimeAndSync(nextTarget);
                         LogManager.LogMessage($"[BedSkill] Interaction detected. Next schedule set for: {nextTarget}", LogLevel.Info);
                         return false;
                     }

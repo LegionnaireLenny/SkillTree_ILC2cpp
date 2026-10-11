@@ -79,10 +79,10 @@ namespace SkillTree.Core.Patches.Logistician
 
             if (SkillTreeData.EmployeeMovespeed.CurrentLevel > 0)
             {
-                __instance.Movement.MoveSpeedMultiplier = SkillModifiers.GetEmployeeMoveSpeedMultiplier();
+                __instance.Movement.SpeedController.AddSpeedControl("SkillTree_RUNBITCHRUN", SkillModifiers.GetEmployeeMoveSpeedMultiplier());
                 if (!processedEmployees.Contains(__instance.GUID))
                 {
-                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.FullName}'s movespeedmultiplier set to {__instance.Movement.MoveSpeedMultiplier}", LogLevel.Debug);
+                    LogManager.LogMessage($"{__instance.EmployeeType} {__instance.FullName}'s movement speed multiplier increased by {SkillModifiers.GetEmployeeMoveSpeedMultiplier()}", LogLevel.Debug);
                     processedEmployees.Add(__instance.GUID);
                 }
             }

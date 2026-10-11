@@ -31,7 +31,7 @@ namespace SkillTree.Core.Patches.Hustler
             var product = instance.selectedProduct;
             var quantity = instance.quantity;
 
-            Customer customer = conversation.sender.GetComponent<Customer>();
+            Customer customer = NPCManager.GetNPC(conversation._sender._npcId).GetComponent<Customer>();
             CustomerData customerData = customer.CustomerData;
             NPC NPC = customer.NPC;
 
@@ -142,10 +142,10 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void CounterofferInterface_Open_Postfix(CounterofferInterface __instance)
         {
-            LogManager.LogMessage("CounterofferInterface_Open", LogLevel.Debug);
             if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                 return;
 
+            //LogManager.LogMessage("CounterofferInterface_Open", LogLevel.Debug);
             CounterOffer = __instance;
             CreateSuccessLabel(__instance);
             UpdateSuccessLabel(__instance);
@@ -155,10 +155,10 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void CounterofferInterface_Close_Postfix()
         {
-            LogManager.LogMessage("CounterofferInterface_Close", LogLevel.Debug);
             if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                 return;
 
+            //LogManager.LogMessage("CounterofferInterface_Close", LogLevel.Debug);
             CounterOffer = null;
         }
 
@@ -166,10 +166,10 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void CounterofferInterface_UpdateQuantityLabel_Postfix(CounterofferInterface __instance)
         {
-            LogManager.LogMessage("UpdateQuantityLabel", LogLevel.Debug);
             if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                 return;
 
+            //LogManager.LogMessage("UpdateQuantityLabel", LogLevel.Debug);
             UpdateSuccessLabel(__instance);
         }
 
@@ -177,10 +177,10 @@ namespace SkillTree.Core.Patches.Hustler
         [HarmonyPostfix]
         public static void AmountSelector_ChangeAmount_Postfix()
         {
-            LogManager.LogMessage("AmountSelector_ChangeAmount", LogLevel.Debug);
             if (SkillTreeData.CrystalBall.CurrentLevel == 0)
                 return;
 
+            //LogManager.LogMessage("AmountSelector_ChangeAmount", LogLevel.Debug);
             UpdateSuccessLabel(CounterOffer);
         }
     }

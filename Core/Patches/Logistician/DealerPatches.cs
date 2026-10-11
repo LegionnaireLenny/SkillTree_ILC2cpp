@@ -32,12 +32,7 @@ namespace SkillTree.Core.Patches.Logistician
         {
             foreach (Dealer dealer in Dealer.AllPlayerDealers)
             {
-                if (Cache.OriginalDealers.ContainsKey(dealer.name))
-                {
-                    float baseMoveSpeed = Cache.OriginalDealers[dealer.name].MoveSpeedMultiplier;
-                    dealer.Movement.MoveSpeedMultiplier = baseMoveSpeed * SkillModifiers.GetDealerSpeedMultiplier();
-                    LogManager.LogMessage($"{dealer.name}'s movespeed multiplier changed from x{baseMoveSpeed} to x{dealer.Movement.MoveSpeedMultiplier}", LogLevel.Debug);
-                }
+                dealer.Movement.SpeedController.AddSpeedControl("SkillTree_MotivationalLeader", SkillModifiers.GetDealerSpeedMultiplier());
             }
         }
 
